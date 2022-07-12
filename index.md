@@ -7,7 +7,7 @@ Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://j
 ### Brief introduction
 Hi I am bily, I create this github pages to store my CV and transcripts for my phd application.
 
-
+[pdfs link](./pdfs/graduate_transcript.pdf)
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
@@ -29,6 +29,8 @@ Syntax highlighted code block
 
 [Link](url) and ![Image](src)
 ```
+
+
 
 For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
 
