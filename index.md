@@ -10,6 +10,9 @@ Hi I am bily, I create this github pages to store my CV and transcripts for my p
 [pdfs link](./pdfs/graduate_transcript.pdf)
 
 [undergraduate_transcript](./pdfs/undergraduate_transcript.pdf)
+
+[cv](./pdfs/bily_s_resume.pdf)
+
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
