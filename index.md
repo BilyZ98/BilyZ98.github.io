@@ -14,6 +14,9 @@ Hi I am bily, I create this github pages to store my CV and transcripts for my p
 [cv](./pdfs/zhutao_academic_resume.pdf)
 
 [sop](./pdfs/SOP.pdf)
+
+[sop_without_schools](./pdfs/SOP_without.pdf)
+
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
