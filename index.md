@@ -11,7 +11,7 @@ Hi I am bily, I create this github pages to store my CV and transcripts for my p
 
 [undergraduate_transcript](./pdfs/undergraduate_transcript.pdf)
 
-[cv](./pdfs/zhutao_academic_resume.pdf.pdf)
+[cv](./pdfs/zhutao_academic_resume.pdf)
 
 [sop](./pdfs/SOP.pdf)
 ### Markdown
