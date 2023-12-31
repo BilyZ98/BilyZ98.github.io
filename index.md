@@ -1,25 +1,44 @@
-## Welcome to bily's GitHub Pages
+## Zhutao Zhuang
 
-You can use the [editor on GitHub](https://github.com/BilyZ98/BilyZ98.github.io/edit/main/index.md) to maintain and preview the content for your website in Markdown files.
+Hi, I am currently working as a software engineer at Microsoft at Suzhou.
+My research interest focus on machine learning for system and system for machine learning.
+My current research work applies machine learning algorithm to storage engine to make better 
+decisions.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+I am currently looking for PhD positions in MLSys area. If you are intertested in chatting 
+with me or hiring me please contact me via email zhuangzhutao@gmail.com
 
-### Brief introduction
-Hi I am bily, I create this github pages to store my CV and transcripts for my phd application.
 
-[pdfs link](./pdfs/graduate_transcript.pdf)
+<!-- You can use the [editor on GitHub](https://github.com/BilyZ98/BilyZ98.github.io/edit/main/index.md) to maintain and preview the content for your website in Markdown files. -->
 
-[undergraduate_transcript](./pdfs/undergraduate_transcript.pdf)
+<!-- Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files. -->
 
-[cv](./pdfs/zhutao_academic_resume.pdf)
+### Work experience
+Microsoft 
+Alibaba 
 
-[sop](./pdfs/SOP.pdf)
+### Education
+Sun Yat-sen Univerisity
+Sun Yat-sen Univerisity
 
-[sop_without_schools](./pdfs/SOP_without.pdf)
+### Publications
+<!-- Hi I am bily, I create this github pages to store my CV and transcripts for my phd application. -->
 
-### Markdown
+<!-- [pdfs link](./pdfs/graduate_transcript.pdf) -->
+
+<!-- [undergraduate_transcript](./pdfs/undergraduate_transcript.pdf) -->
+
+<!-- [cv](./pdfs/zhutao_academic_resume.pdf) -->
+
+<!-- [sop](./pdfs/SOP.pdf) -->
+
+<!-- [sop_without_schools](./pdfs/SOP_without.pdf) -->
+
+### Academic service
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+
+### Tech blogs
 
 ```markdown
 Syntax highlighted code block
