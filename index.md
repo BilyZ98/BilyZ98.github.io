@@ -38,7 +38,7 @@ Bachelor of Software Engineering
 
 
 ### MISC
-I love to listend to podcast and youtube videos that are about business and technology.
+I love to listen to podcast and youtube videos that are about business and technology.
 Because I don't need to use my eyes to star at the screen all time.
 <!-- Hi I am bily, I create this github pages to store my CV and transcripts for my phd application. -->
 
