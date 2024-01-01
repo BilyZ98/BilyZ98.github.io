@@ -1,12 +1,12 @@
-## Zhutao Zhuang
+## Zhutao Zhuang a
 
 Hi, I am currently working as a software engineer at Microsoft at Suzhou.
 My research interest focus on machine learning for system and system for machine learning.
 My current research work applies machine learning algorithm to storage engine to make better 
 decisions.
 
-I am currently looking for PhD positions in MLSys area. If you are intertested in chatting 
-with me or hiring me please contact me via email zhuangzhutao@gmail.com
+
+Please contact me via email [zhuangzhutao@gmail.com](zhuangzhutao@gmail.com)
 
 
 <!-- You can use the [editor on GitHub](https://github.com/BilyZ98/BilyZ98.github.io/edit/main/index.md) to maintain and preview the content for your website in Markdown files. -->
@@ -15,13 +15,18 @@ with me or hiring me please contact me via email zhuangzhutao@gmail.com
 
 ### Work experience
 Microsoft 
-Alibaba 
+
+Alibaba Cloud
 
 ### Education
-Sun Yat-sen Univerisity
-Sun Yat-sen Univerisity
+Sun Yat-sen Univerisity  (2020-2022)
+Master of Computer Science
+
+Sun Yat-sen Univerisity  (2016-2020)
+Bachelor of Software Engineering
 
 ### Publications
+
 <!-- Hi I am bily, I create this github pages to store my CV and transcripts for my phd application. -->
 
 <!-- [pdfs link](./pdfs/graduate_transcript.pdf) -->
@@ -40,32 +45,32 @@ Markdown is a lightweight and easy-to-use syntax for styling your writing. It in
 
 ### Tech blogs
 
-```markdown
-Syntax highlighted code block
+<!-- ```markdown -->
+<!-- Syntax highlighted code block -->
 
-# Header 1
-## Header 2
-### Header 3
+<!-- # Header 1 -->
+<!-- ## Header 2 -->
+<!-- ### Header 3 -->
 
-- Bulleted
-- List
+<!-- - Bulleted -->
+<!-- - List -->
 
-1. Numbered
-2. List
+<!-- 1. Numbered -->
+<!-- 2. List -->
 
-**Bold** and _Italic_ and `Code` text
+<!-- **Bold** and _Italic_ and `Code` text -->
 
-[Link](url) and ![Image](src)
-```
+<!-- [Link](url) and ![Image](src) -->
+<!-- ``` -->
 
 
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+<!-- For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax). -->
 
-### Jekyll Themes
+<!-- ### Jekyll Themes -->
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/BilyZ98/BilyZ98.github.io/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+<!-- Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/BilyZ98/BilyZ98.github.io/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file. -->
 
-### Support or Contact
+<!-- ### Support or Contact -->
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+<!-- Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out. -->
