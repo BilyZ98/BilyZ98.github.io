@@ -21,7 +21,7 @@ Microsoft (2022-Now)
 Software Engineer at Bing  
 Work on Bing A/B testing platform and DNN model infra for Bing recommendation.
 
-Alibaba Cloud (2021-2021)
+Alibaba Cloud (2021-2021)  
 Software Enginner intern at Database Backup Service
 
 
