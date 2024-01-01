@@ -5,6 +5,8 @@ My research interest focus on machine learning for system, system for machine le
 and cloud.  
 My current research work applies machine learning algorithm to storage engine to make better 
 decisions.
+My goal is to build intelligent system that can leverage the power of data to solve 
+problems that are hard to solve well by traditional algorithm.
 
 
 Please contact me via email [zhuangzhutao@gmail.com](zhuangzhutao@gmail.com)
