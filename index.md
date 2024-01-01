@@ -18,8 +18,8 @@ Microsoft
 Alibaba 
 
 ### Education
-Sun Yat-sen Univerisity
-Sun Yat-sen Univerisity
+Sun Yat-sen Univerisity (2020-2022)
+Sun Yat-sen Univerisity (2016-202)
 
 ### Publications
 <!-- Hi I am bily, I create this github pages to store my CV and transcripts for my phd application. -->
