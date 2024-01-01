@@ -1,7 +1,8 @@
-## Zhutao Zhuang a
+## Zhutao Zhuang 
 
-Hi, I am currently working as a software engineer at Microsoft at Suzhou.
-My research interest focus on machine learning for system and system for machine learning.
+Hi, I am currently working as a software engineer at Microsoft at Suzhou.  
+My research interest focus on machine learning for system, system for machine learning 
+and cloud.  
 My current research work applies machine learning algorithm to storage engine to make better 
 decisions.
 
@@ -14,9 +15,14 @@ Please contact me via email [zhuangzhutao@gmail.com](zhuangzhutao@gmail.com)
 <!-- Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files. -->
 
 ### Work experience
-Microsoft 
+Microsoft (2022-Now)  
+Software Engineer at Bing  
+Work on Bing A/B testing platform and DNN model infra for Bing recommendation.
 
-Alibaba Cloud
+Alibaba Cloud (2021-2021)
+Software Enginner intern at Database Backup Service
+
+
 
 ### Education
 Sun Yat-sen Univerisity  (2020-2022)   
@@ -27,6 +33,11 @@ Bachelor of Software Engineering
 
 ### Publications
 
+
+
+### MISC
+I love to listend to podcast and youtube videos that are about business and technology.
+Because I don't need to use my eyes to star at the screen all time.
 <!-- Hi I am bily, I create this github pages to store my CV and transcripts for my phd application. -->
 
 <!-- [pdfs link](./pdfs/graduate_transcript.pdf) -->
