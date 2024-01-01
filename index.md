@@ -19,10 +19,10 @@ Microsoft
 Alibaba Cloud
 
 ### Education
-Sun Yat-sen Univerisity  (2020-2022)
+Sun Yat-sen Univerisity  (2020-2022)   
 Master of Computer Science
 
-Sun Yat-sen Univerisity  (2016-2020)
+Sun Yat-sen Univerisity  (2016-2020)  
 Bachelor of Software Engineering
 
 ### Publications
