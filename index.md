@@ -40,11 +40,18 @@ Bachelor of Software Engineering
 ### Academic service
 
 
-### Tech blogs
+### Blogs
 
 ### MISC
 I love to listen to podcast and youtube videos that are about business and technology.
 Because I don't need to use my eyes to star at the screen all time.
+
+Here's podcast list I listened to recently and I love
+- [矽谷夫妻Chitchatting](https://open.spotify.com/show/2rktr38zGACpHXAlrz6CNZ)
+- [商业就是这样](https://open.spotify.com/show/1ruvRyx4vehFsx8OAfFkTv)
+- [What's Next｜科技早知道](https://open.spotify.com/show/5yD9ekOGHMbRkJR4fEbf7e)
+
+
 
 
 <!-- Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out. -->
