@@ -8,6 +8,8 @@ decisions.
 My goal is to build intelligent system that can leverage the power of data to solve 
 problems that are hard to solve well by traditional algorithm.
 
+My life goal is to help as many people as I can through my work, my mind, my time,
+my money and what I can give. 
 
 Please contact me via email [zhuangzhutao@gmail.com](zhuangzhutao@gmail.com)
 
