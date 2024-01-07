@@ -47,7 +47,7 @@ MLSys'23 AE
 
 ### MISC
 I love to listen to podcast and youtube videos that are about business and technology.
-Because I don't need to use my eyes to stare at the screen all time.
+Because I don't need to use my eyes to stare at the screen all the time.
 
 Here's podcast list I listened to recently and I love
 - [矽谷夫妻Chitchatting](https://open.spotify.com/show/2rktr38zGACpHXAlrz6CNZ)
