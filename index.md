@@ -8,6 +8,11 @@ decisions.
 My goal is to build intelligent system that can leverage the power of data to solve 
 problems that are hard to solve well by traditional algorithm.
 
+My practice philosophy follows learn-teach-apply triangle.  
+<img src="https://github.com/BilyZ98/BilyZ98.github.io/assets/26542149/dec37a4e-7a0f-4a25-93af-b6eddcce3a65" alt="drawing" width="30%" height="auto">
+
+<!-- ![image](https://github.com/BilyZ98/BilyZ98.github.io/assets/26542149/dec37a4e-7a0f-4a25-93af-b6eddcce3a65) -->
+
 My life goal is to help as many people as I can through my work, my mind, my time,
 my money and what I can give. 
 
