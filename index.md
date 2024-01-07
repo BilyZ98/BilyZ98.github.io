@@ -40,7 +40,7 @@ Bachelor of Software Engineering
 
 
 ### Academic service
-EuroSys'24 AE
+EuroSys'24 AE  
 MLSys'23 AE
 
 ### Blogs
