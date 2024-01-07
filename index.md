@@ -1,7 +1,7 @@
 ## Zhutao Zhuang 
 
 Hi, I am currently working as a software engineer at Microsoft at Suzhou.  
-My research interest focus on machine learning for system, system for machine learning 
+My research interests focus on machine learning for system, system for machine learning 
 and cloud.  
 My current research work applies machine learning algorithm to storage engine to make better 
 decisions.
@@ -13,7 +13,6 @@ My practice philosophy follows learn-teach-apply triangle.
 
 <!-- ![image](https://github.com/BilyZ98/BilyZ98.github.io/assets/26542149/eff049f8-0c7d-4288-aeae-a5721ab86422) -->
 
-<!-- ![image](https://github.com/BilyZ98/BilyZ98.github.io/assets/26542149/dec37a4e-7a0f-4a25-93af-b6eddcce3a65) -->
 
 My life goal is to help as many people as I can through my work, my mind, my time,
 my money and what I can give. 
@@ -21,9 +20,6 @@ my money and what I can give.
 Please contact me via email [zhuangzhutao@gmail.com](zhuangzhutao@gmail.com)
 
 
-<!-- You can use the [editor on GitHub](https://github.com/BilyZ98/BilyZ98.github.io/edit/main/index.md) to maintain and preview the content for your website in Markdown files. -->
-
-<!-- Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files. -->
 
 ### Work experience
 Microsoft (2022-Now)  
