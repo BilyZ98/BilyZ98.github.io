@@ -9,7 +9,9 @@ My goal is to build intelligent system that can leverage the power of data to so
 problems that are hard to solve well by traditional algorithm.
 
 My practice philosophy follows learn-teach-apply triangle.  
-<img src="https://github.com/BilyZ98/BilyZ98.github.io/assets/26542149/dec37a4e-7a0f-4a25-93af-b6eddcce3a65" alt="drawing" width="30%" height="auto">
+<img src="https://github.com/BilyZ98/BilyZ98.github.io/assets/26542149/eff049f8-0c7d-4288-aeae-a5721ab86422" alt="drawing" width="40%" height="auto">
+
+<!-- ![image](https://github.com/BilyZ98/BilyZ98.github.io/assets/26542149/eff049f8-0c7d-4288-aeae-a5721ab86422) -->
 
 <!-- ![image](https://github.com/BilyZ98/BilyZ98.github.io/assets/26542149/dec37a4e-7a0f-4a25-93af-b6eddcce3a65) -->
 
