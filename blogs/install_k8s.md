@@ -51,14 +51,6 @@ Here are some of its key features:
 - Supports OCI Image Spec and OCI Runtime Spec¹.
 - It is multi-tenant and OCI-compliant¹.
 
-Containerd is designed to be embedded into a larger system, rather than being used directly by developers or end-users². It graduated within the Cloud Native Computing Foundation (CNCF) on February 28, 2019¹.
-
-Source: Conversation with Bing, 1/12/2024
-(1) containerd – An industry-standard container runtime with an emphasis on .... https://containerd.io/.
-(2) containerd/containerd: An open and reliable container runtime - GitHub. https://github.com/containerd/containerd.
-(3) What Is containerd, And How Does It Relate to Docker and Kubernetes?. https://www.howtogeek.com/devops/what-is-containerd-and-how-does-it-relate-to-docker-and-kubernetes/.
-(4) Windows container platform | Microsoft Learn. https://learn.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/containerd.
-
 Please follow this doc to update containerd config in before you
 start containerd service.
 
