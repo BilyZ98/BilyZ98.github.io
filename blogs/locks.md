@@ -1,4 +1,4 @@
-Mutex implementation 
+## Mutex implementation 
 
 ```
 #include <atomic>
@@ -49,7 +49,8 @@ int main() {
 
 ```
 
-Spinlock implementation 
+## Spinlock implementation 
+
 ; Intel syntax
 locked: ; The lock variable. 1 = locked, 0 = unlocked.
 dd 0
