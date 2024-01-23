@@ -47,6 +47,7 @@ EuroSys'24 AE
 MLSys'23 AE
 
 ### Blogs
+- [Linux](./blogs/linux.md)
 - [Locks](./blogs/locks.md)
 - [Install k8s with 3 ubuntu nodes](./blogs/install_k8s.md)
 
