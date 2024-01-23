@@ -47,7 +47,9 @@ EuroSys'24 AE
 MLSys'23 AE
 
 ### Blogs
+- [Locks](./blogs/locks.md)
 - [Install k8s with 3 ubuntu nodes](./blogs/install_k8s.md)
+
 
 ### MISC
 I love to listen to podcast and youtube videos that are about business and technology.
