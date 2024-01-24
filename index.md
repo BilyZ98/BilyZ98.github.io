@@ -50,6 +50,7 @@ MLSys'23 AE
 - [Linux](./blogs/linux.md)
 - [Locks](./blogs/locks.md)
 - [Cloud](./blogs/cloud.md)
+- [AI](./blogs/ai.md)
 
 ### MISC
 I love to listen to podcast and youtube videos that are about business and technology.
