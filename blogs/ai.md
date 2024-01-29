@@ -2,15 +2,8 @@
 ## System for LLM papers
 - [Scaling Laws for Neural Language Models](https://arxiv.org/pdf/2001.08361.pdf)
 
-## LLM inference optimization framework
-- vLLM
-
-- TensorRT-LLM
-
-- Silicon flow
-
-- DeepSpeed-MII
-
+## LLM inference
+- [LLM inference framework](./llm_inference_framework.md)
 
 ## Conda 
 What is conda?

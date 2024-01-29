@@ -1,3 +1,44 @@
+## One function call no matter how many instances calling 
+```
+class MyClass {
+public:
+    int myFunc() {
+        static bool myFuncHasBeenCalled = false;
+        if (myFuncHasBeenCalled) {
+            return 0;
+        } else {
+            myFuncHasBeenCalled = true;
+            return 1;
+        }
+    }
+};
+
+```
+
+Thread-safe implementation
+The initialization of local static variables in C++ is thread-safe since C++11123. This means that the constructor of the static variable is guaranteed to run only once, even in a multithreaded environment1. If control enters the declaration concurrently while the variable is being initialized, the concurrent execution shall wait for completion of the initialization1.
+
+However, it’s important to note that subsequent access to the variable is not guaranteed to be thread-safe1. If multiple threads are accessing and modifying the static variable, you may need to use synchronization mechanisms like mutexes to ensure thread safety.
+```
+#include <mutex>
+
+class MyClass {
+public:
+    int myFunc() {
+        static std::mutex mtx;
+        std::lock_guard<std::mutex> lock(mtx);
+
+        static bool myFuncHasBeenCalled = false;
+        if (myFuncHasBeenCalled) {
+            return 0;
+        } else {
+            myFuncHasBeenCalled = true;
+            return 1;
+        }
+    }
+};
+
+```
 ## Mutex implementation 
 
 ```
