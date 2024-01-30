@@ -76,3 +76,76 @@ a = 15, sa = 60
 As you can see, the static variable `sa` retains its value between function calls, while the non-static variable `a` does not².
 
 
+### Static function in cpp class
+In C++, a static function is a member function of a class that is associated with the class itself rather than with an instance or object of the class³. This means that a static function can be called without creating an instance of the class³. The `static` keyword is used to define a static function in C++³.
+
+Here are some key properties of static functions in C++:
+
+1. **Independence**: A static member function is independent of any object of the class¹.
+2. **Accessibility**: A static member function can be called even if no objects of the class exist¹.
+3. **Scope Resolution**: A static member function can also be accessed using the class name through the scope resolution operator¹.
+4. **Limited Access**: A static member function can access static data members and static member functions inside or outside of the class¹. However, it cannot access non-static data members or call non-static member functions⁵.
+5. **No Current Object Pointer**: Static member functions have a scope inside the class and cannot access the current object pointer¹.
+
+Here's an example of how you might use a static function:
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class Box {
+private:
+    static int length;
+    static int breadth;
+    static int height;
+
+public:
+    static void print() {
+        cout << "The value of the length is: " << length << endl;
+        cout << "The value of the breadth is: " << breadth << endl;
+        cout << "The value of the height is: " << height << endl;
+    }
+};
+
+int Box::length = 10;
+int Box::breadth = 20;
+int Box::height = 30;
+
+int main() {
+    Box b;
+    cout << "Static member function is called through Object name: \\n" << endl;
+    b.print();
+
+    cout << "\\nStatic member function is called through Class name: \\n" << endl;
+    Box::print();
+
+    return 0;
+}
+```
+
+In this example, the `print` function is a static member function of the `Box` class. It can be called either through an object of the class (`b.print()`) or directly through the class name (`Box::print()`)¹.
+
+### Static funcion not inside class
+In C++, a static function that is not inside a class is a function that has internal linkage¹. This means it is only accessible within the same translation unit (usually a .cpp file) that contains its definition¹. Here are some key points about static functions outside classes:
+
+1. **Limited Visibility**: A static function remains visible only in file scope¹. This is a feature inherited from C¹. The recommended way to do it in C++ is using an anonymous namespace¹.
+
+2. **Avoid Naming Conflicts**: The `static` keyword limits the visibility and linkage scope of the function to the current translation unit¹. That means that for a function, it can only be called from the current source file, and not from other source files¹. This helps avoid naming conflicts when the same function name is used in different source files¹.
+
+Here's an example of how you might use a static function outside a class:
+
+```cpp
+// In a .cpp file
+static void someRandomFunction() {
+    // code
+}
+
+int main() {
+    someRandomFunction();  // visible only within this file.
+    return 0;
+}
+```
+
+In this example, `someRandomFunction` is a static function that is only visible within the same file¹. If the function is actually called, you will get a linking error unless the function body is defined in the same file¹. The more pedantic technical term is actually not file but translation-unit since the body might be in an `#include`d header not in the actual file per-se¹.
+
+
