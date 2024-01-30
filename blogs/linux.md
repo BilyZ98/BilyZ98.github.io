@@ -30,13 +30,6 @@ mkfs.ext4 /dev/myvg/mylv
 mount /dev/myvg/mylv /mnt/mydir
 ```
 
-Remember to replace `/dev/sda1`, `/dev/sdb1`, `myvg`, `mylv`, and `/mnt/mydir` with your actual device names, volume group name, logical volume name, and mount point respectively.
 
-Source: Conversation with Bing, 1/23/2024
-(1) Add multiple disks to Linux (real fast) | Since2k7. https://www.since2k7.com/blog/2018/11/29/add-multiple-disks-to-linux-real-fast/.
-(2) How to merge multiple hard drives? - Unix & Linux Stack Exchange. https://unix.stackexchange.com/questions/329790/how-to-merge-multiple-hard-drives.
-(3) How can I create one logical volume over two disks using LVM?. https://askubuntu.com/questions/219881/how-can-i-create-one-logical-volume-over-two-disks-using-lvm.
-(4) How to create a filesystem on a Linux partition or logical volume. https://opensource.com/article/19/4/create-filesystem-linux-partition.
-(5) How to combine multiple HDDs into one big HDD in Linux?. https://unix.stackexchange.com/questions/158336/how-to-combine-multiple-hdds-into-one-big-hdd-in-linux.
-(6) Mounting multiple devices at a single mount point on Linux. https://unix.stackexchange.com/questions/32852/mounting-multiple-devices-at-a-single-mount-point-on-linux.
-(7) undefined. https://www.howtoforge.com/linux_lvm.
+
+- [Locks](./blogs/locks.md)

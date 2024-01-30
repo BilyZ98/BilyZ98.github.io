@@ -48,7 +48,6 @@ MLSys'23 AE
 
 ### Blogs
 - [Linux](./blogs/linux.md)
-- [Locks](./blogs/locks.md)
 - [Cloud](./blogs/cloud.md)
 - [AI](./blogs/ai.md)
 
