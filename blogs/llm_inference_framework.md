@@ -4,7 +4,7 @@
 
 - TensorRT-LLM [Nvidia]
 
-- Silicon flow [Startup in China]
+- Silicon flow [Startup in China, Not opensourced yet]
 
 - DeepSpeed-MII [Microsoft]
 
