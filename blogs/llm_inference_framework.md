@@ -1,12 +1,12 @@
 
 ## LLM inference optimization framework
-- vLLM
+- vLLM [Berkeley]
 
-- TensorRT-LLM
+- TensorRT-LLM [Nvidia]
 
-- Silicon flow
+- Silicon flow [Startup in China]
 
-- DeepSpeed-MII
+- DeepSpeed-MII [Microsoft]
 
 
 
