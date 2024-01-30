@@ -62,7 +62,7 @@ Here's podcast list I listened to recently and I love
 - [仨言俩语｜硅谷小青年的职场闲聊](https://open.spotify.com/show/6E3chDuluS434MOQuy8Cq2)
 - [商业就是这样](https://open.spotify.com/show/1ruvRyx4vehFsx8OAfFkTv)
 - [What's Next｜科技早知道](https://open.spotify.com/show/5yD9ekOGHMbRkJR4fEbf7e)
-- [来都来了| 听了再走](https://www.xiaoyuzhoufm.com/podcast/5ebcf445418a84a046c2e26d)
+- [来都来了\| 听了再走](https://www.xiaoyuzhoufm.com/podcast/5ebcf445418a84a046c2e26d)
 
 
 
