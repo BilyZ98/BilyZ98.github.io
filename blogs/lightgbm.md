@@ -2,7 +2,8 @@
 ## Training code snipet
 python 
 
-cpp
+c
+
 
 ## CSR(Compressed Sparsed Row) format
 It uses three one dimensional arrays to store non-zero values.
