@@ -64,6 +64,7 @@ Here's podcast list I listened to recently that interests me
 - [商业就是这样](https://open.spotify.com/show/1ruvRyx4vehFsx8OAfFkTv)
 - [What's Next｜科技早知道](https://open.spotify.com/show/5yD9ekOGHMbRkJR4fEbf7e)
 - [来都来了\| 听了再走](https://www.xiaoyuzhoufm.com/podcast/5ebcf445418a84a046c2e26d)
+- [Bloomberg Technology](https://open.spotify.com/show/5L84QuZlUsILySyMZNM07W?si=95c1f7f7dc014864)
 
 I love to watch NBA and I am a Warriors fan.
 
