@@ -1,6 +1,7 @@
 # Artificial Intelligence
 
 ## LightGBM usage
+[LightGBM usage](./lightgbm.md)
 
 ## MLSys seminars and resources
 - [https://mlsys-sg.org/about/](https://mlsys-sg.org/about/)
