@@ -1,3 +1,92 @@
+# C++
+
+## std::shared_ptr
+`std::shared_ptr` is a smart pointer in the C++ Standard Library that retains shared ownership of an object through a pointer. Multiple `shared_ptr` objects may own the same object, and the object is destroyed when the last `shared_ptr` is destroyed.
+
+Here's a basic example of how to use `std::shared_ptr`:
+
+```cpp
+#include <memory>
+
+struct Foo {
+    Foo() { std::cout << "Foo...\n"; }
+    ~Foo() { std::cout << "~Foo...\n"; }
+};
+
+int main() {
+    std::shared_ptr<Foo> sp1(new Foo);  // Foo...
+    {
+        std::shared_ptr<Foo> sp2 = sp1;
+        // The destructor is not called here because sp1 also points to the object
+    }
+    // The destructor is called here because sp1 goes out of scope and no other shared_ptr points to the object
+    return 0;
+}
+```
+
+In this example, `sp1` and `sp2` share ownership of the same `Foo` object. The `Foo` object is only destroyed when both `sp1` and `sp2` have been destroyed, ensuring that the object's lifetime lasts as long as there is a `shared_ptr` pointing to it. This is the key feature of `std::shared_ptr`.
+
+Remember, it's generally a good practice to use `std::make_shared` instead of `new` when creating a `shared_ptr`, because `std::make_shared` combines the allocation of the control block and the managed object into a single memory allocation, which can improve performance. Here's how you can do it:
+
+```cpp
+std::shared_ptr<Foo> sp = std::make_shared<Foo>();
+```
+
+Please note that `std::shared_ptr` uses reference counting, which means that it keeps track of how many `shared_ptr`s point to the same object. This can introduce a slight overhead, but ensures that the object is properly deallocated when no longer in use. However, `std::shared_ptr` cannot resolve circular references. If you have two objects that point to each other using `shared_ptr`, you can have a memory leak. In such cases, consider using `std::weak_ptr`.
+
+shared_ptr with customed deletion function
+```
+#include <memory>
+#include <iostream>
+
+struct Foo {
+    Foo() { std::cout << "Foo...\n"; }
+    ~Foo() { std::cout << "~Foo...\n"; }
+};
+
+void customDeleter(Foo* ptr) {
+    std::cout << "Custom deleter...\n";
+    delete ptr;
+}
+
+int main() {
+    std::shared_ptr<Foo> sp(new Foo, customDeleter);
+    return 0;
+}
+```
+
+If you replace the pointer of a `std::shared_ptr` while other `std::shared_ptr`s are still pointing to it, the original object will not be deleted. This is because `std::shared_ptr` uses reference counting, and the count is not zero if there are still `std::shared_ptr`s pointing to the object.
+
+Here's an example:
+
+```cpp
+#include <memory>
+#include <iostream>
+
+struct Foo {
+    Foo() { std::cout << "Foo...\n"; }
+    ~Foo() { std::cout << "~Foo...\n"; }
+};
+
+int main() {
+    std::shared_ptr<Foo> sp1 = std::make_shared<Foo>();  // Foo...
+    {
+        std::shared_ptr<Foo> sp2 = sp1;
+        sp1 = std::make_shared<Foo>();  // Foo...
+        // The destructor is not called here because sp2 is still pointing to the first Foo object
+    }
+    // The destructor for the first Foo object is called here because sp2 goes out of scope
+    // The destructor for the second Foo object is called here because sp1 goes out of scope
+    return 0;
+}
+```
+
+In this example, `sp1` and `sp2` initially point to the same `Foo` object. When we assign a new `std::shared_ptr` to `sp1`, `sp1` points to a new `Foo` object, but `sp2` still points to the original `Foo` object. The original `Foo` object is not destroyed until `sp2` is destroyed, which happens when `sp2` goes out of scope.
+
+So, even if you replace the pointer of a `std::shared_ptr`, any other `std::shared_ptr`s pointing to the original object will still keep that object alive. This is one of the key features of `std::shared_ptr` and why it's useful for managing dynamically allocated memory.
+
+
+
 
 ## Static variable in cpp
 
