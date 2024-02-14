@@ -9,6 +9,7 @@
 - [MIT HAN Lab](https://www.youtube.com/@MITHANLab/videos)
 
 ## System for LLM papers
+- [PowerInfer: Fast Large Language Model Serving with a Consumer-grade GPU](./papers/powerinfer.md)
 - [Scaling Laws for Neural Language Models](https://arxiv.org/pdf/2001.08361.pdf)
 
 ## LLM inference
