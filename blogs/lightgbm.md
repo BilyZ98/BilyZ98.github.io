@@ -59,7 +59,7 @@ Please replace the placeholders with your actual data and handle. Also, make sur
 Remember to link against the LightGBM library when compiling this code. If you're using gcc, you can do this with `-lLightGBM`. If you're using Visual Studio, you'll need to add the LightGBM library to your project settings. 
 
 ## Source code of GBDT train()
-```
+```c
 class ObjectiveFunction {
  public:
   /*! \brief virtual destructor */
@@ -84,7 +84,7 @@ class ObjectiveFunction {
 
 ```
 
-```
+```c
 void GBDT::Train(int snapshot_freq, const std::string& model_output_path) {
   Common::FunctionTimer fun_timer("GBDT::Train", global_timer);
   bool is_finished = false;
