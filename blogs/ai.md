@@ -1,5 +1,8 @@
 # Artificial Intelligence
 
+## Backpropagation code example 
+[Deep learning models from scratch using C++ and Python](https://alexgl-github.github.io/github/jekyll/2021/04/16/Dense_layer.html)
+
 ## LightGBM usage
 [LightGBM usage](./lightgbm.md)
 
