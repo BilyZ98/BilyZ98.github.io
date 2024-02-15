@@ -58,6 +58,112 @@ Please replace the placeholders with your actual data and handle. Also, make sur
 
 Remember to link against the LightGBM library when compiling this code. If you're using gcc, you can do this with `-lLightGBM`. If you're using Visual Studio, you'll need to add the LightGBM library to your project settings. 
 
+## Source code of GBDT train()
+```
+class ObjectiveFunction {
+ public:
+  /*! \brief virtual destructor */
+  virtual ~ObjectiveFunction() {}
+
+  /*!
+  * \brief Initialize
+  * \param metadata Label data
+  * \param num_data Number of data
+  */
+  virtual void Init(const Metadata& metadata, data_size_t num_data) = 0;
+
+  /*!
+  * \brief calculating first order derivative of loss function
+  * \param score prediction score in this round
+  * \gradients Output gradients
+  * \hessians Output hessians
+  */
+  virtual void GetGradients(const double* score,
+    score_t* gradients, score_t* hessians) const = 0;
+
+
+```
+
+```
+void GBDT::Train(int snapshot_freq, const std::string& model_output_path) {
+  Common::FunctionTimer fun_timer("GBDT::Train", global_timer);
+  bool is_finished = false;
+  auto start_time = std::chrono::steady_clock::now();
+  for (int iter = 0; iter < config_->num_iterations && !is_finished; ++iter) {
+    is_finished = TrainOneIter(nullptr, nullptr);
+    if (!is_finished) {
+      is_finished = EvalAndCheckEarlyStopping();
+    }
+    auto end_time = std::chrono::steady_clock::now();
+    // output used time per iteration
+    Log::Info("%f seconds elapsed, finished iteration %d", std::chrono::duration<double,
+              std::milli>(end_time - start_time) * 1e-3, iter + 1);
+    if (snapshot_freq > 0
+        && (iter + 1) % snapshot_freq == 0) {
+      std::string snapshot_out = model_output_path + ".snapshot_iter_" + std::to_string(iter + 1);
+      SaveModelToFile(0, -1, config_->saved_feature_importance_type, snapshot_out.c_str());
+    }
+  }
+}
+    bool GBDT::TrainOneIter(const score_t* gradients, const score_t* hessians) {
+      Common::FunctionTimer fun_timer("GBDT::TrainOneIter", global_timer);
+      std::vector<double> init_scores(num_tree_per_iteration_, 0.0);
+      // boosting first
+      if (gradients == nullptr || hessians == nullptr) {
+        for (int cur_tree_id = 0; cur_tree_id < num_tree_per_iteration_; ++cur_tree_id) {
+          init_scores[cur_tree_id] = BoostFromAverage(cur_tree_id, true);
+        }
+        Boosting();
+        gradients = gradients_pointer_;
+        hessians = hessians_pointer_;
+      } else {
+        // use customized objective function
+        CHECK(objective_function_ == nullptr);
+        if (data_sample_strategy_->IsHessianChange()) {
+          // need to copy customized gradients when using GOSS
+          int64_t total_size = static_cast<int64_t>(num_data_) * num_tree_per_iteration_;
+          #pragma omp parallel for schedule(static)
+          for (int64_t i = 0; i < total_size; ++i) {
+            gradients_[i] = gradients[i];
+            hessians_[i] = hessians[i];
+          }
+          CHECK_EQ(gradients_pointer_, gradients_.data());
+          CHECK_EQ(hessians_pointer_, hessians_.data());
+          gradients = gradients_pointer_;
+          hessians = hessians_pointer_;
+        }
+      }
+
+            void GBDT::Boosting() {
+              Common::FunctionTimer fun_timer("GBDT::Boosting", global_timer);
+              if (objective_function_ == nullptr) {
+                Log::Fatal("No objective function provided");
+              }
+              // objective function will calculate gradients and hessians
+              int64_t num_score = 0;
+              objective_function_->
+                GetGradients(GetTrainingScore(&num_score), gradients_pointer_, hessians_pointer_);
+            }
+              void GetGradients(const double* score, score_t* gradients, score_t* hessians) const override {
+                if (!need_train_) {
+                  return;
+                }
+                if (weights_ == nullptr) {
+                  #pragma omp parallel for schedule(static)
+                  for (data_size_t i = 0; i < num_data_; ++i) {
+                    // get label and label weights
+                    const int is_pos = is_pos_(label_[i]);
+                    const int label = label_val_[is_pos];
+                    const double label_weight = label_weights_[is_pos];
+                    // calculate gradients and hessians
+                    const double response = -label * sigmoid_ / (1.0f + std::exp(label * sigmoid_ * score[i]));
+                    const double abs_response = fabs(response);
+                    gradients[i] = static_cast<score_t>(response * label_weight);
+                    hessians[i] = static_cast<score_t>(abs_response * (sigmoid_ - abs_response) * label_weight);
+                  }
+                } else {
+
+```
 
 
 ## Training code snipet
