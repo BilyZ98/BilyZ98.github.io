@@ -32,4 +32,4 @@ mount /dev/myvg/mylv /mnt/mydir
 
 
 
-- [Locks](./blogs/locks.md)
+- [Locks](./locks.md)
