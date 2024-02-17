@@ -1,5 +1,49 @@
 # C++
 
+## Concurrent unordered_map in cpp
+In C++, the `std::unordered_map` is not thread-safe¹. Concurrent updates to an `unordered_map` can lead to data races and undefined behavior. 
+
+If you need to perform concurrent updates, you might want to consider using a thread-safe container. For example, Intel's Threading Building Blocks (TBB) library provides `tbb::concurrent_hash_map` and `tbb::concurrent_unordered_map`². These containers support fine-grained, per-key locking for insert/update operations².
+
+Microsoft's Parallel Patterns Library (PPL) also provides a `concurrent_unordered_map` class³. This class is a concurrency-safe container that enables concurrency-safe append, element access, iterator access, and iterator traversal operations³.
+
+Here's a simple example of how you might use `tbb::concurrent_hash_map`:
+
+```cpp
+#include <tbb/concurrent_hash_map.h>
+#include <iostream>
+
+int main() {
+    tbb::concurrent_hash_map<int, int> map;
+
+    // Insert a key-value pair into the map
+    map.insert(std::make_pair(1, 100));
+
+    // Update a value in the map
+    tbb::concurrent_hash_map<int, int>::accessor accessor;
+    if (map.find(accessor, 1)) {
+        accessor->second = 200;
+    }
+
+    // Print the value of key 1
+    std::cout << "Value of key 1: " << map.find(accessor, 1)->second << std::endl;
+
+    return 0;
+}
+```
+
+This code first inserts a key-value pair `(1, 100)` into the map. It then updates the value associated with key `1` to `200`. Finally, it prints the value associated with key `1`, which is `200`.
+
+Remember to link against the TBB library when compiling this code.
+
+Please note that you should always handle synchronization carefully when dealing with concurrent updates to avoid potential issues such as deadlocks and race conditions. If possible, design your program in a way that minimizes the need for shared mutable state.
+
+Source: Conversation with Bing, 2/16/2024
+(1) std::unordered_map - cppreference.com. https://en.cppreference.com/w/cpp/container/unordered_map.
+(2) c++ - unordered_map thread safety - Stack Overflow. https://stackoverflow.com/questions/9685486/unordered-map-thread-safety.
+(3) concurrent_unordered_map Class | Microsoft Learn. https://learn.microsoft.com/en-us/cpp/parallel/concrt/reference/concurrent-unordered-map-class?view=msvc-170.
+(4) Parallel Containers and Objects | Microsoft Learn. https://learn.microsoft.com/en-us/cpp/parallel/concrt/parallel-containers-and-objects?view=msvc-170.
+
 ## std::shared_ptr
 `std::shared_ptr` is a smart pointer in the C++ Standard Library that retains shared ownership of an object through a pointer. Multiple `shared_ptr` objects may own the same object, and the object is destroyed when the last `shared_ptr` is destroyed.
 

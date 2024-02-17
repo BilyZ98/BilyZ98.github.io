@@ -1,3 +1,49 @@
+# Lock
+
+##  shared_lock 
+What is shared_lock? 
+shared_lock can allow concurrent read but only allows one
+writer at a time.
+
+Implementation
+
+```cpp
+#include <atomic>
+
+class my_shared_mutex {
+    std::atomic<int> refcount {0};
+public:
+    void lock() // write lock
+    {
+        int val;
+        do {
+            val = 0; // Can only take a write lock when refcount == 0
+        } while (!refcount.compare_exchange_weak(val, -1, std::memory_order_acquire));
+    }
+
+    void unlock() // write unlock
+    {
+        refcount.store(0, std::memory_order_release);
+    }
+
+    void lock_shared() // read lock
+    {
+        int val;
+        do {
+            do {
+                val = refcount.load(std::memory_order_relaxed);
+            } while (val == -1); // spinning until the write lock is released
+        } while (!refcount.compare_exchange_weak(val, val+1, std::memory_order_acquire));
+    }
+
+    void unlock_shared() // read unlock
+    {
+        refcount.fetch_sub(1, std::memory_order_relaxed);
+    }
+};
+
+```
+
 ## One function call no matter how many instances calling 
 ```
 class MyClass {
