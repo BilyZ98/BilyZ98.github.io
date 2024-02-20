@@ -51,6 +51,7 @@ MLSys'23 AE
 - [Cloud](./blogs/cloud.md)
 - [AI](./blogs/ai.md)
 - [CPP](./blogs/cpp.md)
+- [Storage](./blogs/storage.md)
 
 ### MISC
 
