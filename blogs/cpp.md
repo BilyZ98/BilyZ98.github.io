@@ -1,5 +1,70 @@
 # C++
 
+## Random sample among unordered_map 
+To get a random sample from an `unordered_map` in C++, you can use an iterator and the `std::advance` function. Here's an example:
+
+```cpp
+#include <unordered_map>
+#include <cstdlib> // for rand()
+#include <iterator> // for std::advance
+
+std::unordered_map<std::string, int> my_map;
+// Assume my_map is populated...
+
+// Generate a random index
+int random_index = rand() % my_map.size();
+
+// Create an iterator pointing to the start of the map
+auto it = my_map.begin();
+
+// Advance the iterator by the random index
+std::advance(it, random_index);
+
+// Now, 'it' points to a random element in the map
+std::string random_key = it->first;
+int random_value = it->second;
+```
+
+In this code, `rand() % my_map.size()` generates a random index. `std::advance(it, random_index)` moves the iterator `it` forward by `random_index` steps³. Please note that this method involves linear time complexity. If you need to do this operation frequently and performance is a concern, you might want to consider a different data structure or approach. 
+
+Also, don't forget to seed the random number generator using `srand(time(0))` at the beginning of your program to ensure you get different results each time you run your program. If you don't seed the random number generator, `rand()` will return the same sequence of numbers every time you run your program. However, `rand()` and `srand()` are considered somewhat outdated, and a more modern approach is to use the random library introduced in C++11. Here's how you can do it:
+
+```cpp
+#include <unordered_map>
+#include <random> // for std::random_device and std::mt19937
+#include <iterator> // for std::advance
+
+std::unordered_map<std::string, int> my_map;
+// Assume my_map is populated...
+
+// Create a random number generator
+std::random_device rd;
+std::mt19937 gen(rd());
+
+// Create a uniform distribution from 0 to my_map.size() - 1
+std::uniform_int_distribution<> distr(0, my_map.size() - 1);
+
+// Generate a random index
+int random_index = distr(gen);
+
+// Create an iterator pointing to the start of the map
+auto it = my_map.begin();
+
+// Advance the iterator by the random index
+std::advance(it, random_index);
+
+// Now, 'it' points to a random element in the map
+std::string random_key = it->first;
+int random_value = it->second;
+```
+
+In this version, `std::random_device` is a uniformly-distributed integer random number generator that produces non-deterministic random numbers. `std::mt19937` is a Mersenne Twister random number generator. `std::uniform_int_distribution` produces random integers in a range [a, b], where each possible number has an equal chance of being produced³.
+
+Source: Conversation with Bing, 2/20/2024
+(1) Select random element in an unordered_map - Stack Overflow. https://stackoverflow.com/questions/27024269/select-random-element-in-an-unordered-map.
+(2) std::unordered_map - cppreference.com. https://en.cppreference.com/w/cpp/container/unordered_map.
+(3) unordered_map in C++ STL - GeeksforGeeks. https://www.geeksforgeeks.org/unordered_map-in-cpp-stl/.
+
 ## Concurrent unordered_map in cpp
 In C++, the `std::unordered_map` is not thread-safe¹. Concurrent updates to an `unordered_map` can lead to data races and undefined behavior. 
 
