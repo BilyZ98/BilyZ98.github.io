@@ -1,5 +1,19 @@
 # C++
 
+## Encode float number and write to file 
+```cpp
+#include <fstream>
+
+int main() {
+    std::ofstream outfile("float.bin", std::ios::binary);
+    float pi = 3.14159;
+    outfile.write(reinterpret_cast<char*>(&pi), sizeof(pi));
+    outfile.close();
+    return 0;
+}
+```
+
+
 ## Random sample among unordered_map 
 To get a random sample from an `unordered_map` in C++, you can use an iterator and the `std::advance` function. Here's an example:
 
