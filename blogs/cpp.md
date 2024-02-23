@@ -1,5 +1,16 @@
 # C++
 
+## Difference between reinterpret_cast and static_cast
+`static_cast` and `reinterpret_cast` are two types of casting operators in C++. They are used to convert one type to another, but they serve different purposes and have different restrictions:
+
+- **static_cast**: This is the most commonly used cast and is generally considered safer than `reinterpret_cast`. It performs conversions between types that are related by inheritance (i.e., between a base class and a derived class) or standard conversions (e.g., from `int` to `float`). It does not perform checks for type compatibility¹².
+
+- **reinterpret_cast**: This cast converts any pointer type to any other pointer type, even unrelated classes. It can also cast pointers to or from integer types. The operation result is a simple binary copy of the value from one pointer to the other. It does not check if the pointed-to types are the same, and using the resulting pointer can lead to undefined behavior¹².
+
+Here's a key difference: `static_cast` is more restrictive and safer than `reinterpret_cast`. `static_cast` only allows conversions that could under some circumstances succeed and be meaningful, such as `int` to `float` or base class pointer to derived class pointer. On the other hand, `reinterpret_cast` allows any conversion, even those that are likely to be meaningless or unsafe³.
+
+In general, you should always prefer `static_cast` for casting that should be safe. If you accidentally try doing a cast that isn't well-defined, then the compiler will report an error¹. `reinterpret_cast` should be used sparingly and carefully, as it can lead to unsafe or undefined behavior².
+
 ## Encode float number and write to file 
 ```cpp
 #include <fstream>
@@ -11,6 +22,34 @@ int main() {
     outfile.close();
     return 0;
 }
+```
+
+```cpp
+inline void EncodeFloat32(char* buf, float value) {
+  uint32_t int_value = reinterpret_cast<uint32_t&>(value);
+  if (port::kLittleEndian) {
+    memcpy(buf, &int_value, sizeof(int_value));
+  } else {
+    buf[0] = int_value & 0xff;
+    buf[1] = (int_value >> 8) & 0xff;
+    buf[2] = (int_value >> 16) & 0xff;
+    buf[3] = (int_value >> 24) & 0xff;
+  }
+}
+
+inline float DecodeFloat32(const char* buf) {
+  uint32_t int_value;
+  if (port::kLittleEndian) {
+    memcpy(&int_value, buf, sizeof(int_value));
+  } else {
+    int_value = (static_cast<uint32_t>(buf[0]) |
+                 (static_cast<uint32_t>(buf[1]) << 8) |
+                 (static_cast<uint32_t>(buf[2]) << 16) |
+                 (static_cast<uint32_t>(buf[3]) << 24));
+  }
+  return reinterpret_cast<float&>(int_value);
+}
+
 ```
 
 
