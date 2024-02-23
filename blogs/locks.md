@@ -1,6 +1,13 @@
 # Lock
+
 ## How to do distributed locking 
 [How to do distributed locking](https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html)
+Do not use redlock which uses lease on top of redis.
+Because this makes assumption about underlying clock system.
+To make sure correct use of distributed lock, please 
+use zookeeper or other concensus tool to implement strict clock increasing.
+And use strictly increasing fencing token for data server to decide whether 
+to accept write or not.
 
 ##  shared_lock 
 What is shared_lock? 
