@@ -1,5 +1,47 @@
 # C++
 
+## emplace() in unordered_map 
+The `emplace()` function is a member function of the `std::unordered_map` container in C++. It is used to insert a new element into the map. The main advantage of `emplace()` over the `insert()` function is that it constructs the element **in-place**, thus avoiding unnecessary copy or move operations.
+
+Here is the syntax for `emplace()`:
+
+```cpp
+pair<iterator, bool> emplace (const value_type& val);
+```
+
+It takes a `value_type` object as an argument, which is a `std::pair` containing the key and value to be inserted. The function returns a pair, where `pair::first` is an iterator pointing to the element (whether newly inserted or already present), and `pair::second` is a boolean denoting whether the insertion took place (true if new element was inserted, false if element already existed).
+
+Here's an example of how to use `emplace()`:
+
+```cpp
+#include <iostream>
+#include <unordered_map>
+
+int main() {
+    std::unordered_map<std::string, int> my_map;
+
+    // Using emplace() to insert elements
+    auto res = my_map.emplace("apple", 1);
+    if (res.second) {
+        std::cout << "Insertion successful, " << res.first->first << " => " << res.first->second << '\n';
+    }
+
+    res = my_map.emplace("apple", 2);
+    if (!res.second) {
+        std::cout << "Element with key 'apple' already exists with value " << res.first->second << '\n';
+    }
+
+    return 0;
+}
+```
+
+In this code, we first attempt to insert the pair ("apple", 1) into `my_map`. Since the map is initially empty, the insertion is successful. The second attempt to insert ("apple", 2) fails because a pair with the key "apple" already exists in the map. The `emplace()` function returns a pair, where the first element is an iterator to the existing element, and the second element is a boolean that is `false` because the insertion did not take place. The existing value of "apple" is then printed. 
+
+This example demonstrates the efficiency of `emplace()`, as it avoids creating a temporary pair object when inserting an element into the map. Instead, the pair is constructed in-place. This can lead to performance improvements, especially for large objects. 
+
+Remember, `emplace()` is a part of C++11 and later. If you're using an older version of C++, you might not have access to this function. 
+
+
 ## Difference between reinterpret_cast and static_cast
 `static_cast` and `reinterpret_cast` are two types of casting operators in C++. They are used to convert one type to another, but they serve different purposes and have different restrictions:
 
