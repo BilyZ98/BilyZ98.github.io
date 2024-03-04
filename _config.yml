@@ -1,8 +1,14 @@
 theme: jekyll-theme-tactile
 
-plugins:
-  - jekyll-last-modified-at
+show_last_edit_time: true
+last_edit_time_format: "%Y-%m-%d %H:%M"
+show_gh_edit_link: true
+edit_link_text: "Edit this page on GitHub"
 
-# Optional. The default date format, used if none is specified in the tag.
-last-modified-at:
-    date-format: '%d-%b-%y'
+# date_format: "%Y-%m-%d %H:%M"
+# plugins:
+#   - jekyll-last-modified-at
+
+# # Optional. The default date format, used if none is specified in the tag.
+# last-modified-at:
+#     date-format: '%d-%b-%y'
