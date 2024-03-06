@@ -55,6 +55,104 @@ In general, you should always prefer `static_cast` for casting that should be sa
 
 ## Encode float number and write to file 
 ```cpp
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <fstream>
+#include <type_traits>
+
+
+bool isLittleEndian() {
+  int x = 1;
+  return *(char*)&x;
+}
+
+
+inline void EncodeFixed32(char* buf, uint32_t value) {
+  if (isLittleEndian()) {
+    memcpy(buf, &value, sizeof(value));
+  } else {
+    buf[0] = value & 0xff;
+    buf[1] = (value >> 8) & 0xff;
+    buf[2] = (value >> 16) & 0xff;
+    buf[3] = (value >> 24) & 0xff;
+  }
+}
+
+inline void PutFixed32(std::ofstream* dst, uint32_t value) {
+  if (isLittleEndian()) {
+
+    dst->write(const_cast<const char*>(reinterpret_cast<char*>(&value)),
+                sizeof(value));
+  } else {
+    char buf[sizeof(value)];
+    EncodeFixed32(buf, value);
+    dst->write(buf, sizeof(buf));
+  }
+}
+
+inline uint32_t DecodeFixed32(const char* ptr) {
+  if (isLittleEndian()) {
+    std::cout << "little endian" << std::endl;
+    // Load the raw bytes
+    uint32_t result;
+    memcpy(&result, ptr, sizeof(result));  // gcc optimizes this to a plain load
+    return result;
+  } else {
+    return ((static_cast<uint32_t>(static_cast<unsigned char>(ptr[0]))) |
+            (static_cast<uint32_t>(static_cast<unsigned char>(ptr[1])) << 8) |
+            (static_cast<uint32_t>(static_cast<unsigned char>(ptr[2])) << 16) |
+            (static_cast<uint32_t>(static_cast<unsigned char>(ptr[3])) << 24));
+  }
+}
+inline bool GetFixed32(std::string* input, uint32_t* value) {
+  if (input->size() < sizeof(uint32_t)) {
+    return false;
+  }
+  *value = DecodeFixed32(input->data());
+  // input->remove_prefix(sizeof(uint32_t));
+  return true;
+}
+int main() {
+    // open file to write
+  std::ofstream file("test.txt", std::ios::binary);
+  if (file.is_open()) {
+    float f = 3.14;
+    PutFixed32(&file, *reinterpret_cast<uint32_t*>(&f));
+    file.close();
+
+  }
+
+  // open file to read
+  std::ifstream file2("test.txt", std::ios::binary);
+  if (file2.is_open()) {
+    std::string line;
+    uint32_t value;
+    if (std::getline(file2, line)) {
+      GetFixed32(&line, &value);
+      float f = *reinterpret_cast<float*>(&value);
+      std::cout << value << std::endl;
+
+      std::cout << f << std::endl;
+    }
+  }
+
+
+    return 0;
+}
+```
+
+Output: 
+```bash
+(base) ➜  /tmp ./a.out
+little endian
+1078523331
+3.14
+
+```
+
+```cpp
+
 #include <fstream>
 
 int main() {
@@ -93,6 +191,7 @@ inline float DecodeFloat32(const char* buf) {
 }
 
 ```
+
 
 
 ## Random sample among unordered_map 
