@@ -1,5 +1,59 @@
 # LightGBM
 
+## ID3 algorithm that trains decision tree
+The training process of a decision tree involves building the tree and determining the split points of the features that most effectively separate the data. Here's a simplified example of how a decision tree might be trained using the ID3 algorithm:
+
+```python
+def ID3(data, original_data, features, target_attribute_name="class", parent_node_class=None):
+    # If all target_values have the same value, return this value
+    if len(np.unique(data[target_attribute_name])) <= 1:
+        return np.unique(data[target_attribute_name])[0]
+
+    # If the dataset is empty, return the mode target feature value in the original dataset
+    elif len(data) == 0:
+        return np.unique(original_data[target_attribute_name])[np.argmax(np.unique(original_data[target_attribute_name], return_counts=True)[1])]
+
+    # If the feature space is empty, return the mode target feature value of the direct parent node
+    elif len(features) == 0:
+        return parent_node_class
+
+    # If none of the above holds true, grow the tree!
+    else:
+        parent_node_class = np.unique(data[target_attribute_name])[np.argmax(np.unique(data[target_attribute_name], return_counts=True)[1])]
+
+        # Select the feature which best splits the dataset
+        item_values = [InfoGain(data, feature, target_attribute_name) for feature in features]
+        best_feature_index = np.argmax(item_values)
+        best_feature = features[best_feature_index]
+
+        # Create the tree structure
+        tree = {best_feature: {}}
+
+        # Remove the feature with the best info gain from the feature space
+        features = [i for i in features if i != best_feature]
+
+        # Grow a branch under the root node for each possible value of the root node feature
+        for value in np.unique(data[best_feature]):
+            value = value
+            sub_data = data.where(data[best_feature] == value).dropna()
+
+            # Call the ID3 algorithm for each of those sub_datasets with the new parameters
+            subtree = ID3(sub_data, data, features, target_attribute_name, parent_node_class)
+
+            # Add the sub tree, grown from the sub_dataset to the tree under the root node
+            tree[best_feature][value] = subtree
+
+        return tree
+```
+
+In this code, the ID3 function is a recursive function that builds a decision tree using the ID3 algorithm. The function takes as input a dataset, a list of features to consider for splitting, and the name of the target attribute. It also takes an optional argument parent_node_class that is used to determine the class label for a node when no further splitting can be done.
+
+The function works by first checking for the base cases that would terminate the recursion: all instances having the same class, no more instances left, no more features left, or no more value left for the feature to split upon. If none of these cases are met, it calculates the information gain of the features and selects the feature with the highest information gain to split upon. It then creates a new tree node for this feature and calls the ID3 function recursively on the sub-datasets to build the subtrees.
+
+Please note that this is a simplified example. Real-world decision tree learning algorithms like those used in scikit-learn or LightGBM are more complex and optimized. They also handle more cases, like missing values and different types of features (continuous, categorical, etc.). They also use different criteria for splitting, like Gini impurity or information gain ratio. The ID3 algorithm is one of the simplest decision tree learning algorithms and is a good starting point for understanding the basics.
+
+
+
 ## Code example of calling LGBM_BoosterPredictForCSRSingleRowFast
 ```c
 #include <lightgbm/c_api.h>
