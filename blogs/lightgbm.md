@@ -1,5 +1,43 @@
 # LightGBM
 
+## LightGBM pay more attention minority class 
+In LightGBM, there are several ways to handle imbalanced data and pay more attention to the minority class:
+
+is_unbalance parameter: You can set the is_unbalance parameter to true when training the LightGBM model. This will automatically adjust the weights of the classes to be inversely proportional to their frequencies1.
+scale_pos_weight parameter: This parameter can provide better control of the weights of the minority and majority classes1. It allows you to set a configurable weight for the minority class1.
+class_weight parameter: This parameter is available in the LGBMClassifier and can be used to directly handle imbalanced data2.
+Customized metric or sample weights: You can also use a customized metric or apply weights to your samples3.
+Remember, when dealing with imbalanced data, accuracy is not the best metric. Instead, consider using metrics such as recall, precision, F1 score, or AUC4. You can also use ‘weighted’ or ‘micro’ averaging methods4.
+
+Here’s a simple example of how you might use the is_unbalance parameter in the C API:
+
+```c
+#include <LightGBM/c_api.h>
+
+int main() {
+    const char* param = "objective=binary is_unbalance=true";
+    const char* train_data_filename = "train.txt";
+    DatasetHandle train_data;
+    BoosterHandle booster;
+
+    // Load training data
+    LGBM_DatasetCreateFromFile(train_data_filename, param, NULL, &train_data);
+
+    // Create booster
+    LGBM_BoosterCreate(train_data, param, &booster);
+
+    // Train model
+    for (int i = 0; i < 100; ++i) {
+        LGBM_BoosterUpdateOneIter(booster);
+    }
+
+    // Save model
+    LGBM_BoosterSaveModel(booster, 0, -1, "LightGBM_model.txt");
+
+    // Free resources
+    LGBM_BoosterFree(booster);
+```
+
 ## ID3 algorithm that trains decision tree
 The training process of a decision tree involves building the tree and determining the split points of the features that most effectively separate the data. Here's a simplified example of how a decision tree might be trained using the ID3 algorithm:
 
