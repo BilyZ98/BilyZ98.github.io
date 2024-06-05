@@ -14,6 +14,3 @@ nav_order: 2
 
 </div>
 
-<script type='text/javascript' id='clustrmaps' src='//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=260&t=tt&d=0KRN19cFvWgvZTibkfEeIg5sGDaczIFq63lfZRfp_iA&co=2d78ad&cmo=3acc3a&cmn=ff5353&ct=ffffff'></script>
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fbilyz98.github.io&count_bg=%2379C83D&title_bg=%232B1792&icon=&icon_color=%23E7E7E7&title=Hits&edge_flat=false)](https://hits.seeyoufarm.com)
-
