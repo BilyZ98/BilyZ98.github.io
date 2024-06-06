@@ -28,10 +28,9 @@ My goal is to build intelligent system that can leverage the power of data to so
 problems that are hard to solve well by traditional algorithm.
 
 My practice philosophy follows learn-teach-apply triangle.  
-<!-- <img src="https://github.com/BilyZ98/BilyZ98.github.io/assets/26542149/eff049f8-0c7d-4288-aeae-a5721ab86422" alt="drawing" width="40%" height="auto"> -->
-<img src="https://private-user-images.githubusercontent.com/26542149/294747888-eff049f8-0c7d-4288-aeae-a5721ab86422.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MTc1ODU4MjAsIm5iZiI6MTcxNzU4NTUyMCwicGF0aCI6Ii8yNjU0MjE0OS8yOTQ3NDc4ODgtZWZmMDQ5ZjgtMGM3ZC00Mjg4LWFlYWUtYTU3MjFhYjg2NDIyLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDA2MDUlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwNjA1VDExMDUyMFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTIxMmZiNzEwYTkwNWIwNzMyOGU5NzY3YmY4OThiNzFiMjcxMDkwY2I4NTUzYWIyMTQ2ZTdkMTY0OTQ0ZTAyMjUmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.IScd3w5o3b4UYvYkgfFeFuRHVTUEWbeZ0np6UiFaM2g" alt="drawing" width="40%" height="auto">
 
-<!-- ![image](https://github.com/BilyZ98/BilyZ98.github.io/assets/26542149/eff049f8-0c7d-4288-aeae-a5721ab86422) -->
+<img src="https://github.com/BilyZ98/BilyZ98.github.io/assets/26542149/2d14a0f9-8dc2-4695-a778-23a9fdf79835"  alt="drawing" width="40%" height="auto">
+<!-- <img src="https://github.com/BilyZ98/BilyZ98.github.io/assets/26542149/30b77d6b-5bd1-4f72-a7b8-c3f43c0b3d1f"  alt="drawing" width="40%" height="auto"> -->
 
 
 My life goal is to help as many people as I can through my work, my mind, my time,
