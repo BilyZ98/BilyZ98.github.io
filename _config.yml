@@ -188,7 +188,7 @@ collections:
   news:
     defaults:
       layout: post
-    output: false
+    output: true
     permalink: /news/:path/
   projects:
     output: true
@@ -204,7 +204,7 @@ latest_posts:
   scrollable: true # adds a vertical scroll bar if there are more than 3 new posts items
   limit: 3 # leave blank to include all the blog posts
 
-misc_content: >
+misc_content: |
   ### MISC
 
   I love to listen to podcast and youtube videos that are about business and technology.

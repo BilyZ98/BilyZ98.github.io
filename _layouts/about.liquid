@@ -65,7 +65,8 @@ layout: default
     {% endif %}
 
     {% if page.misc_content %}
-      {{ site.misc_content | newline_to_br |  markdownify}}
+      {{ site.misc_content  |  markdownify}}
+      {% comment %} <!-- {% include note.html content=page.misc_content %} --> {% endcomment %}
     {% endif %}
     <!-- Social -->
     {% if page.social %}
