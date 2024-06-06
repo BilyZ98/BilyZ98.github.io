@@ -13,8 +13,6 @@ permalink: /
   #   <p>555 your office number</p>
   #   <p>123 your address street</p>
   #   <p>Your City, State 12345</p>
-misc: >
-
 
 news: true # includes a list of news items
 selected_papers: true # includes a list of papers marked as "selected={true}"
@@ -24,8 +22,6 @@ misc_content: true
 Hi, I am currently working as a software engineer at Microsoft at Suzhou.  
 My research interests focus on machine learning for system, system for machine learning 
 and cloud.  
-My current research work applies machine learning algorithm to storage engine to make better 
-decisions.
 My goal is to build intelligent system that can leverage the power of data to solve 
 problems that are hard to solve well by traditional algorithm.
 
