@@ -1,4 +1,16 @@
+---
+layout: post
+title: Convert SVG figures to pdf_latex before submitting to arxiv
+date: 2024-06-04 07:59:00-0400
+description: Convert SVG figures to pdf_latex before submitting to arxiv
+tags: latex
+categories: latex
+featured: false
+---
+
+
 # Convert SVG figures to pdf_latex before submitting to arxiv
+
 
 Problem: arxiv does not accept SVG figures.
 So I have to update code from 
