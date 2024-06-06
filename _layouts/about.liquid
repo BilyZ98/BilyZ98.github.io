@@ -64,6 +64,9 @@ layout: default
       {% include selected_papers.liquid %}
     {% endif %}
 
+    {% if page.misc_content %}
+      {{ site.misc_content }}
+    {% endif %}
     <!-- Social -->
     {% if page.social %}
       <div class="social">
@@ -72,5 +75,6 @@ layout: default
         <div class="contact-note">{{ site.contact_note }}</div>
       </div>
     {% endif %}
+
   </article>
 </div>

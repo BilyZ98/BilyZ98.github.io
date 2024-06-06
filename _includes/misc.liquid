@@ -1,0 +1,10 @@
+<div class="misc">
+
+  {% if site.misc_content != blank %}
+    {{ site.misc_content }}
+  {% endif %}
+
+  {% if site.misc_content == blank %}
+    <p>There is no misc content.</p>
+  {% endif %}
+</div>
