@@ -20,8 +20,13 @@ social: true # includes social icons at the bottom of the page
 misc_content: true
 ---
 Hi, I am currently working as a software engineer at Microsoft at Suzhou.  
-My research interests focus on machine learning for system, system for machine learning 
-and cloud.  
+
+**Interests**
+- Machine learning for system
+- System for machine learning
+- Cloud
+<!-- My research interests focus on machine learning for system, system for machine learning  -->
+<!-- and cloud.   -->
 My goal is to build intelligent system that can leverage the power of data to solve 
 problems that are hard to solve well by traditional algorithm.
 
