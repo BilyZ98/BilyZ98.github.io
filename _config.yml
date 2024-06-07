@@ -264,6 +264,7 @@ exclude:
   - README.md
   - readme_preview/
   - vendor
+  - index.md
   # - archive/
   # - archive_posts/
 
