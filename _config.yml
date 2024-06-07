@@ -267,7 +267,7 @@ exclude:
   - index.md
   - blogs/
   # - archive/
-  # - archive_posts/
+  - archive_posts/
 
 keep_files:
   - CNAME
