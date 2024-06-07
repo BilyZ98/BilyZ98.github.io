@@ -2,7 +2,7 @@
 layout: post
 title: Convert SVG figures to pdf_latex before submitting to arxiv
 date: 2024-06-04 07:59:00-0400
-description: Convert SVG figures to pdf_latex before submitting to arxiv
+# description: Convert SVG figures to pdf_latex before submitting to arxiv
 tags: latex
 categories: latex
 featured: false
