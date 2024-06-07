@@ -264,8 +264,8 @@ exclude:
   - README.md
   - readme_preview/
   - vendor
-  - archive/
-  - archive_posts/
+  # - archive/
+  # - archive_posts/
 
 keep_files:
   - CNAME
@@ -324,7 +324,7 @@ jekyll-archives:
     category: "/blog/category/:name/"
 
 display_tags: ["formatting", "images", "links", "math", "code"] # these tags will be displayed on the front page of your blog
-display_categories: ["blockquotes"] # these categories will be displayed on the front page of your blog
+# display_categories: ["blockquotes"] # these categories will be displayed on the front page of your blog
 
 # -----------------------------------------------------------------------------
 # Jekyll Scholar
