@@ -1,3 +1,14 @@
+---
+layout: post
+title: LightGBM usage and implementation
+date: 2024-06-08 07:59:00-0400
+description: Artificial Intelligence
+tags: ai ml 
+categories: ai
+featured: false
+---
+
+
 # LightGBM
 
 ## LightGBM pay more attention minority class 
