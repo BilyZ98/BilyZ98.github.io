@@ -63,3 +63,86 @@ To specify a different storage location for Docker images, you need to modify Do
 
 After making these changes, Docker will store its images in the specified directory. You can confirm the new storage location by running the command `docker info` and checking the `Docker Root Dir` value¹²³. Please note that you need to have the necessary permissions to read and write to the specified directory¹²³.
 
+
+## Docker remove container and image
+```bash
+# show all containers
+docker ps -a
+
+docker rm <container_id>
+docker rmi <image_id>
+```
+
+## Docker pull image with proxy
+1. Create a systemd drop-in directory for the Docker service if it doesn't exist²⁴:
+
+```bash
+mkdir /etc/systemd/system/docker.service.d
+```
+
+2. Create a file called `/etc/systemd/system/docker.service.d/http-proxy.conf`²⁴. Add the following content to the file, replacing `proxy.example.com:80` with your proxy host and port²⁴:
+
+```bash
+[Service]
+Environment="HTTP_PROXY=http://proxy.example.com:80/"
+Environment="HTTPS_PROXY=http://proxy.example.com:80/"
+```
+
+If you have internal Docker registries that you need to contact without proxying, you can specify them via the `NO_PROXY` environment variable²:
+
+```bash
+Environment="NO_PROXY=localhost,127.0.0.0/8,docker-registry.somecorporation.com"
+```
+
+3. Reload the systemd daemon to apply the changes²⁴:
+
+```bash
+sudo systemctl daemon-reload
+```
+
+4. Restart the Docker service²⁴:
+
+```bash
+sudo systemctl restart docker
+```
+
+Now, Docker will use the specified proxy when pulling images²⁴.
+
+Remember, you need to have the necessary permissions to create and modify files in `/etc/systemd/system/docker.service.d`²⁴. If you don't, you may need to use `sudo` or log in as root²⁴. Also, ensure that your proxy server is properly configured and reachable from your Docker host²⁴.
+
+## Ubuntu repository mirror in China
+http://ftp.sjtu.edu.cn/ubuntu/
+
+## Solve unable to connect to archive.ubuntu.com during docker build 
+Solution I tried but not work:
+https://gist.github.com/dyndna/12b2317b5fbade37e747
+
+https://stackoverflow.com/questions/24991136/docker-build-could-not-resolve-archive-ubuntu-com-apt-get-fails-to-install-a
+
+Tried replacing sources.list with tsinghua source list but not work.
+
+Tried to pull the image and enter the conter to see if I can ping
+Failed.
+```
+docker run -it ubuntu bash
+```
+
+Tried solution in this doc
+https://talk.plesk.com/threads/docker-is-unable-to-connect-to-the-internet.370357/
+
+Tried ping and curl on host machine
+ping does not work but curl can work.
+So I think I found the root cause.
+I set proxy for curl but I did not set proxy for ping.
+
+And I should set proxy for container so 
+that it can do `apt-get update` successfully.
+Add these lines to set proxy that is used in host machine for container.
+```dockerfile
+# Update sources.list
+RUN sed -i 's/http:\/\/archive.ubuntu.com\/ubuntu\//http:\/\/mirrors.tuna.tsinghua.edu.cn\/ubuntu\//g' /etc/apt/sources.list
+
+ENV http_proxy http://28.10.10.62:8081
+ENV https_proxy http://28.10.10.62:8081 
+
+```
