@@ -72,3 +72,28 @@ RUN apt-get install -y \
 WORKDIR /
 
 ```
+
+
+## Docker run container
+Start with dockerfile
+```dockerfile
+CMD["./benchmark.sh"]
+```
+
+Docker copmose 
+```yaml
+version: '3.8'
+services:
+  rocksdb:
+    build: .
+    container_name: rocksdb
+    volumes:
+      - ./data:/data
+    networks:
+      - rocksdb
+    command: ["./benchmark.sh", "input.txt"]
+    ports:
+      - "8080:8080"
+    environment:
+```
+
