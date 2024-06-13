@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Difference between dockerfile and docker-compose
-date: 2024-06-13 07:59:00-0400
+title: Docker beginner
+date: 2024-06-11 07:59:00-0400
 description: cloud
 tags:  cloud docker   
 categories: cloud
@@ -29,4 +29,37 @@ Dockerfile and Docker Compose are both important components of Docker, but they 
 
 In summary, a Dockerfile is used to build images, while Docker Compose is used to define and run multi-container applications¹²³⁴⁵. The Dockerfile uses the `docker build` command, while the docker-compose.yml file uses the `docker-compose up` command⁴. A docker-compose.yml file can reference a Dockerfile, but a Dockerfile can’t reference a docker-compose file⁴.
 
+
+## Specify docker image storage location
+To specify a different storage location for Docker images, you need to modify Docker's configuration. Here are the steps for Linux and Windows:
+
+**For Linux**¹²:
+1. Stop the Docker daemon if it's running. You can do this with the command: `sudo systemctl stop docker`.
+2. Create a `daemon.json` file in `/etc/docker/` if it doesn't exist¹.
+3. Open the `daemon.json` file and add the following, replacing `"/mnt"` with your desired path¹:
+
+```json
+{
+  "data-root": "/mnt"
+}
+```
+
+4. Save and close the file.
+5. Start the Docker daemon with the command: `sudo systemctl start docker`.
+
+**For Windows**³:
+1. Quit Docker Desktop if it's running.
+2. Open the `daemon.json` file located at `C:\ProgramData\Docker\config\`.
+3. Add the following to the file, replacing `"D:\\Virtual Machines\\Docker"` with your desired path³:
+
+```json
+{
+  "data-root": "D:\\Virtual Machines\\Docker"
+}
+```
+
+4. Save and close the file.
+5. Start Docker Desktop.
+
+After making these changes, Docker will store its images in the specified directory. You can confirm the new storage location by running the command `docker info` and checking the `Docker Root Dir` value¹²³. Please note that you need to have the necessary permissions to read and write to the specified directory¹²³.
 
