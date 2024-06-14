@@ -147,4 +147,10 @@ ENV https_proxy http://28.10.10.62:8081
 
 ```
 
+## docker remove all containers
+```bash
+# show all containers
+docker ps -a
 
+docker rm $(docker ps -a -q -f status=exited)
+```

@@ -35,12 +35,18 @@ RUN apt-get install -y \
     git \
     bash \
     perl \
+    cmake \
     && rm -rf /var/lib/apt/lists/* \
     && cd /usr/src \
     && git clone --depth 1 --branch ${ROCKSDB_VERSION} https://github.com/facebook/rocksdb.git  && \
     cd rocksdb && \
-    make -j4  && \
-    make install 
+    # make -j8 shared_lib && \
+    # make -j8 db_bench && \
+    mkdir build && \
+    cd build && \
+    cmake .. -DCMAKE_BUILD_TYPE=Release && \
+    make -j16 && \
+    make install
 
 
 # RUN apk update && \

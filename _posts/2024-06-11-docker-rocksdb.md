@@ -97,3 +97,20 @@ services:
     environment:
 ```
 
+## Issues
+db_bench cannot find librocksdb.8.11.so
+only librocksdb.a is available and db_bench 
+is not compiled statically linked.
+
+
+Ways to solve this problem
+1. link db_bench with librocksdb.a
+2. Try cmake
+
+Tried cmake and it compiled successfully.
+```bash
+    cmake .. -DCMAKE_BUILD_TYPE=Release && \
+```
+
+
+
