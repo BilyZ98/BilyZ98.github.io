@@ -4,11 +4,13 @@ services:
     image: rocksdb
     # build: .
     container_name: rocksdb
+    # tty: true
     volumes:
-      - ./data:/data
+      - db_data:/data
     # networks:
     #   - rocksdb
-    command: ["./db_bench", "-benchmarks=fillseq", "-compression-type=none" ]
+    # command: ["./db_bench", "-benchmarks=fillseq", "-compression-type=none", "-db=/data/" ]
+    command: bash -c "cd /usr/src/rocksdb/build && ./db_bench -benchmarks=fillseq -compression-type=none -db=/data/ && tail -f /dev/null"
     ports:
       - "8080:8080"
     working_dir:
@@ -16,3 +18,6 @@ services:
     environment:
       - LD_LIBRARY_PATH=/usr/local/lib
 
+volumes:
+  db_data:
+    # driver: local

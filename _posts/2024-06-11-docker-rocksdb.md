@@ -113,4 +113,53 @@ Tried cmake and it compiled successfully.
 ```
 
 
+## Specify volume and persist db data
+```yaml
+version: '3.8'
+services:
+  rocksdb:
+    image: rocksdb
+    # build: .
+    container_name: rocksdb
+    # tty: true
+    volumes:
+      - db_data:/data
+    command: bash -c "cd /usr/src/rocksdb/build && ./db_bench -benchmarks=fillseq -compression-type=none -db=/data/ && tail -f /dev/null"
+    ports:
+      - "8080:8080"
+    working_dir:
+      /usr/src/rocksdb/build
+    environment:
+      - LD_LIBRARY_PATH=/usr/local/lib
+
+volumes:
+  db_data:
+```
+
+```bash
+docker volume list
+
+DRIVER    VOLUME NAME
+local     docker_db_data
+```
+
+```bash
+docker volume inspect docker_db_data
+
+[
+    {
+        "CreatedAt": "2024-06-14T22:45:30+08:00",
+        "Driver": "local",
+        "Labels": {
+            "com.docker.compose.project": "docker",
+            "com.docker.compose.version": "2.20.2",
+            "com.docker.compose.volume": "db_data"
+        },
+        "Mountpoint": "/mnt/nvme1n1/docker-images/volumes/docker_db_data/_data",
+        "Name": "docker_db_data",
+        "Options": null,
+        "Scope": "local"
+    }
+]
+```
 
