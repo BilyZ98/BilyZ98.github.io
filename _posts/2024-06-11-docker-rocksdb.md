@@ -139,13 +139,20 @@ volumes:
 ```bash
 docker volume list
 
+```
+```
 DRIVER    VOLUME NAME
 local     docker_db_data
+
 ```
 
 ```bash
 docker volume inspect docker_db_data
 
+
+```
+
+```
 [
     {
         "CreatedAt": "2024-06-14T22:45:30+08:00",

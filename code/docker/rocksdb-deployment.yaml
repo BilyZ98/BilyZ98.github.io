@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f compose.yaml
+    kompose.version: 1.24.0 (4a2a0458)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: rocksdb
+  name: rocksdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: rocksdb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f compose.yaml
+        kompose.version: 1.24.0 (4a2a0458)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: rocksdb
+    spec:
+      containers:
+        - args:
+            - bash
+            - -c
+            - cd /usr/src/rocksdb/build && ./db_bench -benchmarks=fillseq -compression-type=none -db=/data/ 
+          env:
+            - name: LD_LIBRARY_PATH
+              value: /usr/local/lib
+          image: zzt1234/test-rocksdb:v2 
+          # docker.io/rocksdb:v1
+          imagePullPolicy: IfNotPresent
+          name: rocksdb
+          ports:
+            - containerPort: 8080
+          resources: {}
+          volumeMounts:
+            - mountPath: /data
+              name: db-data
+          workingDir: /usr/src/rocksdb/build
+      restartPolicy: Always
+      volumes:
+        - name: db-data
+          persistentVolumeClaim:
+            claimName: db-data
+status: {}
