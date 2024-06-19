@@ -36,7 +36,24 @@ Traceback (most recent call last):
   File "train_gpt2.py", line 24, in &lt;module&gt;
     from contextlib import nullcontext
 ImportError: cannot import name 'nullcontext'
-</code></pre></div></div> <p>My friend told me that I can just use conda to create new namespace and then I can ssh to the compute node and activate the conda environment. And then I can run training process.</p> <p>This means that compute node shares the same file system with login node. But the operating system is different. Because each node has its own hostname.</p> <p>Learn new thing every day.</p> <p>Here’s all available nodes I have.</p> <p>Karpathy has updated gpt2 parameter download script so now I can download parameter via shell script</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod </span>u+x ./dev/download_starter_pack.sh
+</code></pre></div></div> <p>My friend told me that I can just use conda to create new namespace and then I can ssh to the compute node and activate the conda environment. And then I can run training process.</p> <p>This means that compute node shares the same file system with login node. But the operating system is different. Because each node has its own hostname.</p> <p>Learn new thing every day.</p> <p>Here’s all available nodes I have.</p> <p>Karpathy has updated gpt2 parameter download script so now I can download parameter via shell script</p> <p>Issue: Can not connect to huggingface todownload pretrained model via proxy</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(llmc) [nsccgz_qylin_1@ln102%tianhe2-K llm.c]$ curl -v https://huggingface.co
+* About to connect() to proxy 10.20.18.21 port 3128 (#0)
+*   Trying 10.20.18.21...
+* Connected to 10.20.18.21 (10.20.18.21) port 3128 (#0)
+* Establish HTTP proxy tunnel to huggingface.co:443
+&gt; CONNECT huggingface.co:443 HTTP/1.1
+&gt; Host: huggingface.co:443
+&gt; User-Agent: curl/7.29.0
+&gt; Proxy-Connection: Keep-Alive
+&gt;
+&lt; HTTP/1.1 503 Service Unavailable
+&lt; Proxy-Agent: gost/2.11.1
+&lt; Content-Length: 0
+&lt;
+* Received HTTP code 503 from proxy after CONNECT
+* Connection #0 to host 10.20.18.21 left intact
+curl: (56) Received HTTP code 503 from proxy after CONNECT
+</code></pre></div></div> <p>Solution: I decide to download on my local laptop and then upload these model parameter files to gpu nodes.</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod </span>u+x ./dev/download_starter_pack.sh
 ./dev/download_starter_pack.sh
 make train_gpt2fp32cu
 ./train_gpt2fp32cu
