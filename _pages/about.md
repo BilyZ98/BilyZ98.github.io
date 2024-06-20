@@ -40,7 +40,7 @@ My practice philosophy follows learn-teach-apply triangle.
 My life goal is to help as many people as I can through my work, my mind, my time,
 my money and what I can give. 
 
-Please contact me via email [zhuangzhutao@gmail.com](zhuangzhutao@gmail.com)
+Please contact me via email <zhuangzhutao@gmail.com>
 
 
 
