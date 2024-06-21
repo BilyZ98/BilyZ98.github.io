@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://bilyz98.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://bilyz98.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-06-20T04:26:12+00:00</updated><id>https://bilyz98.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">Basic digital electronic</title><link href="https://bilyz98.github.io/blog/2024/digital-electronic/" rel="alternate" type="text/html" title="Basic digital electronic"/><published>2024-06-17T11:59:00+00:00</published><updated>2024-06-17T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/digital-electronic</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/digital-electronic/"><![CDATA[<h2 id="basic-digital">Basic digital</h2> <p>Transistor to ALU <a href="https://youtu.be/HjneAhCy2N4?si=OpouvGQDJhw4sSKE">https://youtu.be/HjneAhCy2N4?si=OpouvGQDJhw4sSKE</a></p> <p>Transistor to memory <a href="https://youtu.be/rM9BjciBLmg?si=TQe2Wijej4iezyzV">https://youtu.be/rM9BjciBLmg?si=TQe2Wijej4iezyzV</a></p>]]></content><author><name></name></author><category term="ml-fundamental"/><category term="transistor"/><summary type="html"><![CDATA[transistor]]></summary></entry><entry><title type="html">llm.c</title><link href="https://bilyz98.github.io/blog/2024/llm-c/" rel="alternate" type="text/html" title="llm.c"/><published>2024-06-17T11:59:00+00:00</published><updated>2024-06-17T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/llm-c</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/llm-c/"><![CDATA[<p>roadmap</p> <ul class="task-list"> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked"/>Running llm.c</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked"/>Running llm.c with cuda</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"/>Inference with fp16</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"/>Inference with vllm</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"/>try other inference acceleartion tech</li> </ul> <h2 id="running-llmc">Running llm.c</h2> <p><a href="https://github.com/karpathy/llm.c">https://github.com/karpathy/llm.c</a></p> <h3 id="gpu">GPU</h3> <p>Had issue running gpu There is only cuda 11.2 on my machine but torch 2.1.0 is installed which requires cuda 12.0</p> <p>Solution: Manually specify torch==1.3.1</p> <p>Get error</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yhrun <span class="nt">-n</span> 4 <span class="nt">-p</span> gpu_v100 python train_gpt2.py
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://bilyz98.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://bilyz98.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-06-21T04:20:06+00:00</updated><id>https://bilyz98.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">Basic digital electronic</title><link href="https://bilyz98.github.io/blog/2024/digital-electronic/" rel="alternate" type="text/html" title="Basic digital electronic"/><published>2024-06-17T11:59:00+00:00</published><updated>2024-06-17T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/digital-electronic</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/digital-electronic/"><![CDATA[<h2 id="basic-digital">Basic digital</h2> <p>Transistor to ALU <a href="https://youtu.be/HjneAhCy2N4?si=OpouvGQDJhw4sSKE">https://youtu.be/HjneAhCy2N4?si=OpouvGQDJhw4sSKE</a></p> <p>Transistor to memory <a href="https://youtu.be/rM9BjciBLmg?si=TQe2Wijej4iezyzV">https://youtu.be/rM9BjciBLmg?si=TQe2Wijej4iezyzV</a></p>]]></content><author><name></name></author><category term="ml-fundamental"/><category term="transistor"/><summary type="html"><![CDATA[transistor]]></summary></entry><entry><title type="html">llm.c</title><link href="https://bilyz98.github.io/blog/2024/llm-c/" rel="alternate" type="text/html" title="llm.c"/><published>2024-06-17T11:59:00+00:00</published><updated>2024-06-17T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/llm-c</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/llm-c/"><![CDATA[<p>roadmap</p> <ul class="task-list"> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked"/>Running llm.c</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked"/>Running llm.c with cuda</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"/>Multiple gpus</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"/>Inference with fp16</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"/>Inference with vllm</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"/>try other inference acceleartion tech</li> </ul> <h2 id="running-llmc">Running llm.c</h2> <p><a href="https://github.com/karpathy/llm.c">https://github.com/karpathy/llm.c</a></p> <h3 id="gpu">GPU</h3> <p>Had issue running gpu There is only cuda 11.2 on my machine but torch 2.1.0 is installed which requires cuda 12.0</p> <p>Solution: Manually specify torch==1.3.1</p> <p>Get error</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yhrun <span class="nt">-n</span> 4 <span class="nt">-p</span> gpu_v100 python train_gpt2.py
 </code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Traceback (most recent call last):
   File "train_gpt2.py", line 24, in &lt;module&gt;
     from contextlib import nullcontext
@@ -85,6 +85,112 @@ Suspicions are declaim'd of the Albanian king.
 Go
 ---
 total average iteration time: 312.354733 ms
+</code></pre></div></div> <h3 id="multiple-gpus">Multiple GPUs</h3> <p>Run with MPI. Don’t know mpi works internally but I will just start using it to train model.</p> <p>I will learn the internals later.</p> <p>Now I just login to gpu node and run the following command</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make train_gpt2cu
+mpirun <span class="nt">-np</span> &lt;number of GPUs&gt; ./train_gpt2cu
+</code></pre></div></div> <p>Issue: failed to compile with openmpi I used hpc cluster which has openmpi library installed in directory that is different from standard directory.</p> <p>Here’s Makefile in llm.c</p> <div class="language-makefile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">ifeq</span> <span class="nv">($(NO_MULTI_GPU), 1)</span>
+  <span class="err">$(info</span> <span class="err">→</span> <span class="err">Multi-GPU</span> <span class="err">(OpenMPI</span> <span class="err">+</span> <span class="err">NCCL)</span> <span class="err">is</span> <span class="err">manually</span> <span class="err">disabled)</span>
+<span class="k">else</span>
+  <span class="k">ifneq</span> <span class="nv">($(OS), Windows_NT)</span>
+    <span class="c"># Detect if running on macOS or Linux
+</span>    <span class="k">ifeq</span> <span class="nv">($(SHELL_UNAME), Darwin)</span>
+      <span class="err">$(info</span> <span class="err">✗</span> <span class="err">Multi-GPU</span> <span class="err">on</span> <span class="err">CUDA</span> <span class="err">on</span> <span class="err">Darwin</span> <span class="err">is</span> <span class="err">not</span> <span class="err">supported,</span> <span class="err">skipping</span> <span class="err">OpenMPI</span> <span class="err">+</span> <span class="err">NCCL</span> <span class="err">support)</span>
+    <span class="err">else</span> <span class="k">ifeq</span> <span class="nv">($(shell [ -d /usr/lib/x86_64-linux-gnu/openmpi/lib/ ] &amp;&amp; [ -d /usr/lib/x86_64-linux-gnu/openmpi/include/ ] &amp;&amp; echo "exists"), exists)</span>
+      <span class="err">$(info</span> <span class="err">✓</span> <span class="err">OpenMPI</span> <span class="err">found,</span> <span class="err">OK</span> <span class="err">to</span> <span class="err">train</span> <span class="err">with</span> <span class="err">multiple</span> <span class="err">GPUs)</span>
+      <span class="nv">NVCC_INCLUDES</span> <span class="o">+=</span> <span class="nt">-I</span>/usr/lib/x86_64-linux-gnu/openmpi/include
+      <span class="nv">NVCC_LDFLAGS</span> <span class="o">+=</span> <span class="nt">-L</span>/usr/lib/x86_64-linux-gnu/openmpi/lib/
+      <span class="nv">NVCC_LDLIBS</span> <span class="o">+=</span> <span class="nt">-lmpi</span> <span class="nt">-lnccl</span>
+      <span class="nv">NVCC_FLAGS</span> <span class="o">+=</span> <span class="nt">-DMULTI_GPU</span>
+    <span class="k">else</span>
+      <span class="err">$(info</span> <span class="err">✗</span> <span class="err">OpenMPI</span> <span class="err">is</span> <span class="err">not</span> <span class="err">found,</span> <span class="err">disabling</span> <span class="err">multi-GPU</span> <span class="err">support)</span>
+      <span class="err">$(info</span> <span class="err">---&gt;</span> <span class="err">On</span> <span class="err">Linux</span> <span class="err">you</span> <span class="err">can</span> <span class="err">try</span> <span class="err">install</span> <span class="err">OpenMPI</span> <span class="err">with</span> <span class="err">`sudo</span> <span class="err">apt</span> <span class="err">install</span> <span class="err">openmpi-bin</span> <span class="err">openmpi-doc</span> <span class="err">libopenmpi-dev`)</span>
+    <span class="k">endif</span>
+  <span class="k">endif</span>
+<span class="k">endif</span>
+</code></pre></div></div> <p>It checks existence of openmpi library in <code class="language-plaintext highlighter-rouge">/usr/lib/x86_64-linux-gnu/openmpi/lib/</code> Openmpi library is at ` ~/local/lib/` in my hpc cluster. Should I raise a pr?</p> <p>Issue： Get compilation error when linking nccl</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/GPUFS/app_GPU/compiler/CUDA/11.2.0/bin/nvcc -O3 -t=0 --use_fast_math -std=c++17 -DMULTI_GPU -DENABLE_BF16 train_gpt2.cu -lcublas -lcublasLt -L~/local/lib/  -I~/local/include/   -lmpi -lnccl -o train_gpt2cu
+llmc/zero.cuh(28): error: identifier "ncclBfloat16" is undefined
+
+llmc/zero.cuh(209): error: identifier "ncclAvg" is undefined
+
+llmc/zero.cuh(219): error: identifier "ncclAvg" is undefined
+
+3 errors detected in the compilation of "train_gpt2.cu".
+make: *** [train_gpt2cu] Error 255
+</code></pre></div></div> <p>I have load nccl module but I still get this error and I don’t know how to fix it. Try to compile train_gpt2fp32cu</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module load  CUDA/11.2
+module load  gcc/9.2.0
+<span class="c">#module load  openmpi/1.10.2-pgi-17.1</span>
+module load openmpi/3.1.4-icc-18.0.1
+module load  nccl/2.9.9-1-cuda-11.0
+module list
+which nvcc
+<span class="nb">pushd </span>llm.c
+<span class="c">#make train_gpt2cu</span>
+make train_gpt2fp32cu
+mpirun <span class="nt">-np</span> 2 ./train_gpt2fp32cu
+<span class="nb">popd</span>
+
+</code></pre></div></div> <p>Get out of memory error when running</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>num_parameters        | 124475904                                          |
++-----------------------+----------------------------------------------------+
+| max_sequence_length T | 1024                                               |
+| vocab_size V          | 50257                                              |
+| padded_vocab_size Vp  | 50304                                              |
+| num_layers L          | 12                                                 |
+| num_heads NH          | 12                                                 |
+| channels C            | 768                                                |
+| num_parameters        | 124475904                                          |
++-----------------------+----------------------------------------------------+
+| train_num_batches     | 74                                                 |
+| val_num_batches       | 8                                                  |
++-----------------------+----------------------------------------------------+
+allocated 474 MiB for model parameters
+| train_num_batches     | 74                                                 |
+| val_num_batches       | 8                                                  |
++-----------------------+----------------------------------------------------+
+allocated 474 MiB for model parameters
+allocated 5706 MiB for activations
+allocated 5706 MiB for activations
+val loss 4.513921
+val loss 4.513921
+allocated 474 MiB for parameter gradients
+allocated 252 MiB for activation gradients
+allocated 474 MiB for AdamW optimizer state m
+allocated 474 MiB for AdamW optimizer state v
+allocated 474 MiB for parameter gradients
+allocated 252 MiB for activation gradients
+[CUDA ERROR] at file train_gpt2_fp32.cu:1443:
+out of memory
+</code></pre></div></div> <p>I am not famaliar with how cuda can work with multiple gpus when doing training.</p> <p>Should I learn a little bit more about how can I use multiple gpus to do computation when working with cuda?</p> <p>Why do we have to use mpi to run with multiple gpus?</p> <p>Let’s check whether single gpu code actually uses single gpu or not.</p> <p>There’s only one gpu running when training with single gpu. And it works pretty well. So I want to know how to use multiple gpus to train model.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) [nsccgz_qylin_1@gpu29%tianhe2-K zt]$ nvidia-smi
+Fri Jun 21 12:17:35 2024
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 460.73.01    Driver Version: 460.73.01    CUDA Version: 11.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  Tesla V100-SXM2...  Off  | 00000000:8A:00.0 Off |                    0 |
+| N/A   62C    P0   276W / 300W |   8354MiB / 16160MiB |     98%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   1  Tesla V100-SXM2...  Off  | 00000000:8B:00.0 Off |                    0 |
+| N/A   32C    P0    38W / 300W |      3MiB / 16160MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   2  Tesla V100-SXM2...  Off  | 00000000:B3:00.0 Off |                    0 |
+| N/A   31C    P0    37W / 300W |      2MiB / 16160MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   3  Tesla V100-SXM2...  Off  | 00000000:B4:00.0 Off |                    0 |
+| N/A   31C    P0    37W / 300W |      3MiB / 16160MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|    0   N/A  N/A    153170      C   ./train_gpt2fp32cu               8351MiB |
++-----------------------------------------------------------------------------+
 </code></pre></div></div> <h3 id="cpu">CPU</h3> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install</span> <span class="nt">-r</span> requirements.txt
 python dev/data/tinyshakespeare.py
 python train_gpt2.py
