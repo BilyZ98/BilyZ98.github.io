@@ -502,7 +502,62 @@ gpu 30
 |=============================================================================|
 |  No running processes found                                                 |
 +-----------------------------------------------------------------------------+
-</code></pre></div></div> <p>Guess I have to install cuda 11.2 to match the driver version. Have to download nccl with cuda 11.</p> <p>However, I don’t find cuda:toolkit that is compatible with cuda 11.2 in conda.</p> <h3 id="cpu">CPU</h3> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install</span> <span class="nt">-r</span> requirements.txt
+</code></pre></div></div> <p>Guess I have to install cuda 11.2 to match the driver version. Have to download nccl with cuda 11.</p> <p>However, I don’t find cuda:toolkit that is compatible with cuda 11.2 in conda.</p> <p>I think one solution is to compile nccl manually on this compute node with old cuda driver.</p> <p>But now I just switch use A800 which comes with cuda 12.0 driver. Let’s go. I have two A800 available so I can test cross node training and multi gpu card training. This is great.</p> <p>Issue: Seems that program is loading a .bin file with _bf16</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Precision is configured as FP32 but model at gpt2_124M_bf16.bin is not.
+---&gt; HINT: to turn on FP32 you have to compile like: `make train_gpt2cu PRECISION=FP32`
+---&gt; HINT: are you sure you're loading a .bin file without any _bf16 in the name?
+Precision is configured as FP32 but model at gpt2_124M_bf16.bin is not.
+---&gt; HINT: to turn on FP32 you have to compile like: `make train_gpt2cu PRECISION=FP32`
+---&gt; HINT: are you sure you're loading a .bin file without any _bf16 in the name?
+Precision is configured as FP32 but model at gpt2_124M_bf16.bin is not.
+---&gt; HINT: to turn on FP32 you have to compile like: `make train_gpt2cu PRECISION=FP32`
+---&gt; HINT: are you sure you're loading a .bin file without any _bf16 in the name?
+Precision is configured as FP32 but model at gpt2_124M_bf16.bin is not.
+---&gt; HINT: to turn on FP32 you have to compile like: `make train_gpt2cu PRECISION=FP32`
+---&gt; HINT: are you sure you're loading a .bin file without any _bf16 in the name?
+</code></pre></div></div> <p>Finally I think I successfully run model training on two gpus on A800. Here’s compile and run script.</p> <p>compile.sh</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/lib/:<span class="nv">$LD_LIBRARY_PATH</span>
+<span class="nb">echo</span> <span class="nv">$LD_LIBRARY_PATH</span>
+yhrun <span class="nt">-n1</span> <span class="nt">-p</span> GPU_A800 make train_gpt2cu
+</code></pre></div></div> <p>run.sh</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+conda activate llmc
+<span class="nb">export </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/lib/:<span class="nv">$LD_LIBRARY_PATH</span>
+<span class="nb">echo</span> <span class="nv">$LD_LIBRARY_PATH</span>
+yhrun <span class="nt">-n2</span> <span class="nt">-p</span> GPU_A800 /GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/bin/mpirun <span class="nt">-np</span> 2 train_gpt2cu
+</code></pre></div></div> <p>output</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| weight init method    | OpenAI's GPT-2 checkpoint                          |
+| max_sequence_length T | 1024                                               |
+| vocab_size V          | 50257                                              |
+| padded_vocab_size Vp  | 50304                                              |
+| num_layers L          | 12                                                 |
+| num_heads NH          | 12                                                 |
+| channels C            | 768                                                |
+| num_parameters        | 124475904                                          |
++-----------------------+----------------------------------------------------+
+| weight init method    | OpenAI's GPT-2 checkpoint                          |
+| max_sequence_length T | 1024                                               |
+| vocab_size V          | 50257                                              |
+| padded_vocab_size Vp  | 50304                                              |
+| num_layers L          | 12                                                 |
+| num_heads NH          | 12                                                 |
+| channels C            | 768                                                |
+| num_parameters        | 124475904                                          |
++-----------------------+----------------------------------------------------+
+| train_num_batches     | 37                                                 |
+| val_num_batches       | 20                                                 |
++-----------------------+----------------------------------------------------+
+| train_num_batches     | 37                                                 |
+| val_num_batches       | 20                                                 |
++-----------------------+----------------------------------------------------+
+| run hellaswag         | no                                                 |
++-----------------------+----------------------------------------------------+
+| Zero Optimization is disabled                                              |
+| num_processes         | 2                                                  |
+| zero_stage            | 0                                                  |
++-----------------------+----------------------------------------------------+
+HellaSwag eval not found at dev/data/hellaswag/hellaswag_val.bin, skipping its evaluation
+You can run `python dev/data/hellaswag.py` to export and use it with `-h 1`.
+num_parameters: 124475904 =&gt; bytes: 248951808
+allocated 237 MiB for model parameters
+batch_size B=4 * seq_len T=1024 * num_processes=2 and total_batch_size=8192
+</code></pre></div></div> <h3 id="cpu">CPU</h3> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install</span> <span class="nt">-r</span> requirements.txt
 python dev/data/tinyshakespeare.py
 python train_gpt2.py
 make train_gpt2
