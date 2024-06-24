@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://bilyz98.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://bilyz98.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-06-21T04:20:06+00:00</updated><id>https://bilyz98.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">Basic digital electronic</title><link href="https://bilyz98.github.io/blog/2024/digital-electronic/" rel="alternate" type="text/html" title="Basic digital electronic"/><published>2024-06-17T11:59:00+00:00</published><updated>2024-06-17T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/digital-electronic</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/digital-electronic/"><![CDATA[<h2 id="basic-digital">Basic digital</h2> <p>Transistor to ALU <a href="https://youtu.be/HjneAhCy2N4?si=OpouvGQDJhw4sSKE">https://youtu.be/HjneAhCy2N4?si=OpouvGQDJhw4sSKE</a></p> <p>Transistor to memory <a href="https://youtu.be/rM9BjciBLmg?si=TQe2Wijej4iezyzV">https://youtu.be/rM9BjciBLmg?si=TQe2Wijej4iezyzV</a></p>]]></content><author><name></name></author><category term="ml-fundamental"/><category term="transistor"/><summary type="html"><![CDATA[transistor]]></summary></entry><entry><title type="html">llm.c</title><link href="https://bilyz98.github.io/blog/2024/llm-c/" rel="alternate" type="text/html" title="llm.c"/><published>2024-06-17T11:59:00+00:00</published><updated>2024-06-17T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/llm-c</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/llm-c/"><![CDATA[<p>roadmap</p> <ul class="task-list"> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked"/>Running llm.c</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked"/>Running llm.c with cuda</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"/>Multiple gpus</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"/>Inference with fp16</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"/>Inference with vllm</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"/>try other inference acceleartion tech</li> </ul> <h2 id="running-llmc">Running llm.c</h2> <p><a href="https://github.com/karpathy/llm.c">https://github.com/karpathy/llm.c</a></p> <h3 id="gpu">GPU</h3> <p>Had issue running gpu There is only cuda 11.2 on my machine but torch 2.1.0 is installed which requires cuda 12.0</p> <p>Solution: Manually specify torch==1.3.1</p> <p>Get error</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yhrun <span class="nt">-n</span> 4 <span class="nt">-p</span> gpu_v100 python train_gpt2.py
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://bilyz98.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://bilyz98.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-06-24T02:43:40+00:00</updated><id>https://bilyz98.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">llm.c</title><link href="https://bilyz98.github.io/blog/2024/llm-c/" rel="alternate" type="text/html" title="llm.c"/><published>2024-06-19T11:59:00+00:00</published><updated>2024-06-19T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/llm-c</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/llm-c/"><![CDATA[<p>roadmap</p> <ul class="task-list"> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked"/>Running llm.c</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked"/>Running llm.c with cuda</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"/>Multiple gpus</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"/>Inference with fp16</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"/>Inference with vllm</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"/>try other inference acceleartion tech</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"/>Submit pr to check existence of openmpi by specifying openmpi path. ( can use conda as example)</li> <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled"/>Submit pr to check curl result when proxy server returns 503 error.</li> </ul> <h2 id="running-llmc">Running llm.c</h2> <p><a href="https://github.com/karpathy/llm.c">https://github.com/karpathy/llm.c</a></p> <h3 id="gpu">GPU</h3> <p>Had issue running gpu There is only cuda 11.2 on my machine but torch 2.1.0 is installed which requires cuda 12.0</p> <p>Solution: Manually specify torch==1.3.1</p> <p>Get error</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yhrun <span class="nt">-n</span> 4 <span class="nt">-p</span> gpu_v100 python train_gpt2.py
 </code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Traceback (most recent call last):
   File "train_gpt2.py", line 24, in &lt;module&gt;
     from contextlib import nullcontext
@@ -191,7 +191,318 @@ Fri Jun 21 12:17:35 2024
 |=============================================================================|
 |    0   N/A  N/A    153170      C   ./train_gpt2fp32cu               8351MiB |
 +-----------------------------------------------------------------------------+
-</code></pre></div></div> <h3 id="cpu">CPU</h3> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install</span> <span class="nt">-r</span> requirements.txt
+</code></pre></div></div> <p>Here’s the code that initializes multi gpu training config in train_gpt2.cu</p> <div class="language-cuda highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">MultiGpuConfig</span> <span class="nf">multi_gpu_config_init</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">***</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+<span class="cp">#ifdef MULTI_GPU
+</span>    <span class="c1">// Initialize MPI.</span>
+    <span class="n">MultiGpuConfig</span> <span class="n">result</span><span class="p">;</span>
+    <span class="n">mpiCheck</span><span class="p">(</span><span class="n">MPI_Init</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">));</span>
+    <span class="n">mpiCheck</span><span class="p">(</span><span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">result</span><span class="p">.</span><span class="n">process_rank</span><span class="p">));</span>
+    <span class="n">mpiCheck</span><span class="p">(</span><span class="n">MPI_Comm_size</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">result</span><span class="p">.</span><span class="n">num_processes</span><span class="p">));</span>
+    <span class="n">result</span><span class="p">.</span><span class="n">local_device_idx</span> <span class="o">=</span> <span class="n">multi_gpu_get_local_device_idx</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">process_rank</span><span class="p">,</span> <span class="n">result</span><span class="p">.</span><span class="n">num_processes</span><span class="p">);</span>
+    <span class="n">cudaCheck</span><span class="p">(</span><span class="n">cudaSetDevice</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">local_device_idx</span><span class="p">));</span>
+    <span class="n">ncclUniqueId</span> <span class="n">nccl_id</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">process_rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">ncclCheck</span><span class="p">(</span><span class="n">ncclGetUniqueId</span><span class="p">(</span><span class="o">&amp;</span><span class="n">nccl_id</span><span class="p">));</span>
+    <span class="p">}</span>
+    <span class="n">mpiCheck</span><span class="p">(</span><span class="n">MPI_Bcast</span><span class="p">((</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">nccl_id</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">nccl_id</span><span class="p">),</span> <span class="n">MPI_BYTE</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">MPI_COMM_WORLD</span><span class="p">));</span>
+    <span class="n">ncclCheck</span><span class="p">(</span><span class="n">ncclCommInitRank</span><span class="p">(</span><span class="o">&amp;</span><span class="n">result</span><span class="p">.</span><span class="n">nccl_comm</span><span class="p">,</span> <span class="n">result</span><span class="p">.</span><span class="n">num_processes</span><span class="p">,</span> <span class="n">nccl_id</span><span class="p">,</span> <span class="n">result</span><span class="p">.</span><span class="n">process_rank</span><span class="p">));</span>
+    <span class="n">cudaCheck</span><span class="p">(</span><span class="n">cudaStreamCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">result</span><span class="p">.</span><span class="n">nccl_stream</span><span class="p">));</span>
+    <span class="c1">// event without timing for maximum performance</span>
+    <span class="n">cudaCheck</span><span class="p">(</span><span class="n">cudaEventCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">result</span><span class="p">.</span><span class="n">compute_nccl_sync</span><span class="p">,</span> <span class="n">cudaEventDisableTiming</span><span class="p">));</span>
+    <span class="n">nvtxNameCudaStreamA</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">nccl_stream</span><span class="p">,</span> <span class="s">"nccl stream"</span><span class="p">);</span>
+    <span class="n">nvtxNameCudaEventA</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">compute_nccl_sync</span><span class="p">,</span> <span class="s">"nccl compute sync"</span><span class="p">);</span>
+
+</code></pre></div></div> <p>Ask bingchat to explain this code This code is for initializing a multi-GPU configuration using MPI (Message Passing Interface), CUDA, and NCCL (NVIDIA Collective Communications Library). Here’s a breakdown of what the code does:</p> <ol> <li> <p><code class="language-plaintext highlighter-rouge">MultiGpuConfig result;</code>: This line initializes a <code class="language-plaintext highlighter-rouge">MultiGpuConfig</code> object named <code class="language-plaintext highlighter-rouge">result</code>.</p> </li> <li> <p><code class="language-plaintext highlighter-rouge">mpiCheck(MPI_Init(argc, argv));</code>: This line initializes the MPI environment.</p> </li> <li> <p><code class="language-plaintext highlighter-rouge">mpiCheck(MPI_Comm_rank(MPI_COMM_WORLD, &amp;result.process_rank));</code>: This line determines the rank of the calling process in the communicator.</p> </li> <li> <p><code class="language-plaintext highlighter-rouge">mpiCheck(MPI_Comm_size(MPI_COMM_WORLD, &amp;result.num_processes));</code>: This line determines the number of processes in the communicator.</p> </li> <li> <p><code class="language-plaintext highlighter-rouge">result.local_device_idx = multi_gpu_get_local_device_idx(result.process_rank, result.num_processes);</code>: This line gets the local device index based on the process rank and the number of processes.</p> </li> <li> <p><code class="language-plaintext highlighter-rouge">cudaCheck(cudaSetDevice(result.local_device_idx));</code>: This line sets the device to be used for GPU executions.</p> </li> <li> <p><code class="language-plaintext highlighter-rouge">ncclUniqueId nccl_id;</code>: This line declares a unique NCCL ID.</p> </li> <li> <p><code class="language-plaintext highlighter-rouge">if (result.process_rank == 0) { ncclCheck(ncclGetUniqueId(&amp;nccl_id)); }</code>: This line generates a new NCCL unique ID and assigns it to <code class="language-plaintext highlighter-rouge">nccl_id</code> if the process rank is 0.</p> </li> <li> <p><code class="language-plaintext highlighter-rouge">mpiCheck(MPI_Bcast((void *)&amp;nccl_id, sizeof(nccl_id), MPI_BYTE, 0, MPI_COMM_WORLD));</code>: This line broadcasts the NCCL unique ID from the root process (process with rank 0) to all other processes in the communicator.</p> </li> <li> <p><code class="language-plaintext highlighter-rouge">ncclCheck(ncclCommInitRank(&amp;result.nccl_comm, result.num_processes, nccl_id, result.process_rank));</code>: This line initializes the NCCL communicator according to the rank, the number of processes, and the unique NCCL ID.</p> </li> <li> <p><code class="language-plaintext highlighter-rouge">cudaCheck(cudaStreamCreate(&amp;result.nccl_stream));</code>: This line creates a new asynchronous stream.</p> </li> <li> <p><code class="language-plaintext highlighter-rouge">cudaCheck(cudaEventCreate(&amp;result.compute_nccl_sync, cudaEventDisableTiming));</code>: This line creates an event with no timing data. This is used for synchronization purposes.</p> </li> <li> <p><code class="language-plaintext highlighter-rouge">nvtxNameCudaStreamA(result.nccl_stream, "nccl stream");</code>: This line names the CUDA stream “nccl stream” for profiling and debugging purposes.</p> </li> <li> <p><code class="language-plaintext highlighter-rouge">nvtxNameCudaEventA(result.compute_nccl_sync, "nccl compute sync");</code>: This line names the CUDA event “nccl compute sync” for profiling and debugging purposes.</p> </li> </ol> <p>This function is designed to be used in a multi-GPU environment where multiple processes are running in parallel, each possibly on a different GPU.</p> <p>The use of MPI allows these processes to communicate with each other, and the use of NCCL allows them to collectively perform operations such as reductions and broadcasts.</p> <p>The CUDA streams and events are used for managing and synchronizing the GPU computations.</p> <p>The NVTX calls are used for profiling and debugging the GPU code.</p> <p>Note that this code assumes that the <code class="language-plaintext highlighter-rouge">MULTI_GPU</code> macro is defined; if it is not, this function will not do anything.</p> <p>Is there any way to run with multi-gpus without callling like this ?</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make train_gpt2cu
+mpirun <span class="nt">-np</span> &lt;number of GPUs&gt; ./train_gpt2cu
+</code></pre></div></div> <p>So now I will try to run very simple mpi and cuda program to test cuda and mpi env on my hpc cluster.</p> <pre><code class="language-cu">#include &lt;stdio.h&gt;
+#include &lt;cuda_runtime.h&gt;
+#include &lt;mpi.h&gt;
+
+__global__ void helloFromGPU(void) {
+    printf("Hello World from GPU %d!\n", blockIdx.x);
+}
+
+int main(int argc, char** argv) {
+    // Initialize the MPI environment
+    MPI_Init(&amp;argc, &amp;argv);
+
+    int world_size;
+    MPI_Comm_size(MPI_COMM_WORLD, &amp;world_size);
+
+    int world_rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &amp;world_rank);
+
+    // Set the device to the rank of the current MPI process
+    cudaSetDevice(world_rank);
+
+    printf("Hello World from CPU of MPI process %d!\n", world_rank);
+
+    // Launch the kernel on the GPU
+    helloFromGPU&lt;&lt;&lt;world_size, 1&gt;&gt;&gt;();
+
+    // Wait for GPU to finish before accessing on host
+    cudaDeviceSynchronize();
+
+    // Finalize the MPI environment.
+    MPI_Finalize();
+}
+
+~                                                                                                                                                                                   ~                                                                                                                                                                                   ~
+</code></pre> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) $ nvcc -I/GPUFS/nsccgz_qylin_1/local/include -L/GPUFS/nsccgz_qylin_1/local/lib  -lmpi hello_mpi_cuda.cu -o hello_mpi_cuda
+(base) $ ls
+hello.cu  hello_cuda  hello_mpi  hello_mpi.c  hello_mpi_cuda  hello_mpi_cuda.cu
+(base) $ mpirun -np 2 ./hello_mpi_cuda
+--------------------------------------------------------------------------
+WARNING: No preset parameters were found for the device that Open MPI
+detected:
+
+  Local host:            gpu29
+  Device name:           mlx5_9
+  Device vendor ID:      0x02c9
+  Device vendor part ID: 4116
+
+Default device parameters will be used, which may result in lower
+performance.  You can edit any of the files specified by the
+btl_openib_device_param_files MCA parameter to set values for your
+device.
+
+NOTE: You can turn off this warning by setting the MCA parameter
+      btl_openib_warn_no_device_params_found to 0.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   gpu29
+  Local device: mlx5_9
+--------------------------------------------------------------------------
+Hello World from CPU of MPI process 0!
+Hello World from CPU of MPI process 1!
+Hello World from GPU 0!
+Hello World from GPU 1!
+Hello World from GPU 0!
+Hello World from GPU 1!
+[gpu29:229661] 1 more process has sent help message help-mpi-btl-openib.txt / no device params found
+[gpu29:229661] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[gpu29:229661] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init
+</code></pre></div></div> <p><code class="language-plaintext highlighter-rouge">nvcc</code> is just like <code class="language-plaintext highlighter-rouge">gcc</code> which is used to compile cuda code.</p> <p>What is <code class="language-plaintext highlighter-rouge">nccl</code>? Basically <code class="language-plaintext highlighter-rouge">nccl</code> is just like <code class="language-plaintext highlighter-rouge">mpi</code>. It’s used to do collective communication between gpus.</p> <p>This struct is used as config to maintain as information about each gpu.</p> <pre><code class="language-cu">// Parameters specific to training on multiple GPUs.
+typedef struct {
+  int process_rank;      // Rank of this process among all MPI processes on all hosts. 0 if no multi-GPU.
+  int num_processes;     // Total number of processes on all hosts. 1 if no multi-GPU.
+  int local_device_idx;  // This process GPU index on current machine. 0 if no multi-GPU.
+  ncclComm_t nccl_comm;  // NCCL communication primitive, used for collective mutli-GPU work.
+} MultiGpuConfig;
+
+// Determine which GPU this process should use.
+// Processes on the same machines use different GPU indicies. Processes on other machines don't.
+// Copied from NCCL examples: https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/examples.html#example-2-one-device-per-process-or-thread
+int multi_gpu_get_local_device_idx(int process_rank, int num_processes) {
+  char hostname[1024];
+  hostname[1023] = '\0';
+  // All processes on the same machine will share the same hostname.
+  gethostname(hostname, 1023);
+  for (int i=0; i &lt; 1024; i++) {
+    if (hostname[i] == '.') {
+        hostname[i] = '\0';
+        break;
+    }
+  }
+  uint64_t hostname_hash = 5381;
+  for (int c = 0; hostname[c] != '\0'; c++){ hostname_hash = ((hostname_hash &lt;&lt; 5) + hostname_hash) ^ hostname[c]; }
+
+  // Distribute all hostname hashes to all processes.
+  uint64_t* all_hostsname_hashes = (uint64_t*)malloc(num_processes * sizeof(uint64_t));
+  all_hostsname_hashes[process_rank] = hostname_hash;
+  mpiCheck(MPI_Allgather(MPI_IN_PLACE, 0, MPI_DATATYPE_NULL, all_hostsname_hashes, sizeof(uint64_t), MPI_BYTE, MPI_COMM_WORLD));
+
+  // Identify which GPU we need to use.
+  int local_device_idx = 0;
+  for (int current_process = 0; current_process &lt; num_processes; ++current_process) {
+     if (current_process == process_rank) {
+      // Found my gpu, local_device_idx now has my target GPU index.
+      break;
+     }
+     if (all_hostsname_hashes[current_process] == all_hostsname_hashes[process_rank]) {
+      // This process ID runs on the same machine, but it's not me, skip this GPU
+      local_device_idx++;
+     }
+  }
+
+  free(all_hostsname_hashes);
+  return local_device_idx;
+}
+</code></pre> <p>Get this error.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>error: identifier "ncclAvg" is undefined
+</code></pre></div></div> <p>Check nccl commit message and found that ncclAvg is added in version 2.10.3 I have only <code class="language-plaintext highlighter-rouge">nccl/2.9.9-1-cuda-11.0</code>.</p> <p>What should I do?</p> <p>Just learned that I can use <code class="language-plaintext highlighter-rouge">conda</code> to install cuda and nccl. Let’s try it.</p> <p>So what is conda and how does it work? I think conda is just a package manager like <code class="language-plaintext highlighter-rouge">apt</code> in ubuntu. <code class="language-plaintext highlighter-rouge">conda</code> helps with environment management and package installation.</p> <p><code class="language-plaintext highlighter-rouge">apt</code> helps with package installation and update.</p> <p><code class="language-plaintext highlighter-rouge">spack</code> is another package manager that is used in hpc cluster.</p> <p><a href="https://stackoverflow.com/a/78227826/14600569">https://stackoverflow.com/questions/77873047/what-are-the-key-differences-between-spack-and-conda-package-managers</a></p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> conda <span class="nb">install </span>nvidia::cuda-toolkit
+</code></pre></div></div> <p>Get another compilation error</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/bin/nvcc -O3 -t=0 --use_fast_math -std=c++17 --generate-code arch=compute_70,code=[compute_70,sm_70] -DMULTI_GPU -DENABLE_FP32 train_gpt2.cu -lcublas -lcublasLt -L/GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/lib/  -I/GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/include/  -lmpi -lnccl -o train_gpt2cu
+/GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/bin/../lib/gcc/x86_64-conda-linux-gnu/12.3.0/../../../../x86_64-conda-linux-gnu/bin/ld: /GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/lib//libcublas.so: undefined reference to `memcpy@GLIBC_2.14'
+/GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/bin/../lib/gcc/x86_64-conda-linux-gnu/12.3.0/../../../../x86_64-conda-linux-gnu/bin/ld: /GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/bin/../lib/libpmix.so.2: undefined reference to `clock_gettime@GLIBC_2.17'
+collect2: error: ld returned 1 exit status
+make: *** [train_gpt2cu] Error 255
+(llmc) [nsccgz_qylin_1@gpu29%tianhe2-K llm.c]$ gcc --version
+gcc (conda-forge gcc 12.3.0-11) 12.3.0
+Copyright (C) 2022 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+</code></pre></div></div> <p>check glibc version.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(llmc) [nsccgz_qylin_1@gpu29%tianhe2-K llm.c]$ ldd --version
+ldd (GNU libc) 2.17
+Copyright (C) 2012 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+Written by Roland McGrath and Ulrich Drepper.
+(llmc) [nsccgz_qylin_1@gpu29%tianhe2-K llm.c]$ which ldd
+/usr/bin/ldd
+</code></pre></div></div> <p>I think I need to use ldd in conda env to check glibc version. How can I do this? I can not install specified glibc version with conda.</p> <p>Remove conda env and create a new one. Install nccl first</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    _libgcc_mutex-0.1          |      conda_forge           3 KB  conda-forge
+    _openmp_mutex-4.5          |            2_gnu          23 KB  conda-forge
+    cuda-version-12.5          |       hd4f0392_3          21 KB  conda-forge
+    libgcc-ng-13.2.0           |      h77fa898_11         777 KB  conda-forge
+    libgomp-13.2.0             |      h77fa898_11         434 KB  conda-forge
+    libstdcxx-ng-13.2.0        |      hc0a3c3a_11         3.7 MB  conda-forge
+    nccl-2.22.3.1              |       hbc370b7_0       107.3 MB  conda-forge
+    ------------------------------------------------------------
+                                           Total:       112.2 MB
+
+The following NEW packages will be INSTALLED:
+
+  _libgcc_mutex      conda-forge/linux-64::_libgcc_mutex-0.1-conda_forge
+  _openmp_mutex      conda-forge/linux-64::_openmp_mutex-4.5-2_gnu
+  cuda-version       conda-forge/noarch::cuda-version-12.5-hd4f0392_3
+  libgcc-ng          conda-forge/linux-64::libgcc-ng-13.2.0-h77fa898_11
+  libgomp            conda-forge/linux-64::libgomp-13.2.0-h77fa898_11
+  libstdcxx-ng       conda-forge/linux-64::libstdcxx-ng-13.2.0-hc0a3c3a_11
+  nccl               conda-forge/linux-64::nccl-2.22.3.1-hbc370b7_0
+</code></pre></div></div> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install </span>nvidia/label/cuda-12.5.0::cuda-toolkit
+</code></pre></div></div> <p>conda adjust channels priority</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> conda config --describe channel_priority
+conda config --set channel_priority flexible
+conda config --prepend channels conda-forge
+conda config --prepend channels nvidia
+conda config --show channels
+</code></pre></div></div> <p>Error no nvtx3 and no openmpi</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>→ cuDNN is manually disabled by default, run make with `USE_CUDNN=1` to try to enable
+✓ OpenMP found
+✗ OpenMPI is not found, disabling multi-GPU support
+---&gt; On Linux you can try install OpenMPI with `sudo apt install openmpi-bin openmpi-doc libopenmpi-dev`
+✓ nvcc found, including GPU/CUDA support
+---------------------------------------------
+/GPUFS/nsccgz_qylin_1/miniconda3/envs/llmcc/bin/nvcc -O3 -t=0 --use_fast_math -std=c++17 --generate-code arch=compute_70,code=[compute_70,sm_70] -DENABLE_FP32 train_gpt2.cu -lcublas -lcublasLt   -o train_gpt2cu
+In file included from train_gpt2.cu:34:
+llmc/cuda_common.h:12:10: fatal error: nvtx3/nvToolsExt.h: No such file or directory
+   12 | #include &lt;nvtx3/nvToolsExt.h&gt;
+      |          ^~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+In file included from train_gpt2.cu:34:
+llmc/cuda_common.h:12:10: fatal error: nvtx3/nvToolsExt.h: No such file or directory
+   12 | #include &lt;nvtx3/nvToolsExt.h&gt;
+      |          ^~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make: *** [train_gpt2cu] Error 255
+</code></pre></div></div> <p>I remove channel conda-forge and try to install cuda from main anaconda channel.</p> <p>channel config is stored in <code class="language-plaintext highlighter-rouge">~/.condarc</code></p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda info
+conda remove <span class="nt">--name</span> myenv <span class="nt">--all</span>
+</code></pre></div></div> <p>Fix openmpi issue after installing cuda from main channel</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(llmc) [nsccgz_qylin_1@ln101 llm.c]$ PRECISION=FP32 make train_gpt2cu
+__nvcc_device_query failed to call cudaLoader::cuInit(0) with error 0x64 (CUDA_ERROR_NO_DEVICE)
+---------------------------------------------
+→ cuDNN is manually disabled by default, run make with `USE_CUDNN=1` to try to enable
+✓ OpenMP found
+✓ OpenMPI found, OK to train with multiple GPUs
+✓ nvcc found, including GPU/CUDA support
+---------------------------------------------
+/GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/bin/nvcc -O3 -t=0 --use_fast_math -std=c++17 -DMULTI_GPU -DENABLE_FP32 train_gpt2.cu -lcublas -lcublasLt -L/GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/lib/  -I/GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/include/  -lmpi -lnccl -o train_gpt2cu
+nvcc warning : incompatible redefinition for option 'compiler-bindir', the last value of this option was used
+In file included from train_gpt2.cu:34:
+llmc/cuda_common.h:12:10: fatal error: nvtx3/nvToolsExt.h: No such file or directory
+   12 | #include &lt;nvtx3/nvToolsExt.h&gt;
+      |          ^~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+In file included from train_gpt2.cu:34:
+llmc/cuda_common.h:12:10: fatal error: nvtx3/nvToolsExt.h: No such file or directory
+   12 | #include &lt;nvtx3/nvToolsExt.h&gt;
+      |          ^~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make: *** [train_gpt2cu] Error 255
+</code></pre></div></div> <p>Forget that I should ssh to compute node. Let’s try again</p> <p>Still get no nvtx3 error</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(llmc) [nsccgz_qylin_1@gpu30%tianhe2-K llm.c]$ PRECISION=FP32 make train_gpt2cu
+---------------------------------------------
+→ cuDNN is manually disabled by default, run make with `USE_CUDNN=1` to try to enable
+✓ OpenMP found
+✓ OpenMPI found, OK to train with multiple GPUs
+✓ nvcc found, including GPU/CUDA support
+---------------------------------------------
+/GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/bin/nvcc -O3 -t=0 --use_fast_math -std=c++17 --generate-code arch=compute_70,code=[compute_70,sm_70] -DMULTI_GPU -DENABLE_FP32 train_gpt2.cu -lcublas -lcublasLt -L/GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/lib/  -I/GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/include/  -lmpi -lnccl -o train_gpt2cu
+In file included from train_gpt2.cu:34:
+llmc/cuda_common.h:12:10: fatal error: nvtx3/nvToolsExt.h: No such file or directory
+   12 | #include &lt;nvtx3/nvToolsExt.h&gt;
+      |          ^~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+In file included from train_gpt2.cu:34:
+llmc/cuda_common.h:12:10: fatal error: nvtx3/nvToolsExt.h: No such file or directory
+   12 | #include &lt;nvtx3/nvToolsExt.h&gt;
+      |          ^~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make: *** [train_gpt2cu] Error 255
+</code></pre></div></div> <p>Get installment error again</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(llmc) [nsccgz_qylin_1@gpu30%tianhe2-K llm.c]$ conda install cuda-nvtx -c nvidia
+Channels:
+ - nvidia
+ - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+ - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free
+ - defaults
+Platform: linux-64
+Collecting package metadata (repodata.json): done
+Solving environment: failed
+
+InvalidSpec: The package "nvidia/linux-64::cuda==12.5.0=0" is not available for the specified platform
+
+(llmc) [nsccgz_qylin_1@gpu30%tianhe2-K llm.c]$ exit
+</code></pre></div></div> <p>https://github.com/NVIDIA/NVTX I will manually pull header files to node if I can’t now solve this issue this time by install 12.0.0 version of cuda</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda install nvidia/label/cuda-12.0.0::cuda-toolkit
+</code></pre></div></div> <p>Fix nvtx header file after copying to system path</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>In file included from train_gpt2.cu:65:
+llmc/zero.cuh:16:10: fatal error: nccl.h: No such file or directory
+   16 | #include &lt;nccl.h&gt;
+      |          ^~~~~~~~
+compilation terminated.
+In file included from train_gpt2.cu:65:
+llmc/zero.cuh:16:10: fatal error: nccl.h: No such file or directory
+   16 | #include &lt;nccl.h&gt;
+      |          ^~~~~~~~
+compilation terminated.
+</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(llmc) [nsccgz_qylin_1@gpu30%tianhe2-K nccl_2.22.3-1+cuda12.4_x86_64]$ cp -r include/* /GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/include/
+(llmc) [nsccgz_qylin_1@gpu30%tianhe2-K nccl_2.22.3-1+cuda12.4_x86_64]$ cp -r lib/* /GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/lib
+</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvcc -O3 -t=0 --use_fast_math -std=c++17 --generate-code arch=compute_70,code=[compute_70,sm_70] -DMULTI_GPU -DENABLE_FP32 train_gpt2.cu -lcublas -lcublasLt -L/GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/lib/  -I/GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/include/  -lmpi -lnccl -o train_gpt2cu
+</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/bin/../lib/gcc/x86_64-conda-linux-gnu/11.2.0/../../../../x86_64-conda-linux-gnu/bin/ld: /GPUFS/nsccgz_qylin_1/local/lib/libopen-pal.so.40: undefined reference to `pci_device_cfg_read'
+</code></pre></div></div> <p><code class="language-plaintext highlighter-rouge">/GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/lib/</code> is not included in <code class="language-plaintext highlighter-rouge">LD_LIBRARY_PATH</code> when doing <code class="language-plaintext highlighter-rouge">ld</code> command. So I need to include that in <code class="language-plaintext highlighter-rouge">LD_LIBRARY_PATH</code> before running <code class="language-plaintext highlighter-rouge">ld</code> command.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(llmc) [nsccgz_qylin_1@gpu30%tianhe2-K llm.c]$ echo $LD_LIBRARY_PATH
+/GPUFS/nsccgz_qylin_1/local/lib:/GPUFS/nsccgz_qylin_1/local/lib:/GPUFS/nsccgz_qylin_1/t/spack/opt/spack/linux-centos7-haswell/gcc-4.8.5/libevent-2.1.12-oysfi7miuhw62ginwjrr2uy6yldr2oav/lib:/GPUFS/app_GPU/application/anaconda3/5.3.1/envs/python-3.6/lib:/GPUFS/nsccgz_qylin_1/ryz/MARL-test/util/lib:/GPUFS/nsccgz_qylin_1/ryz/icf_test/build_GPTL/gptl_gcc/lib::/GPUFS/nsccgz_qylin_1/software/spack/opt/spack/linux-centos7-skylake_avx512/
+</code></pre></div></div> <p>Should I switch to spack next time?</p> <p>Finally I am able to compile this train_gpt2cu after several days of failing and trying. I put conda lib at the first of <code class="language-plaintext highlighter-rouge">LD_LIBRARY_PATH</code> and it works.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>llmc) [nsccgz_qylin_1@gpu30%tianhe2-K llm.c]$ export  LD_LIBRARY_PATH=/GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/lib/:$
+LD_LIBRARY_PATH
+(llmc) [nsccgz_qylin_1@gpu30%tianhe2-K llm.c]$ echo $LD_LIBRARY_PATH
+/GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/lib/:/GPUFS/nsccgz_qylin_1/local/lib:/GPUFS/nsccgz_qylin_1/local/lib:/GPUFS/nsccgz_qylin_1/t/spack/opt/spack/linux-centos7-haswell/gcc-4.8.5/libevent-2.1.12-oysfi7miuhw62ginwjrr2uy6yldr2oav/lib:/GPUFS/app_GPU/application/anaconda3/5.3.1/envs/python-3.6/lib:/GPUFS/nsccgz_qylin_1/ryz/MARL-test/util/lib:/GPUFS/nsccgz_qylin_1/ryz/icf_test/build_GPTL/gptl_gcc/lib::/GPUFS/nsccgz_qylin_1/software/spack/opt/spack/linux-centos7-skylake_avx512/:/GPUFS/nsccgz_qylin_1/miniconda3/envs/llmc/lib/
+</code></pre></div></div> <p>Issue: cuda driver version is not compatible with cuda runtime version. What should I do?</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+gpu 30
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 460.73.01    Driver Version: 460.73.01    CUDA Version: 11.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  Tesla V100-SXM2...  Off  | 00000000:8A:00.0 Off |                    0 |
+| N/A   39C    P0    38W / 300W |      0MiB / 16160MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   1  Tesla V100-SXM2...  Off  | 00000000:8B:00.0 Off |                    0 |
+| N/A   34C    P0    38W / 300W |      0MiB / 16160MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   2  Tesla V100-SXM2...  Off  | 00000000:B3:00.0 Off |                    0 |
+| N/A   33C    P0    37W / 300W |      0MiB / 16160MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   3  Tesla V100-SXM2...  Off  | 00000000:B4:00.0 Off |                    0 |
+| N/A   36C    P0    51W / 300W |      0MiB / 16160MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+</code></pre></div></div> <p>Guess I have to install cuda 11.2 to match the driver version. Have to download nccl with cuda 11.</p> <p>However, I don’t find cuda:toolkit that is compatible with cuda 11.2 in conda.</p> <h3 id="cpu">CPU</h3> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install</span> <span class="nt">-r</span> requirements.txt
 python dev/data/tinyshakespeare.py
 python train_gpt2.py
 make train_gpt2
@@ -229,7 +540,7 @@ Then how to place the artscape.
 Strong should a bellow
 ---
 step 40: train loss 3.952987 (took 2665.948189 ms)
-</code></pre></div></div> <p>Some questions? How many low end gpus are there in the market? I am thinking about utilizing low end gpus to train model, large or small model.</p>]]></content><author><name></name></author><category term="ml"/><category term="ml"/><category term="ai"/><category term="cuda"/><summary type="html"><![CDATA[llm minikune]]></summary></entry><entry><title type="html">K8s Advance</title><link href="https://bilyz98.github.io/blog/2024/k8s-advance/" rel="alternate" type="text/html" title="K8s Advance"/><published>2024-06-16T11:59:00+00:00</published><updated>2024-06-16T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/k8s-advance</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/k8s-advance/"><![CDATA[<h2 id="kubectl-inspect-volume-content"><code class="language-plaintext highlighter-rouge">kubectl</code> inspect volume content</h2> <p><a href="https://stackoverflow.com/questions/49529005/how-to-inspect-the-content-of-persistent-volume-by-kubernetes-on-azure-cloud-ser">https://stackoverflow.com/questions/49529005/how-to-inspect-the-content-of-persistent-volume-by-kubernetes-on-azure-cloud-ser</a></p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh"> | kubectl apply -f -
+</code></pre></div></div> <p>Some questions? How many low end gpus are there in the market? I am thinking about utilizing low end gpus to train model, large or small model.</p>]]></content><author><name></name></author><category term="ml"/><category term="ml"/><category term="ai"/><category term="cuda"/><summary type="html"><![CDATA[llm minikune]]></summary></entry><entry><title type="html">Basic digital electronic</title><link href="https://bilyz98.github.io/blog/2024/digital-electronic/" rel="alternate" type="text/html" title="Basic digital electronic"/><published>2024-06-18T11:59:00+00:00</published><updated>2024-06-18T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/digital-electronic</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/digital-electronic/"><![CDATA[<h2 id="basic-digital">Basic digital</h2> <p>Transistor to ALU <a href="https://youtu.be/HjneAhCy2N4?si=OpouvGQDJhw4sSKE">https://youtu.be/HjneAhCy2N4?si=OpouvGQDJhw4sSKE</a></p> <p>Transistor to memory <a href="https://youtu.be/rM9BjciBLmg?si=TQe2Wijej4iezyzV">https://youtu.be/rM9BjciBLmg?si=TQe2Wijej4iezyzV</a></p> <p>I learn from this video that memory is made of several gates to remember bit information and controls whether to enable write.</p> <p>Another interesting thing I learn is that 2 dimensions of gates are used to reduce number of wires to store same amount of information.</p>]]></content><author><name></name></author><category term="ml-fundamental"/><category term="transistor"/><summary type="html"><![CDATA[transistor]]></summary></entry><entry><title type="html">K8s Advance</title><link href="https://bilyz98.github.io/blog/2024/k8s-advance/" rel="alternate" type="text/html" title="K8s Advance"/><published>2024-06-16T11:59:00+00:00</published><updated>2024-06-16T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/k8s-advance</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/k8s-advance/"><![CDATA[<h2 id="kubectl-inspect-volume-content"><code class="language-plaintext highlighter-rouge">kubectl</code> inspect volume content</h2> <p><a href="https://stackoverflow.com/questions/49529005/how-to-inspect-the-content-of-persistent-volume-by-kubernetes-on-azure-cloud-ser">https://stackoverflow.com/questions/49529005/how-to-inspect-the-content-of-persistent-volume-by-kubernetes-on-azure-cloud-ser</a></p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh"> | kubectl apply -f -
 apiVersion: v1
 kind: Pod
 metadata:
