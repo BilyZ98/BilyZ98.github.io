@@ -30,12 +30,38 @@ ClobberError: This transaction has incompatible packages due to a shared path.
 ```
 
 Solution: Switch to new environment and reinstall pytorch with cuda
+```
+conda clean --all
+conda clean -p
+conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
+```
+
+Now I am able to see cuda available in pytorch
+```python
+import torch
+print(torch.cuda.is_available())
+print(torch.cuda.get_device_name(0))  # 0 corresponds to the first GPU
+```
+
+```
+nano-gpt
+True
+NVIDIA A800 80GB PCIe
+```
+
+
 
 Comparison of cpu and gpu for bigram model
 CPU:
 
+Time taken: 14.610548734664917 seconds
+
 GPU:
 
+Time taken: 18.080146074295044 seconds
+
+It takes longer time for gpu to finish. 
+I think it's because training iteration is not large enough to see the benefit of gpu.
 
 
 ## Transformer architecture
