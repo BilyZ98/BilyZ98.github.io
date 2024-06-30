@@ -8,7 +8,7 @@ ClobberError: This transaction has incompatible packages due to a shared path.
   path: 'share/man/man1/wrjpgcom.1'
 
 
-</code></pre></div></div> <p>Solution: Switch to new environment and reinstall pytorch with cuda</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda clean --all
+</code></pre></div></div> <p>Solution: Switch to new environment and reinstall pytorch with cuda <a href="https://pytorch.org/get-started/locally/#windows-anaconda" rel="external nofollow noopener" target="_blank">https://pytorch.org/get-started/locally/#windows-anaconda</a></p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda clean --all
 conda clean -p
 conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
 </code></pre></div></div> <p>Now I am able to see cuda available in pytorch</p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">torch</span>
