@@ -30,6 +30,7 @@ ClobberError: This transaction has incompatible packages due to a shared path.
 ```
 
 Solution: Switch to new environment and reinstall pytorch with cuda
+[https://pytorch.org/get-started/locally/#windows-anaconda](https://pytorch.org/get-started/locally/#windows-anaconda)
 ```
 conda clean --all
 conda clean -p
