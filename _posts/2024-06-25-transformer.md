@@ -66,5 +66,6 @@ I think it's because training iteration is not large enough to see the benefit o
 
 
 ## Transformer architecture
-
+Why does transformer have Feedforward and Linear at the same time ? These two looks like the same.
+<img src="https://github.com/BilyZ98/BilyZ98.github.io/assets/26542149/4ce5458c-3c90-4607-803c-01631327ad0f" width="500" height="500">
 
