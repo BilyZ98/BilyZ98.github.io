@@ -75,6 +75,9 @@ comes from google.
 The reduce process is the self attention process in transformer. 
 The map process is the feed forward neural network and mutl-head in transformer.
 
+Why does transformer have Feedforward and Linear at the same time ? These two looks like the same.
+<img src="https://github.com/BilyZ98/BilyZ98.github.io/assets/26542149/4ce5458c-3c90-4607-803c-01631327ad0f" width="500" height="500">
+
 
 ### bigram model with cpu
 
@@ -150,7 +153,6 @@ If we don't crop the `idx` to `idx_cond`, the `pos_emb`
 will take `T` that is larger than `block_size` which will cause the error.
 
 Please check this time in the video [https://youtu.be/kCc8FmEb1nY?t=4854](https://youtu.be/kCc8FmEb1nY?t=4854)
-
 
 
 
