@@ -8,6 +8,8 @@ categories: ml
 featured: false
 ---
 
+Code repo url: [https://github.com/BilyZ98/nano-gpt](https://github.com/BilyZ98/nano-gpt)
+
 ### Vanilla bigram model without self attention 
 As mentioned in the youtube video [https://youtu.be/kCc8FmEb1nY?t=2509](https://youtu.be/kCc8FmEb1nY?t=2509),
 this code builds a bigram model without self attention.
@@ -76,6 +78,13 @@ The reduce process is the self attention process in transformer.
 The map process is the feed forward neural network and mutl-head in transformer.
 
 Why does transformer have Feedforward and Linear at the same time ? These two looks like the same.
+Andrej karparthy gives answer to this question at the time point in vide.
+
+Feedforward is used to think on the tensor/information the self-attention has produced.   
+And this feedforward/computation is done in parallel which is pretty fast.
+
+The final linear layer is used to output token probabilities.
+
 <img src="https://github.com/BilyZ98/BilyZ98.github.io/assets/26542149/4ce5458c-3c90-4607-803c-01631327ad0f" width="500" height="500">
 
 
@@ -233,6 +242,20 @@ AN ad nterupt f s ar iris! m:
 
 
 ### Self attention with single head on gpu with positional embedding and language model head
+
+According to Andrej karparthy's video, 
+Self attention has three parts: key, query and value.
+These three parts are all tensors comming out from Linear layer with input  tensor.
+
+query means what we are looking for each position in T.
+
+key means what we have for each input tensor in (T,C) format.  
+T means context length in time and C means the number of channels or features.
+
+query dot product key to get weight matrix that specify importance of each time position in T.
+
+value means the information we get from Linear layer for each input tensor in (T,C) format.
+
 Code:
 ```python
 class Head(nn.Module):
@@ -826,6 +849,23 @@ dropout = 0.2
 
 
 Cur param:
+```python
+
+batch_size = 64
+block_size = 256 # what is the maximum context length for predictions
+max_iters = 5000
+eval_interval = 500
+learning_rate = 3e-4
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+# device = 'cpu'
+print('torch cuda available', torch.cuda.is_available())
+eval_iters = 200
+n_embd = 384
+n_head = 6
+n_layer = 6
+# head_size = 16
+dropout = 0.2
+```
 
 Output:
 ```
@@ -847,7 +887,130 @@ is too short.
 
 I see, there is a duplicate definition of `batch_size=4` and `block_size=8` in code.
 Let's try to run again.
+
+
+Output:
+```
+step <built-in function iter>: train loss0.8475, val loss 1.5921
+Time taken: 737.4738621711731 seconds
+
+Had you been such tongues, had love me but my lawful hold;
+For I, shaked hand I for all discoversion,
+To crook his heirs, to his crack that he.
+Caius Marcius Corizelland! Murk'd, I had thou
+Start with your charters, Warwick, remoning the
+powerful leave.
+
+MONTAGUE:
+Once, the teernest thy power!
+
+Second Murderer:
+I will do not say, i' wedded with thy name?
+
+Second Murderer:
+Viello, thou hast affected the king's. Now thou hast
+well a knoss to toe a stuffity thou in followine;
+what thou hast no news
+```
+
+The loss drops to 1.5. There is overfitting.
+The output from model looks better now.
+
+Great.
 ### Full transformer without positional embedding
 
+Output:
+```
+step <built-in function iter>: train loss1.1735, val loss 1.5787
+Time taken: 722.4325501918793 seconds
 
+Had you to 'd?
+
+RTANIO:
+With is a truless peach was fall by that says.
+You will not sleeposed to hand to do on
+Friar that thou should have had not daily in
+Should show well Richard to him as the Antiates,
+And helps in'd blazy smother with a right.
+
+JULIA:
+Then Flather sitter, for grief spirit! ah I must,
+Then goes hared, now his king. To true. My hence
+Be take upon this court-shalt I know.
+
+CAPULET:
+Amen, that I will we stille have nothing
+Would dibedit her friend be rife;
+And then did stuck dis
+```
+
+Train loss is higher when not using positional encoding but val loss is similar.
+
+
+### Load dataset from huggingface locally
+The `datasets` library from Hugging Face allows you to load local dataset files. Here's how you can do it:
+
+If your local file is a CSV or JSON file, you can use the `load_dataset` function with the 'csv' or 'json' parameter, and specify the path to your local file³. Here's an example:
+
+```python
+from datasets import load_dataset
+
+# For a CSV file
+dataset = load_dataset('csv', data_files='path/to/your/file.csv')
+
+# For a JSON file
+dataset = load_dataset('json', data_files='path/to/your/file.json')
+```
+
+Please replace `'path/to/your/file.csv'` and `'path/to/your/file.json'` with the actual paths to your files³.
+
+If you have a dataset saved locally that was previously processed and saved using the `datasets` library's `save_to_disk` method, you can load it using the `load_from_disk` function⁴:
+
+```python
+from datasets import load_from_disk
+
+dataset = load_from_disk('path/to/your/dataset')
+```
+
+Please replace `'path/to/your/dataset'` with the actual path to your dataset⁴.
+
+Remember to handle any errors that might occur when loading the dataset to make your code more robust¹.
+
+
+### Try use another dataset
+I use this persona dataset from hugging face.
+
+[https://huggingface.co/datasets/proj-persona/PersonaHub](https://huggingface.co/datasets/proj-persona/PersonaHub)
+
+Data preprocessing script
+```python
+
+import os
+import torch
+import torch.nn as nn
+from datasets import load_dataset
+dir = '/mnt/nvme1n1/zt/persona_dataset/PersonaHub/'
+
+output_dir='./'
+batch_size = 4
+for file in os.listdir(dir):
+    print(file)
+    if file.endswith('.jsonl'):
+        file_without_suffix = file.split('.')[0]
+        path = os.path.join(dir, file)
+        ds = load_dataset("json", data_files=path )
+        key = 'input persona'
+        if 'input persona' not in ds['train'][0]:
+            continue
+        print(ds['train'][0]['input persona'])
+        print(ds['train'][0]['synthesized text'])
+        output_path = os.path.join(output_dir, file_without_suffix + '.txt')
+        with open(output_path, 'w') as f:
+            for i in range(len(ds['train'])):
+                f.write(ds['train'][i]['input persona'] + '\n')
+                f.write(ds['train'][i]['synthesized text'] + '\n')
+
+```
+
+Everything is the same as before including tokenizer. 
 
