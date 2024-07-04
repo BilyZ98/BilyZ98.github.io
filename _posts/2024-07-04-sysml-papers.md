@@ -39,6 +39,12 @@ other than the job traces. So I won't spend more time reading this paper.
 Does this paper mention llm serving ? 
 
 
+####  Parcae: Proactive, Liveput-Optimized DNN Training on Preemptible Instances
+
+Preemptive scheduling and checkpointing?
+[https://www.usenix.org/conference/nsdi24/presentation/duan](https://www.usenix.org/conference/nsdi24/presentation/duan)
+
+
 
 
 
