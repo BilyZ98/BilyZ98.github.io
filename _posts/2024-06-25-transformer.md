@@ -1014,3 +1014,44 @@ for file in os.listdir(dir):
 
 Everything is the same as before including tokenizer. 
 
+Code:
+
+Small transformer model:
+Output:
+```
+m device cuda:0
+step <built-in function iter>: train loss6.3584, val loss 6.3542
+step <built-in function iter>: train loss2.5460, val loss 2.5392
+step <built-in function iter>: train loss2.3751, val loss 2.3770
+step <built-in function iter>: train loss2.3018, val loss 2.3027
+step <built-in function iter>: train loss2.2458, val loss 2.2467
+step <built-in function iter>: train loss2.2214, val loss 2.2201
+step <built-in function iter>: train loss2.1890, val loss 2.1726
+step <built-in function iter>: train loss2.1662, val loss 2.1680
+step <built-in function iter>: train loss2.1399, val loss 2.1323
+step <built-in function iter>: train loss2.1246, val loss 2.1263
+Time taken: 187.76913928985596 seconds
+        That Reprotionsray explewtrale, and seactivity add ders eserts sor skedsaling.
+
+Te ***: Ats, undives, and ceintilies, provarting onroegose, in insope develourate the venta portital ofcreal as coutwival naginaps tochud vellegican chand in da Stral Vorle.
+3+ **Subre Spione Figsiples and of oon asterst a ow and The wern**: Hure devaleir a keverst and arine wathe pesing gemtunizing happesor ondins toudes storvititiciects.
+3. The talue can-Ed thig SEflichat and lalleD, to a arte's and and expald on c
+```
+
+
+Large model:
+Output:
+```
+step <built-in function iter>: train loss0.9089, val loss 0.9231
+Time taken: 759.7053854465485 seconds
+Total parameters: 11102681
+Trainable parameters: 11102681
+        2. Bruck-Mining and the level of the Nethiopy class, with a focus on the below vasle assems.
+3. **Jasar's "Dayslettle)**: This subsequent fertilization of humor and time was named from the tournament of this women. The creation of forpireʾle artists across sitell signifying water patterns, romantic beefwere data that gained tasting in family.
+
+**Game and Name Implacement: A Improvemented Shaped Story**
+
+A following student football in this growth, typically family, and stigma's approach landscap
+```
+
+Looks better
