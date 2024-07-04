@@ -36,6 +36,8 @@ It mentions that gpu take 65% of power usage.
 I didn't find any other interesting contribution from this paper 
 other than the job traces. So I won't spend more time reading this paper.
 
+Does this paper mention llm serving ? 
+
 
 
 
