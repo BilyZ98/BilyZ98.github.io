@@ -1,4 +1,128 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://bilyz98.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://bilyz98.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-07-04T09:30:21+00:00</updated><id>https://bilyz98.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">System for machine learning papers</title><link href="https://bilyz98.github.io/blog/2024/sysml-papers/" rel="alternate" type="text/html" title="System for machine learning papers"/><published>2024-07-02T11:59:00+00:00</published><updated>2024-07-02T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/sysml-papers</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/sysml-papers/"><![CDATA[<p>For each paper I will give a brief summary and my thoughts on it. I will link each paper to other related papers if possible. Besides, I might add code and related resources if I have time.</p> <p>For most papers I will first read titles and abstract to decide whether I should read the rest part of the paper. This helps me to quickly filter out papers that are interesting to me.</p> <p>So for majority of papers I will make the summary short. For others that are interesting to me, I will write a longer summary.</p> <h4 id="characterization-of-large-language-model-development-in-the-datacenter">Characterization of Large Language Model Development in the Datacenter</h4> <p><a href="https://www.usenix.org/system/files/nsdi24-hu.pdf">https://www.usenix.org/system/files/nsdi24-hu.pdf</a> Summary: This papers studies llm traning job workload in datacenter. It releases job traces in datacenter for training llm. It mentions that gpu take 65% of power usage.</p> <p>I didn’t find any other interesting contribution from this paper other than the job traces. So I won’t spend more time reading this paper.</p> <p>Does this paper mention llm serving ?</p> <h4 id="parcae-proactive-liveput-optimized-dnn-training-on-preemptible-instances">Parcae: Proactive, Liveput-Optimized DNN Training on Preemptible Instances</h4> <p>Preemptive scheduling and checkpointing? <a href="https://www.usenix.org/conference/nsdi24/presentation/duan">https://www.usenix.org/conference/nsdi24/presentation/duan</a></p>]]></content><author><name></name></author><category term="ml"/><category term="mlsys"/><summary type="html"><![CDATA[sysml papers]]></summary></entry><entry><title type="html">nano-gpt and Transformer</title><link href="https://bilyz98.github.io/blog/2024/transformer/" rel="alternate" type="text/html" title="nano-gpt and Transformer"/><published>2024-06-29T11:59:00+00:00</published><updated>2024-06-29T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/transformer</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/transformer/"><![CDATA[<p>Code repo url: <a href="https://github.com/BilyZ98/nano-gpt">https://github.com/BilyZ98/nano-gpt</a></p> <h3 id="vanilla-bigram-model-without-self-attention">Vanilla bigram model without self attention</h3> <p>As mentioned in the youtube video <a href="https://youtu.be/kCc8FmEb1nY?t=2509">https://youtu.be/kCc8FmEb1nY?t=2509</a>, this code builds a bigram model without self attention. We can use this as baseline to compare with self attention code .</p> <p>Issue: can not use torch cuda module even though I have gpu and install cuda pytorch Solution: Tried to install pytorch cuda again Get this error when I tried to install pytroch-cuda:12.1</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ClobberError: This transaction has incompatible packages due to a shared path.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://bilyz98.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://bilyz98.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-07-07T07:42:25+00:00</updated><id>https://bilyz98.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">Fast nano-gpt training</title><link href="https://bilyz98.github.io/blog/2024/gpt-fast/" rel="alternate" type="text/html" title="Fast nano-gpt training"/><published>2024-07-03T11:59:00+00:00</published><updated>2024-07-03T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/gpt-fast</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/gpt-fast/"><![CDATA[<p>In this blog I will document my code and experiment results following karparthy’s latest gpt-2 training tutorial video.</p> <p>The base code on which I build is from this post <a href="./2024-06-25-transformer.md">./2024-06-25-transformer.md</a></p> <iframe width="560" height="315" src="https://www.youtube.com/embed/l8pRSuU81PU?si=2sEmtmn56XBMPTbU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe> <p>[https://youtu.be/l8pRSuU81PU?si=2sEmtmn56XBMPTbU][https://youtu.be/l8pRSuU81PU?si=2sEmtmn56XBMPTbU]</p> <p>Code repo url: <a href="https://github.com/BilyZ98/nano-gpt">https://github.com/BilyZ98/nano-gpt</a></p> <p>What is TFLOPs ? Tera floating point operations per second.</p> <h3 id="weight-sharing">Weight sharing</h3> <p>Share weight of <code class="language-plaintext highlighter-rouge">lm_head</code> and <code class="language-plaintext highlighter-rouge">weight_token_embedding</code> This weight share helps to save memory. This is huge amount of memory. It’s <code class="language-plaintext highlighter-rouge">n_embed * vocab_size</code></p> <h3 id="lower-precision">Lower precision</h3> <p>Default tensor precision:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>model device cuda:0
+m device cuda:0
+torch.float32
+</code></pre></div></div> <p>Without TF32: Memory usage:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Every 1.0s: nvidia-smi                                                                                                               Sat Jul  6 16:51:57 2024
+
+Sat Jul  6 16:51:57 2024
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 525.85.12    Driver Version: 525.85.12    CUDA Version: 12.0     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  NVIDIA A800 80G...  On   | 00000000:4F:00.0 Off |                    0 |
+| N/A   71C    P0   309W / 300W |   5359MiB / 81920MiB |    100%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   1  NVIDIA A800 80G...  On   | 00000000:50:00.0 Off |                    0 |
+| N/A   29C    P0    46W / 300W |      3MiB / 81920MiB |      0%      Default |
+|                               |                      |             Disabled |
+
+</code></pre></div></div> <p>Output:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>step &lt;built-in function iter&gt;: train loss1.1116, val loss 1.1166
+step 4500, loss: 1.1580688953399658, dt: 113.35ms, tok/sec: 144546.60
+Time taken: 739.9126691818237 seconds
+Total parameters: 10921049
+Trainable parameters: 10921049
+        ex is consists of centuries and want-wetlife science method ankners, from the ways wheredco by Benrys, where you're rate ar harm browling preservation in musicians. In Athletes have continuies to munically, and effects create cro-intricate jaz towantical navigating vail respectives to diseariety.
+
+**Befor Hera's Players**
+
+Prannit**
+Infaming the game's early which commercial quirtual health, and mobile exammatring sound in football in pain this visualization involvement, is home to shapel key th
+
+</code></pre></div></div> <p>TF32: Memory usage:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Every 0.1s: nvidia-smi                                                                                                                          Sat Jul  6 17:11:38 2024
+
+Sat Jul  6 17:11:38 2024
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 525.85.12    Driver Version: 525.85.12    CUDA Version: 12.0     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  NVIDIA A800 80G...  On   | 00000000:4F:00.0 Off |                    0 |
+| N/A   64C    P0   309W / 300W |   5359MiB / 81920MiB |     99%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   1  NVIDIA A800 80G...  On   | 00000000:50:00.0 Off |                    0 |
+| N/A   31C    P0    47W / 300W |      3MiB / 81920MiB |      0%      Default |
+|                               |                      |             Disabled |
+</code></pre></div></div> <p>Output</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>step 4998, loss: 1.1807901859283447, dt: 30.66ms, tok/sec: 534324.52
+step 4999, loss: 1.1486560106277466, dt: 30.19ms, tok/sec: 542632.14
+Time taken: 315.7020351886749 seconds
+Total parameters: 10921049
+Trainable parameters: 10921049
+
+
+* Nuriety pattern to Play blogge: The misssiol strategies and transfolk to wo halley focused our work's own forecative ar unique planning. This articiples in the Laine Golden
+
+The Host Potential's top init's experienterment and its particular type and regional warveillance. In this article, I'll shedd a fascinat words contributies and other athlete's early what draw from genre, col up jands, lim body eparthory, there ancient work of pairitization criticallysis.
+
+**Addition Enthusiast Players**
+~
+</code></pre></div></div> <p>Memory usage does not change much. But the training speed is much faster.</p> <p>With BF16 Memory usage</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Every 0.1s: nvidia-smi                                                                                                                          Sat Jul  6 17:19:50 2024
+
+Sat Jul  6 17:19:50 2024
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 525.85.12    Driver Version: 525.85.12    CUDA Version: 12.0     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  NVIDIA A800 80G...  On   | 00000000:4F:00.0 Off |                    0 |
+| N/A   61C    P0   280W / 300W |   5493MiB / 81920MiB |     98%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   1  NVIDIA A800 80G...  On   | 00000000:50:00.0 Off |                    0 |
+| N/A   32C    P0    47W / 300W |      3MiB / 81920MiB |      0%      Default |
+|                               |                      |             Disabled |
+</code></pre></div></div> <p>Output:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>step &lt;built-in function iter&gt;: train loss1.1083, val loss 1.1138
+step 4500, loss: 1.149060606956482, dt: 46.36ms, tok/sec: 353409.81
+Time taken: 323.1115171909332 seconds
+Total parameters: 10921049
+Trainable parameters: 10921049
+
+
+* Thre-known variety is Mobile time forishing and a Piece**
+
+Lerious la trend ammach focusion solus, the ways can date on how theselves presents, and cleaning ung time. While the Long-Anti Central to mitigate efforts, referred time
+
+1. The Ritowastic Qrench Literian ass make-had a numberous unfounded women's explore a court of texture or the engage's earching try of from generating secrets. This benefit for a deterrmining movie excebrations, which its form its applyestriants. By regulating the
+
+</code></pre></div></div> <p>It’s not faster. Why is that?</p> <h3 id="-trochcompile">+ troch.compile()</h3> <p>Got this error duing runtime. So I downgrade the python version to 3.11</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Traceback (most recent call last):
+  File "/GPUFS/nsccgz_qylin_1/zt/gpt-dev/persona_gpt.py", line 236, in &lt;module&gt;
+    model = torch.compile(model)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "/GPUFS/nsccgz_qylin_1/miniconda3/envs/nano-gpt/lib/python3.12/site-packages/torch/__init__.py", line 1868, in compile
+    raise RuntimeError("Dynamo is not supported on Python 3.12+")
+RuntimeError: Dynamo is not supported on Python 3.12+
+</code></pre></div></div> <p>Got another error</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/tmp/tmpd5t0oroc/main.c: In function ‘list_to_cuuint64_array’:
+/tmp/tmpd5t0oroc/main.c:354:3: error: ‘for’ loop initial declarations are only allowed in C99 mode
+   for (Py_ssize_t i = 0; i &lt; len; i++) {
+   ^
+/tmp/tmpd5t0oroc/main.c:354:3: note: use option -std=c99 or -std=gnu99 to compile your code
+/tmp/tmpd5t0oroc/main.c: In function ‘list_to_cuuint32_array’:
+/tmp/tmpd5t0oroc/main.c:365:3: error: ‘for’ loop initial declarations are only allowed in C99 mode
+   for (Py_ssize_t i = 0; i &lt; len; i++) {
+   ^
+/tmp/tmp0td94o5b/main.c: In function ‘list_to_cuuint64_array’:
+/tmp/tmp0td94o5b/main.c:354:3: error: ‘for’ loop initial declarations are only allowed in C99 mode
+   for (Py_ssize_t i = 0; i &lt; len; i++) {
+   ^
+</code></pre></div></div> <p>I install latest gcc version . Old version is 4.8.5 Fix error above.</p> <p>Output</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>step &lt;built-in function iter&gt;: train loss1.1037, val loss 1.1087
+step 4500, loss: 1.151484727859497, dt: 23.18ms, tok/sec: 706728.75
+Time taken: 285.365624666214 seconds
+Total parameters: 10921049
+Trainable parameters: 10921049
+         emphasizing the parming of a spirit on the development conouches tended from the factor, such as jailust power traffice, and ixo, these can serve the alternatively takes part in processed.
+
+**4. Inform 4applications Movements**
+
+1. **Mush Secrets:** Students in Parleers (airl Warrioring change: Bhern Keshedmn) world, as initial do other basebar from leagues, to employ create messaters and their immpact on our camido opportunities. Its gain political windows, proteins and resoling affian languag
+~
+</code></pre></div></div>]]></content><author><name></name></author><category term="ml"/><category term="ml"/><category term="ai"/><category term="llm"/><summary type="html"><![CDATA[llm]]></summary></entry><entry><title type="html">System for machine learning papers</title><link href="https://bilyz98.github.io/blog/2024/sysml-papers/" rel="alternate" type="text/html" title="System for machine learning papers"/><published>2024-07-02T11:59:00+00:00</published><updated>2024-07-02T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/sysml-papers</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/sysml-papers/"><![CDATA[<p>For each paper I will give a brief summary and my thoughts on it. I will link each paper to other related papers if possible. Besides, I might add code and related resources if I have time.</p> <p>For most papers I will first read titles and abstract to decide whether I should read the rest part of the paper. This helps me to quickly filter out papers that are interesting to me.</p> <p>So for majority of papers I will make the summary short. For others that are interesting to me, I will write a longer summary.</p> <h4 id="characterization-of-large-language-model-development-in-the-datacenter">Characterization of Large Language Model Development in the Datacenter</h4> <p><a href="https://www.usenix.org/system/files/nsdi24-hu.pdf">https://www.usenix.org/system/files/nsdi24-hu.pdf</a></p> <p>Summary: This papers studies llm traning job workload in datacenter. It releases job traces in datacenter for training llm. It mentions that gpu take 65% of power usage.</p> <p>I didn’t find any other interesting contribution from this paper other than the job traces. So I won’t spend more time reading this paper.</p> <p>Does this paper mention llm serving ?</p> <h4 id="parcae-proactive-liveput-optimized-dnn-training-on-preemptible-instances">Parcae: Proactive, Liveput-Optimized DNN Training on Preemptible Instances</h4> <p>Preemptive scheduling and checkpointing? <a href="https://www.usenix.org/conference/nsdi24/presentation/duan">https://www.usenix.org/conference/nsdi24/presentation/duan</a></p>]]></content><author><name></name></author><category term="ml"/><category term="mlsys"/><summary type="html"><![CDATA[sysml papers]]></summary></entry><entry><title type="html">nano-gpt and Transformer</title><link href="https://bilyz98.github.io/blog/2024/transformer/" rel="alternate" type="text/html" title="nano-gpt and Transformer"/><published>2024-06-29T11:59:00+00:00</published><updated>2024-06-29T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/transformer</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/transformer/"><![CDATA[<p>Code repo url: <a href="https://github.com/BilyZ98/nano-gpt">https://github.com/BilyZ98/nano-gpt</a></p> <h3 id="vanilla-bigram-model-without-self-attention">Vanilla bigram model without self attention</h3> <p>As mentioned in the youtube video <a href="https://youtu.be/kCc8FmEb1nY?t=2509">https://youtu.be/kCc8FmEb1nY?t=2509</a>, this code builds a bigram model without self attention. We can use this as baseline to compare with self attention code .</p> <p>Issue: can not use torch cuda module even though I have gpu and install cuda pytorch Solution: Tried to install pytorch cuda again Get this error when I tried to install pytroch-cuda:12.1</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ClobberError: This transaction has incompatible packages due to a shared path.
   packages: https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/linux-64::jpeg-9e-h5eee18b_1, pytorch/linux-64::libjpeg-turbo-2.0.0-h9bf148f_0
   path: 'share/man/man1/rdjpgcom.1'
 
@@ -740,7 +864,34 @@ Trainable parameters: 11102681
 **Game and Name Implacement: A Improvemented Shaped Story**
 
 A following student football in this growth, typically family, and stigma's approach landscap
-</code></pre></div></div> <p>Looks better</p>]]></content><author><name></name></author><category term="ml"/><category term="ml"/><category term="ai"/><category term="llm"/><summary type="html"><![CDATA[llm]]></summary></entry><entry><title type="html">pytorch tensor.to</title><link href="https://bilyz98.github.io/blog/2024/pytorch/" rel="alternate" type="text/html" title="pytorch tensor.to"/><published>2024-06-28T11:59:00+00:00</published><updated>2024-06-28T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/pytorch</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/pytorch/"><![CDATA[<h2 id="move-tensor-to-cuda-with-different-name-returned">Move tensor to cuda with different name returned</h2> <p>Question: can I still use model to do training when I have following code ? In this code, I assign m to tensor on cuda. But I am not sure whether I can still use model to do back propagation</p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="nc">BigramLanguageModel</span><span class="p">()</span>
+</code></pre></div></div> <p>Looks better</p> <p>Even larger model: Params:</p> <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="n">block_size</span> <span class="o">=</span> <span class="mi">256</span> <span class="c1"># what is the maximum context length for predictions
+</span><span class="n">max_iters</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="n">eval_interval</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">3e-4</span>
+<span class="n">device</span> <span class="o">=</span> <span class="sh">'</span><span class="s">cuda</span><span class="sh">'</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="sh">'</span><span class="s">cpu</span><span class="sh">'</span>
+<span class="c1"># device = 'cpu'
+</span><span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">torch cuda available</span><span class="sh">'</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">())</span>
+<span class="n">eval_iters</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">n_embd</span> <span class="o">=</span> <span class="mi">384</span>
+<span class="n">n_head</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">n_layer</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="c1"># head_size = 16
+</span><span class="n">dropout</span> <span class="o">=</span> <span class="mf">0.2</span>
+
+</code></pre></div></div> <p>Spent 6 times longer training time. We do see loss decrease though.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>step &lt;built-in function iter&gt;: train loss0.7625, val loss 0.7859
+Time taken: 4855.381325721741 seconds
+Total parameters: 43635161
+Trainable parameters: 43635161
+        ll share stories that lessons they continue to have on Florist and the planet.
+
+**Recent Recent Recognition: A Deep Dive into Your Authority**
+
+When you begin to take a complex, it's essential. Our young music and information of florist taga), recognize the significance of "Rent Recognition in Baltin." This taggaent's contributions to fats of art, pushing it uses to engage with their examples with a similar panel that draw upon trade with fragmented flowing and dawn.
+
+* Pay Flowing: Weed With a
+</code></pre></div></div> <p>There is gpu memory usage flunctuation during training. Why is that?</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>watch -n 0.1 nvidia-smi
+</code></pre></div></div>]]></content><author><name></name></author><category term="ml"/><category term="ml"/><category term="ai"/><category term="llm"/><summary type="html"><![CDATA[llm]]></summary></entry><entry><title type="html">pytorch tensor.to</title><link href="https://bilyz98.github.io/blog/2024/pytorch/" rel="alternate" type="text/html" title="pytorch tensor.to"/><published>2024-06-28T11:59:00+00:00</published><updated>2024-06-28T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/pytorch</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/pytorch/"><![CDATA[<h2 id="move-tensor-to-cuda-with-different-name-returned">Move tensor to cuda with different name returned</h2> <p>Question: can I still use model to do training when I have following code ? In this code, I assign m to tensor on cuda. But I am not sure whether I can still use model to do back propagation</p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="nc">BigramLanguageModel</span><span class="p">()</span>
 <span class="n">m</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
 
 </code></pre></div></div> <p>Yes, you can still use the <code class="language-plaintext highlighter-rouge">model</code> for training and backpropagation. When you do <code class="language-plaintext highlighter-rouge">m = model.to(device)</code>, it doesn’t create a new model. Instead, it moves the <code class="language-plaintext highlighter-rouge">model</code> to the specified <code class="language-plaintext highlighter-rouge">device</code> (which is presumably a CUDA device in your case) and returns a reference to the same model. So, <code class="language-plaintext highlighter-rouge">m</code> and <code class="language-plaintext highlighter-rouge">model</code> are actually the same model, just accessed through different names.</p> <p>Here’s an example of how you might use it:</p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="nc">BigramLanguageModel</span><span class="p">()</span>
@@ -1414,325 +1565,4 @@ spec:
 </span></code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl exec -it pvc-inspector -- sh
 $ ls /pvc
 </code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl delete pod pvc-inspector
-</code></pre></div></div>]]></content><author><name></name></author><category term="cloud"/><category term="cloud"/><category term="k8s"/><summary type="html"><![CDATA[k8s minikune]]></summary></entry><entry><title type="html">Difference between Dockerfile and Docker Compose</title><link href="https://bilyz98.github.io/blog/2024/difference-between-dockerfile-and-docker-compose/" rel="alternate" type="text/html" title="Difference between Dockerfile and Docker Compose"/><published>2024-06-16T07:31:03+00:00</published><updated>2024-06-16T07:31:03+00:00</updated><id>https://bilyz98.github.io/blog/2024/difference-between-dockerfile-and-docker-compose</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/difference-between-dockerfile-and-docker-compose/"><![CDATA[]]></content><author><name></name></author></entry><entry><title type="html">Docker Rocksdb build</title><link href="https://bilyz98.github.io/blog/2024/docker-rocksdb-build/" rel="alternate" type="text/html" title="Docker Rocksdb build"/><published>2024-06-16T07:29:37+00:00</published><updated>2024-06-16T07:29:37+00:00</updated><id>https://bilyz98.github.io/blog/2024/docker-rocksdb-build</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/docker-rocksdb-build/"><![CDATA[]]></content><author><name></name></author></entry><entry><title type="html">K3s beginner</title><link href="https://bilyz98.github.io/blog/2024/k3s/" rel="alternate" type="text/html" title="K3s beginner"/><published>2024-06-14T11:59:00+00:00</published><updated>2024-06-14T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/k3s</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/k3s/"><![CDATA[<h2 id="whats-k3s-and-why-we-need-it-">What’s K3s and why we need it ?</h2> <p>K3s is a lightweight distribution of k8s to make k8s accessible in resource-constrained environments. Advantages of k3s:</p> <ol> <li>Size and efficiency</li> <li>Easy to install</li> <li>Some built-in tools</li> </ol> <h2 id="install">Install</h2> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-sfL</span> https://get.k3s.io | sh -
-</code></pre></div></div> <p>Check k3s process status</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> systemctl status k3s.service
-</code></pre></div></div> <p>Got this issue <code class="language-plaintext highlighter-rouge">FATA[0000] starting kubernetes: preparing server: init cluster datastore and https: listen tcp :6443: bind: address already in use</code> Solutions:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo lsof -i :6443 
-sudo kill -9 $(sudo lsof -t -i:6443)
-
-sudo kill -9 &lt;PID&gt;
-sudo systemctl restart k3s
-</code></pre></div></div> <p>Issue: Not able to get k3s cluster status.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> kubectl get all -n kube-system
-
-E0616 16:26:56.936188 1761783 memcache.go:265] couldn't get current server API group list: Get "https://192.168.49.2:8443/api?timeout=32s": dial tcp 192.168.49.2:8443: connect: no route to host
-E0616 16:27:00.007979 1761783 memcache.go:265] couldn't get current server API group list: Get "https://192.168.49.2:8443/api?timeout=32s": dial tcp 192.168.49.2:8443: connect: no route to host
-E0616 16:27:03.080047 1761783 memcache.go:265] couldn't get current server API group list: Get "https://192.168.49.2:8443/api?timeout=32s": dial tcp 192.168.49.2:8443: connect: no route to host
-</code></pre></div></div> <p>I have install k8s on this node before. So I think the issue is that I do not copy the k3s config to <code class="language-plaintext highlighter-rouge">.kube</code> folder. Tried that</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Copy K3s kubeconfig to ~/.kube/config</span>
-<span class="nb">sudo cp</span> /etc/rancher/k3s/k3s.yaml ~/.kube/config
-
-<span class="c"># Change the owner of the config file to the current user</span>
-<span class="nb">sudo chown</span> <span class="nv">$USER</span> ~/.kube/config
-
- kubectl get all <span class="nt">-n</span> kube-system
-</code></pre></div></div> <p>Now I am able to get k3s cluster status.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NAME                                          READY   STATUS      RESTARTS   AGE
-pod/coredns-6799fbcd5-2s8tn                   1/1     Running     0          46m
-pod/local-path-provisioner-6c86858495-sfghq   1/1     Running     0          46m
-pod/helm-install-traefik-crd-22tc9            0/1     Completed   0          46m
-pod/helm-install-traefik-976dn                0/1     Completed   1          46m
-pod/metrics-server-54fd9b65b-g5k5z            1/1     Running     0          46m
-pod/svclb-traefik-ee33812d-mvwjp              2/2     Running     0          45m
-pod/traefik-7d5f6474df-fjdgf                  1/1     Running     0          45m
-
-NAME                     TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
-service/kube-dns         ClusterIP      10.43.0.10     &lt;none&gt;        53/UDP,53/TCP,9153/TCP       46m
-service/metrics-server   ClusterIP      10.43.199.96   &lt;none&gt;        443/TCP                      46m
-service/traefik          LoadBalancer   10.43.62.153   28.10.10.62   80:30148/TCP,443:30314/TCP   45m
-</code></pre></div></div> <p>Check this article to know more about installing k3s on ubuntu <a href="https://www.digitalocean.com/community/tutorials/how-to-setup-k3s-kubernetes-cluster-on-ubuntu">https://www.digitalocean.com/community/tutorials/how-to-setup-k3s-kubernetes-cluster-on-ubuntu</a></p> <h2 id="k3s-use-local-docker-image">K3s use local docker image</h2> <p>If you have a Docker image on your local machine and you want to use it in a Kubernetes cluster, you can follow these steps:</p> <ol> <li> <p><strong>Tag your image</strong>: Tag the Docker image with a version number. For example, if your image is named <code class="language-plaintext highlighter-rouge">my-image</code> and you want to tag it as <code class="language-plaintext highlighter-rouge">v1</code>, you can use the following command:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker tag my-image:latest my-image:v1
-</code></pre></div> </div> </li> <li> <p><strong>Load the image into your nodes</strong>: If you’re using Minikube, you can use the <code class="language-plaintext highlighter-rouge">minikube docker-env</code> command to configure your current shell to use Minikube’s Docker daemon, then use <code class="language-plaintext highlighter-rouge">docker save</code> and <code class="language-plaintext highlighter-rouge">docker load</code> to move your image. If you’re using K3s, you can load the image directly into the K3s nodes using <code class="language-plaintext highlighter-rouge">ctr</code>:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker save my-image:v1 | ctr <span class="nt">-n</span> k8s.io images import -
-</code></pre></div> </div> </li> <li> <p><strong>Use the image in Kubernetes</strong>: Now you can use your image in a Kubernetes pod. Here’s an example of a pod specification:</p> <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
- <span class="na">kind</span><span class="pi">:</span> <span class="s">Pod</span>
- <span class="na">metadata</span><span class="pi">:</span>
-   <span class="na">name</span><span class="pi">:</span> <span class="s">my-pod</span>
- <span class="na">spec</span><span class="pi">:</span>
-   <span class="na">containers</span><span class="pi">:</span>
-   <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">my-container</span>
-     <span class="na">image</span><span class="pi">:</span> <span class="s">my-image:v1</span>
-</code></pre></div> </div> </li> </ol> <p>Remember to replace <code class="language-plaintext highlighter-rouge">my-image:v1</code> with your actual image name and tag.</p> <h2 id="difference-between-deployment-and-pod">Difference between Deployment and Pod</h2> <p>A Pod is a group of one or more containers, with shared storage/network resources, and a specification for how to run the containers. A Pod’s contents are always co-located and co-scheduled, and run in a shared context. A basic pod definition for running a single container of nginx</p> <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
-<span class="na">kind</span><span class="pi">:</span> <span class="s">Pod</span>
-<span class="na">metadata</span><span class="pi">:</span>
-  <span class="na">name</span><span class="pi">:</span> <span class="s">nginx-pod</span>
-<span class="na">spec</span><span class="pi">:</span>
-  <span class="na">containers</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">nginx-container</span>
-    <span class="na">image</span><span class="pi">:</span> <span class="s">nginx:1.14.2</span>
-</code></pre></div></div> <p>A Deployment is a higher-level concept that manages Pods and provides declarative updates to Pods along with a lot of other useful features. Therefore, a Deployment is a higher-level concept that manages ReplicaSets and Pods. A basic deployment configution</p> <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiversion</span><span class="pi">:</span> <span class="s">apps/v1</span>
-<span class="na">kind</span><span class="pi">:</span> <span class="s">Deployment</span>
-<span class="na">metadata</span><span class="pi">:</span>
-    <span class="na">name</span><span class="pi">:</span> <span class="s">nginx-deployment</span>
-    <span class="na">labels</span><span class="pi">:</span>
-        <span class="na">app</span><span class="pi">:</span> <span class="s">nginx</span>
-<span class="na">spec</span><span class="pi">:</span>
-    <span class="na">replicas</span><span class="pi">:</span> <span class="m">2</span>
-    <span class="na">selector</span><span class="pi">:</span>
-        <span class="na">matchLabels</span><span class="pi">:</span>
-            <span class="na">app</span><span class="pi">:</span> <span class="s">nginx</span>
-    <span class="na">template</span><span class="pi">:</span>
-        <span class="na">metadata</span><span class="pi">:</span>
-            <span class="na">labels</span><span class="pi">:</span>
-                <span class="na">app</span><span class="pi">:</span> <span class="s">nginx</span>
-        <span class="na">spec</span><span class="pi">:</span>
-            <span class="na">containers</span><span class="pi">:</span>
-            <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">nginx-container</span>
-            <span class="na">image</span><span class="pi">:</span> <span class="s">nginx:1.14.2</span>
-            <span class="na">ports</span><span class="pi">:</span>
-                <span class="pi">-</span> <span class="na">containerPort</span><span class="pi">:</span> <span class="m">80</span>
-</code></pre></div></div> <p>Deployments wrap pod definition, providing additional management layer. Pods reqquire manual updates and intervention for deploying and scaling Deployments enable automatic updates, rollbacks and scaling.</p> <p>Issue: Still could not pull image from local</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Events:
-  Type     Reason     Age   From               Message
-  ----     ------     ----  ----               -------
-  Normal   Scheduled  2s    default-scheduler  Successfully assigned default/rocksdb-74cc66c9d6-fhsz5 to common-testbed
-  Normal   Pulling    2s    kubelet            Pulling image "docker.io/rocksdb:v1"
-  Warning  Failed     0s    kubelet            Failed to pull image "docker.io/rocksdb:v1": failed to pull and unpack image "docker.io/library/rocksdb:v1": failed to resolve reference "docker.io/library/rocksdb:v1": pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
-  Warning  Failed     0s    kubelet            Error: ErrImagePull
-</code></pre></div></div> <p>Solution: Try to push image to docker.io and pull from it. Sure, here’s a basic example of how you can push a Docker image to Docker Hub (docker.io) and then use that image in a Kubernetes deployment YAML file.</p> <p>First, you need to tag your Docker image with the Docker Hub username and repository name:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker tag local-image:tag yourusername/yourrepository:tag
-</code></pre></div></div> <p>Then, you can push the Docker image to Docker Hub:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker push yourusername/yourrepository:tag
-</code></pre></div></div> <p>After pushing the image to Docker Hub, you can use it in a Kubernetes deployment YAML file:</p> <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">apps/v1</span>
-<span class="na">kind</span><span class="pi">:</span> <span class="s">Deployment</span>
-<span class="na">metadata</span><span class="pi">:</span>
-  <span class="na">name</span><span class="pi">:</span> <span class="s">your-deployment</span>
-<span class="na">spec</span><span class="pi">:</span>
-  <span class="na">selector</span><span class="pi">:</span>
-    <span class="na">matchLabels</span><span class="pi">:</span>
-      <span class="na">app</span><span class="pi">:</span> <span class="s">your-app</span>
-  <span class="na">replicas</span><span class="pi">:</span> <span class="m">3</span>
-  <span class="na">template</span><span class="pi">:</span>
-    <span class="na">metadata</span><span class="pi">:</span>
-      <span class="na">labels</span><span class="pi">:</span>
-        <span class="na">app</span><span class="pi">:</span> <span class="s">your-app</span>
-    <span class="na">spec</span><span class="pi">:</span>
-      <span class="na">containers</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">your-app</span>
-        <span class="na">image</span><span class="pi">:</span> <span class="s">yourusername/yourrepository:tag</span>
-        <span class="na">ports</span><span class="pi">:</span>
-        <span class="pi">-</span> <span class="na">containerPort</span><span class="pi">:</span> <span class="m">8080</span>
-</code></pre></div></div> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker tag rocksdb:latest zzt1234/test-rocksdb:v2
-docker push zzt1234/test-rocksdb:v2
-</code></pre></div></div> <p>In this YAML file, replace <code class="language-plaintext highlighter-rouge">yourusername/yourrepository:tag</code> with the Docker Hub username, repository name, and tag you used earlier. This will pull the image from Docker Hub and use it for the Kubernetes deployment.</p> <p>Please replace <code class="language-plaintext highlighter-rouge">yourusername</code>, <code class="language-plaintext highlighter-rouge">yourrepository</code>, <code class="language-plaintext highlighter-rouge">tag</code>, <code class="language-plaintext highlighter-rouge">your-deployment</code>, <code class="language-plaintext highlighter-rouge">your-app</code>, and <code class="language-plaintext highlighter-rouge">8080</code> with your actual values. Also, make sure you’re logged in to Docker Hub in the environment where you’re running these commands. You can do this using the <code class="language-plaintext highlighter-rouge">docker login</code> command.</p> <p>Remember to apply the deployment using <code class="language-plaintext highlighter-rouge">kubectl apply -f your-deployment.yaml</code>.</p> <p>Another issue: Still can not start container successfully. Want to check logs of container but failed to connect to it</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl logs rocksdb-57c5b55686-mnwvr rocksdb
-</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  docker git:(master) ✗ systemctl status kubelet
-● kubelet.service - kubelet: The Kubernetes Node Agent
-     Loaded: loaded (/lib/systemd/system/kubelet.service; enabled; vendor preset: enabled)
-    Drop-In: /etc/systemd/system/kubelet.service.d
-             └─10-kubeadm.conf
-     Active: activating (auto-restart) (Result: exit-code) since Mon 2024-06-17 17:03:06 HKT; 5s ago
-       Docs: https://kubernetes.io/docs/home/
-    Process: 1458057 ExecStart=/usr/bin/kubelet $KUBELET_KUBECONFIG_ARGS $KUBELET_CONFIG_ARGS $KUBELET_KUBEADM_ARGS $KUBELET_EXTRA_ARGS (code=exited, status&gt;   Main PID: 1458057 (code=exited, status=1/FAILURE)
-</code></pre></div></div> <p>Not able</p> <p>Asked bingchat to give me solutions for how to solve this kubelet connection problem</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>journalctl -u kubelet
-</code></pre></div></div> <p>Get this log output</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>May 12 02:49:40 common-testbed kubelet[3632]: E0512 02:49:40.413488    3632 controller.go:146] "Failed to ensure lease exists, will retry" err="leases.coordination.k8s&gt;May 12 02:49:44 common-testbed kubelet[3632]: I0512 02:49:44.813157    3632 kubelet_node_status.go:70] "Attempting to register node" node="common-testbed"
-May 12 02:49:44 common-testbed kubelet[3632]: E0512 02:49:44.816687    3632 kubelet_node_status.go:92] "Unable to register node with API server" err="nodes \"common-te&gt;May 12 02:49:47 common-testbed kubelet[3632]: E0512 02:49:47.110624    3632 eviction_manager.go:258] "Eviction manager: failed to get summary stats" err="failed to get&gt;May 12 02:49:47 common-testbed kubelet[3632]: E0512 02:49:47.416828    3632 controller.go:146] "Failed to ensure lease exists, will retry" err="leases.coordination.k8s&gt;May 12 02:49:48 common-testbed kubelet[3632]: E0512 02:49:48.872385    3632 dns.go:153] "Nameserver limits exceeded" err="Nameserver limits were exceeded, some nameser&gt;May 12 02:49:50 common-testbed kubelet[3632]: E0512 02:49:50.873045    3632 dns.go:153] "Nameserver limits exceeded" err="Nameserver limits were exceeded, some nameser&gt;May 12 02:49:51 common-testbed kubelet[36
-</code></pre></div></div> <p>So now I decide to restart kubelet service for k3s because this kubelet service was started for previous k8s cluster. I am not sure if there is any domain name issue with it. I don’t know how to solve this problem properly so I decided to reinstall kubelet service.</p> <p>Failed to execute kubectl command after replacing k3s.service file content new(not working):</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Unit]
-Description=Lightweight Kubernetes
-Documentation=https://k3s.io
-After=network-online.target
-
-[Service]
-ExecStart=/usr/local/bin/k3s \
-    server \
-    --kubelet-arg='address=0.0.0.0' \
-    --kubelet-arg='anonymous-auth=false' \
-    --kubelet-arg='authentication-token-webhook=true' \
-    --kubelet-arg='authorization-mode=Webhook' \
-    --kubelet-arg='client-ca-file=/var/lib/rancher/k3s/server/tls/client-ca.crt' \
-    --kubelet-arg='tls-cert-file=/var/lib/rancher/k3s/server/tls/kubelet.crt' \
-    --kubelet-arg='tls-private-key-file=/var/lib/rancher/k3s/server/tls/kubelet.key'
-KillMode=process
-Delegate=yes
-LimitNOFILE=infinity
-LimitNPROC=infinity
-LimitCORE=infinity
-TasksMax=infinity
-Restart=always
-RestartSec=5s
-
-[Install]
-WantedBy=multi-user.target
-
-</code></pre></div></div> <p>old</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Unit]
-Description=Lightweight Kubernetes
-Documentation=https://k3s.io
-Wants=network-online.target
-After=network-online.target
-
-[Install]
-WantedBy=multi-user.target
-
-[Service]
-Type=notify
-EnvironmentFile=-/etc/default/%N
-EnvironmentFile=-/etc/sysconfig/%N
-EnvironmentFile=-/etc/systemd/system/k3s.service.env
-KillMode=process
-Delegate=yes
-# Having non-zero Limit*s causes performance problems due to accounting overhead
-# in the kernel. We recommend using cgroups to do container-local accounting.
-LimitNOFILE=1048576
-LimitNPROC=infinity
-LimitCORE=infinity
-TasksMax=infinity
-TimeoutStartSec=0
-Restart=always
-RestartSec=5s
-ExecStartPre=/bin/sh -xc '! /usr/bin/systemctl is-enabled --quiet nm-cloud-setup.service 2&gt;/dev/null'
-ExecStartPre=-/sbin/modprobe br_netfilter
-ExecStartPre=-/sbin/modprobe overlay
-ExecStart=/usr/local/bin/k3s \
-    server \
-    --kubelet-arg='address=0.0.0.0' \
-    --kubelet-arg='anonymous-auth=false' \
-    --kubelet-arg='authentication-token-webhook=true' \
-    --kubelet-arg='authorization-mode=Webhook' \
-    --kubelet-arg='client-ca-file=/var/lib/rancher/k3s/server/tls/client-ca.crt' \
-    --kubelet-arg='tls-cert-file=/var/lib/rancher/k3s/server/tls/kubelet.crt' \
-    --kubelet-arg='tls-private-key-file=/var/lib/rancher/k3s/server/tls/kubelet.key'
-</code></pre></div></div> <p>Got error port:6443 already in use Tried to delete all processes that use 6443 First, need to stop kubelet service because it uses 6443 port</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo systemctl stop kubelet
-</code></pre></div></div> <p>Then check the process that uses 6443 port</p> <p>I found that there is obsolete content in kubelet starting file</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/kubelet --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --kubeconfig=/etc/kubernetes/kubelet.conf --config=/var/lib/kubel
-sudo vim /etc/kubernetes/kubelet.conf
-
-</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apiVersion: v1
-clusters:
-- cluster:
-    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJSkFNTXZ6a0h3ZWN3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TXpFeU1qa3dPVEUxTXpGYUZ3MHpNekV5TWpZd09USXdNekZhTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUURiVWhXYlg1a241M0xLbHVDa2kzME96QUloR3ltVFdEdS9xZjlOUU1JcmtXdnoybUp6M2ptNHAzSFMKbllkY01RKytpL2FxVDN5MDNuSDhycXZ3ZFVRWnVsSS9xTXQreFdOTVg3V0NHR3lqOEhDY0JtdXdaT1A4WjE3dApBNVByNFRrM3VJOFNHMnJoRTBtTithMk5rQnVCZjNFRnR4NllPUnByKytneUtmMmxhQTlqV1A2cytML1plWi94CktYaFRicittclBPbTlXMXBxYnVwamJNNkJJUmROU0dYcWRiL0orcVRabDNQcStZZmtUaHJ6VjU3ZG9rOVBEWUEKMXd1MW8yZ3RMUTBISGcwb2R4V1ZyN2ZKenhNSXU0bWJ5ZGZiUTRPU2g2T2dDNzlNdFEvOGFtQ1hFTlJxK2RPaQo0TUhSQlNGZTh2K0FDMmQwY2NndjRkV1hURm1UQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJSaEpoNUkvdys0c1diNjNlcXYycklqOEd2ekhEQVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQUR2OWU4T2dRNAoybzBJeUg5OFg2aDI0TnIrbEQ3R1o3KzBDUzdYcnZsYWtrV1hwT3RLYmRVWDI5Y3BPZ2p4WHZLV2NqMzhtK0wxCmJwWUlRK3Q0bXh0SmFlZVJlT2FzcXJzZVBQbC9POFMxRTlxN2xGd2dNWWs4amc3SVFjeHU5QzJBNG5OOGgxeXQKdU1qWi9mUXlkUmdMSkhnYm15Vkw5NGtpZndSOWxJM0RZTExwM2dlYTQ4ejBFZ0ZpOERoVXkrZ1llVDk5dzZXaQp0YmtFNHRTZ05jZFNjS2ZFMDNvTnFrUXJ4dkJXc1lOZnlOS0dPclV1YTNVTjhqN2NRcHFOa0plRlhxTUhsT0sxCmtJbi9XOVl4UC9rWGx2UkIvZXFiTC9uVlYxeTg4SC9tWGFsNHlIZ1owckNOSm1SOW9vRHJsVS9aRWtpMWRZeEIKdzdhdjFMOFU2M1BaCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
-    server: https://28.10.10.62:6443
-  name: kubernetes
-contexts:
-- context:
-    cluster: kubernetes
-    user: system:node:k8s-master
-  name: system:node:k8s-master@kubernetes
-current-context: system:node:k8s-master@kubernetes
-kind: Config
-preferences: {}
-users:
-- name: system:node:k8s-master
-  user:
-    client-certificate: /var/lib/kubelet/pki/kubelet-client-current.pem
-    client-key: /var/lib/kubelet/pki/kubelet-client-current.pem
-</code></pre></div></div> <p>So what I need to do now is to uninstall kubelet or clean config file. I don’t know the exact relationship between kubelet and k3s yet.</p> <p>I run this command to remove all existing service and clean config files</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo kubeadm reset --cleanup-tmp-dir -f --cri-socket=unix:///run/containerd/containerd.sock
-
-[reset] Reading configuration from the cluster...
-[reset] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -o yaml'
-[preflight] Running pre-flight checks
-[reset] Deleted contents of the etcd data directory: /var/lib/etcd
-[reset] Stopping the kubelet service
-[reset] Unmounting mounted directories in "/var/lib/kubelet"
-[reset] Deleting contents of directories: [/etc/kubernetes/manifests /var/lib/kubelet /etc/kubernetes/pki /etc/kubernetes/tmp]
-[reset] Deleting files: [/etc/kubernetes/admin.conf /etc/kubernetes/kubelet.conf /etc/kubernetes/bootstrap-kubelet.conf /etc/kubernetes/controller-manager.conf /etc/kubernetes/scheduler.conf]
-
-The reset process does not clean CNI configuration. To do so, you must remove /etc/cni/net.d
-
-The reset process does not reset or clean up iptables rules or IPVS tables.
-If you wish to reset iptables, you must do so manually by using the "iptables" command.
-
-If your cluster was setup to utilize IPVS, run ipvsadm --clear (or similar)
-to reset your system's IPVS tables.
-
-The reset process does not clean your kubeconfig files and you must remove them manually.
-Please, check the contents of the $HOME/.kube/config file.
-</code></pre></div></div> <p>Clear original k8s installment including kubeadm, kubectl, kubulet. Uninstalling Kubernetes involves removing various components including <code class="language-plaintext highlighter-rouge">kubelet</code>, <code class="language-plaintext highlighter-rouge">kubeadm</code>, <code class="language-plaintext highlighter-rouge">kubectl</code>, and the <code class="language-plaintext highlighter-rouge">.kube</code> configuration directory. Here’s a general guide on how you can do it:</p> <ol> <li><strong>Drain and delete the nodes</strong>: If you have a multi-node setup, you need to drain the nodes before deleting them. Replace <code class="language-plaintext highlighter-rouge">&lt;node-name&gt;</code> with the name of your node.</li> </ol> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl drain &lt;node-name&gt; <span class="nt">--delete-local-data</span> <span class="nt">--force</span> <span class="nt">--ignore-daemonsets</span>
-kubectl delete node &lt;node-name&gt;
-</code></pre></div></div> <ol> <li><strong>Reset kubeadm</strong>: This will revert all the changes made by kubeadm init and kubeadm join.</li> </ol> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>kubeadm reset
-</code></pre></div></div> <ol> <li><strong>Remove kubelet and kubeadm</strong>:</li> </ol> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get purge kubeadm kubectl kubelet kubernetes-cni kube<span class="k">*</span>
-<span class="nb">sudo </span>apt-get autoremove
-</code></pre></div></div> <ol> <li><strong>Delete the .kube directory</strong>:</li> </ol> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">rm</span> <span class="nt">-rf</span> ~/.kube
-</code></pre></div></div> <ol> <li><strong>Remove all the docker container network interfaces</strong>:</li> </ol> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker <span class="nb">rm</span> <span class="si">$(</span>docker ps <span class="nt">-a</span> <span class="nt">-q</span><span class="si">)</span>
-docker rmi <span class="si">$(</span>docker images <span class="nt">-q</span><span class="si">)</span>
-</code></pre></div></div> <p>Got this issue</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  docker git:(master) ✗ kubectl describe pod
-WARN[0000] Unable to read /etc/rancher/k3s/k3s.yaml, please start server with --write-kubeconfig-mode to modify kube config permissions
-error: error loading config file "/etc/rancher/k3s/k3s.yaml": open /etc/rancher/k3s/k3s.yaml: permission denied
-</code></pre></div></div> <p>Solution: This error is related to the permissions of the <code class="language-plaintext highlighter-rouge">k3s.yaml</code> file. Here are a few ways you can resolve this issue:</p> <ol> <li><strong>Change the permissions of the file</strong>²⁴: <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> sudo chmod 644 /etc/rancher/k3s/k3s.yaml
-</code></pre></div> </div> <p>This command changes the permissions of the file to be readable by all users on your system.</p> </li> <li><strong>Change the KUBECONFIG environment variable</strong>¹: <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> KUBECONFIG=~/.kube/config
- export KUBECONFIG=~/.kube/config
- mkdir ~/.kube 2&gt; /dev/null
- sudo k3s kubectl config view --raw &gt; "$KUBECONFIG"
- chmod 600 "$KUBECONFIG"
-</code></pre></div> </div> <p>This set of commands changes the <code class="language-plaintext highlighter-rouge">KUBECONFIG</code> environment variable to point to a different location (<code class="language-plaintext highlighter-rouge">~/.kube/config</code>), creates the <code class="language-plaintext highlighter-rouge">.kube</code> directory if it doesn’t exist, copies the current configuration into the new location, and then changes the permissions of the new configuration file.</p> </li> <li><strong>Start the k3s server with modified kube config permissions</strong>³: <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> sudo k3s server --write-kubeconfig-mode 644
-</code></pre></div> </div> <p>This command starts the k3s server with the <code class="language-plaintext highlighter-rouge">--write-kubeconfig-mode</code> flag set to <code class="language-plaintext highlighter-rouge">644</code>, which changes the permissions of the kubeconfig file when it is written.</p> </li> </ol> <p>Still getting error that container is not able to start successfully</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jun 17 22:07:14 common-testbed k3s[3214677]: I0617 22:07:14.939722 3214677 scope.go:117] "RemoveContainer" containerID="e0c6ed40764db0173c3464f2e4b387a2bc9bd13bbf5e3ab&gt;Jun 17 22:07:14 common-testbed k3s[3214677]: E0617 22:07:14.940136 3214677 pod_workers.go:1298] "Error syncing pod, skipping" err="failed to \"StartContainer\" for \"r&gt;Jun 17 22:07:25 common-testbed k3s[3214677]: I0617 22:07:25.939271 3214677 scope.go:117] "RemoveContainer" containerID="e0c6ed40764db0173c3464f2e4b387a2bc9bd13bbf5e3ab&gt;Jun 17 22:07:25 common-testbed k3s[3214677]: E0617 22:07:25.939711 3214677 pod_workers.go:1298] "Error syncing pod, skipping" err="failed to \"StartContainer\" for \"r&gt;Jun 17 22:07:40 common-testbed k3s[3214677]: I0617 22:07:40.939511 3214677 scope.go:117] "RemoveContainer" containerID="e0c6ed40764db0173c3464f2e4b387a2bc9bd13bbf5e3ab&gt;Jun 17 22:07:40 common-testbed k3s[3214677]: E0617 22:07:40.939941 3214677 pod_workers.go:1298] "Error syncing pod, skipping" err="failed to \"StartContainer\" for \"r&gt;~
-</code></pre></div></div> <p>Solution: Remove all existing deployments and pods and restart again</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Delete all deployments in the default namespace
-kubectl delete deployments --all
-
-# Delete all pods in the default namespace
-kubectl delete pods --all
-
-</code></pre></div></div> <p>Still get error that rocksdb container fails to finish successfully. And I can not check logs of container. Solution: BingChat tells me that it’s because of http_proxy env variable issue. Do this</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export NO_PROXY=$NO_PROXY,&lt;node-ip-address&gt;:6443
-unset http_proxy
-unset https_proxy
-
-</code></pre></div></div> <p>Still can not call <code class="language-plaintext highlighter-rouge">kubectl logs</code> command to check container logs.</p> <p>Uninstall k3s</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-sudo /usr/local/bin/k3s-uninstall.sh
-</code></pre></div></div> <p>https://docs.k3s.io/installation/configuration</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" INSTALL_K3S_EXEC="server" sh -s - --flannel-backend none
-</code></pre></div></div> <p>Get metrics server endpoint not available error after reinstallment of k3s Solution Don’t have solution yet.</p> <h2 id="try-minikube">Try minikube</h2> <p>Follow this doc <a href="https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download#Service">https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download#Service</a></p> <p>And then set no proxy to run <code class="language-plaintext highlighter-rouge">kubectl</code> command</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> export no_proxy=$(minikube ip)
-</code></pre></div></div> <p>Run this command to set alias</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alias kubectl="minikube kubectl --"
-</code></pre></div></div> <p>Issue: Get image pulling issue</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  Normal   Scheduled  3m32s                default-scheduler  Successfully assigned default/rocksdb-858cd64b59-hnqtg to minikube
-  Warning  Failed     3m22s                kubelet            Failed to pull image "zzt1234/test-rocksdb:v2": Error response from daemon: Get "https://registry-1.docker.io/v2/": dial tcp 34.226.69.105:443: connect: no route to host
-</code></pre></div></div> <p>I think the reason is thatimage pulling does not go through proxy. Need to find a way to let minikube to use proxy to pull image.</p> <p>https://stackoverflow.com/questions/73756734/minikube-start-error-to-pull-new-external-images-you-may-need-to-configure-a-pr Read this doc to solve image pulling issue</p> <p>Set proxy in doker daemon setting file like this https://docs.docker.com/config/daemon/systemd/#httphttps-proxy</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>minikube start --docker-env HTTP_PROXY=http://127.0.0.1:8081   --docker-env HTTPS_PROXY=http://127.0.0.1:8081
-</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Events:
-  Type     Reason     Age   From               Message
-  ----     ------     ----  ----               -------
-  Normal   Scheduled  4s    default-scheduler  Successfully assigned default/hello-minikube to minikube
-  Normal   Pulling    3s    kubelet            Pulling image "gcr.io/google_containers/echoserver:1.4"
-  Warning  Failed     3s    kubelet            Failed to pull image "gcr.io/google_containers/echoserver:1.4": Error response from daemon: Get "https://gcr.io/v2/": proxyconnect tcp: dial tcp 127.0.0.1:8081: connect: connection refused
-  Warning  Failed     3s    kubelet            Error: ErrImagePull
-</code></pre></div></div> <p>Actually command above about setting proxy is not right. I think I should set proxy address to real ip address of host machine.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> minikube start --docker-env HTTP_PROXY=http://28.10.10.62:8081   --docker-env HTTPS_PROXY=http://28.10.10.62:8081
-</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  Normal   Scheduled  4s    default-scheduler  Successfully assigned default/hello-minikube to minikube
-  Normal   Pulling    3s    kubelet            Pulling image "gcr.io/google_containers/echoserver:1.4"
-  Warning  Failed     2s    kubelet            Failed to pull image "gcr.io/google_containers/echoserver:1.4": [DEPRECATION NOTICE] Docker Image Format v1 and Docker Image manifest version 2, schema 1 support is disabled by default and will be removed in an upcoming release. Suggest the author of gcr.io/google_containers/echoserver:1.4 to upgrade the image to the OCI Format or Docker Image manifest v2, schema 2. More information at https://docs.docker.com/go/deprecated-image-specs/
-  Warning  Failed     2s    kubelet            Error: ErrImagePull
-</code></pre></div></div> <p>Now this issue is finially solved.</p> <p>So what do I learn from this problem solving steps? minikube actually set up a docker vm in host machine to pull image. So when I run <code class="language-plaintext highlighter-rouge">minikube start</code> command, it actually starts a docker vm in host machine. and when I run <code class="language-plaintext highlighter-rouge">kubectl</code> command, it actually runs in docker vm.</p> <p>Finally able to see logs inside k8s container</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  docker git:(master) ✗ kubectl logs rocksdb-858cd64b59-vk28f rocksdb
-RocksDB:    version 8.11.3
-Date:       Tue Jun 18 04:21:49 2024
-CPU:        40 * Intel(R) Xeon(R) Gold 6230N CPU @ 2.30GHz
-CPUCache:   28160 KB
-Set seed to 1718684509751930 because --seed was 0
-Initializing RocksDB Options from the specified file
-Initializing RocksDB Options from command-line flags
-Integrated BlobDB: blob cache disabled
-Keys:       16 bytes each (+ 0 bytes user-defined timestamp)
-Values:     100 bytes each (50 bytes after compression)
-Entries:    1000000
-Prefix:    0 bytes
-Keys per prefix:    0
-RawSize:    110.6 MB (estimated)
-FileSize:   62.9 MB (estimated)
-Write rate: 0 bytes/second
-Read rate: 0 ops/second
-Compression: NoCompression
-Compression sampling rate: 0
-Memtablerep: SkipListFactory
-Perf Level: 1
-------------------------------------------------
-Initializing RocksDB Options from the specified file
-Initializing RocksDB Options from command-line flags
-Integrated BlobDB: blob cache disabled
-DB path: [/data/]
-fillseq      :       2.114 micros/op 473062 ops/sec 2.114 seconds 1000000 operations;   52.3 MB/s
-</code></pre></div></div> <p>Looks like that minikube sets docker proxy to map host port to container port.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ├─3420670 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
- ├─3534038 /usr/bin/docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 32778 -container-ip 192.168.58.2 -container-port 32443
- ├─3534054 /usr/bin/docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 32779 -container-ip 192.168.58.2 -container-port 8443
- ├─3534076 /usr/bin/docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 32780 -container-ip 192.168.58.2 -container-port 5000
- ├─3534090 /usr/bin/docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 32781 -container-ip 192.168.58.2 -container-port 2376
- └─3534110 /usr/bin/docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 32782 -container-ip 192.168.58.2 -container-port 22
-</code></pre></div></div> <h2 id="kubectl-delete-deployment-and-service"><code class="language-plaintext highlighter-rouge">kubectl</code> delete deployment and service</h2> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Delete deployment</span>
-kubectl delete deployment &lt;deployment-name&gt;
-
-<span class="c"># Delete service</span>
-kubectl delete service &lt;service-name&gt;
-</code></pre></div></div> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># List deployments</span>
-kubectl get deployments
-
-<span class="c"># List services</span>
-kubectl get services
-
-</code></pre></div></div> <h2 id="submit-container-job-to-k3s">Submit container job to k3s</h2> <p>After pushing local image to docker hub I am able to get normal image pulling message.</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl describe pod
-</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Events:
-  Type    Reason     Age   From               Message
-  ----    ------     ----  ----               -------
-  Normal  Scheduled  7s    default-scheduler  Successfully assigned default/rocksdb-57c5b55686-mnwvr to common-testbed
-  Normal  Pulling    7s    kubelet            Pulling image "zzt1234/test-rocksdb:v2"
-</code></pre></div></div>]]></content><author><name></name></author><category term="cloud"/><category term="cloud"/><category term="k3s"/><category term="k8s"/><summary type="html"><![CDATA[k3s]]></summary></entry></feed>
+</code></pre></div></div>]]></content><author><name></name></author><category term="cloud"/><category term="cloud"/><category term="k8s"/><summary type="html"><![CDATA[k8s minikune]]></summary></entry><entry><title type="html">Difference between Dockerfile and Docker Compose</title><link href="https://bilyz98.github.io/blog/2024/difference-between-dockerfile-and-docker-compose/" rel="alternate" type="text/html" title="Difference between Dockerfile and Docker Compose"/><published>2024-06-16T07:31:03+00:00</published><updated>2024-06-16T07:31:03+00:00</updated><id>https://bilyz98.github.io/blog/2024/difference-between-dockerfile-and-docker-compose</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/difference-between-dockerfile-and-docker-compose/"><![CDATA[]]></content><author><name></name></author></entry><entry><title type="html">Docker Rocksdb build</title><link href="https://bilyz98.github.io/blog/2024/docker-rocksdb-build/" rel="alternate" type="text/html" title="Docker Rocksdb build"/><published>2024-06-16T07:29:37+00:00</published><updated>2024-06-16T07:29:37+00:00</updated><id>https://bilyz98.github.io/blog/2024/docker-rocksdb-build</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/docker-rocksdb-build/"><![CDATA[]]></content><author><name></name></author></entry></feed>
