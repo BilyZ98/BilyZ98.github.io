@@ -1055,3 +1055,46 @@ A following student football in this growth, typically family, and stigma's appr
 ```
 
 Looks better
+
+Even larger model:
+Params:
+```py
+batch_size = 64
+block_size = 256 # what is the maximum context length for predictions
+max_iters = 5000
+eval_interval = 500
+learning_rate = 3e-4
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+# device = 'cpu'
+print('torch cuda available', torch.cuda.is_available())
+eval_iters = 200
+n_embd = 384
+n_head = 6
+n_layer = 6
+# head_size = 16
+dropout = 0.2
+
+```
+Spent 6 times longer training time. We do see loss decrease though.
+```
+step <built-in function iter>: train loss0.7625, val loss 0.7859
+Time taken: 4855.381325721741 seconds
+Total parameters: 43635161
+Trainable parameters: 43635161
+        ll share stories that lessons they continue to have on Florist and the planet.
+
+**Recent Recent Recognition: A Deep Dive into Your Authority**
+
+When you begin to take a complex, it's essential. Our young music and information of florist taga), recognize the significance of "Rent Recognition in Baltin." This taggaent's contributions to fats of art, pushing it uses to engage with their examples with a similar panel that draw upon trade with fragmented flowing and dawn.
+
+* Pay Flowing: Weed With a
+```
+
+
+There is gpu memory usage flunctuation during training. Why is that?
+```
+watch -n 0.1 nvidia-smi
+```
+
+
+

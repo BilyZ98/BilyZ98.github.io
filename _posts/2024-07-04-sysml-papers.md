@@ -28,6 +28,7 @@ For others that are interesting to me, I will  write a longer summary.
 
 ####  Characterization of Large Language Model Development in the Datacenter
 [https://www.usenix.org/system/files/nsdi24-hu.pdf](https://www.usenix.org/system/files/nsdi24-hu.pdf)
+
 Summary: 
 This papers studies llm traning job workload in datacenter.
 It releases job traces in datacenter for training llm.
