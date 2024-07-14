@@ -78,7 +78,8 @@ The inner loop iterates over the columns of the input matrix and the rows of the
 The inner loop calculates the dot product of the input row and the weight column and stores the result in the output matrix.
 
 Please note that how index of input, weight and output matrix are calculated.
-![matmul2 drawio](https://github.com/user-attachments/assets/dedae9ae-1bd1-41d5-94d8-041442b9ca61)
+![matmul3 drawio](https://github.com/user-attachments/assets/dc21b2cc-20f6-4720-8fbb-5adc7855d4f0)
+
 
 
 Output:
