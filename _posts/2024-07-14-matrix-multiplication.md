@@ -86,3 +86,28 @@ Output:
 56.000000 68.000000 80.000000 92.000000
 92.000000 113.000000 134.000000 155.000000
 ```
+
+
+Issue:
+Failed to install cuda 12.1.0
+```
+nano-gpt) [nsccgz_qylin_1@ln101%tianhe2-K matmul]$ conda install nvidia/label/cuda-12.1.0::cuda-toolkit
+Channels:
+ - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+ - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free
+ - defaults
+ - nvidia/label/cuda-12.1.0
+ - conda-forge
+ - nvidia
+ - pytorch
+Platform: linux-64
+Collecting package metadata (repodata.json): done
+Solving environment: failed
+
+InvalidSpec: The package "nvidia/linux-64::cuda-compiler==12.5.1=0" is not available for the specified platform
+```
+
+
+```bash
+conda install -y -c nvidia cuda=12.1.0 cuda-tools=12.1.0 cuda-toolkit=12.1.0 cuda-version=12.1 cuda-command-line-tools=12.1.0 cuda-compiler=12.1.0 cuda-runtime=12.1.0
+```
