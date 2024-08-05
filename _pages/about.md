@@ -37,8 +37,7 @@ My practice philosophy follows learn-teach-apply triangle.
 <!-- <img src="https://github.com/BilyZ98/BilyZ98.github.io/assets/26542149/30b77d6b-5bd1-4f72-a7b8-c3f43c0b3d1f"  alt="drawing" width="40%" height="auto"> -->
 
 
-My life goal is to help as many people as I can through my work, my mind, my time,
-my money and what I can give. 
+My life goal is to help as many people as I can through my work, my mind, and what I can give. 
 
 Please contact me via email <zhuangzhutao@gmail.com>
 
