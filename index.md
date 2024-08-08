@@ -47,12 +47,12 @@ EuroSys'24 AE
 MLSys'23 AE
 
 ### Blogs
-- [AI](./blogs/ai.md)
-- [Cloud](./blogs/cloud.md)
-- [Linux](./blogs/linux.md)
-- [CPP](./blogs/cpp.md)
-- [Storage](./blogs/storage.md)
-- [Misc](./blogs/misc.md)
+<!-- - [AI](./blogs/ai.md) -->
+<!-- - [Cloud](./blogs/cloud.md) -->
+<!-- - [Linux](./blogs/linux.md) -->
+<!-- - [CPP](./blogs/cpp.md) -->
+<!-- - [Storage](./blogs/storage.md) -->
+<!-- - [Misc](./blogs/misc.md) -->
 
 ### MISC
 

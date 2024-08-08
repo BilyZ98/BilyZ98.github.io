@@ -1,5 +1,5 @@
 
 #Misc
 
-[Paper writing](./paper_writing.md)
+<!-- [Paper writing](./paper_writing.md) -->
 
