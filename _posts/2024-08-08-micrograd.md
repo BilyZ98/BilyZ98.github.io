@@ -79,3 +79,8 @@ OUtput:
 ### Internal implementation
 Please check code in this notebook
 [micrograd note book](https://colab.research.google.com/drive/1KF6houJ-X_uLIgZ5BaSV24-GnYpTQdeh?usp=sharing)
+
+
+Some vector based tensor implementation based on micrograd
+[deeplex](https://github.com/rohit-krish/Deeplex/tree/main)
+[ugrad](https://github.com/conscell/ugrad)
