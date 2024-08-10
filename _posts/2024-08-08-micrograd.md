@@ -77,4 +77,5 @@ OUtput:
 ```
 
 ### Internal implementation
-
+Please check code in this notebook
+[micrograd note book](https://colab.research.google.com/drive/1KF6houJ-X_uLIgZ5BaSV24-GnYpTQdeh?usp=sharing)
