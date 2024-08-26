@@ -8,6 +8,15 @@ categories: compiler
 featured: false
 ---
 
+Follow this repo commit history to learn basics of compiler.
+
+Very nice repo to compiler tutorial.
+
+You can follow the commit history to build a simple c compiler 
+step by step.
+
+[https://github.com/rui314/chibicc/commits/main/?since=2020-10-01&until=2020-10-27&after=90d1f7f199cc55b13c7fdb5839d1409806633fdb+34](https://github.com/rui314/chibicc/commits/main/?since=2020-10-01&until=2020-10-27&after=90d1f7f199cc55b13c7fdb5839d1409806633fdb+34)
+
 ## + and - and number lexer   
 With machine code generation
 
