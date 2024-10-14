@@ -1,3 +1,14 @@
+---
+layout: post
+title: Python pyplot trick 
+date: 2024-09-20 07:59:00-0400
+description:  
+tags:  python  
+categories: python
+featured: false
+---
+
+
 grey line for y axis. 
 ```
 import matplotlib.pyplot as plt
