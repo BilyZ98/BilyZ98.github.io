@@ -1,3 +1,13 @@
+---
+layout: post
+title: C compiler - parse example walkthrough
+date: 2024-10-14 07:59:00-0400
+description:  
+tags:  c compiler 
+categories: compiler
+featured: false
+---
+
 
 
 
