@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd"> <html><body> <h2 id="abstract-syntax-tree-generation-example">Abstract syntax tree generation example</h2> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"5+20-4;"
+</code></pre></div></div> <pre><code class="language-asm">  .globl main
+main: 
+ mov $4, %rax
+ push %rax
+ mov $20, %rax
+ push %rax
+ mov $5, %rax
+ pop %rdi
+ add %rdi, %rax
+ pop %rdi
+ sub %rdi, %rax
+  ret
+</code></pre> <p>The parse tree looks like this</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     ─  
+   /  \ 
+  +    4
+/  \    
+5  20
+</code></pre></div></div> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="kt">void</span> <span class="nf">gen_expr</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">switch</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">kind</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="n">ND_NUM</span><span class="p">:</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">" mov $%d, %%rax</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+
+    <span class="k">case</span> <span class="n">ND_NEG</span><span class="p">:</span>
+    <span class="n">gen_expr</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">lhs</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">" neg %%rax</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">gen_expr</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="n">push</span><span class="p">();</span>
+  <span class="n">gen_expr</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">lhs</span><span class="p">);</span>
+  <span class="n">pop</span><span class="p">(</span><span class="s">"%rdi"</span><span class="p">);</span>
+
+  <span class="k">switch</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">kind</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="n">ND_ADD</span><span class="p">:</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">" add %%rdi, %%rax</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+    
+    <span class="k">case</span> <span class="n">ND_SUB</span><span class="p">:</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">" sub %%rdi, %%rax</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+
+
+</code></pre></div></div> </body></html>
