@@ -1,3 +1,13 @@
+---
+layout: post
+title:  ssh display image on local server 
+date: 2024-10-17 07:59:00-0400
+description:  
+tags:   ssh  
+categories: ssh
+featured: false
+---
+
 
 
 To display an image on your local machine after using the `ssh -Y` command, you'll need to have an image viewer installed on the remote server. Here's a step-by-step example:
