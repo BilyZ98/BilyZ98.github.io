@@ -247,3 +247,34 @@ exe time: 150.848471 ms
 Wrote image file mandelbrot-thread.ppm
                                 (3.55x speedup from 4 threads)
 ```
+
+
+### Comparison between inefficient assignment and round-robin assignment
+Naive sequential assignment:
+
+Thread running time for another image genration 
+```
+(base) ➜  prog1_mandelbrot_threads git:(master) ✗ ./mandelbrot --view 2 --threads 4
+[mandelbrot serial]:            [311.051] ms
+Wrote image file mandelbrot-serial.ppm
+exe time: 84.468454 ms
+exe time: 86.912777 ms
+exe time: 87.307919 ms
+exe time: 133.808278 ms
+[mandelbrot thread]:            [119.725] ms
+Wrote image file mandelbrot-thread.ppm                                                                                                                                                       
+(2.60x speedup from 4 threads)
+```
+
+Round-robin assignment:
+```
+(base) ➜  prog1_mandelbrot_threads git:(master) ✗ ./mandelbrot --view 2 --threads 4
+[mandelbrot serial]:            [310.842] ms
+Wrote image file mandelbrot-serial.ppm
+exe time: 83.830711 ms
+exe time: 93.051653 ms
+exe time: 93.096461 ms
+exe time: 93.373701 ms
+[mandelbrot thread]:            [93.562] ms
+Wrote image file mandelbrot-thread.ppm                                                                                                                                                       (3.32x speedup from 4 threads)
+```
