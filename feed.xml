@@ -1,4 +1,189 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://bilyz98.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://bilyz98.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-10-20T18:09:52+00:00</updated><id>https://bilyz98.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">ssh display image on local server</title><link href="https://bilyz98.github.io/blog/2024/ssh-display-img/" rel="alternate" type="text/html" title="ssh display image on local server"/><published>2024-10-17T11:59:00+00:00</published><updated>2024-10-17T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/ssh-display-img</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/ssh-display-img/"><![CDATA[<p>To display an image on your local machine after using the <code class="language-plaintext highlighter-rouge">ssh -Y</code> command, you’ll need to have an image viewer installed on the remote server. Here’s a step-by-step example:</p> <ol> <li><strong>Connect to the remote server with X11 forwarding</strong>: <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh <span class="nt">-Y</span> user@remote-server
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://bilyz98.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://bilyz98.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-10-21T07:44:36+00:00</updated><id>https://bilyz98.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">Cs149 Assign1 Prog3</title><link href="https://bilyz98.github.io/blog/2024/cs149-assign1-prog3/" rel="alternate" type="text/html" title="Cs149 Assign1 Prog3"/><published>2024-10-20T00:00:00+00:00</published><updated>2024-10-20T00:00:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/cs149-assign1-prog3</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/cs149-assign1-prog3/"><![CDATA[<h2 id="speedup-with-ispc">Speedup with ISPC</h2> <p>launching 80 tasks brings 62x speedup.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">export</span> <span class="kt">void</span> <span class="nf">mandelbrot_ispc_withtasks</span><span class="p">(</span><span class="n">uniform</span> <span class="kt">float</span> <span class="n">x0</span><span class="p">,</span> <span class="n">uniform</span> <span class="kt">float</span> <span class="n">y0</span><span class="p">,</span>
+                                      <span class="n">uniform</span> <span class="kt">float</span> <span class="n">x1</span><span class="p">,</span> <span class="n">uniform</span> <span class="kt">float</span> <span class="n">y1</span><span class="p">,</span>
+                                      <span class="n">uniform</span> <span class="kt">int</span> <span class="n">width</span><span class="p">,</span> <span class="n">uniform</span> <span class="kt">int</span> <span class="n">height</span><span class="p">,</span>
+                                      <span class="n">uniform</span> <span class="kt">int</span> <span class="n">maxIterations</span><span class="p">,</span>
+                                      <span class="n">uniform</span> <span class="kt">int</span> <span class="n">output</span><span class="p">[])</span>
+<span class="p">{</span>
+
+    <span class="n">uniform</span> <span class="kt">int</span> <span class="n">rowsPerTask</span> <span class="o">=</span> <span class="n">height</span> <span class="o">/</span> <span class="mi">80</span><span class="p">;</span>
+
+    <span class="c1">// create 2 tasks</span>
+    <span class="n">launch</span><span class="p">[</span><span class="mi">80</span><span class="p">]</span> <span class="n">mandelbrot_ispc_task</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span>
+                                     <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span>
+                                     <span class="n">rowsPerTask</span><span class="p">,</span>
+                                     <span class="n">maxIterations</span><span class="p">,</span>
+                                     <span class="n">output</span><span class="p">);</span> 
+<span class="p">}</span>
+</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog3_mandelbrot_ispc git:(master) ✗ ./mandelbrot_ispc  --tasks
+[mandelbrot serial]:            [268.624] ms
+Wrote image file mandelbrot-serial.ppm
+[mandelbrot ispc]:              [55.141] ms
+Wrote image file mandelbrot-ispc.ppm
+[mandelbrot multicore ispc]:    [4.328] ms
+Wrote image file mandelbrot-task-ispc.ppm
+                                (4.87x speedup from ISPC)
+                                (62.07x speedup from task ISPC)
+</code></pre></div></div> <p>Speedup for different image generation task with same task parallelism settings is different</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog3_mandelbrot_ispc git:(master) ✗ ./mandelbrot_ispc  --tasks  --view 0
+[mandelbrot serial]:            [267.687] ms
+Wrote image file mandelbrot-serial.ppm
+[mandelbrot ispc]:              [54.364] ms
+Wrote image file mandelbrot-ispc.ppm
+[mandelbrot multicore ispc]:    [4.698] ms
+Wrote image file mandelbrot-task-ispc.ppm                                                                                                                                                    (4.92x speedup from ISPC)                                                                                                                                    
+(56.97x speedup from task ISPC)
+
+(base) ➜  prog3_mandelbrot_ispc git:(master) ✗ ./mandelbrot_ispc  --tasks  --view 1
+[mandelbrot serial]:            [266.777] ms
+Wrote image file mandelbrot-serial.ppm
+[mandelbrot ispc]:              [53.877] ms
+Wrote image file mandelbrot-ispc.ppm
+[mandelbrot multicore ispc]:    [5.287] ms
+Wrote image file mandelbrot-task-ispc.ppm
+                                (4.95x speedup from ISPC)
+                                (50.46x speedup from task ISPC)
+
+(base) ➜  prog3_mandelbrot_ispc git:(master) ✗ ./mandelbrot_ispc  --tasks  --view 2
+[mandelbrot serial]:            [159.744] ms
+Wrote image file mandelbrot-serial.ppm
+[mandelbrot ispc]:              [37.937] ms
+Wrote image file mandelbrot-ispc.ppm
+[mandelbrot multicore ispc]:    [5.020] ms
+Wrote image file mandelbrot-task-ispc.ppm                                                                                                                                                    (4.21x speedup from ISPC)                                                                                                                                    (31.82x speedup from task ISPC)
+</code></pre></div></div> <h2 id="difference-between-launch-and-foreach-in-ispc">Difference between launch and foreach in ISPC</h2> <p>TLDR; both <code class="language-plaintext highlighter-rouge">launch</code> and <code class="language-plaintext highlighter-rouge">foreach</code> can do task parallelism. But <code class="language-plaintext highlighter-rouge">foreach</code> can use SIMD and <code class="language-plaintext highlighter-rouge">launch</code> can not do that itself.</p> <p>The difference between <code class="language-plaintext highlighter-rouge">launch</code> and <code class="language-plaintext highlighter-rouge">foreach</code> in ISPC lies in the type of parallelism they express and how they are used:</p> <ul> <li><strong><code class="language-plaintext highlighter-rouge">launch</code></strong>: This keyword is used to create a task that runs independently. When you use <code class="language-plaintext highlighter-rouge">launch</code>, you’re telling ISPC to execute a function asynchronously, potentially on a different core. This is useful for task parallelism, where you have separate tasks that can run concurrently. For example: <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">launch</span> <span class="nf">myFunction</span><span class="p">();</span>
+</code></pre></div> </div> <p>This will execute <code class="language-plaintext highlighter-rouge">myFunction</code> as a separate task.</p> </li> <li><strong><code class="language-plaintext highlighter-rouge">foreach</code></strong>: This construct is used for data parallelism, where the same operation is applied to multiple data elements in parallel. The <code class="language-plaintext highlighter-rouge">foreach</code> loop allows ISPC to execute iterations in parallel, utilizing SIMD vector units. For example: <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">foreach</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">...</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// loop body</span>
+<span class="p">}</span>
+</code></pre></div> </div> <p>This will execute the loop body in parallel for each value of <code class="language-plaintext highlighter-rouge">i</code> from <code class="language-plaintext highlighter-rouge">0</code> to <code class="language-plaintext highlighter-rouge">N-1</code>.</p> </li> </ul> <p>In summary, <code class="language-plaintext highlighter-rouge">launch</code> is used for task parallelism to run independent tasks concurrently, while <code class="language-plaintext highlighter-rouge">foreach</code> is used for data parallelism to apply the same operation to multiple data elements in parallel. Both constructs help you write parallel code, but they are suited for different types of parallelism. 😊</p> <p>The <code class="language-plaintext highlighter-rouge">launch</code> construct in ISPC is primarily designed for task parallelism, which means it can run tasks in parallel on multiple cores. However, <code class="language-plaintext highlighter-rouge">launch</code> itself does not directly utilize SIMD parallelism.</p> <p>Here’s a more detailed breakdown:</p> <ul> <li> <p><strong><code class="language-plaintext highlighter-rouge">launch</code></strong>: When you use <code class="language-plaintext highlighter-rouge">launch</code>, ISPC creates a new task that can run concurrently with other tasks. These tasks can be scheduled on different CPU cores, allowing for parallel execution. The focus of <code class="language-plaintext highlighter-rouge">launch</code> is on task-level parallelism, not on vectorization or SIMD parallelism.</p> </li> <li> <p><strong><code class="language-plaintext highlighter-rouge">foreach</code></strong>: On the other hand, <code class="language-plaintext highlighter-rouge">foreach</code> is designed for data parallelism and can utilize both SIMD and multi-core parallelism. It vectorizes the loop to use SIMD instructions and also distributes the iterations across multiple cores.</p> </li> </ul> <p>While <code class="language-plaintext highlighter-rouge">launch</code> does not directly use SIMD, the tasks that are launched can themselves contain <code class="language-plaintext highlighter-rouge">foreach</code> loops or other code that uses SIMD parallelism. So, you can combine <code class="language-plaintext highlighter-rouge">launch</code> and <code class="language-plaintext highlighter-rouge">foreach</code> to achieve a mix of task parallelism and data parallelism. For example:</p> <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">taskFunction</span><span class="p">(</span><span class="kt">float</span><span class="o">*</span> <span class="n">data</span><span class="p">,</span> <span class="kt">int</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">foreach</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">...</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">launch</span> <span class="nf">taskFunction</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
+</code></pre></div></div> <p>In this example, <code class="language-plaintext highlighter-rouge">taskFunction</code> uses <code class="language-plaintext highlighter-rouge">foreach</code> to process data in parallel using SIMD, and <code class="language-plaintext highlighter-rouge">launch</code> runs <code class="language-plaintext highlighter-rouge">taskFunction</code> as a separate task on a different core.</p> <p>Would you like to explore more about how to effectively combine <code class="language-plaintext highlighter-rouge">launch</code> and <code class="language-plaintext highlighter-rouge">foreach</code> in ISPC, or have any other questions? 😊</p>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">Cs149 Assign1 Prog4</title><link href="https://bilyz98.github.io/blog/2024/cs149-assign1-prog4/" rel="alternate" type="text/html" title="Cs149 Assign1 Prog4"/><published>2024-10-20T00:00:00+00:00</published><updated>2024-10-20T00:00:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/cs149-assign1-prog4</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/cs149-assign1-prog4/"><![CDATA[<p>Reference:</p> <p><a href="https://github.com/PKUFlyingPig/asst1/blob/master/prog4_sqrt/main.cpp">https://github.com/PKUFlyingPig/asst1/blob/master/prog4_sqrt/main.cpp</a></p>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">Parallel programming - SIMD intrinsics</title><link href="https://bilyz98.github.io/blog/2024/cs149-assign1-prog2/" rel="alternate" type="text/html" title="Parallel programming - SIMD intrinsics"/><published>2024-10-18T11:59:00+00:00</published><updated>2024-10-18T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/cs149-assign1-prog2</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/cs149-assign1-prog2/"><![CDATA[<p><a href="https://ark.intel.com/content/www/us/en/ark/products/192450/intel-xeon-gold-6230n-processor-27-5m-cache-2-30-ghz.html">cpu xeon 6230n</a> Instruction set extensions: Intel® SSE4.2, Intel® AVX, Intel® AVX2, Intel® AVX-512</p> <p><a href="https://ark.intel.com/content/www/us/en/ark/products/97129/intel-core-i7-7700k-processor-8m-cache-up-to-4-50-ghz.html">cpu i7-7700k</a> Instruction set extensions: Intel® SSE4.1, Intel® SSE4.2, Intel® AVX2</p> <p>Both support hyper-threading technology which means each hardware core has two processing threads per physical core.</p> <h2 id="prog2-vectorizing--code-using-simd-intrinsics">Prog2: Vectorizing code using SIMD intrinsics</h2> <p><a href="https://github.com/stanford-cs149/asst1?tab=readme-ov-file#program-2-vectorizing-code-using-simd-intrinsics-20-points">Assignment link</a></p> <p>Solution idea:</p> <p>Just translate the <code class="language-plaintext highlighter-rouge">clampedExpSerial</code> the code to use SIMD. Refer to this <code class="language-plaintext highlighter-rouge">absVector</code> and <code class="language-plaintext highlighter-rouge">absSerial</code> to see how translation works.</p> <p>To deal with situation that total number of loop iterations is not a multiple of SIMD vector width we can set <code class="language-plaintext highlighter-rouge">maskAll</code> at the beginning of the function so that only valid values of input vector is used for SIMD computation.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">VECTOR_WIDTH</span> <span class="o">&gt;</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">maskAll</span> <span class="o">=</span> <span class="n">_cs149_init_ones</span><span class="p">(</span><span class="n">remain_count</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">maskAll</span> <span class="o">=</span> <span class="n">_cs149_init_ones</span><span class="p">();</span>
+    <span class="p">}</span>
+
+</code></pre></div></div> <p>code:</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">clampedExpVector</span><span class="p">(</span><span class="kt">float</span><span class="o">*</span> <span class="n">values</span><span class="p">,</span> <span class="kt">int</span><span class="o">*</span> <span class="n">exponents</span><span class="p">,</span> <span class="kt">float</span><span class="o">*</span> <span class="n">output</span><span class="p">,</span> <span class="kt">int</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="c1">//</span>
+  <span class="c1">// CS149 STUDENTS TODO: Implement your vectorized version of</span>
+  <span class="c1">// clampedExpSerial() here.</span>
+  <span class="c1">//</span>
+  <span class="c1">// Your solution should work for any value of</span>
+  <span class="c1">// N and VECTOR_WIDTH, not just when VECTOR_WIDTH divides N</span>
+  <span class="c1">//</span>
+  
+  <span class="n">__cs149_vec_float</span> <span class="n">x</span><span class="p">;</span>
+  <span class="n">__cs149_vec_int</span>   <span class="n">y_exponents</span><span class="p">;</span>
+  <span class="n">__cs149_vec_float</span> <span class="n">result</span><span class="p">;</span>
+  <span class="n">__cs149_vec_int</span> <span class="n">zeros_int</span> <span class="o">=</span> <span class="n">_cs149_vset_int</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">__cs149_vec_int</span> <span class="n">ones_int</span> <span class="o">=</span> <span class="n">_cs149_vset_int</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="n">__cs149_vec_float</span> <span class="n">ones_float</span> <span class="o">=</span> <span class="n">_cs149_vset_float</span><span class="p">(</span><span class="mf">1.0</span><span class="n">f</span><span class="p">);</span>
+  <span class="n">__cs149_mask</span> <span class="n">maskAll</span><span class="p">,</span> <span class="n">maskExponentIsZero</span><span class="p">,</span> <span class="n">maskExponentNotZero</span><span class="p">;</span>  
+  <span class="kt">int</span> <span class="n">remain_count</span> <span class="o">=</span> <span class="n">N</span> <span class="o">%</span> <span class="n">VECTOR_WIDTH</span><span class="p">;</span>
+  <span class="c1">// int first_valid_count = remain_count &gt; 0 ? VECTOR_WIDTH - remain_count : VECTOR_WIDTH;</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">+=</span> <span class="n">VECTOR_WIDTH</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">VECTOR_WIDTH</span> <span class="o">&gt;</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">maskAll</span> <span class="o">=</span> <span class="n">_cs149_init_ones</span><span class="p">(</span><span class="n">remain_count</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">maskAll</span> <span class="o">=</span> <span class="n">_cs149_init_ones</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="c1">// CS149Logger.addLog("initones", maskAll, VECTOR_WIDTH);</span>
+
+    <span class="n">maskExponentIsZero</span> <span class="o">=</span> <span class="n">_cs149_init_ones</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+    <span class="n">_cs149_vload_float</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">values</span><span class="o">+</span><span class="n">i</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
+    <span class="n">_cs149_vload_int</span><span class="p">(</span><span class="n">y_exponents</span><span class="p">,</span> <span class="n">exponents</span><span class="o">+</span><span class="n">i</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
+
+    <span class="c1">// if y== 0</span>
+    <span class="n">_cs149_veq_int</span><span class="p">(</span><span class="n">maskExponentIsZero</span><span class="p">,</span> <span class="n">y_exponents</span><span class="p">,</span> <span class="n">zeros_int</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
+    <span class="n">maskExponentNotZero</span> <span class="o">=</span> <span class="n">_cs149_mask_not</span><span class="p">(</span><span class="n">maskExponentIsZero</span><span class="p">);</span>
+
+    <span class="c1">// x == 1  if y_exponents == 0</span>
+    <span class="c1">//</span>
+    <span class="n">_cs149_vmove_float</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">ones_float</span><span class="p">,</span> <span class="n">maskExponentIsZero</span><span class="p">);</span>      
+
+    <span class="c1">// else </span>
+    <span class="c1">// result = x;</span>
+    <span class="n">_cs149_vmove_float</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">maskExponentNotZero</span><span class="p">);</span>
+    <span class="c1">// count = y -1;</span>
+    <span class="n">_cs149_vsub_int</span><span class="p">(</span><span class="n">y_exponents</span><span class="p">,</span> <span class="n">y_exponents</span><span class="p">,</span> <span class="n">ones_int</span><span class="p">,</span> <span class="n">maskExponentNotZero</span><span class="p">);</span>
+    <span class="n">__cs149_mask</span> <span class="n">maskExpNotZeroCnt</span><span class="p">;</span>
+    <span class="n">_cs149_vgt_int</span><span class="p">(</span><span class="n">maskExpNotZeroCnt</span><span class="p">,</span> <span class="n">y_exponents</span><span class="p">,</span>  <span class="n">zeros_int</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
+    <span class="c1">// while (count &gt; 0)</span>
+    <span class="c1">// result *= x ;</span>
+    <span class="c1">// count--;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">_cs149_cntbits</span><span class="p">(</span><span class="n">maskExpNotZeroCnt</span><span class="p">))</span> <span class="p">{</span>
+      <span class="n">_cs149_vmult_float</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">maskExpNotZeroCnt</span><span class="p">);</span>
+
+      <span class="n">_cs149_vsub_int</span><span class="p">(</span><span class="n">y_exponents</span><span class="p">,</span> <span class="n">y_exponents</span><span class="p">,</span> <span class="n">ones_int</span><span class="p">,</span> <span class="n">maskExponentNotZero</span><span class="p">);</span>
+      <span class="n">_cs149_vgt_int</span><span class="p">(</span><span class="n">maskExpNotZeroCnt</span><span class="p">,</span> <span class="n">y_exponents</span><span class="p">,</span>  <span class="n">zeros_int</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
+    <span class="p">}</span>
+
+
+    <span class="c1">// if( result &gt; 9.999999f) {</span>
+    <span class="c1">// result = 9.999999f;</span>
+    <span class="c1">// }</span>
+    <span class="n">__cs149_mask</span> <span class="n">mask_gt_9</span><span class="p">;</span>
+    <span class="n">__cs149_vec_float</span> <span class="n">nine_float</span> <span class="o">=</span> <span class="n">_cs149_vset_float</span><span class="p">(</span><span class="mf">9.999999</span><span class="n">f</span><span class="p">);</span>
+    <span class="n">_cs149_vgt_float</span><span class="p">(</span><span class="n">mask_gt_9</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span>  <span class="n">nine_float</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
+    <span class="n">_cs149_vmove_float</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">nine_float</span><span class="p">,</span> <span class="n">mask_gt_9</span><span class="p">);</span>
+
+    <span class="c1">// output[i] = result;</span>
+    <span class="n">_cs149_vstore_float</span><span class="p">(</span><span class="n">output</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
+
+    
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div> <p>Run ./myexp -s 10000 and sweep the vector width from 2, 4, 8, to 16. Record the resulting vector utilization. You can do this by changing the #define VECTOR_WIDTH value in CS149intrin.h. Does the vector utilization increase, decrease or stay the same as VECTOR_WIDTH changes? Why?</p> <p>Answer: The vector utilization decrease as <code class="language-plaintext highlighter-rouge">VECTOR_WIDTH</code> increases. The reason I think it’s that not all values in vector is used for computation as <code class="language-plaintext highlighter-rouge">VECTOR_WIDTH</code> increases.</p> <p>So it’s not a very good idea to have very large <code class="language-plaintext highlighter-rouge">VECTOR_WIDTH</code>?</p> <p>vector width 2:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog2_vecintrin git:(master) ✗ ./myexp -s 10000
+CLAMPED EXPONENT (required)
+Results matched with answer!
+****************** Printing Vector Unit Statistics *******************
+Vector Width:              2
+Total Vector Instructions: 167727
+Vector Utilization:        88.7%
+Utilized Vector Lanes:     297685
+Total Vector Lanes:        335454
+************************ Result Verification *************************
+Passed!!!
+</code></pre></div></div> <p>vector width 4:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog2_vecintrin git:(master) ✗ ./myexp -s 10000
+CLAMPED EXPONENT (required)
+Results matched with answer!
+****************** Printing Vector Unit Statistics *******************
+Vector Width:              4
+Total Vector Instructions: 97075
+Vector Utilization:        86.2%
+Utilized Vector Lanes:     334817
+Total Vector Lanes:        388300
+************************ Result Verification *************************
+Passed!!!
+</code></pre></div></div> <p>vector width 8:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog2_vecintrin git:(master) ✗ ./myexp -s 10000
+CLAMPED EXPONENT (required)
+Results matched with answer!
+****************** Printing Vector Unit Statistics *******************
+Vector Width:              8
+Total Vector Instructions: 52877
+Vector Utilization:        85.0%
+Utilized Vector Lanes:     359535
+Total Vector Lanes:        423016
+************************ Result Verification *************************
+Passed!!!
+</code></pre></div></div> <p>vector width 16:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog2_vecintrin git:(master) ✗ ./myexp -s 10000
+CLAMPED EXPONENT (required)
+Results matched with answer!
+****************** Printing Vector Unit Statistics *******************
+Vector Width:              16
+Total Vector Instructions: 27592
+Vector Utilization:        84.4%
+Utilized Vector Lanes:     372781
+Total Vector Lanes:        441472
+************************ Result Verification *************************
+Passed!!!
+</code></pre></div></div>]]></content><author><name></name></author><category term="parallel"/><category term="programming"/><category term="parallel"/><category term="programming"/><summary type="html"><![CDATA[cpu xeon 6230n Instruction set extensions: Intel® SSE4.2, Intel® AVX, Intel® AVX2, Intel® AVX-512]]></summary></entry><entry><title type="html">Stf Cs149 Lecture Takeaway</title><link href="https://bilyz98.github.io/blog/2024/stf-cs149-lecture-takeaway/" rel="alternate" type="text/html" title="Stf Cs149 Lecture Takeaway"/><published>2024-10-18T00:00:00+00:00</published><updated>2024-10-18T00:00:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/stf-cs149-lecture-takeaway</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/stf-cs149-lecture-takeaway/"><![CDATA[<h2 id="lecture-5">Lecture 5</h2> <p><a href="https://youtu.be/mmO2Ri_dJkk?si=CCG3Tf9dDYZiExq6">Video</a> Deciding granularity is important for dynamic scheduling in parallel programming.</p> <p>Small granularity leads to better workload distribution but comes with higher synchronization overhead.</p> <h2 id="lecture-6">Lecture 6</h2> <p>Performance optimization: locality, communication and contention.</p> <p>Reduce costs of communication between:</p> <ol> <li>processors.</li> <li>between processors and memory.</li> </ol> <p>Shared memory communication. Numa: non-uniform memory access</p> <p>Message passing blocking send and non-blocking send</p> <p>Reduce communication is important to achieve max utilization of cpu. Just to keep cpu busy</p> <p>Roofline model: To achieve maximum computation throughput GFLOPS/s of cpu or gpus one has to have algorithm that has high operation intensity -&gt; high flops/bytes.</p> <p>Need to has many computation per byte access unit.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">ssh display image on local server</title><link href="https://bilyz98.github.io/blog/2024/ssh-display-img/" rel="alternate" type="text/html" title="ssh display image on local server"/><published>2024-10-17T11:59:00+00:00</published><updated>2024-10-17T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/ssh-display-img</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/ssh-display-img/"><![CDATA[<p>To display an image on your local machine after using the <code class="language-plaintext highlighter-rouge">ssh -Y</code> command, you’ll need to have an image viewer installed on the remote server. Here’s a step-by-step example:</p> <ol> <li><strong>Connect to the remote server with X11 forwarding</strong>: <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh <span class="nt">-Y</span> user@remote-server
 </code></pre></div> </div> </li> <li><strong>Check if an image viewer is installed</strong>: <ul> <li>Common image viewers include <code class="language-plaintext highlighter-rouge">eog</code> (Eye of GNOME), <code class="language-plaintext highlighter-rouge">display</code> (ImageMagick), and <code class="language-plaintext highlighter-rouge">xdg-open</code>.</li> <li>You can check if one of these is installed by running, for example: <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>which eog
 </code></pre></div> </div> <p>If it’s installed, the command will return the path to the executable. If not, you might need to install it using the package manager for your distribution.</p> </li> </ul> </li> <li><strong>Display an image</strong>: <ul> <li>Assuming you have an image file named <code class="language-plaintext highlighter-rouge">example.png</code> in your home directory on the remote server, you can display it using: <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eog ~/example.png
 </code></pre></div> </div> </li> <li>This command will open the image using the Eye of GNOME image viewer, and the image should be displayed on your local machine.</li> </ul> </li> </ol> <p>Remember, the exact command to display an image will depend on the image viewers available on the remote server. If you’re not sure which image viewers are installed, you can try running the command for a few common ones until you find one that works. Also, ensure that your local machine is running an X server (like XQuartz on macOS or Xming on Windows) to handle the forwarded X11 display.</p>]]></content><author><name></name></author><category term="ssh"/><category term="ssh"/><summary type="html"><![CDATA[To display an image on your local machine after using the ssh -Y command, you’ll need to have an image viewer installed on the remote server. Here’s a step-by-step example:]]></summary></entry><entry><title type="html">Parallel programming - round robin assignment</title><link href="https://bilyz98.github.io/blog/2024/stf-cs149-parallel-programming-assignment1/" rel="alternate" type="text/html" title="Parallel programming - round robin assignment"/><published>2024-10-17T11:59:00+00:00</published><updated>2024-10-17T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/stf-cs149-parallel-programming-assignment1</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/stf-cs149-parallel-programming-assignment1/"><![CDATA[<h2 id="program1-generate-image-with-multiple-threads">Program1: generate image with multiple threads.</h2> <p>Hardware: hyperthreads?</p> <p>Code: partition the image generation task.</p> <p>Plot speedup line with number of threads as x axis.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog1_mandelbrot_threads git:(master) ✗ ./mandelbrot --threads 2
@@ -386,305 +571,4 @@ main:
   <span class="k">return</span> <span class="n">primary</span><span class="p">(</span><span class="n">rest</span><span class="p">,</span> <span class="n">tok</span><span class="p">);</span>
 
 <span class="p">}</span>
-</code></pre></div></div>]]></content><author><name></name></author><category term="compiler"/><category term="c"/><category term="compiler"/><summary type="html"><![CDATA[Add unary to parser Previous parser post]]></summary></entry><entry><title type="html">Simple c compiler gen expr</title><link href="https://bilyz98.github.io/blog/2024/chibicc-gen-expr/" rel="alternate" type="text/html" title="Simple c compiler gen expr"/><published>2024-10-09T11:59:00+00:00</published><updated>2024-10-09T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/chibicc-gen-expr</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/chibicc-gen-expr/"><![CDATA[<p>Once we have the tokenize we can then write parser code to generate abstract syntax tree by traversing the token list. We use stack to generate tree.</p> <p><code class="language-plaintext highlighter-rouge">'+'</code> has the lowest priority. Number and <code class="language-plaintext highlighter-rouge">(expr)</code>has highest parsing priority.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// expr = mul ("+" mul | "-" mul)*</span>
-<span class="k">static</span> <span class="n">Node</span><span class="o">*</span> <span class="nf">expr</span><span class="p">(</span><span class="n">Token</span> <span class="o">**</span><span class="n">rest</span><span class="p">,</span> <span class="n">Token</span><span class="o">*</span> <span class="n">tok</span><span class="p">){</span>
-  <span class="n">Node</span><span class="o">*</span> <span class="n">node</span><span class="o">=</span> <span class="n">mul</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tok</span><span class="p">,</span> <span class="n">tok</span><span class="p">);</span>
-
-  <span class="k">for</span><span class="p">(;;){</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span> <span class="s">"+"</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
-      <span class="n">node</span> <span class="o">=</span> <span class="n">new_binary</span><span class="p">(</span><span class="n">ND_ADD</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">mul</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tok</span><span class="p">,</span> <span class="n">tok</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">));</span>
-      <span class="k">continue</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="k">if</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span> <span class="s">"-"</span><span class="p">))</span> <span class="p">{</span>
-      <span class="n">node</span> <span class="o">=</span> <span class="n">new_binary</span><span class="p">(</span><span class="n">ND_SUB</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">mul</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tok</span><span class="p">,</span> <span class="n">tok</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">));</span>
-      <span class="k">continue</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="o">*</span><span class="n">rest</span> <span class="o">=</span> <span class="n">tok</span><span class="p">;</span>
-    <span class="k">return</span> <span class="n">node</span><span class="p">;</span>
-
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1">// expr = primary ("*" primary | "/" primary)*</span>
-<span class="k">static</span> <span class="n">Node</span><span class="o">*</span> <span class="nf">mul</span><span class="p">(</span><span class="n">Token</span><span class="o">**</span><span class="n">rest</span><span class="p">,</span> <span class="n">Token</span><span class="o">*</span> <span class="n">tok</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">Node</span><span class="o">*</span> <span class="n">node</span> <span class="o">=</span> <span class="n">primary</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tok</span><span class="p">,</span> <span class="n">tok</span><span class="p">);</span>
-
-  <span class="k">for</span><span class="p">(;;)</span> <span class="p">{</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span> <span class="s">"*"</span><span class="p">))</span> <span class="p">{</span>
-      <span class="n">node</span> <span class="o">=</span>  <span class="n">new_binary</span><span class="p">(</span><span class="n">ND_MUL</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">primary</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tok</span><span class="p">,</span> <span class="n">tok</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">));</span>
-      <span class="k">continue</span><span class="p">;;</span>
-    <span class="p">}</span>
-
-    <span class="k">if</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span> <span class="s">"/"</span><span class="p">))</span> <span class="p">{</span>
-      <span class="n">node</span> <span class="o">=</span> <span class="n">new_binary</span><span class="p">(</span><span class="n">ND_DIV</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">primary</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tok</span><span class="p">,</span> <span class="n">tok</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">));</span>
-      <span class="k">continue</span><span class="p">;;</span>
-    <span class="p">}</span>
-
-    <span class="o">*</span><span class="n">rest</span> <span class="o">=</span> <span class="n">tok</span><span class="p">;</span>
-    <span class="k">return</span> <span class="n">node</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1">// primary = "(" expr ")" | num</span>
-<span class="k">static</span> <span class="n">Node</span><span class="o">*</span> <span class="nf">primary</span><span class="p">(</span><span class="n">Token</span> <span class="o">**</span><span class="n">rest</span><span class="p">,</span> <span class="n">Token</span><span class="o">*</span> <span class="n">tok</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span> <span class="s">"("</span><span class="p">))</span> <span class="p">{</span>
-    <span class="n">Node</span><span class="o">*</span> <span class="n">node</span> <span class="o">=</span> <span class="n">expr</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tok</span><span class="p">,</span> <span class="n">tok</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span>
-    <span class="o">*</span><span class="n">rest</span> <span class="o">=</span> <span class="n">skip</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span> <span class="s">")"</span><span class="p">);</span>
-    <span class="k">return</span> <span class="n">node</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="k">if</span><span class="p">(</span><span class="n">tok</span><span class="o">-&gt;</span><span class="n">kind</span>  <span class="o">==</span> <span class="n">TK_NUM</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">Node</span><span class="o">*</span> <span class="n">node</span> <span class="o">=</span> <span class="n">new_num</span><span class="p">(</span><span class="n">tok</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">);</span>
-    <span class="o">*</span><span class="n">rest</span> <span class="o">=</span> <span class="n">tok</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
-    <span class="k">return</span> <span class="n">node</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="n">error_tok</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span> <span class="s">"expected an expression"</span><span class="p">);</span>
-
-<span class="p">}</span>
-</code></pre></div></div> <h2 id="order-of-parser-is-important">order of parser is important</h2> <p>The order of operations in the code snippet you provided is crucial for correctly evaluating the expression represented by the abstract syntax tree (AST). Let’s go through the code step-by-step:</p> <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gen_expr</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">rhs</span><span class="p">);</span>
-<span class="n">push</span><span class="p">();</span>
-<span class="n">gen_expr</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">lhs</span><span class="p">);</span>
-<span class="n">pop</span><span class="p">(</span><span class="s">"%rdi"</span><span class="p">);</span>
-</code></pre></div></div> <ol> <li><strong>Evaluate the Right Subtree</strong>: <code class="language-plaintext highlighter-rouge">gen_expr(node-&gt;rhs);</code> <ul> <li>This recursively generates code for the right-hand side expression of the current node. The result of this expression is expected to be in the <code class="language-plaintext highlighter-rouge">%rax</code> register.</li> </ul> </li> <li><strong>Push the Result of the Right Subtree</strong>: <code class="language-plaintext highlighter-rouge">push();</code> <ul> <li>The value in <code class="language-plaintext highlighter-rouge">%rax</code> (which is the result of the right-hand side expression) is pushed onto the stack. This saves the result so that the <code class="language-plaintext highlighter-rouge">%rax</code> register can be used for other purposes.</li> </ul> </li> <li><strong>Evaluate the Left Subtree</strong>: <code class="language-plaintext highlighter-rouge">gen_expr(node-&gt;lhs);</code> <ul> <li>This recursively generates code for the left-hand side expression of the current node. The result of this expression is also expected to be in the <code class="language-plaintext highlighter-rouge">%rax</code> register.</li> </ul> </li> <li><strong>Pop the Saved Right Subtree Result</strong>: <code class="language-plaintext highlighter-rouge">pop("%rdi");</code> <ul> <li>The value that was previously pushed onto the stack (the result of the right-hand side expression) is popped into the <code class="language-plaintext highlighter-rouge">%rdi</code> register.</li> </ul> </li> </ol> <p>The reason for this specific order is to ensure that the values of the left and right subtrees are correctly placed in the registers for further operations. By convention, the result of the left subtree is left in <code class="language-plaintext highlighter-rouge">%rax</code>, and the result of the right subtree is placed in <code class="language-plaintext highlighter-rouge">%rdi</code>. This is a common calling convention for binary operations where the left operand is in <code class="language-plaintext highlighter-rouge">%rax</code> and the right operand is in <code class="language-plaintext highlighter-rouge">%rdi</code>.</p> <p>This order of operations is necessary because the code generator needs to follow the calling convention and ensure that the values are in the correct registers before performing the operation represented by the current node. The <code class="language-plaintext highlighter-rouge">push</code> and <code class="language-plaintext highlighter-rouge">pop</code> operations are used to temporarily save and restore the values to maintain the correct evaluation order and register usage.</p> <h2 id="quotient-and-remainder-in-division">quotient and remainder in division</h2> <p>The <strong>quotient</strong> and <strong>remainder</strong> are the results of a division operation. The quotient is the number of times the divisor fits into the dividend, and the remainder is what’s left over after the division.</p> <p>Here’s a simple example to illustrate:</p> <p>Let’s say we want to divide 17 by 5:</p> <ul> <li><strong>Dividend</strong>: 17</li> <li><strong>Divisor</strong>: 5</li> </ul> <p>When we divide 17 by 5, we get:</p> <ul> <li><strong>Quotient</strong>: 3 (because 5 fits into 17 three times)</li> <li><strong>Remainder</strong>: 2 (because after taking away 15, which is 5 times 3, from 17, we have 2 left over)</li> </ul> <p>So, in mathematical terms: [ 17 \div 5 = 3 \text{ remainder } 2 ]</p> <p>In the context of the <code class="language-plaintext highlighter-rouge">idiv</code> instruction in assembly language:</p> <ul> <li>The quotient is stored in the <code class="language-plaintext highlighter-rouge">%rax</code> register.</li> <li>The remainder is stored in the <code class="language-plaintext highlighter-rouge">%rdx</code> register.</li> </ul> <p>This is how the division operation works at a fundamental level, and it’s the same concept used in assembly language for the <code class="language-plaintext highlighter-rouge">idiv</code> instruction. The <code class="language-plaintext highlighter-rouge">idiv</code> instruction performs a division and stores the quotient and remainder in the appropriate registers.</p>]]></content><author><name></name></author><category term="compiler"/><category term="c"/><category term="compiler"/><summary type="html"><![CDATA[Once we have the tokenize we can then write parser code to generate abstract syntax tree by traversing the token list. We use stack to generate tree.]]></summary></entry><entry><title type="html">Python pyplot trick</title><link href="https://bilyz98.github.io/blog/2024/python-plot-trick/" rel="alternate" type="text/html" title="Python pyplot trick"/><published>2024-09-20T11:59:00+00:00</published><updated>2024-09-20T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/python-plot-trick</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/python-plot-trick/"><![CDATA[<p>grey line for y axis.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import matplotlib.pyplot as plt
-
-# Create a plot
-plt.figure()
-
-# Add solid horizontal lines with light grey color at y = 20, y = 40, y = 60
-plt.axhline(y=20, color='lightgrey', linestyle='-')
-plt.axhline(y=40, color='lightgrey', linestyle='-')
-plt.axhline(y=60, color='lightgrey', linestyle='-')
-
-# Display the plot
-plt.show()
-
-</code></pre></div></div> <p>At the back of the bar chart</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import matplotlib.pyplot as plt
-import numpy as np
-
-# Sample data for bar chart
-x = np.arange(5)
-y = [10, 30, 50, 70, 90]
-
-# Create a plot
-fig, ax = plt.subplots()
-
-# Plot the bar chart
-ax.bar(x, y)
-
-# Add solid horizontal lines with light grey color at y = 20, y = 40, y = 60
-ax.axhline(y=20, color='lightgrey', linestyle='-', zorder=0)
-ax.axhline(y=40, color='lightgrey', linestyle='-', zorder=0)
-ax.axhline(y=60, color='lightgrey', linestyle='-', zorder=0)
-
-# Display the plot
-plt.show()
-
-</code></pre></div></div>]]></content><author><name></name></author><category term="python"/><category term="python"/><summary type="html"><![CDATA[grey line for y axis. ``` import matplotlib.pyplot as plt]]></summary></entry><entry><title type="html">Python capture function print output</title><link href="https://bilyz98.github.io/blog/2024/capture-output-python/" rel="alternate" type="text/html" title="Python capture function print output"/><published>2024-08-24T11:59:00+00:00</published><updated>2024-08-24T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/capture-output-python</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/capture-output-python/"><![CDATA[<p>You can redirect the output of the <code class="language-plaintext highlighter-rouge">print</code> function to a string in Python using the <code class="language-plaintext highlighter-rouge">io.StringIO</code> class from the <code class="language-plaintext highlighter-rouge">io</code> module. Here’s a simple example to demonstrate how you can achieve this:</p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">io</span>
-<span class="kn">import</span> <span class="n">sys</span>
-
-<span class="k">def</span> <span class="nf">capture_print_output</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="c1"># Create a StringIO object to capture the output
-</span>    <span class="n">captured_output</span> <span class="o">=</span> <span class="n">io</span><span class="p">.</span><span class="nc">StringIO</span><span class="p">()</span>
-    <span class="c1"># Redirect sys.stdout to the StringIO object
-</span>    <span class="n">sys</span><span class="p">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">captured_output</span>
-    
-    <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># Call the function with the provided arguments
-</span>        <span class="nf">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="k">finally</span><span class="p">:</span>
-        <span class="c1"># Reset sys.stdout to its original value
-</span>        <span class="n">sys</span><span class="p">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">__stdout__</span>
-    
-    <span class="c1"># Get the captured output as a string
-</span>    <span class="k">return</span> <span class="n">captured_output</span><span class="p">.</span><span class="nf">getvalue</span><span class="p">()</span>
-
-<span class="c1"># Example function that prints something
-</span><span class="k">def</span> <span class="nf">example_function</span><span class="p">():</span>
-    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Hello, World!</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="c1"># Capture the output of the example_function
-</span><span class="n">output</span> <span class="o">=</span> <span class="nf">capture_print_output</span><span class="p">(</span><span class="n">example_function</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Captured Output:</span><span class="sh">"</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
-</code></pre></div></div> <p>In this example:</p> <ol> <li>We create a <code class="language-plaintext highlighter-rouge">StringIO</code> object to capture the output.</li> <li>We redirect <code class="language-plaintext highlighter-rouge">sys.stdout</code> to the <code class="language-plaintext highlighter-rouge">StringIO</code> object.</li> <li>We call the function whose output we want to capture.</li> <li>We reset <code class="language-plaintext highlighter-rouge">sys.stdout</code> to its original value.</li> <li>We retrieve the captured output as a string using the <code class="language-plaintext highlighter-rouge">getvalue()</code> method.</li> </ol> <p>Feel free to adapt this code to fit your specific needs! If you have any other questions or need further assistance, just let me know.</p> <p>Source: Conversation with Copilot, 8/26/2024 (1) How can I redirect print output of a function in python. https://stackoverflow.com/questions/14197009/how-can-i-redirect-print-%20%20output-of-a-function-in-python%20/%2014197079. (2) How do I redirect output of multiple functions to string or stdout in …. https://stackoverflow.com/questions/64199833/how-do-i-redirect-output-of-multiple-functions-to-string-or-stdout-in-python-t. (3) How to assign Print output to a Variable in Python | bobbyhadz. https://bobbyhadz.com/blog/python-assign-string-output-to-variable. (4) Python 101: Redirecting stdout - Mouse Vs Python. https://www.blog.pythonlibrary.org/2016/06/16/python-101-redirecting-stdout/.</p>]]></content><author><name></name></author><category term="python"/><category term="python"/><summary type="html"><![CDATA[You can redirect the output of the print function to a string in Python using the io.StringIO class from the io module. Here’s a simple example to demonstrate how you can achieve this:]]></summary></entry><entry><title type="html">Simple lru cache cpp implementation</title><link href="https://bilyz98.github.io/blog/2024/lru-cache/" rel="alternate" type="text/html" title="Simple lru cache cpp implementation"/><published>2024-08-24T11:59:00+00:00</published><updated>2024-08-24T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/lru-cache</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/lru-cache/"><![CDATA[<p>Use std::list and std::map</p> <p>To get more low level. One should implement list himself/herself.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="cp">#include</span> <span class="cpf">&lt;cstdio&gt;</span><span class="cp">
-#include</span> <span class="cpf">&lt;cassert&gt;</span><span class="cp">
-#include</span> <span class="cpf">&lt;list&gt;</span><span class="cp">
-#include</span> <span class="cpf">&lt;map&gt;</span><span class="cp">
-</span>
-<span class="k">class</span> <span class="nc">Cache</span> <span class="p">{</span>
-<span class="nl">public:</span>
-  <span class="n">Cache</span><span class="p">(</span><span class="kt">int</span> <span class="n">cap</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">cap_</span> <span class="o">=</span> <span class="n">cap</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="kt">int</span> <span class="nf">get</span><span class="p">(</span><span class="kt">int</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">map_</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">!=</span> <span class="n">map_</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
-      <span class="kt">int</span> <span class="n">value</span> <span class="o">=</span> <span class="n">map_</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">;</span>
-      <span class="n">moveToFront</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
-      <span class="k">return</span> <span class="n">value</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-
-  <span class="p">}</span>
-
-  <span class="kt">void</span> <span class="nf">put</span><span class="p">(</span><span class="kt">int</span> <span class="n">key</span><span class="p">,</span> <span class="kt">int</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">map_</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">!=</span> <span class="n">map_</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
-      <span class="n">moveToFront</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">);</span>
-      <span class="k">return</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">items_</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="n">cap_</span><span class="p">)</span> <span class="p">{</span>
-      <span class="c1">// remove the tail key from list and map</span>
-      <span class="kt">int</span> <span class="n">tail_key</span> <span class="o">=</span> <span class="n">items_</span><span class="p">.</span><span class="n">back</span><span class="p">().</span><span class="n">second</span><span class="p">;</span>
-      <span class="k">auto</span> <span class="n">tail_key_iter</span> <span class="o">=</span> <span class="n">map_</span><span class="p">[</span><span class="n">tail_key</span><span class="p">];</span> 
-      <span class="c1">// does the order matter?</span>
-      <span class="n">map_</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">tail_key</span><span class="p">);</span>
-      <span class="c1">// items_.erase(tail_key_iter);</span>
-      <span class="n">items_</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
-    <span class="p">}</span>
-    <span class="n">items_</span><span class="p">.</span><span class="n">push_front</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_pair</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">));</span>
-    <span class="n">map_</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">items_</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
-  <span class="p">}</span>
-
-<span class="k">private</span><span class="o">:</span>
-  <span class="kt">void</span> <span class="nf">moveToFront</span><span class="p">(</span><span class="kt">int</span> <span class="n">key</span><span class="p">,</span> <span class="kt">int</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">items_</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">map_</span><span class="p">[</span><span class="n">key</span><span class="p">]);</span>
-    <span class="n">items_</span><span class="p">.</span><span class="n">push_front</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_pair</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">));</span>
-    <span class="c1">// map_.insert(std::make_pair(key, items_.begin()));</span>
-    <span class="n">map_</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">items_</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
-  <span class="p">}</span>
-  <span class="kt">int</span> <span class="n">cap_</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">items_</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&gt;::</span><span class="n">iterator</span><span class="o">&gt;</span> <span class="n">map_</span><span class="p">;</span>
-<span class="p">};</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">auto</span> <span class="n">cache</span> <span class="o">=</span>   <span class="n">Cache</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
-  <span class="n">cache</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="p">);</span>
-  <span class="n">cache</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span> <span class="p">);</span>
-  <span class="n">cache</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
-  <span class="n">assert</span><span class="p">(</span><span class="n">cache</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span>
-  <span class="n">assert</span><span class="p">(</span><span class="n">cache</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">);</span>
-  <span class="n">assert</span><span class="p">(</span><span class="n">cache</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">);</span>
-
-  <span class="n">cache</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
-  <span class="n">assert</span><span class="p">(</span><span class="n">cache</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-
-  <span class="n">assert</span><span class="p">(</span><span class="n">cache</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">);</span>
-  <span class="n">cache</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
-  <span class="n">assert</span><span class="p">(</span><span class="n">cache</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-  <span class="n">printf</span><span class="p">(</span><span class="s">"OK</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
-
-<span class="p">}</span>
-</code></pre></div></div> <h3 id="cpp-constructor">Cpp constructor</h3> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">LRUCache</span><span class="o">::</span><span class="n">LRUCache</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">capacity</span><span class="p">,</span> <span class="kt">int</span> <span class="n">num_shard_bits</span><span class="p">,</span>
-                   <span class="kt">bool</span> <span class="n">strict_capacity_limit</span><span class="p">,</span> <span class="kt">double</span> <span class="n">high_pri_pool_ratio</span><span class="p">,</span>
-                   <span class="kt">double</span> <span class="n">low_pri_pool_ratio</span><span class="p">,</span>
-                   <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">MemoryAllocator</span><span class="o">&gt;</span> <span class="n">allocator</span><span class="p">,</span>
-                   <span class="kt">bool</span> <span class="n">use_adaptive_mutex</span><span class="p">,</span>
-                   <span class="n">CacheMetadataChargePolicy</span> <span class="n">metadata_charge_policy</span><span class="p">,</span>
-                   <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">SecondaryCache</span><span class="o">&gt;</span> <span class="n">_secondary_cache</span><span class="p">)</span>
-    <span class="o">:</span> <span class="n">ShardedCache</span><span class="p">(</span><span class="n">capacity</span><span class="p">,</span> <span class="n">num_shard_bits</span><span class="p">,</span> <span class="n">strict_capacity_limit</span><span class="p">,</span>
-                   <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">allocator</span><span class="p">)),</span>
-      <span class="n">secondary_cache_</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">_secondary_cache</span><span class="p">))</span> <span class="p">{</span>
-  <span class="kt">size_t</span> <span class="n">per_shard</span> <span class="o">=</span> <span class="n">GetPerShardCapacity</span><span class="p">();</span>
-  <span class="n">SecondaryCache</span><span class="o">*</span> <span class="n">secondary_cache</span> <span class="o">=</span> <span class="n">secondary_cache_</span><span class="p">.</span><span class="n">get</span><span class="p">();</span>
-  <span class="n">MemoryAllocator</span><span class="o">*</span> <span class="n">alloc</span> <span class="o">=</span> <span class="n">memory_allocator</span><span class="p">();</span>
-  <span class="n">InitShards</span><span class="p">([</span><span class="o">=</span><span class="p">](</span><span class="n">LRUCacheShard</span><span class="o">*</span> <span class="n">cs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">new</span> <span class="p">(</span><span class="n">cs</span><span class="p">)</span> <span class="n">LRUCacheShard</span><span class="p">(</span>
-        <span class="n">per_shard</span><span class="p">,</span> <span class="n">strict_capacity_limit</span><span class="p">,</span> <span class="n">high_pri_pool_ratio</span><span class="p">,</span>
-        <span class="n">low_pri_pool_ratio</span><span class="p">,</span> <span class="n">use_adaptive_mutex</span><span class="p">,</span> <span class="n">metadata_charge_policy</span><span class="p">,</span>
-        <span class="cm">/* max_upper_hash_bits */</span> <span class="mi">32</span> <span class="o">-</span> <span class="n">num_shard_bits</span><span class="p">,</span> <span class="n">alloc</span><span class="p">,</span> <span class="n">secondary_cache</span><span class="p">);</span>
-  <span class="p">});</span>
-<span class="p">}</span>
-</code></pre></div></div> <p><code class="language-plaintext highlighter-rouge">[=]</code> is capture clause and it’s used forthe lambda function to to capture all local variables by value.</p> <p>Lambda function makes a copy of each variable so updating variables inside the lambda does not affect the original variables outside the lambda.</p> <h3 id="lru-cache-in-rocksdb">lru cache in rocksdb</h3> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Status</span> <span class="n">LRUCacheShard</span><span class="o">::</span><span class="n">Insert</span><span class="p">(</span><span class="k">const</span> <span class="n">Slice</span><span class="o">&amp;</span> <span class="n">key</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">hash</span><span class="p">,</span>
-                             <span class="n">Cache</span><span class="o">::</span><span class="n">ObjectPtr</span> <span class="n">value</span><span class="p">,</span>
-                             <span class="k">const</span> <span class="n">Cache</span><span class="o">::</span><span class="n">CacheItemHelper</span><span class="o">*</span> <span class="n">helper</span><span class="p">,</span>
-                             <span class="kt">size_t</span> <span class="n">charge</span><span class="p">,</span> <span class="n">LRUHandle</span><span class="o">**</span> <span class="n">handle</span><span class="p">,</span>
-                             <span class="n">Cache</span><span class="o">::</span><span class="n">Priority</span> <span class="n">priority</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">assert</span><span class="p">(</span><span class="n">helper</span><span class="p">);</span>
-
-  <span class="c1">// Allocate the memory here outside of the mutex.</span>
-  <span class="c1">// If the cache is full, we'll have to release it.</span>
-  <span class="c1">// It shouldn't happen very often though.</span>
-  <span class="n">LRUHandle</span><span class="o">*</span> <span class="n">e</span> <span class="o">=</span>
-      <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">LRUHandle</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">LRUHandle</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">key</span><span class="p">.</span><span class="n">size</span><span class="p">()));</span>
-
-  <span class="n">e</span><span class="o">-&gt;</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span>
-  <span class="n">e</span><span class="o">-&gt;</span><span class="n">m_flags</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="n">e</span><span class="o">-&gt;</span><span class="n">im_flags</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="n">e</span><span class="o">-&gt;</span><span class="n">helper</span> <span class="o">=</span> <span class="n">helper</span><span class="p">;</span>
-  <span class="n">e</span><span class="o">-&gt;</span><span class="n">key_length</span> <span class="o">=</span> <span class="n">key</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
-  <span class="n">e</span><span class="o">-&gt;</span><span class="n">hash</span> <span class="o">=</span> <span class="n">hash</span><span class="p">;</span>
-  <span class="n">e</span><span class="o">-&gt;</span><span class="n">refs</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="n">e</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">e</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="nb">nullptr</span><span class="p">;</span>
-  <span class="n">e</span><span class="o">-&gt;</span><span class="n">SetInCache</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
-  <span class="n">e</span><span class="o">-&gt;</span><span class="n">SetPriority</span><span class="p">(</span><span class="n">priority</span><span class="p">);</span>
-  <span class="n">memcpy</span><span class="p">(</span><span class="n">e</span><span class="o">-&gt;</span><span class="n">key_data</span><span class="p">,</span> <span class="n">key</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">key</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
-  <span class="n">e</span><span class="o">-&gt;</span><span class="n">CalcTotalCharge</span><span class="p">(</span><span class="n">charge</span><span class="p">,</span> <span class="n">metadata_charge_policy_</span><span class="p">);</span>
-
-  <span class="c1">// value == nullptr is reserved for indicating failure for when secondary</span>
-  <span class="c1">// cache compatible</span>
-  <span class="n">assert</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">e</span><span class="o">-&gt;</span><span class="n">IsSecondaryCacheCompatible</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">value</span> <span class="o">==</span> <span class="nb">nullptr</span><span class="p">));</span>
-
-  <span class="k">return</span> <span class="n">InsertItem</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="cm">/* free_handle_on_fail */</span> <span class="nb">true</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div></div> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Status</span> <span class="n">LRUCacheShard</span><span class="o">::</span><span class="n">InsertItem</span><span class="p">(</span><span class="n">LRUHandle</span><span class="o">*</span> <span class="n">e</span><span class="p">,</span> <span class="n">LRUHandle</span><span class="o">**</span> <span class="n">handle</span><span class="p">,</span>
-                                 <span class="kt">bool</span> <span class="n">free_handle_on_fail</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">Status</span> <span class="n">s</span> <span class="o">=</span> <span class="n">Status</span><span class="o">::</span><span class="n">OK</span><span class="p">();</span>
-  <span class="n">autovector</span><span class="o">&lt;</span><span class="n">LRUHandle</span><span class="o">*&gt;</span> <span class="n">last_reference_list</span><span class="p">;</span>
-
-  <span class="p">{</span>
-    <span class="n">DMutexLock</span> <span class="n">l</span><span class="p">(</span><span class="n">mutex_</span><span class="p">);</span>
-
-    <span class="c1">// Free the space following strict LRU policy until enough space</span>
-    <span class="c1">// is freed or the lru list is empty.</span>
-    <span class="n">EvictFromLRU</span><span class="p">(</span><span class="n">e</span><span class="o">-&gt;</span><span class="n">total_charge</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">last_reference_list</span><span class="p">);</span>
-
-    <span class="k">if</span> <span class="p">((</span><span class="n">usage_</span> <span class="o">+</span> <span class="n">e</span><span class="o">-&gt;</span><span class="n">total_charge</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">capacity_</span> <span class="o">&amp;&amp;</span>
-        <span class="p">(</span><span class="n">strict_capacity_limit_</span> <span class="o">||</span> <span class="n">handle</span> <span class="o">==</span> <span class="nb">nullptr</span><span class="p">))</span> <span class="p">{</span>
-      <span class="n">e</span><span class="o">-&gt;</span><span class="n">SetInCache</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">handle</span> <span class="o">==</span> <span class="nb">nullptr</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// Don't insert the entry but still return ok, as if the entry inserted</span>
-        <span class="c1">// into cache and get evicted immediately.</span>
-        <span class="n">last_reference_list</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">free_handle_on_fail</span><span class="p">)</span> <span class="p">{</span>
-          <span class="n">free</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
-          <span class="o">*</span><span class="n">handle</span> <span class="o">=</span> <span class="nb">nullptr</span><span class="p">;</span>
-        <span class="p">}</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="n">Status</span><span class="o">::</span><span class="n">MemoryLimit</span><span class="p">(</span><span class="s">"Insert failed due to LRU cache being full."</span><span class="p">);</span>
-      <span class="p">}</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="c1">// Insert into the cache. Note that the cache might get larger than its</span>
-      <span class="c1">// capacity if not enough space was freed up.</span>
-      <span class="n">LRUHandle</span><span class="o">*</span> <span class="n">old</span> <span class="o">=</span> <span class="n">table_</span><span class="p">.</span><span class="n">Insert</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
-      <span class="n">usage_</span> <span class="o">+=</span> <span class="n">e</span><span class="o">-&gt;</span><span class="n">total_charge</span><span class="p">;</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">old</span> <span class="o">!=</span> <span class="nb">nullptr</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="n">Status</span><span class="o">::</span><span class="n">OkOverwritten</span><span class="p">();</span>
-        <span class="n">assert</span><span class="p">(</span><span class="n">old</span><span class="o">-&gt;</span><span class="n">InCache</span><span class="p">());</span>
-        <span class="n">old</span><span class="o">-&gt;</span><span class="n">SetInCache</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">old</span><span class="o">-&gt;</span><span class="n">HasRefs</span><span class="p">())</span> <span class="p">{</span>
-          <span class="c1">// old is on LRU because it's in cache and its reference count is 0.</span>
-          <span class="n">LRU_Remove</span><span class="p">(</span><span class="n">old</span><span class="p">);</span>
-          <span class="n">assert</span><span class="p">(</span><span class="n">usage_</span> <span class="o">&gt;=</span> <span class="n">old</span><span class="o">-&gt;</span><span class="n">total_charge</span><span class="p">);</span>
-          <span class="n">usage_</span> <span class="o">-=</span> <span class="n">old</span><span class="o">-&gt;</span><span class="n">total_charge</span><span class="p">;</span>
-          <span class="n">last_reference_list</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">old</span><span class="p">);</span>
-        <span class="p">}</span>
-      <span class="p">}</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">handle</span> <span class="o">==</span> <span class="nb">nullptr</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">LRU_Insert</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="c1">// If caller already holds a ref, no need to take one here.</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">e</span><span class="o">-&gt;</span><span class="n">HasRefs</span><span class="p">())</span> <span class="p">{</span>
-          <span class="n">e</span><span class="o">-&gt;</span><span class="n">Ref</span><span class="p">();</span>
-        <span class="p">}</span>
-        <span class="o">*</span><span class="n">handle</span> <span class="o">=</span> <span class="n">e</span><span class="p">;</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-
-  <span class="n">TryInsertIntoSecondaryCache</span><span class="p">(</span><span class="n">last_reference_list</span><span class="p">);</span>
-
-  <span class="k">return</span> <span class="n">s</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>]]></content><author><name></name></author><category term="cpp"/><category term="cpp"/><category term="programming"/><summary type="html"><![CDATA[Use std::list and std::map]]></summary></entry></feed>
+</code></pre></div></div>]]></content><author><name></name></author><category term="compiler"/><category term="c"/><category term="compiler"/><summary type="html"><![CDATA[Add unary to parser Previous parser post]]></summary></entry></feed>
