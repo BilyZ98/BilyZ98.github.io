@@ -30,9 +30,12 @@ utilization of cpu. Just to keep cpu busy
 
 
 Roofline model:
+![image](https://github.com/user-attachments/assets/da01cc6b-a009-4b49-a306-c72940b89eaf)
+
 To achieve maximum computation throughput GFLOPS/s
 of cpu or gpus one has to have algorithm that has high
 operation intensity -> high flops/bytes.
+
 
 Need to has many computation per byte access unit.
 
