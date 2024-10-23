@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://bilyz98.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://bilyz98.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-10-23T08:58:17+00:00</updated><id>https://bilyz98.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">Cs149 Lecture7 Cuda</title><link href="https://bilyz98.github.io/blog/2024/cs149-lecture7-cuda/" rel="alternate" type="text/html" title="Cs149 Lecture7 Cuda"/><published>2024-10-22T00:00:00+00:00</published><updated>2024-10-22T00:00:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/cs149-lecture7-cuda</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/cs149-lecture7-cuda/"><![CDATA[<p><a href="https://gfxcourses.stanford.edu/cs149/fall23/lecture/gpucuda/">Lecture 7 slides</a></p> <p><a href="https://www.youtube.com/watch?v=qQTDF0CBoxE&amp;list=PLoROMvodv4rMp7MTFr4hQsDEcX7Bx6Odp&amp;index=7&amp;pp=iAQB">Video lecture</a></p> <h2 id="cuda-programming-model--abstraction-">CUDA programming model ( abstraction )</h2> <p>Three execution unit and memory address</p> <ol> <li>thread</li> <li>thread block</li> <li>cuda kernel</li> </ol> <p>A thread block contains bunch of threads.</p> <p>A cuda kernal contains all the thread blocks.</p> <p>Memory address space</p> <ol> <li>Each thread has its own memory address space</li> <li>Each thread block has its own shared memory address space for all threads in the thread block</li> <li>All threads across all thread blocks share a process memory address space</li> </ol> <p><img src="https://github.com/user-attachments/assets/851fe0f2-52ec-4b7b-8a23-d3870982c520" alt="image"/></p> <p>Why this 3 level hierachy adress space ? For efficient memory access when threads in thread block are scheduled in the same core.</p> <h2 id="nvidia-gpu-implementation">Nvidia gpu (implementation)</h2> <p>A warp in nvidia gpu is a gropu of 32 threads in thread block. <img src="https://github.com/user-attachments/assets/e2f4aa55-103c-404b-828b-28d693b9c72b" alt="image"/></p> <p>Different CUDA thread has it own PC(Program counter) even though they are in the same warp.</p> <p>However, since all threads in the same warp is likely to execute the same code and same instructions it effectively looks like that there are only 4 unique PCs even though in reality there are 4 * 32 = 128 PCs.</p> <p>Difference between warp and thread block.</p> <p>A thread block is an programming model abstraction.</p> <p>A warp in hardware implementation.</p> <p>Both represent the concept of group of threads .</p> <p>sub-core has 4 warp in the diagram below.</p> <p>Each SM(streaming multi-processor) has 4 sub-core.</p> <p>V100 has 80 SMs in total.</p> <p>For V100, each SM(streaming multi-processor) has 4 sub-cores. <img src="https://github.com/user-attachments/assets/dbca936d-0da6-42fa-82d9-ceaf3d91596d" alt="image"/></p> <p>Instruction execution.</p> <p>Since we have more execution context than ALUs, each instructions is finished half of the work in one cycle and another half of the work in the next cycle.</p> <p><img src="https://github.com/user-attachments/assets/0531761c-6aef-437d-814a-095990d67950" alt="image"/></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Lecture 7 slides]]></summary></entry><entry><title type="html">Cs149 Assign2</title><link href="https://bilyz98.github.io/blog/2024/cs149-assign2/" rel="alternate" type="text/html" title="Cs149 Assign2"/><published>2024-10-21T00:00:00+00:00</published><updated>2024-10-21T00:00:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/cs149-assign2</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/cs149-assign2/"><![CDATA[<h2 id="part-a--parallel-thread-spawn">Part A : parallel thread spawn</h2> <p>First implementaion that spawns new thread for each task:</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">TaskSystemParallelSpawn</span><span class="o">::</span><span class="n">run</span><span class="p">(</span><span class="n">IRunnable</span><span class="o">*</span> <span class="n">runnable</span><span class="p">,</span> <span class="kt">int</span> <span class="n">num_total_tasks</span><span class="p">)</span> <span class="p">{</span>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://bilyz98.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://bilyz98.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-10-23T12:36:57+00:00</updated><id>https://bilyz98.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">Cs149 Lecture7 Cuda</title><link href="https://bilyz98.github.io/blog/2024/cs149-lecture7-cuda/" rel="alternate" type="text/html" title="Cs149 Lecture7 Cuda"/><published>2024-10-22T00:00:00+00:00</published><updated>2024-10-22T00:00:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/cs149-lecture7-cuda</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/cs149-lecture7-cuda/"><![CDATA[<p><a href="https://gfxcourses.stanford.edu/cs149/fall23/lecture/gpucuda/">Lecture 7 slides</a></p> <p><a href="https://www.youtube.com/watch?v=qQTDF0CBoxE&amp;list=PLoROMvodv4rMp7MTFr4hQsDEcX7Bx6Odp&amp;index=7&amp;pp=iAQB">Video lecture</a></p> <h2 id="cuda-programming-model--abstraction-">CUDA programming model ( abstraction )</h2> <p>Three execution unit and memory address</p> <ol> <li>thread</li> <li>thread block</li> <li>cuda kernel</li> </ol> <p>A thread block contains bunch of threads.</p> <p>A cuda kernal contains all the thread blocks.</p> <p>Memory address space</p> <ol> <li>Each thread has its own memory address space</li> <li>Each thread block has its own shared memory address space for all threads in the thread block</li> <li>All threads across all thread blocks share a process memory address space</li> </ol> <p><img src="https://github.com/user-attachments/assets/851fe0f2-52ec-4b7b-8a23-d3870982c520" alt="image"/></p> <p>Why this 3 level hierachy adress space ? For efficient memory access when threads in thread block are scheduled in the same core.</p> <h2 id="nvidia-gpu-implementation">Nvidia gpu (implementation)</h2> <p>A warp in nvidia gpu is a gropu of 32 threads in thread block. <img src="https://github.com/user-attachments/assets/e2f4aa55-103c-404b-828b-28d693b9c72b" alt="image"/></p> <p>Different CUDA thread has it own PC(Program counter) even though they are in the same warp.</p> <p>However, since all threads in the same warp is likely to execute the same code and same instructions it effectively looks like that there are only 4 unique PCs even though in reality there are 4 * 32 = 128 PCs.</p> <p>Difference between warp and thread block.</p> <p>A thread block is an programming model abstraction.</p> <p>A warp in hardware implementation.</p> <p>Both represent the concept of group of threads .</p> <p>sub-core has 4 warp in the diagram below.</p> <p>Each SM(streaming multi-processor) has 4 sub-core.</p> <p>V100 has 80 SMs in total.</p> <p>For V100, each SM(streaming multi-processor) has 4 sub-cores. <img src="https://github.com/user-attachments/assets/dbca936d-0da6-42fa-82d9-ceaf3d91596d" alt="image"/></p> <p>Instruction execution.</p> <p>Since we have more execution context than ALUs, each instructions is finished half of the work in one cycle and another half of the work in the next cycle.</p> <p><img src="https://github.com/user-attachments/assets/0531761c-6aef-437d-814a-095990d67950" alt="image"/></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Lecture 7 slides]]></summary></entry><entry><title type="html">Cs149 Assign2</title><link href="https://bilyz98.github.io/blog/2024/cs149-assign2/" rel="alternate" type="text/html" title="Cs149 Assign2"/><published>2024-10-21T00:00:00+00:00</published><updated>2024-10-21T00:00:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/cs149-assign2</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/cs149-assign2/"><![CDATA[<h2 id="part-a--parallel-thread-spawn">Part A : parallel thread spawn</h2> <p>First implementaion that spawns new thread for each task:</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">TaskSystemParallelSpawn</span><span class="o">::</span><span class="n">run</span><span class="p">(</span><span class="n">IRunnable</span><span class="o">*</span> <span class="n">runnable</span><span class="p">,</span> <span class="kt">int</span> <span class="n">num_total_tasks</span><span class="p">)</span> <span class="p">{</span>
 
 
     <span class="c1">//</span>
@@ -88,6 +88,183 @@ Overall performance results
 [Serial]                                : All passed Perf
 [Parallel + Always Spawn]               : All passed Perf
 [Parallel + Thread Pool + Spin]         : Perf did not pass all tests
+[Parallel + Thread Pool + Sleep]        : Perf did not pass all tests
+</code></pre></div></div> <h2 id="part-b-threadpool--spinning-waiting">Part b: threadpool + spinning waiting</h2> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void TaskSystemParallelThreadPoolSpinning::threadTask() {
+      // bool done = done_.load();
+  while(!done_.load()) {
+    // printf("id: %d\n", id);
+    mutex_.lock();
+    threadArg arg;
+    if(!task_queue_.empty()) {
+      arg = task_queue_.front();
+      task_queue_.pop_front();
+    }
+    mutex_.unlock();
+    if(arg.runnable) {
+      arg.runnable-&gt;runTask( arg.task_id, arg.num_total_tasks);
+      finished_tasks_.fetch_add(1);
+    }
+  }
+
+}
+TaskSystemParallelThreadPoolSpinning::TaskSystemParallelThreadPoolSpinning(int num_threads): ITaskSystem(num_threads) {
+    //
+    // TODO: CS149 student implementations may decide to perform setup
+    // operations (such as thread pool construction) here.
+    // Implementations are free to add new class member variables
+    // (requiring changes to tasksys.h).
+    //
+  done_ = false;
+  num_threads_ = num_threads;
+  for(int i=0; i &lt; num_threads_; i++) {
+    workers_.emplace_back([this ]{
+      this-&gt;threadTask();
+    });
+  }
+
+}
+
+TaskSystemParallelThreadPoolSpinning::~TaskSystemParallelThreadPoolSpinning() {
+  done_.store(true);
+  for(int i=0; i&lt; num_threads_; i++) {
+    workers_[i].join();
+  }
+}
+
+void TaskSystemParallelThreadPoolSpinning::run(IRunnable* runnable, int num_total_tasks) {
+
+
+    //
+    // TODO: CS149 students will modify the implementation of this
+    // method in Part A.  The implementation provided below runs all
+    // tasks sequentially on the calling thread.
+    //
+
+  finished_tasks_ = 0;
+  {
+  const std::lock_guard&lt;std::mutex&gt; lock(mutex_);
+  for(int i=0; i &lt; num_total_tasks; i++) {
+      threadArg arg(i, num_total_tasks, runnable);
+    task_queue_.emplace_back(arg);
+  }
+  }
+  
+  while(finished_tasks_.load() != num_total_tasks) {
+
+  }
+
+}
+</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  part_a git:(master) ✗ python3 ../tests/run_test_harness.py -n 8
+runtasks_ref
+Linux x86_64
+================================================================================                              Running task system grading harness... (11 total tests)
+- Detected CPU with 40 execution contexts
+  - Task system configured to use at most 8 threads
+================================================================================
+================================================================================                                                                             Executing test: super_super_light...
+Reference binary: ./runtasks_ref_linux
+Results for: super_super_light
+                                        STUDENT   REFERENCE   PERF?
+[Serial]                                8.574     12.343      0.69  (OK)
+[Parallel + Always Spawn]               56.938    54.949      1.04  (OK)
+[Parallel + Thread Pool + Spin]         21.404    25.716      0.83  (OK)
+[Parallel + Thread Pool + Sleep]        8.704     17.781      0.49  (OK)
+================================================================================
+Executing test: super_light...
+Reference binary: ./runtasks_ref_linux
+Results for: super_light
+                                        STUDENT   REFERENCE   PERF?
+[Serial]                                80.252    94.107      0.85  (OK)
+[Parallel + Always Spawn]               73.338    83.35       0.88  (OK)
+[Parallel + Thread Pool + Spin]         27.698    36.119      0.77  (OK)
+[Parallel + Thread Pool + Sleep]        80.795    34.28       2.36  (NOT OK)
+================================================================================
+Executing test: ping_pong_equal...
+Reference binary: ./runtasks_ref_linux
+Results for: ping_pong_equal
+                                        STUDENT   REFERENCE   PERF?
+[Serial]                                1297.763  1553.482    0.84  (OK)
+[Parallel + Always Spawn]               574.729   649.785     0.88  (OK)
+[Parallel + Thread Pool + Spin]         187.65    232.88      0.81  (OK)
+[Parallel + Thread Pool + Sleep]        1294.887  226.363     5.72  (NOT OK)
+================================================================================
+Executing test: ping_pong_unequal...
+Reference binary: ./runtasks_ref_linux
+Results for: ping_pong_unequal
+                                        STUDENT   REFERENCE   PERF?
+[Serial]                                2405.604  2401.768    1.00  (OK)
+[Parallel + Always Spawn]               969.55    1021.323    0.95  (OK)
+[Parallel + Thread Pool + Spin]         336.518   332.326     1.01  (OK)
+[Parallel + Thread Pool + Sleep]        2396.002  338.008     7.09  (NOT OK)
+================================================================================
+Executing test: recursive_fibonacci...
+Reference binary: ./runtasks_ref_linux
+Results for: recursive_fibonacci
+                                        STUDENT   REFERENCE   PERF?
+[Serial]                                1578.621  1938.967    0.81  (OK)
+[Parallel + Always Spawn]               482.274   548.912     0.88  (OK)
+[Parallel + Thread Pool + Spin]         222.252   266.043     0.84  (OK)
+[Parallel + Thread Pool + Sleep]        1583.164  266.454     5.94  (NOT OK)
+================================================================================
+Executing test: math_operations_in_tight_for_loop...
+Reference binary: ./runtasks_ref_linux
+Results for: math_operations_in_tight_for_loop
+                                        STUDENT   REFERENCE   PERF?
+[Serial]                                808.052   833.969     0.97  (OK)
+[Parallel + Always Spawn]               651.691   705.552     0.92  (OK)
+[Parallel + Thread Pool + Spin]         139.645   154.966     0.90  (OK)
+[Parallel + Thread Pool + Sleep]        802.654   157.355     5.10  (NOT OK)
+================================================================================
+================================================================================
+Executing test: math_operations_in_tight_for_loop_fewer_tasks...
+Reference binary: ./runtasks_ref_linux
+Results for: math_operations_in_tight_for_loop_fewer_tasks
+                                        STUDENT   REFERENCE   PERF?
+[Serial]                                806.914   839.226     0.96  (OK)
+[Parallel + Always Spawn]               809.429   810.212     1.00  (OK)
+[Parallel + Thread Pool + Spin]         215.631   238.903     0.90  (OK)
+[Parallel + Thread Pool + Sleep]        805.115   244.607     3.29  (NOT OK)
+================================================================================
+Executing test: math_operations_in_tight_for_loop_fan_in...
+Reference binary: ./runtasks_ref_linux
+Results for: math_operations_in_tight_for_loop_fan_in
+                                        STUDENT   REFERENCE   PERF?
+[Serial]                                416.313   428.492     0.97  (OK)
+[Parallel + Always Spawn]               133.057   160.116     0.83  (OK)
+[Parallel + Thread Pool + Spin]         71.286    74.03       0.96  (OK)
+[Parallel + Thread Pool + Sleep]        412.149   81.239      5.07  (NOT OK)
+================================================================================
+Executing test: math_operations_in_tight_for_loop_reduction_tree...
+Reference binary: ./runtasks_ref_linux
+Results for: math_operations_in_tight_for_loop_reduction_tree
+                                        STUDENT   REFERENCE   PERF?
+[Serial]                                415.842   428.485     0.97  (OK)
+[Parallel + Always Spawn]               142.34    191.563     0.74  (OK)
+[Parallel + Thread Pool + Spin]         70.203    65.066      1.08  (OK)
+[Parallel + Thread Pool + Sleep]        411.849   67.231      6.13  (NOT OK)
+================================================================================
+Executing test: spin_between_run_calls...
+Reference binary: ./runtasks_ref_linux
+Results for: spin_between_run_calls
+                                        STUDENT   REFERENCE   PERF?
+[Serial]                                540.34    687.538     0.79  (OK)
+[Parallel + Always Spawn]               290.111   364.247     0.80  (OK)
+[Parallel + Thread Pool + Spin]         295.734   373.543     0.79  (OK)
+[Parallel + Thread Pool + Sleep]        538.037   364.643     1.48  (NOT OK)
+================================================================================
+Executing test: mandelbrot_chunked...
+Reference binary: ./runtasks_ref_linux
+Results for: mandelbrot_chunked
+                                        STUDENT   REFERENCE   PERF?
+[Serial]                                526.695   537.581     0.98  (OK)
+[Parallel + Always Spawn]               79.414    78.909      1.01  (OK)
+[Parallel + Thread Pool + Spin]         83.16     77.74       1.07  (OK)
+[Parallel + Thread Pool + Sleep]        530.464   85.143      6.23  (NOT OK)
+================================================================================
+Overall performance results
+[Serial]                                : All passed Perf
+[Parallel + Always Spawn]               : All passed Perf
+[Parallel + Thread Pool + Spin]         : All passed Perf
 [Parallel + Thread Pool + Sleep]        : Perf did not pass all tests
 </code></pre></div></div>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">Cs149 Assign1 Prog3</title><link href="https://bilyz98.github.io/blog/2024/cs149-assign1-prog3/" rel="alternate" type="text/html" title="Cs149 Assign1 Prog3"/><published>2024-10-20T00:00:00+00:00</published><updated>2024-10-20T00:00:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/cs149-assign1-prog3</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/cs149-assign1-prog3/"><![CDATA[<h2 id="speedup-with-ispc">Speedup with ISPC</h2> <p>launching 80 tasks brings 62x speedup.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 <span class="k">export</span> <span class="kt">void</span> <span class="nf">mandelbrot_ispc_withtasks</span><span class="p">(</span><span class="n">uniform</span> <span class="kt">float</span> <span class="n">x0</span><span class="p">,</span> <span class="n">uniform</span> <span class="kt">float</span> <span class="n">y0</span><span class="p">,</span>
