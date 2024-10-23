@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd"> <html><body> <h2 id="part-a--parallel-thread-spawn">Part A : parallel thread spawn</h2> <p>First implementaion that spawns new thread for each task:</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">TaskSystemParallelSpawn</span><span class="o">::</span><span class="n">run</span><span class="p">(</span><span class="n">IRunnable</span><span class="o">*</span> <span class="n">runnable</span><span class="p">,</span> <span class="kt">int</span> <span class="n">num_total_tasks</span><span class="p">)</span> <span class="p">{</span>
+
+
+    <span class="c1">//</span>
+    <span class="c1">// TODO: CS149 students will modify the implementation of this</span>
+    <span class="c1">// method in Part A.  The implementation provided below runs all</span>
+    <span class="c1">// tasks sequentially on the calling thread.</span>
+    <span class="c1">//</span>
+
+    <span class="c1">// for (int i = 0; i &lt; num_total_tasks; i++) {</span>
+    <span class="c1">//     runnable-&gt;runTask(i, num_total_tasks);</span>
+    <span class="c1">// }</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">workers</span><span class="p">[</span><span class="n">num_threads_</span><span class="p">];</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">num_total_tasks</span><span class="p">;</span> <span class="n">i</span><span class="o">+=</span> <span class="n">num_threads_</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">cur_end</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="n">num_threads_</span> <span class="o">&lt;</span> <span class="n">num_total_tasks</span><span class="p">)</span> <span class="o">?</span> <span class="n">i</span><span class="o">+</span><span class="n">num_threads_</span> <span class="o">:</span> <span class="n">num_total_tasks</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">cur_begin</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">t_idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="n">cur_begin</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">cur_end</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">,</span> <span class="n">t_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+       <span class="n">workers</span><span class="p">[</span><span class="n">t_idx</span><span class="p">]</span><span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="p">(</span><span class="n">runTask</span><span class="p">,</span> <span class="n">runnable</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">num_total_tasks</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">t_idx</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="n">cur_begin</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">cur_end</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">,</span> <span class="n">t_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">workers</span><span class="p">[</span><span class="n">t_idx</span><span class="p">].</span><span class="n">join</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div> <p>Result: Not good. Very slow. I think this is because of frequent thread spawn overhead.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  part_a git:(master) ✗ python3 ../tests/run_test_harness.py -n 8 -t  super_light super_super_light
+runtasks_ref
+Linux x86_64
+================================================================================
+Running task system grading harness... (2 total tests)
+  - Detected CPU with 40 execution contexts
+  - Task system configured to use at most 8 threads
+================================================================================
+================================================================================
+Executing test: super_super_light...
+Reference binary: ./runtasks_ref_linux
+Results for: super_super_light
+                                        STUDENT   REFERENCE   PERF?
+[Serial]                                12.239    12.216      1.00  (OK)
+[Parallel + Always Spawn]               444.19    53.469      8.31  (NOT OK)
+[Parallel + Thread Pool + Spin]         12.121    25.723      0.47  (OK)
+[Parallel + Thread Pool + Sleep]        12.106    24.976      0.48  (OK)
+================================================================================
+</code></pre></div></div> <p>Solution 2 : Created <code class="language-plaintext highlighter-rouge">num_threads</code> at the beginning of <code class="language-plaintext highlighter-rouge">run</code> call and reuse all of them. Use atomic counter to asggub unique id to each runnalbe call.</p> <p>Code :</p> <p>Notice that that we have to set <code class="language-plaintext highlighter-rouge">my_counter_=0</code> at the beginning of each run call.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">TaskSystemParallelSpawn</span><span class="o">::</span><span class="n">run</span><span class="p">(</span><span class="n">IRunnable</span><span class="o">*</span> <span class="n">runnable</span><span class="p">,</span> <span class="kt">int</span> <span class="n">num_total_tasks</span><span class="p">)</span> <span class="p">{</span> 
+  <span class="n">my_counter_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="o">&gt;</span> <span class="n">workers</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">num_threads_</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">workers</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">([</span><span class="k">this</span><span class="p">,</span> <span class="n">runnable</span><span class="p">,</span> <span class="n">num_total_tasks</span><span class="p">]</span> <span class="p">{</span>
+      <span class="k">this</span><span class="o">-&gt;</span><span class="n">threadTask</span><span class="p">(</span><span class="n">runnable</span><span class="p">,</span> <span class="n">num_total_tasks</span><span class="p">);</span>
+    <span class="p">});</span>
+
+  <span class="p">}</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_threads_</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">workers</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">join</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>===================================================================================
+(base) ➜  part_a git:(master) ✗ python3 ../tests/run_test_harness.py -n 8 -t  super_light super_super_light
+runtasks_ref
+Linux x86_64
+================================================================================
+Running task system grading harness... (2 total tests)
+  - Detected CPU with 40 execution contexts
+  - Task system configured to use at most 8 threads
+================================================================================
+================================================================================
+Executing test: super_super_light...
+Reference binary: ./runtasks_ref_linux
+Results for: super_super_light
+                                        STUDENT   REFERENCE   PERF?
+[Serial]                                8.562     12.451      0.69  (OK)
+[Parallel + Always Spawn]               56.804    54.287      1.05  (OK)
+[Parallel + Thread Pool + Spin]         8.532     25.417      0.34  (OK)
+[Parallel + Thread Pool + Sleep]        8.456     24.996      0.34  (OK)
+================================================================================
+Executing test: super_light...
+Reference binary: ./runtasks_ref_linux
+Results for: super_light
+                                        STUDENT   REFERENCE   PERF?
+[Serial]                                81.044    95.194      0.85  (OK)
+[Parallel + Always Spawn]               55.138    83.604      0.66  (OK)
+[Parallel + Thread Pool + Spin]         80.753    27.388      2.95  (NOT OK)
+[Parallel + Thread Pool + Sleep]        80.646    33.46       2.41  (NOT OK)
+================================================================================
+Overall performance results
+[Serial]                                : All passed Perf
+[Parallel + Always Spawn]               : All passed Perf
+[Parallel + Thread Pool + Spin]         : Perf did not pass all tests
+[Parallel + Thread Pool + Sleep]        : Perf did not pass all tests
+</code></pre></div></div> </body></html>
