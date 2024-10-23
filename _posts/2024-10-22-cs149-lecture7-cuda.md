@@ -45,7 +45,12 @@ Both represent the concept of group of threads .
 
 sub-core has 4 warp in the diagram below. 
 
-Each SM(streaming multi-processor)
+Each SM(streaming multi-processor) has 4 sub-core.
+
+V100 has 80 SMs in total.
+
+
+
 
 
 Instruction execution.
