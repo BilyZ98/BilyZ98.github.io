@@ -26,3 +26,30 @@ the same core.
 ## Nvidia gpu (implementation)
 
 A warp in nvidia gpu is a gropu of 32 threads in thread block.
+
+Different CUDA thread has it own PC(Program counter)
+even though they are in the same warp.
+
+However, since all threads in the same warp is likely to execute the 
+same code and same instructions it effectively looks like that there are only 
+4 unique PCs even though in reality there are 4 * 32 = 128 PCs.
+
+Difference between warp and thread block.
+
+A thread block is an programming model abstraction.
+
+A warp in hardware implementation.
+
+Both represent the concept of group of threads . 
+
+
+sub-core has 4 warp in the diagram below. 
+
+Each SM(streaming multi-processor)
+
+
+Instruction execution.
+
+Since we have more execution context than ALUs, each instructions is finished 
+half of the work in one cycle and another half of the work in the next cycle.
+
