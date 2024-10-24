@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd"> <html><body> <h2 id="part-a--parallel-thread-spawn">Part A : parallel thread spawn</h2> <p>First implementaion that spawns new thread for each task:</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">TaskSystemParallelSpawn</span><span class="o">::</span><span class="n">run</span><span class="p">(</span><span class="n">IRunnable</span><span class="o">*</span> <span class="n">runnable</span><span class="p">,</span> <span class="kt">int</span> <span class="n">num_total_tasks</span><span class="p">)</span> <span class="p">{</span>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd"> <html><body> <h1 id="thread-pool-for-task-scheduling">Thread pool for task scheduling</h1> <h2 id="step1--parallel-thread-spawn">Step1 : parallel thread spawn</h2> <p>First implementaion that spawns new thread for each task:</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">TaskSystemParallelSpawn</span><span class="o">::</span><span class="n">run</span><span class="p">(</span><span class="n">IRunnable</span><span class="o">*</span> <span class="n">runnable</span><span class="p">,</span> <span class="kt">int</span> <span class="n">num_total_tasks</span><span class="p">)</span> <span class="p">{</span>
 
 
     <span class="c1">//</span>
@@ -89,7 +89,7 @@ Overall performance results
 [Parallel + Always Spawn]               : All passed Perf
 [Parallel + Thread Pool + Spin]         : Perf did not pass all tests
 [Parallel + Thread Pool + Sleep]        : Perf did not pass all tests
-</code></pre></div></div> <h2 id="part-b-threadpool--spinning-waiting">Part b: threadpool + spinning waiting</h2> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void TaskSystemParallelThreadPoolSpinning::threadTask() {
+</code></pre></div></div> <h2 id="step2--threadpool--spinning-waiting">Step2 : threadpool + spinning waiting</h2> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void TaskSystemParallelThreadPoolSpinning::threadTask() {
       // bool done = done_.load();
   while(!done_.load()) {
     // printf("id: %d\n", id);
@@ -266,4 +266,92 @@ Overall performance results
 [Parallel + Always Spawn]               : All passed Perf
 [Parallel + Thread Pool + Spin]         : All passed Perf
 [Parallel + Thread Pool + Sleep]        : Perf did not pass all tests
+</code></pre></div></div> <h2 id="step3-threadpool--put-threads-to-sleep-when-there-is-nothing-to-do">Step3: Threadpool + put threads to sleep when there is nothing to do</h2> <p>Implementation :</p> <p>Notice that we have to test if each thread is joinable and call <code class="language-plaintext highlighter-rouge">join()</code> at the destructor of the class.</p> <p>Because each thread might have already exited when <code class="language-plaintext highlighter-rouge">done_</code> is set to <code class="language-plaintext highlighter-rouge">true</code></p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="o">::</span><span class="n">threadTask</span><span class="p">(</span> <span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">num_task</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">done_</span><span class="p">.</span><span class="n">load</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lock</span><span class="p">(</span><span class="n">mutex_</span><span class="p">);</span>
+    <span class="n">threadArg</span> <span class="n">arg</span> <span class="p">;</span> 
+    <span class="kt">bool</span> <span class="n">get_task</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">task_queue_</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+      <span class="n">arg</span> <span class="o">=</span> <span class="n">task_queue_</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+      <span class="n">task_queue_</span><span class="p">.</span><span class="n">pop_front</span><span class="p">();</span>
+      <span class="n">get_task</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+      <span class="c1">// printf("get task\n");</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">cv_</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">lock</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">lock</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">get_task</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">arg</span><span class="p">.</span><span class="n">runnable</span><span class="o">-&gt;</span><span class="n">runTask</span><span class="p">(</span><span class="n">arg</span><span class="p">.</span><span class="n">task_id</span><span class="p">,</span> <span class="n">arg</span><span class="p">.</span><span class="n">num_total_tasks</span><span class="p">);</span>
+      <span class="n">num_task</span> <span class="o">=</span> <span class="n">arg</span><span class="p">.</span><span class="n">num_total_tasks</span><span class="p">;</span>
+      <span class="n">finished_tasks_</span><span class="p">.</span><span class="n">fetch_add</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">finished_tasks_</span><span class="p">.</span><span class="n">load</span><span class="p">()</span> <span class="o">==</span> <span class="n">num_task</span><span class="p">)</span>  <span class="p">{</span>
+        <span class="c1">// printf("send notify\n");</span>
+        <span class="n">cv_</span><span class="p">.</span><span class="n">notify_all</span><span class="p">();</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+ 
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="o">::</span><span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="p">(</span><span class="kt">int</span> <span class="n">num_threads</span><span class="p">)</span><span class="o">:</span> <span class="n">ITaskSystem</span><span class="p">(</span><span class="n">num_threads</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//</span>
+    <span class="c1">// TODO: CS149 student implementations may decide to perform setup</span>
+    <span class="c1">// operations (such as thread pool construction) here.</span>
+    <span class="c1">// Implementations are free to add new class member variables</span>
+    <span class="c1">// (requiring changes to tasksys.h).</span>
+    <span class="c1">//</span>
+  <span class="n">num_threads_</span> <span class="o">=</span> <span class="n">num_threads</span><span class="p">;</span>
+  <span class="n">done_</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">num_threads_</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="n">workers_</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">([</span><span class="k">this</span><span class="p">]{</span>
+      <span class="k">this</span><span class="o">-&gt;</span><span class="n">threadTask</span><span class="p">();</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="o">::~</span><span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//</span>
+    <span class="c1">// TODO: CS149 student implementations may decide to perform cleanup</span>
+    <span class="c1">// operations (such as thread pool shutdown construction) here.</span>
+    <span class="c1">// Implementations are free to add new class member variables</span>
+    <span class="c1">// (requiring changes to tasksys.h).</span>
+    <span class="c1">//</span>
+  <span class="n">done_</span><span class="p">.</span><span class="n">store</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+  <span class="n">cv_</span><span class="p">.</span><span class="n">notify_all</span><span class="p">();</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_threads_</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">workers_</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">joinable</span><span class="p">())</span> <span class="p">{</span>
+      <span class="n">workers_</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">join</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="o">::</span><span class="n">run</span><span class="p">(</span><span class="n">IRunnable</span><span class="o">*</span> <span class="n">runnable</span><span class="p">,</span> <span class="kt">int</span> <span class="n">num_total_tasks</span><span class="p">)</span> <span class="p">{</span>
+
+
+    <span class="c1">//</span>
+    <span class="c1">// TODO: CS149 students will modify the implementation of this</span>
+    <span class="c1">// method in Parts A and B.  The implementation provided below runs all</span>
+    <span class="c1">// tasks sequentially on the calling thread.</span>
+    <span class="c1">//</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lock</span><span class="p">(</span><span class="n">mutex_</span><span class="p">);</span>
+  <span class="n">finished_tasks_</span><span class="p">.</span><span class="n">store</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_total_tasks</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">threadArg</span> <span class="n">arg</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">num_total_tasks</span><span class="p">,</span> <span class="n">runnable</span><span class="p">);</span>
+    <span class="n">task_queue_</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">arg</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="c1">// printf("before notify all\n");</span>
+  <span class="n">lock</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span>
+  <span class="n">cv_</span><span class="p">.</span><span class="n">notify_all</span><span class="p">();</span>
+  <span class="n">lock</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span>
+
+  
+  <span class="k">while</span><span class="p">(</span><span class="n">finished_tasks_</span><span class="p">.</span><span class="n">load</span><span class="p">()</span> <span class="o">!=</span> <span class="n">num_total_tasks</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">cv_</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">lock</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// printf("finished_tasks_:%d\n", finished_tasks_.load());</span>
+
+<span class="p">}</span>
 </code></pre></div></div> </body></html>
