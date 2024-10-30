@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://bilyz98.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://bilyz98.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-10-29T12:28:23+00:00</updated><id>https://bilyz98.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">Parallel programming - Threadpool for task scheduling</title><link href="https://bilyz98.github.io/blog/2024/cs149-assign2/" rel="alternate" type="text/html" title="Parallel programming - Threadpool for task scheduling"/><published>2024-10-26T11:59:00+00:00</published><updated>2024-10-26T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/cs149-assign2</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/cs149-assign2/"><![CDATA[<h1 id="thread-pool-for-task-scheduling">Thread pool for task scheduling</h1> <h2 id="step1--parallel-thread-spawn">Step1 : parallel thread spawn</h2> <p>First implementaion that spawns new thread for each task:</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">TaskSystemParallelSpawn</span><span class="o">::</span><span class="n">run</span><span class="p">(</span><span class="n">IRunnable</span><span class="o">*</span> <span class="n">runnable</span><span class="p">,</span> <span class="kt">int</span> <span class="n">num_total_tasks</span><span class="p">)</span> <span class="p">{</span>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://bilyz98.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://bilyz98.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-10-30T08:47:57+00:00</updated><id>https://bilyz98.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">Parallel programming - Threadpool for task scheduling</title><link href="https://bilyz98.github.io/blog/2024/cs149-assign2/" rel="alternate" type="text/html" title="Parallel programming - Threadpool for task scheduling"/><published>2024-10-26T11:59:00+00:00</published><updated>2024-10-26T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/cs149-assign2</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/cs149-assign2/"><![CDATA[<h1 id="thread-pool-for-task-scheduling">Thread pool for task scheduling</h1> <h2 id="step1--parallel-thread-spawn">Step1 : parallel thread spawn</h2> <p>First implementaion that spawns new thread for each task:</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">TaskSystemParallelSpawn</span><span class="o">::</span><span class="n">run</span><span class="p">(</span><span class="n">IRunnable</span><span class="o">*</span> <span class="n">runnable</span><span class="p">,</span> <span class="kt">int</span> <span class="n">num_total_tasks</span><span class="p">)</span> <span class="p">{</span>
 
 
     <span class="c1">//</span>
@@ -1255,239 +1255,10 @@ Results for: math_operations_in_tight_for_loop_reduction_tree_async
 [Parallel + Thread Pool + Sleep]        59.153    65.233      0.91  (OK)
 ================================================================================
 </code></pre></div></div> <p>So we can get rid of checking each tasks every time to see if it can be scheduled and put to ready queue.</p> <p>My code does not has comparable result compared to ref for super_light_async and super_super_light_async .</p> <p>I think this is because there is still opt space to reduce wake up frequency..</p> <p>I decide to move on with assign3 of cs149 and just leave the current code as it is.</p> <p>Just don’t want to spend time on this and want to spend time on learning some cuda writing.</p> <h3 id="side-knowkedge-buffering-in-python-command">Side knowkedge: buffering in python command</h3> <p><strong>Prompt ** why I don’t see any output from this command but when I remove | tee ./test.out there is output <br/><br/> python3 ../tests/run_test_harness.py -n 8 -a 2&gt;&amp;1 | tee ./test.out **Response</strong> The issue you’re encountering is likely due to buffering. When you use <code class="language-plaintext highlighter-rouge">tee</code> to redirect output to a file, the output may be buffered, causing it not to appear immediately on the screen.</p> <h3 id="explanation">Explanation:</h3> <ul> <li><strong>Without <code class="language-plaintext highlighter-rouge">tee</code></strong>: The output is directly sent to the terminal, and you see it immediately.</li> <li><strong>With <code class="language-plaintext highlighter-rouge">tee</code></strong>: The output is first written to a buffer, which is then written to the file and the terminal. This buffering can delay the appearance of the output.</li> </ul> <h3 id="solution">Solution:</h3> <p>You can use the <code class="language-plaintext highlighter-rouge">-u</code> option with <code class="language-plaintext highlighter-rouge">python3</code> to force the standard streams to be unbuffered. This will ensure that the output appears immediately.</p> <p>Revised command:</p> <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 <span class="nt">-u</span> ../tests/run_test_harness.py <span class="nt">-n</span> 8 <span class="nt">-a</span> 2&gt;&amp;1 | <span class="nb">tee</span> ./test.out
-</code></pre></div></div> <p>This should resolve the issue and allow you to see the output in real-time while still writing it to <code class="language-plaintext highlighter-rouge">test.out</code>.</p>]]></content><author><name></name></author><category term="parallel"/><category term="programming"/><category term="parallel"/><category term="programming"/><summary type="html"><![CDATA[Thread pool for task scheduling]]></summary></entry><entry><title type="html">Cs149 Lecture7 Cuda</title><link href="https://bilyz98.github.io/blog/2024/cs149-lecture7-cuda/" rel="alternate" type="text/html" title="Cs149 Lecture7 Cuda"/><published>2024-10-22T00:00:00+00:00</published><updated>2024-10-22T00:00:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/cs149-lecture7-cuda</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/cs149-lecture7-cuda/"><![CDATA[<p><a href="https://gfxcourses.stanford.edu/cs149/fall23/lecture/gpucuda/">Lecture 7 slides</a></p> <p><a href="https://www.youtube.com/watch?v=qQTDF0CBoxE&amp;list=PLoROMvodv4rMp7MTFr4hQsDEcX7Bx6Odp&amp;index=7&amp;pp=iAQB">Video lecture</a></p> <h2 id="cuda-programming-model--abstraction-">CUDA programming model ( abstraction )</h2> <p>Three execution unit and memory address</p> <ol> <li>thread</li> <li>thread block</li> <li>cuda kernel</li> </ol> <p>A thread block contains bunch of threads.</p> <p>A cuda kernal contains all the thread blocks.</p> <p>Memory address space</p> <ol> <li>Each thread has its own memory address space</li> <li>Each thread block has its own shared memory address space for all threads in the thread block</li> <li>All threads across all thread blocks share a process memory address space</li> </ol> <p><img src="https://github.com/user-attachments/assets/851fe0f2-52ec-4b7b-8a23-d3870982c520" alt="image"/></p> <p>Why this 3 level hierachy adress space ? For efficient memory access when threads in thread block are scheduled in the same core.</p> <h2 id="nvidia-gpu-implementation">Nvidia gpu (implementation)</h2> <p>A warp in nvidia gpu is a gropu of 32 threads in thread block. <img src="https://github.com/user-attachments/assets/e2f4aa55-103c-404b-828b-28d693b9c72b" alt="image"/></p> <p>Different CUDA thread has it own PC(Program counter) even though they are in the same warp.</p> <p>However, since all threads in the same warp is likely to execute the same code and same instructions it effectively looks like that there are only 4 unique PCs even though in reality there are 4 * 32 = 128 PCs.</p> <p>Difference between warp and thread block.</p> <p>A thread block is an programming model abstraction.</p> <p>A warp in hardware implementation.</p> <p>Both represent the concept of group of threads .</p> <p>sub-core has 4 warp in the diagram below.</p> <p>Each SM(streaming multi-processor) has 4 sub-core.</p> <p>V100 has 80 SMs in total.</p> <p>For V100, each SM(streaming multi-processor) has 4 sub-cores. <img src="https://github.com/user-attachments/assets/dbca936d-0da6-42fa-82d9-ceaf3d91596d" alt="image"/></p> <p>Instruction execution.</p> <p>Since we have more execution context than ALUs, each instructions is finished half of the work in one cycle and another half of the work in the next cycle.</p> <p><img src="https://github.com/user-attachments/assets/0531761c-6aef-437d-814a-095990d67950" alt="image"/></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Lecture 7 slides]]></summary></entry><entry><title type="html">Cs149 Assign1 Prog3</title><link href="https://bilyz98.github.io/blog/2024/cs149-assign1-prog3/" rel="alternate" type="text/html" title="Cs149 Assign1 Prog3"/><published>2024-10-20T00:00:00+00:00</published><updated>2024-10-20T00:00:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/cs149-assign1-prog3</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/cs149-assign1-prog3/"><![CDATA[<h2 id="speedup-with-ispc">Speedup with ISPC</h2> <p>launching 80 tasks brings 62x speedup.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="k">export</span> <span class="kt">void</span> <span class="nf">mandelbrot_ispc_withtasks</span><span class="p">(</span><span class="n">uniform</span> <span class="kt">float</span> <span class="n">x0</span><span class="p">,</span> <span class="n">uniform</span> <span class="kt">float</span> <span class="n">y0</span><span class="p">,</span>
-                                      <span class="n">uniform</span> <span class="kt">float</span> <span class="n">x1</span><span class="p">,</span> <span class="n">uniform</span> <span class="kt">float</span> <span class="n">y1</span><span class="p">,</span>
-                                      <span class="n">uniform</span> <span class="kt">int</span> <span class="n">width</span><span class="p">,</span> <span class="n">uniform</span> <span class="kt">int</span> <span class="n">height</span><span class="p">,</span>
-                                      <span class="n">uniform</span> <span class="kt">int</span> <span class="n">maxIterations</span><span class="p">,</span>
-                                      <span class="n">uniform</span> <span class="kt">int</span> <span class="n">output</span><span class="p">[])</span>
-<span class="p">{</span>
-
-    <span class="n">uniform</span> <span class="kt">int</span> <span class="n">rowsPerTask</span> <span class="o">=</span> <span class="n">height</span> <span class="o">/</span> <span class="mi">80</span><span class="p">;</span>
-
-    <span class="c1">// create 2 tasks</span>
-    <span class="n">launch</span><span class="p">[</span><span class="mi">80</span><span class="p">]</span> <span class="n">mandelbrot_ispc_task</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span>
-                                     <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span>
-                                     <span class="n">rowsPerTask</span><span class="p">,</span>
-                                     <span class="n">maxIterations</span><span class="p">,</span>
-                                     <span class="n">output</span><span class="p">);</span> 
-<span class="p">}</span>
-</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog3_mandelbrot_ispc git:(master) ✗ ./mandelbrot_ispc  --tasks
-[mandelbrot serial]:            [268.624] ms
-Wrote image file mandelbrot-serial.ppm
-[mandelbrot ispc]:              [55.141] ms
-Wrote image file mandelbrot-ispc.ppm
-[mandelbrot multicore ispc]:    [4.328] ms
-Wrote image file mandelbrot-task-ispc.ppm
-                                (4.87x speedup from ISPC)
-                                (62.07x speedup from task ISPC)
-</code></pre></div></div> <p>Speedup for different image generation task with same task parallelism settings is different</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog3_mandelbrot_ispc git:(master) ✗ ./mandelbrot_ispc  --tasks  --view 0
-[mandelbrot serial]:            [267.687] ms
-Wrote image file mandelbrot-serial.ppm
-[mandelbrot ispc]:              [54.364] ms
-Wrote image file mandelbrot-ispc.ppm
-[mandelbrot multicore ispc]:    [4.698] ms
-Wrote image file mandelbrot-task-ispc.ppm                                                                                                                                                    (4.92x speedup from ISPC)                                                                                                                                    
-(56.97x speedup from task ISPC)
-
-(base) ➜  prog3_mandelbrot_ispc git:(master) ✗ ./mandelbrot_ispc  --tasks  --view 1
-[mandelbrot serial]:            [266.777] ms
-Wrote image file mandelbrot-serial.ppm
-[mandelbrot ispc]:              [53.877] ms
-Wrote image file mandelbrot-ispc.ppm
-[mandelbrot multicore ispc]:    [5.287] ms
-Wrote image file mandelbrot-task-ispc.ppm
-                                (4.95x speedup from ISPC)
-                                (50.46x speedup from task ISPC)
-
-(base) ➜  prog3_mandelbrot_ispc git:(master) ✗ ./mandelbrot_ispc  --tasks  --view 2
-[mandelbrot serial]:            [159.744] ms
-Wrote image file mandelbrot-serial.ppm
-[mandelbrot ispc]:              [37.937] ms
-Wrote image file mandelbrot-ispc.ppm
-[mandelbrot multicore ispc]:    [5.020] ms
-Wrote image file mandelbrot-task-ispc.ppm                                                                                                                                                    (4.21x speedup from ISPC)                                                                                                                                    (31.82x speedup from task ISPC)
-</code></pre></div></div> <h2 id="difference-between-launch-and-foreach-in-ispc">Difference between launch and foreach in ISPC</h2> <p>TLDR; both <code class="language-plaintext highlighter-rouge">launch</code> and <code class="language-plaintext highlighter-rouge">foreach</code> can do task parallelism. But <code class="language-plaintext highlighter-rouge">foreach</code> can use SIMD and <code class="language-plaintext highlighter-rouge">launch</code> can not do that itself.</p> <p>The difference between <code class="language-plaintext highlighter-rouge">launch</code> and <code class="language-plaintext highlighter-rouge">foreach</code> in ISPC lies in the type of parallelism they express and how they are used:</p> <ul> <li><strong><code class="language-plaintext highlighter-rouge">launch</code></strong>: This keyword is used to create a task that runs independently. When you use <code class="language-plaintext highlighter-rouge">launch</code>, you’re telling ISPC to execute a function asynchronously, potentially on a different core. This is useful for task parallelism, where you have separate tasks that can run concurrently. For example: <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">launch</span> <span class="nf">myFunction</span><span class="p">();</span>
-</code></pre></div> </div> <p>This will execute <code class="language-plaintext highlighter-rouge">myFunction</code> as a separate task.</p> </li> <li><strong><code class="language-plaintext highlighter-rouge">foreach</code></strong>: This construct is used for data parallelism, where the same operation is applied to multiple data elements in parallel. The <code class="language-plaintext highlighter-rouge">foreach</code> loop allows ISPC to execute iterations in parallel, utilizing SIMD vector units. For example: <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">foreach</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">...</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// loop body</span>
-<span class="p">}</span>
-</code></pre></div> </div> <p>This will execute the loop body in parallel for each value of <code class="language-plaintext highlighter-rouge">i</code> from <code class="language-plaintext highlighter-rouge">0</code> to <code class="language-plaintext highlighter-rouge">N-1</code>.</p> </li> </ul> <p>In summary, <code class="language-plaintext highlighter-rouge">launch</code> is used for task parallelism to run independent tasks concurrently, while <code class="language-plaintext highlighter-rouge">foreach</code> is used for data parallelism to apply the same operation to multiple data elements in parallel. Both constructs help you write parallel code, but they are suited for different types of parallelism. 😊</p> <p>The <code class="language-plaintext highlighter-rouge">launch</code> construct in ISPC is primarily designed for task parallelism, which means it can run tasks in parallel on multiple cores. However, <code class="language-plaintext highlighter-rouge">launch</code> itself does not directly utilize SIMD parallelism.</p> <p>Here’s a more detailed breakdown:</p> <ul> <li> <p><strong><code class="language-plaintext highlighter-rouge">launch</code></strong>: When you use <code class="language-plaintext highlighter-rouge">launch</code>, ISPC creates a new task that can run concurrently with other tasks. These tasks can be scheduled on different CPU cores, allowing for parallel execution. The focus of <code class="language-plaintext highlighter-rouge">launch</code> is on task-level parallelism, not on vectorization or SIMD parallelism.</p> </li> <li> <p><strong><code class="language-plaintext highlighter-rouge">foreach</code></strong>: On the other hand, <code class="language-plaintext highlighter-rouge">foreach</code> is designed for data parallelism and can utilize both SIMD and multi-core parallelism. It vectorizes the loop to use SIMD instructions and also distributes the iterations across multiple cores.</p> </li> </ul> <p>While <code class="language-plaintext highlighter-rouge">launch</code> does not directly use SIMD, the tasks that are launched can themselves contain <code class="language-plaintext highlighter-rouge">foreach</code> loops or other code that uses SIMD parallelism. So, you can combine <code class="language-plaintext highlighter-rouge">launch</code> and <code class="language-plaintext highlighter-rouge">foreach</code> to achieve a mix of task parallelism and data parallelism. For example:</p> <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">taskFunction</span><span class="p">(</span><span class="kt">float</span><span class="o">*</span> <span class="n">data</span><span class="p">,</span> <span class="kt">int</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">foreach</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">...</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="n">launch</span> <span class="nf">taskFunction</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
-</code></pre></div></div> <p>In this example, <code class="language-plaintext highlighter-rouge">taskFunction</code> uses <code class="language-plaintext highlighter-rouge">foreach</code> to process data in parallel using SIMD, and <code class="language-plaintext highlighter-rouge">launch</code> runs <code class="language-plaintext highlighter-rouge">taskFunction</code> as a separate task on a different core.</p> <p>Would you like to explore more about how to effectively combine <code class="language-plaintext highlighter-rouge">launch</code> and <code class="language-plaintext highlighter-rouge">foreach</code> in ISPC, or have any other questions? 😊</p>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">Cs149 Assign1 Prog4</title><link href="https://bilyz98.github.io/blog/2024/cs149-assign1-prog4/" rel="alternate" type="text/html" title="Cs149 Assign1 Prog4"/><published>2024-10-20T00:00:00+00:00</published><updated>2024-10-20T00:00:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/cs149-assign1-prog4</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/cs149-assign1-prog4/"><![CDATA[<h2 id="change-values-array-to-change-speed-up-of-sqrt">Change values array to change speed up of sqrt</h2> <p>The best case is that all simd vectors handles the same value. And we would get max speed up if each SIMD vector takes long time to finish which reduce the percentage of sync and communication/ scheduling overhead brought by ispc.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog4_sqrt git:(master) ✗ ./sqrt;
-[sqrt serial]:          [2062.501] ms
-[sqrt ispc]:            [332.707] ms
-[sqrt task ispc]:       [14.827] ms                                                                                                                                                          (6.20x speedup from ISPC)                                                                                                                                    (139.11x speedup from task ISPC)
-</code></pre></div></div> <p>The worst case is that one value in vector takes extremely long time to finish and all other values in vector take shortest time to finish.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog4_sqrt git:(master) ✗ ./sqrt;
-[sqrt serial]:          [286.506] ms
-[sqrt ispc]:            [330.483] ms
-[sqrt task ispc]:       [14.916] ms
-                                (0.87x speedup from ISPC)
-                                (19.21x speedup from task ISPC)
-</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    for (unsigned int i=0; i&lt;N; i++)
-    {
-        // TODO: CS149 students.  Attempt to change the values in the
-        // array here to meet the instructions in the handout: we want
-        // to you generate best and worse-case speedups
-        
-      // best case
-    values[i] = 2.998f;
-
-    // worst case
-    // if(i%8 == 0) {
-    //   values[i] = 2.998f;
-    // } else {
-    //   values[i] = 1.f;
-    // }
-    //
-    //random:
-        // starter code populates array with random input values
-        // values[i] = .001f + 2.998f * static_cast&lt;float&gt;(rand()) / RAND_MAX;
-    }
-
-
-</code></pre></div></div> <p>Reference:</p> <p><a href="https://github.com/PKUFlyingPig/asst1/blob/master/prog4_sqrt/main.cpp">https://github.com/PKUFlyingPig/asst1/blob/master/prog4_sqrt/main.cpp</a></p>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">Cs149 Assign1 Prog5</title><link href="https://bilyz98.github.io/blog/2024/cs149-assign1-prog5/" rel="alternate" type="text/html" title="Cs149 Assign1 Prog5"/><published>2024-10-20T00:00:00+00:00</published><updated>2024-10-20T00:00:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/cs149-assign1-prog5</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/cs149-assign1-prog5/"><![CDATA[<p>Extra Credit: (1 point) Note that the total memory bandwidth consumed computation in main.cpp is TOTAL_BYTES = 4 * N * sizeof(float);. Even though saxpy loads one element from X, one element from Y, and writes one element to result the multiplier by 4 is correct. Why is this the case? (Hint, think about how CPU caches work.)</p> <p>Answer: It’s because saxpy fetch 4 vector variables through the memory.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">saxpySerial</span><span class="p">(</span><span class="kt">int</span> <span class="n">N</span><span class="p">,</span>
-                       <span class="kt">float</span> <span class="n">scale</span><span class="p">,</span>
-                       <span class="kt">float</span> <span class="n">X</span><span class="p">[],</span>
-                       <span class="kt">float</span> <span class="n">Y</span><span class="p">[],</span>
-                       <span class="kt">float</span> <span class="n">result</span><span class="p">[])</span>
-<span class="p">{</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">scale</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-</code></pre></div></div> <p>Extra Credit: (points handled on a case-by-case basis) Improve the performance of saxpy. We’re looking for a significant speedup here, not just a few percentage points. If successful, describe how you did it and what a best-possible implementation on these systems might achieve. Also, if successful, come tell the staff, we’ll be interested. ;-)</p> <p>Answer: I don’t know how to do that.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">Parallel programming - SIMD intrinsics</title><link href="https://bilyz98.github.io/blog/2024/cs149-assign1-prog2/" rel="alternate" type="text/html" title="Parallel programming - SIMD intrinsics"/><published>2024-10-18T11:59:00+00:00</published><updated>2024-10-18T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/cs149-assign1-prog2</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/cs149-assign1-prog2/"><![CDATA[<p><a href="https://ark.intel.com/content/www/us/en/ark/products/192450/intel-xeon-gold-6230n-processor-27-5m-cache-2-30-ghz.html">cpu xeon 6230n</a> Instruction set extensions: Intel® SSE4.2, Intel® AVX, Intel® AVX2, Intel® AVX-512</p> <p><a href="https://ark.intel.com/content/www/us/en/ark/products/97129/intel-core-i7-7700k-processor-8m-cache-up-to-4-50-ghz.html">cpu i7-7700k</a> Instruction set extensions: Intel® SSE4.1, Intel® SSE4.2, Intel® AVX2</p> <p>Both support hyper-threading technology which means each hardware core has two processing threads per physical core.</p> <h2 id="prog2-vectorizing--code-using-simd-intrinsics">Prog2: Vectorizing code using SIMD intrinsics</h2> <p><a href="https://github.com/stanford-cs149/asst1?tab=readme-ov-file#program-2-vectorizing-code-using-simd-intrinsics-20-points">Assignment link</a></p> <p>Solution idea:</p> <p>Just translate the <code class="language-plaintext highlighter-rouge">clampedExpSerial</code> the code to use SIMD. Refer to this <code class="language-plaintext highlighter-rouge">absVector</code> and <code class="language-plaintext highlighter-rouge">absSerial</code> to see how translation works.</p> <p>To deal with situation that total number of loop iterations is not a multiple of SIMD vector width we can set <code class="language-plaintext highlighter-rouge">maskAll</code> at the beginning of the function so that only valid values of input vector is used for SIMD computation.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">VECTOR_WIDTH</span> <span class="o">&gt;</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">maskAll</span> <span class="o">=</span> <span class="n">_cs149_init_ones</span><span class="p">(</span><span class="n">remain_count</span><span class="p">);</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="n">maskAll</span> <span class="o">=</span> <span class="n">_cs149_init_ones</span><span class="p">();</span>
-    <span class="p">}</span>
-
-</code></pre></div></div> <p>code:</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">clampedExpVector</span><span class="p">(</span><span class="kt">float</span><span class="o">*</span> <span class="n">values</span><span class="p">,</span> <span class="kt">int</span><span class="o">*</span> <span class="n">exponents</span><span class="p">,</span> <span class="kt">float</span><span class="o">*</span> <span class="n">output</span><span class="p">,</span> <span class="kt">int</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
-
-  <span class="c1">//</span>
-  <span class="c1">// CS149 STUDENTS TODO: Implement your vectorized version of</span>
-  <span class="c1">// clampedExpSerial() here.</span>
-  <span class="c1">//</span>
-  <span class="c1">// Your solution should work for any value of</span>
-  <span class="c1">// N and VECTOR_WIDTH, not just when VECTOR_WIDTH divides N</span>
-  <span class="c1">//</span>
-  
-  <span class="n">__cs149_vec_float</span> <span class="n">x</span><span class="p">;</span>
-  <span class="n">__cs149_vec_int</span>   <span class="n">y_exponents</span><span class="p">;</span>
-  <span class="n">__cs149_vec_float</span> <span class="n">result</span><span class="p">;</span>
-  <span class="n">__cs149_vec_int</span> <span class="n">zeros_int</span> <span class="o">=</span> <span class="n">_cs149_vset_int</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-  <span class="n">__cs149_vec_int</span> <span class="n">ones_int</span> <span class="o">=</span> <span class="n">_cs149_vset_int</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-  <span class="n">__cs149_vec_float</span> <span class="n">ones_float</span> <span class="o">=</span> <span class="n">_cs149_vset_float</span><span class="p">(</span><span class="mf">1.0</span><span class="n">f</span><span class="p">);</span>
-  <span class="n">__cs149_mask</span> <span class="n">maskAll</span><span class="p">,</span> <span class="n">maskExponentIsZero</span><span class="p">,</span> <span class="n">maskExponentNotZero</span><span class="p">;</span>  
-  <span class="kt">int</span> <span class="n">remain_count</span> <span class="o">=</span> <span class="n">N</span> <span class="o">%</span> <span class="n">VECTOR_WIDTH</span><span class="p">;</span>
-  <span class="c1">// int first_valid_count = remain_count &gt; 0 ? VECTOR_WIDTH - remain_count : VECTOR_WIDTH;</span>
-  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">+=</span> <span class="n">VECTOR_WIDTH</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">VECTOR_WIDTH</span> <span class="o">&gt;</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">maskAll</span> <span class="o">=</span> <span class="n">_cs149_init_ones</span><span class="p">(</span><span class="n">remain_count</span><span class="p">);</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="n">maskAll</span> <span class="o">=</span> <span class="n">_cs149_init_ones</span><span class="p">();</span>
-    <span class="p">}</span>
-    <span class="c1">// CS149Logger.addLog("initones", maskAll, VECTOR_WIDTH);</span>
-
-    <span class="n">maskExponentIsZero</span> <span class="o">=</span> <span class="n">_cs149_init_ones</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-
-    <span class="n">_cs149_vload_float</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">values</span><span class="o">+</span><span class="n">i</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
-    <span class="n">_cs149_vload_int</span><span class="p">(</span><span class="n">y_exponents</span><span class="p">,</span> <span class="n">exponents</span><span class="o">+</span><span class="n">i</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
-
-    <span class="c1">// if y== 0</span>
-    <span class="n">_cs149_veq_int</span><span class="p">(</span><span class="n">maskExponentIsZero</span><span class="p">,</span> <span class="n">y_exponents</span><span class="p">,</span> <span class="n">zeros_int</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
-    <span class="n">maskExponentNotZero</span> <span class="o">=</span> <span class="n">_cs149_mask_not</span><span class="p">(</span><span class="n">maskExponentIsZero</span><span class="p">);</span>
-
-    <span class="c1">// x == 1  if y_exponents == 0</span>
-    <span class="c1">//</span>
-    <span class="n">_cs149_vmove_float</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">ones_float</span><span class="p">,</span> <span class="n">maskExponentIsZero</span><span class="p">);</span>      
-
-    <span class="c1">// else </span>
-    <span class="c1">// result = x;</span>
-    <span class="n">_cs149_vmove_float</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">maskExponentNotZero</span><span class="p">);</span>
-    <span class="c1">// count = y -1;</span>
-    <span class="n">_cs149_vsub_int</span><span class="p">(</span><span class="n">y_exponents</span><span class="p">,</span> <span class="n">y_exponents</span><span class="p">,</span> <span class="n">ones_int</span><span class="p">,</span> <span class="n">maskExponentNotZero</span><span class="p">);</span>
-    <span class="n">__cs149_mask</span> <span class="n">maskExpNotZeroCnt</span><span class="p">;</span>
-    <span class="n">_cs149_vgt_int</span><span class="p">(</span><span class="n">maskExpNotZeroCnt</span><span class="p">,</span> <span class="n">y_exponents</span><span class="p">,</span>  <span class="n">zeros_int</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
-    <span class="c1">// while (count &gt; 0)</span>
-    <span class="c1">// result *= x ;</span>
-    <span class="c1">// count--;</span>
-    <span class="k">while</span><span class="p">(</span><span class="n">_cs149_cntbits</span><span class="p">(</span><span class="n">maskExpNotZeroCnt</span><span class="p">))</span> <span class="p">{</span>
-      <span class="n">_cs149_vmult_float</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">maskExpNotZeroCnt</span><span class="p">);</span>
-
-      <span class="n">_cs149_vsub_int</span><span class="p">(</span><span class="n">y_exponents</span><span class="p">,</span> <span class="n">y_exponents</span><span class="p">,</span> <span class="n">ones_int</span><span class="p">,</span> <span class="n">maskExponentNotZero</span><span class="p">);</span>
-      <span class="n">_cs149_vgt_int</span><span class="p">(</span><span class="n">maskExpNotZeroCnt</span><span class="p">,</span> <span class="n">y_exponents</span><span class="p">,</span>  <span class="n">zeros_int</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
-    <span class="p">}</span>
-
-
-    <span class="c1">// if( result &gt; 9.999999f) {</span>
-    <span class="c1">// result = 9.999999f;</span>
-    <span class="c1">// }</span>
-    <span class="n">__cs149_mask</span> <span class="n">mask_gt_9</span><span class="p">;</span>
-    <span class="n">__cs149_vec_float</span> <span class="n">nine_float</span> <span class="o">=</span> <span class="n">_cs149_vset_float</span><span class="p">(</span><span class="mf">9.999999</span><span class="n">f</span><span class="p">);</span>
-    <span class="n">_cs149_vgt_float</span><span class="p">(</span><span class="n">mask_gt_9</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span>  <span class="n">nine_float</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
-    <span class="n">_cs149_vmove_float</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">nine_float</span><span class="p">,</span> <span class="n">mask_gt_9</span><span class="p">);</span>
-
-    <span class="c1">// output[i] = result;</span>
-    <span class="n">_cs149_vstore_float</span><span class="p">(</span><span class="n">output</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
-
-    
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div></div> <p>Run ./myexp -s 10000 and sweep the vector width from 2, 4, 8, to 16. Record the resulting vector utilization. You can do this by changing the #define VECTOR_WIDTH value in CS149intrin.h. Does the vector utilization increase, decrease or stay the same as VECTOR_WIDTH changes? Why?</p> <p>Answer: The vector utilization decrease as <code class="language-plaintext highlighter-rouge">VECTOR_WIDTH</code> increases. The reason I think it’s that not all values in vector is used for computation as <code class="language-plaintext highlighter-rouge">VECTOR_WIDTH</code> increases.</p> <p>So it’s not a very good idea to have very large <code class="language-plaintext highlighter-rouge">VECTOR_WIDTH</code>?</p> <p>vector width 2:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog2_vecintrin git:(master) ✗ ./myexp -s 10000
-CLAMPED EXPONENT (required)
-Results matched with answer!
-****************** Printing Vector Unit Statistics *******************
-Vector Width:              2
-Total Vector Instructions: 167727
-Vector Utilization:        88.7%
-Utilized Vector Lanes:     297685
-Total Vector Lanes:        335454
-************************ Result Verification *************************
-Passed!!!
-</code></pre></div></div> <p>vector width 4:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog2_vecintrin git:(master) ✗ ./myexp -s 10000
-CLAMPED EXPONENT (required)
-Results matched with answer!
-****************** Printing Vector Unit Statistics *******************
-Vector Width:              4
-Total Vector Instructions: 97075
-Vector Utilization:        86.2%
-Utilized Vector Lanes:     334817
-Total Vector Lanes:        388300
-************************ Result Verification *************************
-Passed!!!
-</code></pre></div></div> <p>vector width 8:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog2_vecintrin git:(master) ✗ ./myexp -s 10000
-CLAMPED EXPONENT (required)
-Results matched with answer!
-****************** Printing Vector Unit Statistics *******************
-Vector Width:              8
-Total Vector Instructions: 52877
-Vector Utilization:        85.0%
-Utilized Vector Lanes:     359535
-Total Vector Lanes:        423016
-************************ Result Verification *************************
-Passed!!!
-</code></pre></div></div> <p>vector width 16:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog2_vecintrin git:(master) ✗ ./myexp -s 10000
-CLAMPED EXPONENT (required)
-Results matched with answer!
-****************** Printing Vector Unit Statistics *******************
-Vector Width:              16
-Total Vector Instructions: 27592
-Vector Utilization:        84.4%
-Utilized Vector Lanes:     372781
-Total Vector Lanes:        441472
-************************ Result Verification *************************
-Passed!!!
-</code></pre></div></div>]]></content><author><name></name></author><category term="parallel"/><category term="programming"/><category term="parallel"/><category term="programming"/><summary type="html"><![CDATA[cpu xeon 6230n Instruction set extensions: Intel® SSE4.2, Intel® AVX, Intel® AVX2, Intel® AVX-512]]></summary></entry><entry><title type="html">Stf Cs149 Lecture Takeaway</title><link href="https://bilyz98.github.io/blog/2024/stf-cs149-lecture-takeaway/" rel="alternate" type="text/html" title="Stf Cs149 Lecture Takeaway"/><published>2024-10-18T00:00:00+00:00</published><updated>2024-10-18T00:00:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/stf-cs149-lecture-takeaway</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/stf-cs149-lecture-takeaway/"><![CDATA[<h2 id="lecture-5">Lecture 5</h2> <p><a href="https://youtu.be/mmO2Ri_dJkk?si=CCG3Tf9dDYZiExq6">Video</a> Deciding granularity is important for dynamic scheduling in parallel programming.</p> <p>Small granularity leads to better workload distribution but comes with higher synchronization overhead.</p> <h2 id="lecture-6">Lecture 6</h2> <p>Performance optimization: locality, communication and contention.</p> <p>Reduce costs of communication between:</p> <ol> <li>processors.</li> <li>between processors and memory.</li> </ol> <p>Shared memory communication. Numa: non-uniform memory access</p> <p>Message passing blocking send and non-blocking send</p> <p>Reduce communication is important to achieve max utilization of cpu. Just to keep cpu busy</p> <p>Roofline model: <img src="https://github.com/user-attachments/assets/da01cc6b-a009-4b49-a306-c72940b89eaf" alt="image"/></p> <p>To achieve maximum computation throughput GFLOPS/s of cpu or gpus one has to have algorithm that has high operation intensity -&gt; high flops/bytes.</p> <p>Need to has many computation per byte access unit.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">ssh display image on local server</title><link href="https://bilyz98.github.io/blog/2024/ssh-display-img/" rel="alternate" type="text/html" title="ssh display image on local server"/><published>2024-10-17T11:59:00+00:00</published><updated>2024-10-17T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/ssh-display-img</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/ssh-display-img/"><![CDATA[<p>To display an image on your local machine after using the <code class="language-plaintext highlighter-rouge">ssh -Y</code> command, you’ll need to have an image viewer installed on the remote server. Here’s a step-by-step example:</p> <ol> <li><strong>Connect to the remote server with X11 forwarding</strong>: <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh <span class="nt">-Y</span> user@remote-server
+</code></pre></div></div> <p>This should resolve the issue and allow you to see the output in real-time while still writing it to <code class="language-plaintext highlighter-rouge">test.out</code>.</p>]]></content><author><name></name></author><category term="parallel"/><category term="programming"/><category term="parallel"/><category term="programming"/><summary type="html"><![CDATA[Thread pool for task scheduling]]></summary></entry><entry><title type="html">Cs149 Lecture7 Cuda</title><link href="https://bilyz98.github.io/blog/2024/cs149-lecture7-cuda/" rel="alternate" type="text/html" title="Cs149 Lecture7 Cuda"/><published>2024-10-22T00:00:00+00:00</published><updated>2024-10-22T00:00:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/cs149-lecture7-cuda</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/cs149-lecture7-cuda/"><![CDATA[<p><a href="https://gfxcourses.stanford.edu/cs149/fall23/lecture/gpucuda/">Lecture 7 slides</a></p> <p><a href="https://www.youtube.com/watch?v=qQTDF0CBoxE&amp;list=PLoROMvodv4rMp7MTFr4hQsDEcX7Bx6Odp&amp;index=7&amp;pp=iAQB">Video lecture</a></p> <h2 id="cuda-programming-model--abstraction-">CUDA programming model ( abstraction )</h2> <p>Three execution unit and memory address</p> <ol> <li>thread</li> <li>thread block</li> <li>cuda kernel</li> </ol> <p>A thread block contains bunch of threads.</p> <p>A cuda kernal contains all the thread blocks.</p> <p>Memory address space</p> <ol> <li>Each thread has its own memory address space</li> <li>Each thread block has its own shared memory address space for all threads in the thread block</li> <li>All threads across all thread blocks share a process memory address space</li> </ol> <p><img src="https://github.com/user-attachments/assets/851fe0f2-52ec-4b7b-8a23-d3870982c520" alt="image"/></p> <p>Why this 3 level hierachy adress space ? For efficient memory access when threads in thread block are scheduled in the same core.</p> <h2 id="nvidia-gpu-implementation">Nvidia gpu (implementation)</h2> <p>A warp in nvidia gpu is a gropu of 32 threads in thread block. <img src="https://github.com/user-attachments/assets/e2f4aa55-103c-404b-828b-28d693b9c72b" alt="image"/></p> <p>Different CUDA thread has it own PC(Program counter) even though they are in the same warp.</p> <p>However, since all threads in the same warp is likely to execute the same code and same instructions it effectively looks like that there are only 4 unique PCs even though in reality there are 4 * 32 = 128 PCs.</p> <p>Difference between warp and thread block.</p> <p>A thread block is an programming model abstraction.</p> <p>A warp in hardware implementation.</p> <p>Both represent the concept of group of threads .</p> <p>sub-core has 4 warp in the diagram below.</p> <p>Each SM(streaming multi-processor) has 4 sub-core.</p> <p>V100 has 80 SMs in total.</p> <p>For V100, each SM(streaming multi-processor) has 4 sub-cores. <img src="https://github.com/user-attachments/assets/dbca936d-0da6-42fa-82d9-ceaf3d91596d" alt="image"/></p> <p>Instruction execution.</p> <p>Since we have more execution context than ALUs, each instructions is finished half of the work in one cycle and another half of the work in the next cycle.</p> <p><img src="https://github.com/user-attachments/assets/0531761c-6aef-437d-814a-095990d67950" alt="image"/></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Lecture 7 slides]]></summary></entry><entry><title type="html">Stf Cs149 Lecture Takeaway</title><link href="https://bilyz98.github.io/blog/2024/stf-cs149-lecture-takeaway/" rel="alternate" type="text/html" title="Stf Cs149 Lecture Takeaway"/><published>2024-10-18T00:00:00+00:00</published><updated>2024-10-18T00:00:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/stf-cs149-lecture-takeaway</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/stf-cs149-lecture-takeaway/"><![CDATA[<h2 id="lecture-5">Lecture 5</h2> <p><a href="https://youtu.be/mmO2Ri_dJkk?si=CCG3Tf9dDYZiExq6">Video</a> Deciding granularity is important for dynamic scheduling in parallel programming.</p> <p>Small granularity leads to better workload distribution but comes with higher synchronization overhead.</p> <h2 id="lecture-6">Lecture 6</h2> <p>Performance optimization: locality, communication and contention.</p> <p>Reduce costs of communication between:</p> <ol> <li>processors.</li> <li>between processors and memory.</li> </ol> <p>Shared memory communication. Numa: non-uniform memory access</p> <p>Message passing blocking send and non-blocking send</p> <p>Reduce communication is important to achieve max utilization of cpu. Just to keep cpu busy</p> <p>Roofline model: <img src="https://github.com/user-attachments/assets/da01cc6b-a009-4b49-a306-c72940b89eaf" alt="image"/></p> <p>To achieve maximum computation throughput GFLOPS/s of cpu or gpus one has to have algorithm that has high operation intensity -&gt; high flops/bytes.</p> <p>Need to has many computation per byte access unit.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">ssh display image on local server</title><link href="https://bilyz98.github.io/blog/2024/ssh-display-img/" rel="alternate" type="text/html" title="ssh display image on local server"/><published>2024-10-17T11:59:00+00:00</published><updated>2024-10-17T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/ssh-display-img</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/ssh-display-img/"><![CDATA[<p>To display an image on your local machine after using the <code class="language-plaintext highlighter-rouge">ssh -Y</code> command, you’ll need to have an image viewer installed on the remote server. Here’s a step-by-step example:</p> <ol> <li><strong>Connect to the remote server with X11 forwarding</strong>: <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh <span class="nt">-Y</span> user@remote-server
 </code></pre></div> </div> </li> <li><strong>Check if an image viewer is installed</strong>: <ul> <li>Common image viewers include <code class="language-plaintext highlighter-rouge">eog</code> (Eye of GNOME), <code class="language-plaintext highlighter-rouge">display</code> (ImageMagick), and <code class="language-plaintext highlighter-rouge">xdg-open</code>.</li> <li>You can check if one of these is installed by running, for example: <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>which eog
 </code></pre></div> </div> <p>If it’s installed, the command will return the path to the executable. If not, you might need to install it using the package manager for your distribution.</p> </li> </ul> </li> <li><strong>Display an image</strong>: <ul> <li>Assuming you have an image file named <code class="language-plaintext highlighter-rouge">example.png</code> in your home directory on the remote server, you can display it using: <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eog ~/example.png
-</code></pre></div> </div> </li> <li>This command will open the image using the Eye of GNOME image viewer, and the image should be displayed on your local machine.</li> </ul> </li> </ol> <p>Remember, the exact command to display an image will depend on the image viewers available on the remote server. If you’re not sure which image viewers are installed, you can try running the command for a few common ones until you find one that works. Also, ensure that your local machine is running an X server (like XQuartz on macOS or Xming on Windows) to handle the forwarded X11 display.</p>]]></content><author><name></name></author><category term="ssh"/><category term="ssh"/><summary type="html"><![CDATA[To display an image on your local machine after using the ssh -Y command, you’ll need to have an image viewer installed on the remote server. Here’s a step-by-step example:]]></summary></entry><entry><title type="html">Parallel programming - round robin assignment</title><link href="https://bilyz98.github.io/blog/2024/stf-cs149-parallel-programming-assignment1/" rel="alternate" type="text/html" title="Parallel programming - round robin assignment"/><published>2024-10-17T11:59:00+00:00</published><updated>2024-10-17T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/stf-cs149-parallel-programming-assignment1</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/stf-cs149-parallel-programming-assignment1/"><![CDATA[<h2 id="program1-generate-image-with-multiple-threads">Program1: generate image with multiple threads.</h2> <p>Hardware: hyperthreads?</p> <p>Code: partition the image generation task.</p> <p>Plot speedup line with number of threads as x axis.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog1_mandelbrot_threads git:(master) ✗ ./mandelbrot --threads 2
+</code></pre></div> </div> </li> <li>This command will open the image using the Eye of GNOME image viewer, and the image should be displayed on your local machine.</li> </ul> </li> </ol> <p>Remember, the exact command to display an image will depend on the image viewers available on the remote server. If you’re not sure which image viewers are installed, you can try running the command for a few common ones until you find one that works. Also, ensure that your local machine is running an X server (like XQuartz on macOS or Xming on Windows) to handle the forwarded X11 display.</p>]]></content><author><name></name></author><category term="ssh"/><category term="ssh"/><summary type="html"><![CDATA[To display an image on your local machine after using the ssh -Y command, you’ll need to have an image viewer installed on the remote server. Here’s a step-by-step example:]]></summary></entry><entry><title type="html">Parallel programming - round robin assignment</title><link href="https://bilyz98.github.io/blog/2024/stf-cs149-assign1/" rel="alternate" type="text/html" title="Parallel programming - round robin assignment"/><published>2024-10-17T11:59:00+00:00</published><updated>2024-10-17T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/stf-cs149-assign1</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/stf-cs149-assign1/"><![CDATA[<h1 id="program1-generate-image-with-multiple-threads">Program1: generate image with multiple threads.</h1> <p>Hardware: hyperthreads?</p> <p>Code: partition the image generation task.</p> <p>Plot speedup line with number of threads as x axis.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog1_mandelbrot_threads git:(master) ✗ ./mandelbrot --threads 2
 [mandelbrot serial]:            [525.650] ms
 Wrote image file mandelbrot-serial.ppm
 [mandelbrot thread]:            [280.569] ms
@@ -1686,7 +1457,236 @@ exe time: 93.096461 ms
 exe time: 93.373701 ms
 [mandelbrot thread]:            [93.562] ms
 Wrote image file mandelbrot-thread.ppm                                                                                                                                                       (3.32x speedup from 4 threads)
-</code></pre></div></div>]]></content><author><name></name></author><category term="parallel"/><category term="programming"/><category term="parallel"/><category term="programming"/><summary type="html"><![CDATA[Program1: generate image with multiple threads.]]></summary></entry><entry><title type="html">C compiler - single letter local variable</title><link href="https://bilyz98.github.io/blog/2024/chibicc-single-letter-ident/" rel="alternate" type="text/html" title="C compiler - single letter local variable"/><published>2024-10-15T11:59:00+00:00</published><updated>2024-10-15T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/chibicc-single-letter-ident</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/chibicc-single-letter-ident/"><![CDATA[<h2 id="add-single-letter-identity-in-c-compiler">Add single letter identity in c compiler</h2> <p>Need to allocate memory address for single letter variable.</p> <p>Use following two registers. <code class="language-plaintext highlighter-rouge">rsp</code> <code class="language-plaintext highlighter-rouge">rbp</code></p> <p>In x86 assembly language, <code class="language-plaintext highlighter-rouge">rsp</code> and <code class="language-plaintext highlighter-rouge">rbp</code> are registers that play a crucial role in stack management and function calls:</p> <ul> <li> <p><strong><code class="language-plaintext highlighter-rouge">rsp</code> (Stack Pointer)</strong>: This register points to the top of the stack, which is a region of memory used for dynamic storage during program execution. The stack pointer is adjusted automatically when values are pushed onto or popped off the stack. It’s typically used to keep track of the current position in the stack.</p> </li> <li> <p><strong><code class="language-plaintext highlighter-rouge">rbp</code> (Base Pointer)</strong>: This register is used as a reference point for the stack frame of a function. A stack frame contains the function’s local variables and saved registers. The base pointer is usually set to the value of the stack pointer at the beginning of a function and remains constant throughout the function’s execution. This allows for easy access to function parameters and local variables via fixed offsets from <code class="language-plaintext highlighter-rouge">rbp</code>.</p> </li> </ul> <p>Here’s a brief example to illustrate their usage in a function call:</p> <pre><code class="language-assembly">push rbp            ; Save the caller's base pointer
+</code></pre></div></div> <h1 id="prog2">Prog2</h1> <p><a href="https://ark.intel.com/content/www/us/en/ark/products/192450/intel-xeon-gold-6230n-processor-27-5m-cache-2-30-ghz.html">cpu xeon 6230n</a> Instruction set extensions: Intel® SSE4.2, Intel® AVX, Intel® AVX2, Intel® AVX-512</p> <p><a href="https://ark.intel.com/content/www/us/en/ark/products/97129/intel-core-i7-7700k-processor-8m-cache-up-to-4-50-ghz.html">cpu i7-7700k</a> Instruction set extensions: Intel® SSE4.1, Intel® SSE4.2, Intel® AVX2</p> <p>Both support hyper-threading technology which means each hardware core has two processing threads per physical core.</p> <h2 id="prog2-vectorizing--code-using-simd-intrinsics">Prog2: Vectorizing code using SIMD intrinsics</h2> <p><a href="https://github.com/stanford-cs149/asst1?tab=readme-ov-file#program-2-vectorizing-code-using-simd-intrinsics-20-points">Assignment link</a></p> <p>Solution idea:</p> <p>Just translate the <code class="language-plaintext highlighter-rouge">clampedExpSerial</code> the code to use SIMD. Refer to this <code class="language-plaintext highlighter-rouge">absVector</code> and <code class="language-plaintext highlighter-rouge">absSerial</code> to see how translation works.</p> <p>To deal with situation that total number of loop iterations is not a multiple of SIMD vector width we can set <code class="language-plaintext highlighter-rouge">maskAll</code> at the beginning of the function so that only valid values of input vector is used for SIMD computation.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">VECTOR_WIDTH</span> <span class="o">&gt;</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">maskAll</span> <span class="o">=</span> <span class="n">_cs149_init_ones</span><span class="p">(</span><span class="n">remain_count</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">maskAll</span> <span class="o">=</span> <span class="n">_cs149_init_ones</span><span class="p">();</span>
+    <span class="p">}</span>
+
+</code></pre></div></div> <p>code:</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">clampedExpVector</span><span class="p">(</span><span class="kt">float</span><span class="o">*</span> <span class="n">values</span><span class="p">,</span> <span class="kt">int</span><span class="o">*</span> <span class="n">exponents</span><span class="p">,</span> <span class="kt">float</span><span class="o">*</span> <span class="n">output</span><span class="p">,</span> <span class="kt">int</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="c1">//</span>
+  <span class="c1">// CS149 STUDENTS TODO: Implement your vectorized version of</span>
+  <span class="c1">// clampedExpSerial() here.</span>
+  <span class="c1">//</span>
+  <span class="c1">// Your solution should work for any value of</span>
+  <span class="c1">// N and VECTOR_WIDTH, not just when VECTOR_WIDTH divides N</span>
+  <span class="c1">//</span>
+  
+  <span class="n">__cs149_vec_float</span> <span class="n">x</span><span class="p">;</span>
+  <span class="n">__cs149_vec_int</span>   <span class="n">y_exponents</span><span class="p">;</span>
+  <span class="n">__cs149_vec_float</span> <span class="n">result</span><span class="p">;</span>
+  <span class="n">__cs149_vec_int</span> <span class="n">zeros_int</span> <span class="o">=</span> <span class="n">_cs149_vset_int</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">__cs149_vec_int</span> <span class="n">ones_int</span> <span class="o">=</span> <span class="n">_cs149_vset_int</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="n">__cs149_vec_float</span> <span class="n">ones_float</span> <span class="o">=</span> <span class="n">_cs149_vset_float</span><span class="p">(</span><span class="mf">1.0</span><span class="n">f</span><span class="p">);</span>
+  <span class="n">__cs149_mask</span> <span class="n">maskAll</span><span class="p">,</span> <span class="n">maskExponentIsZero</span><span class="p">,</span> <span class="n">maskExponentNotZero</span><span class="p">;</span>  
+  <span class="kt">int</span> <span class="n">remain_count</span> <span class="o">=</span> <span class="n">N</span> <span class="o">%</span> <span class="n">VECTOR_WIDTH</span><span class="p">;</span>
+  <span class="c1">// int first_valid_count = remain_count &gt; 0 ? VECTOR_WIDTH - remain_count : VECTOR_WIDTH;</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">+=</span> <span class="n">VECTOR_WIDTH</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">VECTOR_WIDTH</span> <span class="o">&gt;</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">maskAll</span> <span class="o">=</span> <span class="n">_cs149_init_ones</span><span class="p">(</span><span class="n">remain_count</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">maskAll</span> <span class="o">=</span> <span class="n">_cs149_init_ones</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="c1">// CS149Logger.addLog("initones", maskAll, VECTOR_WIDTH);</span>
+
+    <span class="n">maskExponentIsZero</span> <span class="o">=</span> <span class="n">_cs149_init_ones</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+    <span class="n">_cs149_vload_float</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">values</span><span class="o">+</span><span class="n">i</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
+    <span class="n">_cs149_vload_int</span><span class="p">(</span><span class="n">y_exponents</span><span class="p">,</span> <span class="n">exponents</span><span class="o">+</span><span class="n">i</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
+
+    <span class="c1">// if y== 0</span>
+    <span class="n">_cs149_veq_int</span><span class="p">(</span><span class="n">maskExponentIsZero</span><span class="p">,</span> <span class="n">y_exponents</span><span class="p">,</span> <span class="n">zeros_int</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
+    <span class="n">maskExponentNotZero</span> <span class="o">=</span> <span class="n">_cs149_mask_not</span><span class="p">(</span><span class="n">maskExponentIsZero</span><span class="p">);</span>
+
+    <span class="c1">// x == 1  if y_exponents == 0</span>
+    <span class="c1">//</span>
+    <span class="n">_cs149_vmove_float</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">ones_float</span><span class="p">,</span> <span class="n">maskExponentIsZero</span><span class="p">);</span>      
+
+    <span class="c1">// else </span>
+    <span class="c1">// result = x;</span>
+    <span class="n">_cs149_vmove_float</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">maskExponentNotZero</span><span class="p">);</span>
+    <span class="c1">// count = y -1;</span>
+    <span class="n">_cs149_vsub_int</span><span class="p">(</span><span class="n">y_exponents</span><span class="p">,</span> <span class="n">y_exponents</span><span class="p">,</span> <span class="n">ones_int</span><span class="p">,</span> <span class="n">maskExponentNotZero</span><span class="p">);</span>
+    <span class="n">__cs149_mask</span> <span class="n">maskExpNotZeroCnt</span><span class="p">;</span>
+    <span class="n">_cs149_vgt_int</span><span class="p">(</span><span class="n">maskExpNotZeroCnt</span><span class="p">,</span> <span class="n">y_exponents</span><span class="p">,</span>  <span class="n">zeros_int</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
+    <span class="c1">// while (count &gt; 0)</span>
+    <span class="c1">// result *= x ;</span>
+    <span class="c1">// count--;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">_cs149_cntbits</span><span class="p">(</span><span class="n">maskExpNotZeroCnt</span><span class="p">))</span> <span class="p">{</span>
+      <span class="n">_cs149_vmult_float</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">maskExpNotZeroCnt</span><span class="p">);</span>
+
+      <span class="n">_cs149_vsub_int</span><span class="p">(</span><span class="n">y_exponents</span><span class="p">,</span> <span class="n">y_exponents</span><span class="p">,</span> <span class="n">ones_int</span><span class="p">,</span> <span class="n">maskExponentNotZero</span><span class="p">);</span>
+      <span class="n">_cs149_vgt_int</span><span class="p">(</span><span class="n">maskExpNotZeroCnt</span><span class="p">,</span> <span class="n">y_exponents</span><span class="p">,</span>  <span class="n">zeros_int</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
+    <span class="p">}</span>
+
+
+    <span class="c1">// if( result &gt; 9.999999f) {</span>
+    <span class="c1">// result = 9.999999f;</span>
+    <span class="c1">// }</span>
+    <span class="n">__cs149_mask</span> <span class="n">mask_gt_9</span><span class="p">;</span>
+    <span class="n">__cs149_vec_float</span> <span class="n">nine_float</span> <span class="o">=</span> <span class="n">_cs149_vset_float</span><span class="p">(</span><span class="mf">9.999999</span><span class="n">f</span><span class="p">);</span>
+    <span class="n">_cs149_vgt_float</span><span class="p">(</span><span class="n">mask_gt_9</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span>  <span class="n">nine_float</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
+    <span class="n">_cs149_vmove_float</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">nine_float</span><span class="p">,</span> <span class="n">mask_gt_9</span><span class="p">);</span>
+
+    <span class="c1">// output[i] = result;</span>
+    <span class="n">_cs149_vstore_float</span><span class="p">(</span><span class="n">output</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
+
+    
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div> <p>Run ./myexp -s 10000 and sweep the vector width from 2, 4, 8, to 16. Record the resulting vector utilization. You can do this by changing the #define VECTOR_WIDTH value in CS149intrin.h. Does the vector utilization increase, decrease or stay the same as VECTOR_WIDTH changes? Why?</p> <p>Answer: The vector utilization decrease as <code class="language-plaintext highlighter-rouge">VECTOR_WIDTH</code> increases. The reason I think it’s that not all values in vector is used for computation as <code class="language-plaintext highlighter-rouge">VECTOR_WIDTH</code> increases.</p> <p>So it’s not a very good idea to have very large <code class="language-plaintext highlighter-rouge">VECTOR_WIDTH</code>?</p> <p>vector width 2:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog2_vecintrin git:(master) ✗ ./myexp -s 10000
+CLAMPED EXPONENT (required)
+Results matched with answer!
+****************** Printing Vector Unit Statistics *******************
+Vector Width:              2
+Total Vector Instructions: 167727
+Vector Utilization:        88.7%
+Utilized Vector Lanes:     297685
+Total Vector Lanes:        335454
+************************ Result Verification *************************
+Passed!!!
+</code></pre></div></div> <p>vector width 4:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog2_vecintrin git:(master) ✗ ./myexp -s 10000
+CLAMPED EXPONENT (required)
+Results matched with answer!
+****************** Printing Vector Unit Statistics *******************
+Vector Width:              4
+Total Vector Instructions: 97075
+Vector Utilization:        86.2%
+Utilized Vector Lanes:     334817
+Total Vector Lanes:        388300
+************************ Result Verification *************************
+Passed!!!
+</code></pre></div></div> <p>vector width 8:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog2_vecintrin git:(master) ✗ ./myexp -s 10000
+CLAMPED EXPONENT (required)
+Results matched with answer!
+****************** Printing Vector Unit Statistics *******************
+Vector Width:              8
+Total Vector Instructions: 52877
+Vector Utilization:        85.0%
+Utilized Vector Lanes:     359535
+Total Vector Lanes:        423016
+************************ Result Verification *************************
+Passed!!!
+</code></pre></div></div> <p>vector width 16:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog2_vecintrin git:(master) ✗ ./myexp -s 10000
+CLAMPED EXPONENT (required)
+Results matched with answer!
+****************** Printing Vector Unit Statistics *******************
+Vector Width:              16
+Total Vector Instructions: 27592
+Vector Utilization:        84.4%
+Utilized Vector Lanes:     372781
+Total Vector Lanes:        441472
+************************ Result Verification *************************
+Passed!!!
+</code></pre></div></div> <h1 id="prog3">Prog3</h1> <h2 id="speedup-with-ispc">Speedup with ISPC</h2> <p>launching 80 tasks brings 62x speedup.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">export</span> <span class="kt">void</span> <span class="nf">mandelbrot_ispc_withtasks</span><span class="p">(</span><span class="n">uniform</span> <span class="kt">float</span> <span class="n">x0</span><span class="p">,</span> <span class="n">uniform</span> <span class="kt">float</span> <span class="n">y0</span><span class="p">,</span>
+                                      <span class="n">uniform</span> <span class="kt">float</span> <span class="n">x1</span><span class="p">,</span> <span class="n">uniform</span> <span class="kt">float</span> <span class="n">y1</span><span class="p">,</span>
+                                      <span class="n">uniform</span> <span class="kt">int</span> <span class="n">width</span><span class="p">,</span> <span class="n">uniform</span> <span class="kt">int</span> <span class="n">height</span><span class="p">,</span>
+                                      <span class="n">uniform</span> <span class="kt">int</span> <span class="n">maxIterations</span><span class="p">,</span>
+                                      <span class="n">uniform</span> <span class="kt">int</span> <span class="n">output</span><span class="p">[])</span>
+<span class="p">{</span>
+
+    <span class="n">uniform</span> <span class="kt">int</span> <span class="n">rowsPerTask</span> <span class="o">=</span> <span class="n">height</span> <span class="o">/</span> <span class="mi">80</span><span class="p">;</span>
+
+    <span class="c1">// create 2 tasks</span>
+    <span class="n">launch</span><span class="p">[</span><span class="mi">80</span><span class="p">]</span> <span class="n">mandelbrot_ispc_task</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span>
+                                     <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span>
+                                     <span class="n">rowsPerTask</span><span class="p">,</span>
+                                     <span class="n">maxIterations</span><span class="p">,</span>
+                                     <span class="n">output</span><span class="p">);</span> 
+<span class="p">}</span>
+</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog3_mandelbrot_ispc git:(master) ✗ ./mandelbrot_ispc  --tasks
+[mandelbrot serial]:            [268.624] ms
+Wrote image file mandelbrot-serial.ppm
+[mandelbrot ispc]:              [55.141] ms
+Wrote image file mandelbrot-ispc.ppm
+[mandelbrot multicore ispc]:    [4.328] ms
+Wrote image file mandelbrot-task-ispc.ppm
+                                (4.87x speedup from ISPC)
+                                (62.07x speedup from task ISPC)
+</code></pre></div></div> <p>Speedup for different image generation task with same task parallelism settings is different</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog3_mandelbrot_ispc git:(master) ✗ ./mandelbrot_ispc  --tasks  --view 0
+[mandelbrot serial]:            [267.687] ms
+Wrote image file mandelbrot-serial.ppm
+[mandelbrot ispc]:              [54.364] ms
+Wrote image file mandelbrot-ispc.ppm
+[mandelbrot multicore ispc]:    [4.698] ms
+Wrote image file mandelbrot-task-ispc.ppm                                                                                                                                                    (4.92x speedup from ISPC)                                                                                                                                    
+(56.97x speedup from task ISPC)
+
+(base) ➜  prog3_mandelbrot_ispc git:(master) ✗ ./mandelbrot_ispc  --tasks  --view 1
+[mandelbrot serial]:            [266.777] ms
+Wrote image file mandelbrot-serial.ppm
+[mandelbrot ispc]:              [53.877] ms
+Wrote image file mandelbrot-ispc.ppm
+[mandelbrot multicore ispc]:    [5.287] ms
+Wrote image file mandelbrot-task-ispc.ppm
+                                (4.95x speedup from ISPC)
+                                (50.46x speedup from task ISPC)
+
+(base) ➜  prog3_mandelbrot_ispc git:(master) ✗ ./mandelbrot_ispc  --tasks  --view 2
+[mandelbrot serial]:            [159.744] ms
+Wrote image file mandelbrot-serial.ppm
+[mandelbrot ispc]:              [37.937] ms
+Wrote image file mandelbrot-ispc.ppm
+[mandelbrot multicore ispc]:    [5.020] ms
+Wrote image file mandelbrot-task-ispc.ppm                                                                                                                                                    (4.21x speedup from ISPC)                                                                                                                                    (31.82x speedup from task ISPC)
+</code></pre></div></div> <h2 id="difference-between-launch-and-foreach-in-ispc">Difference between launch and foreach in ISPC</h2> <p>TLDR; both <code class="language-plaintext highlighter-rouge">launch</code> and <code class="language-plaintext highlighter-rouge">foreach</code> can do task parallelism. But <code class="language-plaintext highlighter-rouge">foreach</code> can use SIMD and <code class="language-plaintext highlighter-rouge">launch</code> can not do that itself.</p> <p>The difference between <code class="language-plaintext highlighter-rouge">launch</code> and <code class="language-plaintext highlighter-rouge">foreach</code> in ISPC lies in the type of parallelism they express and how they are used:</p> <ul> <li><strong><code class="language-plaintext highlighter-rouge">launch</code></strong>: This keyword is used to create a task that runs independently. When you use <code class="language-plaintext highlighter-rouge">launch</code>, you’re telling ISPC to execute a function asynchronously, potentially on a different core. This is useful for task parallelism, where you have separate tasks that can run concurrently. For example: <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">launch</span> <span class="nf">myFunction</span><span class="p">();</span>
+</code></pre></div> </div> <p>This will execute <code class="language-plaintext highlighter-rouge">myFunction</code> as a separate task.</p> </li> <li><strong><code class="language-plaintext highlighter-rouge">foreach</code></strong>: This construct is used for data parallelism, where the same operation is applied to multiple data elements in parallel. The <code class="language-plaintext highlighter-rouge">foreach</code> loop allows ISPC to execute iterations in parallel, utilizing SIMD vector units. For example: <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">foreach</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">...</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// loop body</span>
+<span class="p">}</span>
+</code></pre></div> </div> <p>This will execute the loop body in parallel for each value of <code class="language-plaintext highlighter-rouge">i</code> from <code class="language-plaintext highlighter-rouge">0</code> to <code class="language-plaintext highlighter-rouge">N-1</code>.</p> </li> </ul> <p>In summary, <code class="language-plaintext highlighter-rouge">launch</code> is used for task parallelism to run independent tasks concurrently, while <code class="language-plaintext highlighter-rouge">foreach</code> is used for data parallelism to apply the same operation to multiple data elements in parallel. Both constructs help you write parallel code, but they are suited for different types of parallelism. 😊</p> <p>The <code class="language-plaintext highlighter-rouge">launch</code> construct in ISPC is primarily designed for task parallelism, which means it can run tasks in parallel on multiple cores. However, <code class="language-plaintext highlighter-rouge">launch</code> itself does not directly utilize SIMD parallelism.</p> <p>Here’s a more detailed breakdown:</p> <ul> <li> <p><strong><code class="language-plaintext highlighter-rouge">launch</code></strong>: When you use <code class="language-plaintext highlighter-rouge">launch</code>, ISPC creates a new task that can run concurrently with other tasks. These tasks can be scheduled on different CPU cores, allowing for parallel execution. The focus of <code class="language-plaintext highlighter-rouge">launch</code> is on task-level parallelism, not on vectorization or SIMD parallelism.</p> </li> <li> <p><strong><code class="language-plaintext highlighter-rouge">foreach</code></strong>: On the other hand, <code class="language-plaintext highlighter-rouge">foreach</code> is designed for data parallelism and can utilize both SIMD and multi-core parallelism. It vectorizes the loop to use SIMD instructions and also distributes the iterations across multiple cores.</p> </li> </ul> <p>While <code class="language-plaintext highlighter-rouge">launch</code> does not directly use SIMD, the tasks that are launched can themselves contain <code class="language-plaintext highlighter-rouge">foreach</code> loops or other code that uses SIMD parallelism. So, you can combine <code class="language-plaintext highlighter-rouge">launch</code> and <code class="language-plaintext highlighter-rouge">foreach</code> to achieve a mix of task parallelism and data parallelism. For example:</p> <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">taskFunction</span><span class="p">(</span><span class="kt">float</span><span class="o">*</span> <span class="n">data</span><span class="p">,</span> <span class="kt">int</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">foreach</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">...</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">launch</span> <span class="nf">taskFunction</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
+</code></pre></div></div> <p>In this example, <code class="language-plaintext highlighter-rouge">taskFunction</code> uses <code class="language-plaintext highlighter-rouge">foreach</code> to process data in parallel using SIMD, and <code class="language-plaintext highlighter-rouge">launch</code> runs <code class="language-plaintext highlighter-rouge">taskFunction</code> as a separate task on a different core.</p> <p>Would you like to explore more about how to effectively combine <code class="language-plaintext highlighter-rouge">launch</code> and <code class="language-plaintext highlighter-rouge">foreach</code> in ISPC, or have any other questions? 😊</p> <h1 id="prog4">Prog4</h1> <h2 id="change-values-array-to-change-speed-up-of-sqrt">Change values array to change speed up of sqrt</h2> <p>The best case is that all simd vectors handles the same value. And we would get max speed up if each SIMD vector takes long time to finish which reduce the percentage of sync and communication/ scheduling overhead brought by ispc.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog4_sqrt git:(master) ✗ ./sqrt;
+[sqrt serial]:          [2062.501] ms
+[sqrt ispc]:            [332.707] ms
+[sqrt task ispc]:       [14.827] ms                                                                                                                                                          (6.20x speedup from ISPC)                                                                                                                                    (139.11x speedup from task ISPC)
+</code></pre></div></div> <p>The worst case is that one value in vector takes extremely long time to finish and all other values in vector take shortest time to finish.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog4_sqrt git:(master) ✗ ./sqrt;
+[sqrt serial]:          [286.506] ms
+[sqrt ispc]:            [330.483] ms
+[sqrt task ispc]:       [14.916] ms
+                                (0.87x speedup from ISPC)
+                                (19.21x speedup from task ISPC)
+</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    for (unsigned int i=0; i&lt;N; i++)
+    {
+        // TODO: CS149 students.  Attempt to change the values in the
+        // array here to meet the instructions in the handout: we want
+        // to you generate best and worse-case speedups
+        
+      // best case
+    values[i] = 2.998f;
+
+    // worst case
+    // if(i%8 == 0) {
+    //   values[i] = 2.998f;
+    // } else {
+    //   values[i] = 1.f;
+    // }
+    //
+    //random:
+        // starter code populates array with random input values
+        // values[i] = .001f + 2.998f * static_cast&lt;float&gt;(rand()) / RAND_MAX;
+    }
+
+
+</code></pre></div></div> <p>Reference:</p> <p><a href="https://github.com/PKUFlyingPig/asst1/blob/master/prog4_sqrt/main.cpp">https://github.com/PKUFlyingPig/asst1/blob/master/prog4_sqrt/main.cpp</a></p> <h1 id="prog5">Prog5</h1> <p>Extra Credit: (1 point) Note that the total memory bandwidth consumed computation in main.cpp is TOTAL_BYTES = 4 * N * sizeof(float);. Even though saxpy loads one element from X, one element from Y, and writes one element to result the multiplier by 4 is correct. Why is this the case? (Hint, think about how CPU caches work.)</p> <p>Answer: It’s because saxpy fetch 4 vector variables through the memory.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">saxpySerial</span><span class="p">(</span><span class="kt">int</span> <span class="n">N</span><span class="p">,</span>
+                       <span class="kt">float</span> <span class="n">scale</span><span class="p">,</span>
+                       <span class="kt">float</span> <span class="n">X</span><span class="p">[],</span>
+                       <span class="kt">float</span> <span class="n">Y</span><span class="p">[],</span>
+                       <span class="kt">float</span> <span class="n">result</span><span class="p">[])</span>
+<span class="p">{</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">scale</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></div></div> <p>Extra Credit: (points handled on a case-by-case basis) Improve the performance of saxpy. We’re looking for a significant speedup here, not just a few percentage points. If successful, describe how you did it and what a best-possible implementation on these systems might achieve. Also, if successful, come tell the staff, we’ll be interested. ;-)</p> <p>Answer: I don’t know how to do that.</p>]]></content><author><name></name></author><category term="parallel"/><category term="programming"/><category term="parallel"/><category term="programming"/><summary type="html"><![CDATA[Program1: generate image with multiple threads.]]></summary></entry><entry><title type="html">C compiler - single letter local variable</title><link href="https://bilyz98.github.io/blog/2024/chibicc-single-letter-ident/" rel="alternate" type="text/html" title="C compiler - single letter local variable"/><published>2024-10-15T11:59:00+00:00</published><updated>2024-10-15T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/chibicc-single-letter-ident</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/chibicc-single-letter-ident/"><![CDATA[<h2 id="add-single-letter-identity-in-c-compiler">Add single letter identity in c compiler</h2> <p>Need to allocate memory address for single letter variable.</p> <p>Use following two registers. <code class="language-plaintext highlighter-rouge">rsp</code> <code class="language-plaintext highlighter-rouge">rbp</code></p> <p>In x86 assembly language, <code class="language-plaintext highlighter-rouge">rsp</code> and <code class="language-plaintext highlighter-rouge">rbp</code> are registers that play a crucial role in stack management and function calls:</p> <ul> <li> <p><strong><code class="language-plaintext highlighter-rouge">rsp</code> (Stack Pointer)</strong>: This register points to the top of the stack, which is a region of memory used for dynamic storage during program execution. The stack pointer is adjusted automatically when values are pushed onto or popped off the stack. It’s typically used to keep track of the current position in the stack.</p> </li> <li> <p><strong><code class="language-plaintext highlighter-rouge">rbp</code> (Base Pointer)</strong>: This register is used as a reference point for the stack frame of a function. A stack frame contains the function’s local variables and saved registers. The base pointer is usually set to the value of the stack pointer at the beginning of a function and remains constant throughout the function’s execution. This allows for easy access to function parameters and local variables via fixed offsets from <code class="language-plaintext highlighter-rouge">rbp</code>.</p> </li> </ul> <p>Here’s a brief example to illustrate their usage in a function call:</p> <pre><code class="language-assembly">push rbp            ; Save the caller's base pointer
 mov rbp, rsp        ; Set the base pointer to the current stack pointer
 sub rsp, 16         ; Allocate space for local variables
 ; Function body
@@ -1765,4 +1765,173 @@ ret                 ; Return to the caller
 
   <span class="n">error</span><span class="p">(</span><span class="s">"not an lvalue"</span><span class="p">);</span>
 <span class="p">}</span>
-</code></pre></div></div>]]></content><author><name></name></author><category term="compiler"/><category term="c"/><category term="compiler"/><summary type="html"><![CDATA[Add single letter identity in c compiler Need to allocate memory address for single letter variable.]]></summary></entry></feed>
+</code></pre></div></div>]]></content><author><name></name></author><category term="compiler"/><category term="c"/><category term="compiler"/><summary type="html"><![CDATA[Add single letter identity in c compiler Need to allocate memory address for single letter variable.]]></summary></entry><entry><title type="html">C compiler - parse example walkthrough</title><link href="https://bilyz98.github.io/blog/2024/statement-and-comparison/" rel="alternate" type="text/html" title="C compiler - parse example walkthrough"/><published>2024-10-14T11:59:00+00:00</published><updated>2024-10-14T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/statement-and-comparison</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/statement-and-comparison/"><![CDATA[<h2 id="abstract-syntax-tree-generation-example">Abstract syntax tree generation example</h2> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"5+20-4;"
+</code></pre></div></div> <pre><code class="language-asm">  .globl main
+main: 
+ mov $4, %rax
+ push %rax
+ mov $20, %rax
+ push %rax
+ mov $5, %rax
+ pop %rdi
+ add %rdi, %rax
+ pop %rdi
+ sub %rdi, %rax
+  ret
+</code></pre> <p>The parse tree looks like this</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     ─  
+   /  \ 
+  +    4
+/  \    
+5  20
+</code></pre></div></div> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="kt">void</span> <span class="nf">gen_expr</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">switch</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">kind</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="n">ND_NUM</span><span class="p">:</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">" mov $%d, %%rax</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+
+    <span class="k">case</span> <span class="n">ND_NEG</span><span class="p">:</span>
+    <span class="n">gen_expr</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">lhs</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">" neg %%rax</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">gen_expr</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="n">push</span><span class="p">();</span>
+  <span class="n">gen_expr</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">lhs</span><span class="p">);</span>
+  <span class="n">pop</span><span class="p">(</span><span class="s">"%rdi"</span><span class="p">);</span>
+
+  <span class="k">switch</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">kind</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="n">ND_ADD</span><span class="p">:</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">" add %%rdi, %%rax</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+    
+    <span class="k">case</span> <span class="n">ND_SUB</span><span class="p">:</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">" sub %%rdi, %%rax</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+
+
+</code></pre></div></div>]]></content><author><name></name></author><category term="compiler"/><category term="c"/><category term="compiler"/><summary type="html"><![CDATA[Abstract syntax tree generation example "5+20-4;"]]></summary></entry><entry><title type="html">Linux get cpu time and wall clock time</title><link href="https://bilyz98.github.io/blog/2024/get-function-cpu-time/" rel="alternate" type="text/html" title="Linux get cpu time and wall clock time"/><published>2024-10-13T11:59:00+00:00</published><updated>2024-10-13T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/get-function-cpu-time</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/get-function-cpu-time/"><![CDATA[<h2 id="difference-between-wall-clock-time-and-cpu-time">Difference between wall clock time and cpu time</h2> <p>The difference between CPU time and system clock time (also known as wall-clock time) is an important concept in performance measurement:</p> <p><strong>CPU Time:</strong></p> <ul> <li><strong>User CPU Time</strong>: The amount of time the CPU spends executing code in user mode, outside the kernel.</li> <li><strong>System CPU Time</strong>: The amount of time the CPU spends executing code in kernel mode, on behalf of the process.</li> <li><strong>Total CPU Time</strong>: The sum of user and system CPU time, representing the total time the CPU was actively working on a specific process.</li> </ul> <p><strong>System Clock Time (Wall-Clock Time):</strong></p> <ul> <li>This is the real-world elapsed time from the start to the end of a process, as if measured by a stopwatch.</li> <li>It includes all time, including time spent waiting for I/O operations, network responses, or other processes to complete.</li> </ul> <p><strong>Key Differences:</strong></p> <ul> <li><strong>CPU time</strong> only accounts for the time the CPU is actively working on a task, while <strong>wall-clock time</strong> includes all waiting periods.</li> <li><strong>Wall-clock time</strong> is always greater than or equal to <strong>CPU time</strong> for a single-threaded process.</li> <li>For multi-threaded processes, <strong>CPU time</strong> can exceed <strong>wall-clock time</strong> if multiple threads are running in parallel on multiple CPU cores.</li> </ul> <p><strong>Example:</strong> If a program takes 2 seconds of CPU time but 5 seconds of wall-clock time, it means the program was waiting for 3 seconds (e.g., for I/O operations or network responses).</p> <p>Understanding these differences can help identify performance bottlenecks. If CPU time is close to wall-clock time, the process is CPU-bound. If wall-clock time is significantly higher, the process is likely I/O-bound or waiting on other resources.</p> <h2 id="get-cpu-time-in-rocksdb">Get cpu time in rocksdb</h2> <p>https://github.com/BilyZ98/rocksdb_kv_sep/blob/8a5f06aef1d74d4dace2ffdcd2f07b90ddcff083/db/flush_job.cc#L697</p> <p>Wall clock time: <code class="language-plaintext highlighter-rouge">CLOCK_MONOTONIC</code> is used to get wall clock time</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kt">uint64_t</span> <span class="n">NowNanos</span><span class="p">()</span> <span class="k">override</span> <span class="p">{</span>
+<span class="cp">#if defined(OS_LINUX) || defined(OS_FREEBSD) || defined(OS_GNU_KFREEBSD) || \
+    defined(OS_AIX)
+</span>    <span class="k">struct</span> <span class="nc">timespec</span> <span class="n">ts</span><span class="p">;</span>
+    <span class="n">clock_gettime</span><span class="p">(</span><span class="n">CLOCK_MONOTONIC</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ts</span><span class="p">);</span>
+    <span class="k">return</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint64_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ts</span><span class="p">.</span><span class="n">tv_sec</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000000000</span> <span class="o">+</span> <span class="n">ts</span><span class="p">.</span><span class="n">tv_nsec</span><span class="p">;</span>
+<span class="cp">#elif defined(OS_SOLARIS)
+</span>    <span class="k">return</span> <span class="n">gethrtime</span><span class="p">();</span>
+<span class="cp">#elif defined(__MACH__)
+</span>    <span class="n">clock_serv_t</span> <span class="n">cclock</span><span class="p">;</span>
+    <span class="n">mach_timespec_t</span> <span class="n">ts</span><span class="p">;</span>
+    <span class="n">host_get_clock_service</span><span class="p">(</span><span class="n">mach_host_self</span><span class="p">(),</span> <span class="n">CALENDAR_CLOCK</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">cclock</span><span class="p">);</span>
+    <span class="n">clock_get_time</span><span class="p">(</span><span class="n">cclock</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ts</span><span class="p">);</span>
+    <span class="n">mach_port_deallocate</span><span class="p">(</span><span class="n">mach_task_self</span><span class="p">(),</span> <span class="n">cclock</span><span class="p">);</span>
+    <span class="k">return</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint64_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ts</span><span class="p">.</span><span class="n">tv_sec</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000000000</span> <span class="o">+</span> <span class="n">ts</span><span class="p">.</span><span class="n">tv_nsec</span><span class="p">;</span>
+<span class="cp">#else
+</span>    <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">duration_cast</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">nanoseconds</span><span class="o">&gt;</span><span class="p">(</span>
+               <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">steady_clock</span><span class="o">::</span><span class="n">now</span><span class="p">().</span><span class="n">time_since_epoch</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">count</span><span class="p">();</span>
+<span class="cp">#endif
+</span>  <span class="p">}</span>
+</code></pre></div></div> <p>CPU time: <code class="language-plaintext highlighter-rouge">CLOCK_THREAD_CPUTIME_ID</code> is used to get cpu time</p> <p>https://github.com/BilyZ98/rocksdb_kv_sep/blob/8a5f06aef1d74d4dace2ffdcd2f07b90ddcff083/env/env_posix.cc#L164</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kt">uint64_t</span> <span class="n">CPUMicros</span><span class="p">()</span> <span class="k">override</span> <span class="p">{</span>
+<span class="cp">#if defined(OS_LINUX) || defined(OS_FREEBSD) || defined(OS_GNU_KFREEBSD) || \
+    defined(OS_AIX) || (defined(__MACH__) &amp;&amp; defined(__MAC_10_12))
+</span>    <span class="k">struct</span> <span class="nc">timespec</span> <span class="n">ts</span><span class="p">;</span>
+    <span class="n">clock_gettime</span><span class="p">(</span><span class="n">CLOCK_THREAD_CPUTIME_ID</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ts</span><span class="p">);</span>
+    <span class="k">return</span> <span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint64_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ts</span><span class="p">.</span><span class="n">tv_sec</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000000000</span> <span class="o">+</span> <span class="n">ts</span><span class="p">.</span><span class="n">tv_nsec</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">;</span>
+<span class="cp">#endif
+</span>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+</code></pre></div></div>]]></content><author><name></name></author><category term="os"/><category term="c"/><category term="linux"/><summary type="html"><![CDATA[Difference between wall clock time and cpu time The difference between CPU time and system clock time (also known as wall-clock time) is an important concept in performance measurement:]]></summary></entry><entry><title type="html">Simple c compiler unary</title><link href="https://bilyz98.github.io/blog/2024/chibicc-unary/" rel="alternate" type="text/html" title="Simple c compiler unary"/><published>2024-10-10T11:59:00+00:00</published><updated>2024-10-10T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/chibicc-unary</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/chibicc-unary/"><![CDATA[<h2 id="add-unary-to-parser">Add unary to parser</h2> <p><a href="./2024-10-12-chibicc-gen-expr.md">Previous parser post</a></p> <p>Add unary symbol in mul. Add unary node kind and replace primary with unary. unary is a super set of unary and primary.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// expr = unary ("*" unary | "/" unary)*</span>
+<span class="k">static</span> <span class="n">Node</span><span class="o">*</span> <span class="nf">mul</span><span class="p">(</span><span class="n">Token</span><span class="o">**</span><span class="n">rest</span><span class="p">,</span> <span class="n">Token</span><span class="o">*</span> <span class="n">tok</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">Node</span><span class="o">*</span> <span class="n">node</span> <span class="o">=</span> <span class="n">unary</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tok</span><span class="p">,</span> <span class="n">tok</span><span class="p">);</span>
+
+  <span class="k">for</span><span class="p">(;;)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span> <span class="s">"*"</span><span class="p">))</span> <span class="p">{</span>
+      <span class="n">node</span> <span class="o">=</span>  <span class="n">new_binary</span><span class="p">(</span><span class="n">ND_MUL</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">unary</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tok</span><span class="p">,</span> <span class="n">tok</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">));</span>
+      <span class="k">continue</span><span class="p">;;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span> <span class="s">"/"</span><span class="p">))</span> <span class="p">{</span>
+      <span class="n">node</span> <span class="o">=</span> <span class="n">new_binary</span><span class="p">(</span><span class="n">ND_DIV</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">unary</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tok</span><span class="p">,</span> <span class="n">tok</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">));</span>
+      <span class="k">continue</span><span class="p">;;</span>
+    <span class="p">}</span>
+
+    <span class="o">*</span><span class="n">rest</span> <span class="o">=</span> <span class="n">tok</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">node</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="c1">// unary = ("+" | "-") unary | primary</span>
+<span class="k">static</span> <span class="n">Node</span><span class="o">*</span> <span class="nf">unary</span><span class="p">(</span><span class="n">Token</span> <span class="o">**</span><span class="n">rest</span><span class="p">,</span> <span class="n">Token</span><span class="o">*</span> <span class="n">tok</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span> <span class="s">"+"</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">unary</span><span class="p">(</span><span class="n">rest</span><span class="p">,</span> <span class="n">tok</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span>
+
+  <span class="k">if</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span> <span class="s">"-"</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">new_unary</span><span class="p">(</span><span class="n">ND_NEG</span><span class="p">,</span> <span class="n">unary</span><span class="p">(</span><span class="n">rest</span><span class="p">,</span> <span class="n">tok</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">));</span>
+
+  <span class="k">return</span> <span class="n">primary</span><span class="p">(</span><span class="n">rest</span><span class="p">,</span> <span class="n">tok</span><span class="p">);</span>
+
+<span class="p">}</span>
+</code></pre></div></div>]]></content><author><name></name></author><category term="compiler"/><category term="c"/><category term="compiler"/><summary type="html"><![CDATA[Add unary to parser Previous parser post]]></summary></entry><entry><title type="html">Simple c compiler gen expr</title><link href="https://bilyz98.github.io/blog/2024/chibicc-gen-expr/" rel="alternate" type="text/html" title="Simple c compiler gen expr"/><published>2024-10-09T11:59:00+00:00</published><updated>2024-10-09T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/chibicc-gen-expr</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/chibicc-gen-expr/"><![CDATA[<p>Once we have the tokenize we can then write parser code to generate abstract syntax tree by traversing the token list. We use stack to generate tree.</p> <p><code class="language-plaintext highlighter-rouge">'+'</code> has the lowest priority. Number and <code class="language-plaintext highlighter-rouge">(expr)</code>has highest parsing priority.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// expr = mul ("+" mul | "-" mul)*</span>
+<span class="k">static</span> <span class="n">Node</span><span class="o">*</span> <span class="nf">expr</span><span class="p">(</span><span class="n">Token</span> <span class="o">**</span><span class="n">rest</span><span class="p">,</span> <span class="n">Token</span><span class="o">*</span> <span class="n">tok</span><span class="p">){</span>
+  <span class="n">Node</span><span class="o">*</span> <span class="n">node</span><span class="o">=</span> <span class="n">mul</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tok</span><span class="p">,</span> <span class="n">tok</span><span class="p">);</span>
+
+  <span class="k">for</span><span class="p">(;;){</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span> <span class="s">"+"</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">node</span> <span class="o">=</span> <span class="n">new_binary</span><span class="p">(</span><span class="n">ND_ADD</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">mul</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tok</span><span class="p">,</span> <span class="n">tok</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">));</span>
+      <span class="k">continue</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span> <span class="s">"-"</span><span class="p">))</span> <span class="p">{</span>
+      <span class="n">node</span> <span class="o">=</span> <span class="n">new_binary</span><span class="p">(</span><span class="n">ND_SUB</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">mul</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tok</span><span class="p">,</span> <span class="n">tok</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">));</span>
+      <span class="k">continue</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="o">*</span><span class="n">rest</span> <span class="o">=</span> <span class="n">tok</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">node</span><span class="p">;</span>
+
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// expr = primary ("*" primary | "/" primary)*</span>
+<span class="k">static</span> <span class="n">Node</span><span class="o">*</span> <span class="nf">mul</span><span class="p">(</span><span class="n">Token</span><span class="o">**</span><span class="n">rest</span><span class="p">,</span> <span class="n">Token</span><span class="o">*</span> <span class="n">tok</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">Node</span><span class="o">*</span> <span class="n">node</span> <span class="o">=</span> <span class="n">primary</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tok</span><span class="p">,</span> <span class="n">tok</span><span class="p">);</span>
+
+  <span class="k">for</span><span class="p">(;;)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span> <span class="s">"*"</span><span class="p">))</span> <span class="p">{</span>
+      <span class="n">node</span> <span class="o">=</span>  <span class="n">new_binary</span><span class="p">(</span><span class="n">ND_MUL</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">primary</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tok</span><span class="p">,</span> <span class="n">tok</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">));</span>
+      <span class="k">continue</span><span class="p">;;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span> <span class="s">"/"</span><span class="p">))</span> <span class="p">{</span>
+      <span class="n">node</span> <span class="o">=</span> <span class="n">new_binary</span><span class="p">(</span><span class="n">ND_DIV</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">primary</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tok</span><span class="p">,</span> <span class="n">tok</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">));</span>
+      <span class="k">continue</span><span class="p">;;</span>
+    <span class="p">}</span>
+
+    <span class="o">*</span><span class="n">rest</span> <span class="o">=</span> <span class="n">tok</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">node</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// primary = "(" expr ")" | num</span>
+<span class="k">static</span> <span class="n">Node</span><span class="o">*</span> <span class="nf">primary</span><span class="p">(</span><span class="n">Token</span> <span class="o">**</span><span class="n">rest</span><span class="p">,</span> <span class="n">Token</span><span class="o">*</span> <span class="n">tok</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">equal</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span> <span class="s">"("</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">Node</span><span class="o">*</span> <span class="n">node</span> <span class="o">=</span> <span class="n">expr</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tok</span><span class="p">,</span> <span class="n">tok</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span>
+    <span class="o">*</span><span class="n">rest</span> <span class="o">=</span> <span class="n">skip</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span> <span class="s">")"</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">node</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">if</span><span class="p">(</span><span class="n">tok</span><span class="o">-&gt;</span><span class="n">kind</span>  <span class="o">==</span> <span class="n">TK_NUM</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Node</span><span class="o">*</span> <span class="n">node</span> <span class="o">=</span> <span class="n">new_num</span><span class="p">(</span><span class="n">tok</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">);</span>
+    <span class="o">*</span><span class="n">rest</span> <span class="o">=</span> <span class="n">tok</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">node</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">error_tok</span><span class="p">(</span><span class="n">tok</span><span class="p">,</span> <span class="s">"expected an expression"</span><span class="p">);</span>
+
+<span class="p">}</span>
+</code></pre></div></div> <h2 id="order-of-parser-is-important">order of parser is important</h2> <p>The order of operations in the code snippet you provided is crucial for correctly evaluating the expression represented by the abstract syntax tree (AST). Let’s go through the code step-by-step:</p> <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gen_expr</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">rhs</span><span class="p">);</span>
+<span class="n">push</span><span class="p">();</span>
+<span class="n">gen_expr</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">lhs</span><span class="p">);</span>
+<span class="n">pop</span><span class="p">(</span><span class="s">"%rdi"</span><span class="p">);</span>
+</code></pre></div></div> <ol> <li><strong>Evaluate the Right Subtree</strong>: <code class="language-plaintext highlighter-rouge">gen_expr(node-&gt;rhs);</code> <ul> <li>This recursively generates code for the right-hand side expression of the current node. The result of this expression is expected to be in the <code class="language-plaintext highlighter-rouge">%rax</code> register.</li> </ul> </li> <li><strong>Push the Result of the Right Subtree</strong>: <code class="language-plaintext highlighter-rouge">push();</code> <ul> <li>The value in <code class="language-plaintext highlighter-rouge">%rax</code> (which is the result of the right-hand side expression) is pushed onto the stack. This saves the result so that the <code class="language-plaintext highlighter-rouge">%rax</code> register can be used for other purposes.</li> </ul> </li> <li><strong>Evaluate the Left Subtree</strong>: <code class="language-plaintext highlighter-rouge">gen_expr(node-&gt;lhs);</code> <ul> <li>This recursively generates code for the left-hand side expression of the current node. The result of this expression is also expected to be in the <code class="language-plaintext highlighter-rouge">%rax</code> register.</li> </ul> </li> <li><strong>Pop the Saved Right Subtree Result</strong>: <code class="language-plaintext highlighter-rouge">pop("%rdi");</code> <ul> <li>The value that was previously pushed onto the stack (the result of the right-hand side expression) is popped into the <code class="language-plaintext highlighter-rouge">%rdi</code> register.</li> </ul> </li> </ol> <p>The reason for this specific order is to ensure that the values of the left and right subtrees are correctly placed in the registers for further operations. By convention, the result of the left subtree is left in <code class="language-plaintext highlighter-rouge">%rax</code>, and the result of the right subtree is placed in <code class="language-plaintext highlighter-rouge">%rdi</code>. This is a common calling convention for binary operations where the left operand is in <code class="language-plaintext highlighter-rouge">%rax</code> and the right operand is in <code class="language-plaintext highlighter-rouge">%rdi</code>.</p> <p>This order of operations is necessary because the code generator needs to follow the calling convention and ensure that the values are in the correct registers before performing the operation represented by the current node. The <code class="language-plaintext highlighter-rouge">push</code> and <code class="language-plaintext highlighter-rouge">pop</code> operations are used to temporarily save and restore the values to maintain the correct evaluation order and register usage.</p> <h2 id="quotient-and-remainder-in-division">quotient and remainder in division</h2> <p>The <strong>quotient</strong> and <strong>remainder</strong> are the results of a division operation. The quotient is the number of times the divisor fits into the dividend, and the remainder is what’s left over after the division.</p> <p>Here’s a simple example to illustrate:</p> <p>Let’s say we want to divide 17 by 5:</p> <ul> <li><strong>Dividend</strong>: 17</li> <li><strong>Divisor</strong>: 5</li> </ul> <p>When we divide 17 by 5, we get:</p> <ul> <li><strong>Quotient</strong>: 3 (because 5 fits into 17 three times)</li> <li><strong>Remainder</strong>: 2 (because after taking away 15, which is 5 times 3, from 17, we have 2 left over)</li> </ul> <p>So, in mathematical terms: [ 17 \div 5 = 3 \text{ remainder } 2 ]</p> <p>In the context of the <code class="language-plaintext highlighter-rouge">idiv</code> instruction in assembly language:</p> <ul> <li>The quotient is stored in the <code class="language-plaintext highlighter-rouge">%rax</code> register.</li> <li>The remainder is stored in the <code class="language-plaintext highlighter-rouge">%rdx</code> register.</li> </ul> <p>This is how the division operation works at a fundamental level, and it’s the same concept used in assembly language for the <code class="language-plaintext highlighter-rouge">idiv</code> instruction. The <code class="language-plaintext highlighter-rouge">idiv</code> instruction performs a division and stores the quotient and remainder in the appropriate registers.</p>]]></content><author><name></name></author><category term="compiler"/><category term="c"/><category term="compiler"/><summary type="html"><![CDATA[Once we have the tokenize we can then write parser code to generate abstract syntax tree by traversing the token list. We use stack to generate tree.]]></summary></entry></feed>
