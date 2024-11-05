@@ -1,3 +1,13 @@
+---
+layout: post
+title:  Stf CS149 Parallel Programming - Lecture 7 - Cuda programming model
+date: 2024-10-26 07:59:00-0400
+description:  
+tags:  parallel programming  
+categories: parallel programming
+featured: false
+---
+
 
 [Lecture 7 slides](https://gfxcourses.stanford.edu/cs149/fall23/lecture/gpucuda/)
 

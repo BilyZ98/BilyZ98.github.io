@@ -1,3 +1,13 @@
+---
+layout: post
+title:  Stf CS149 Parallel Programming - Lecture 5&6 - Performance optimization
+date: 2024-10-26 07:59:00-0400
+description:  
+tags:  parallel programming  
+categories: parallel programming
+featured: false
+---
+
 
 
 
