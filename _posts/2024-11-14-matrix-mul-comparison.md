@@ -25,18 +25,71 @@ Better Utilization of GPU Resources:
 
 Tiling allows for better utilization of the GPU's computational resources by dividing the work into smaller, manageable chunks that fit into the GPU's shared memory.
 
-```
-#include <iostream> #include <cuda_runtime.h> #include <chrono> 
-#define TILE_WIDTH 16 
-__global__ 
-void matrixMulKernel(float* d_A, float* d_B, float* d_C, int width) { 
-__shared__ float tile_A[TILE_WIDTH][TILE_WIDTH]; __shared__ float tile_B[TILE_WIDTH][TILE_WIDTH]; 
-int row = blockIdx.y * TILE_WIDTH + threadIdx.y; int col = blockIdx.x * TILE_WIDTH + threadIdx.x; float value = 0; 
-for (int i = 0; i < width / TILE_WIDTH; ++i) 
-{ tile_A[threadIdx.y][threadIdx.x] = d_A[row * width + (i * TILE_WIDTH + threadIdx.x)]; tile_B[threadIdx.y][threadIdx.x] = d_B[(i * TILE_WIDTH + threadIdx.y) * width + col]; __syncthreads(); for (int j = 0; j < TILE_WIDTH; ++j) { value += tile_A[threadIdx.y][j] * tile_B[j][threadIdx.x]; } __syncthreads(); }
-d_C[row * width + col] = value; }
-void matrixMul(float* h_A, float* h_B, float* h_C, int width) { int size = width * width * sizeof(float); float *d_A, *d_B, *d_C; cudaMalloc(&d_A, size); cudaMalloc(&d_B, size); cudaMalloc(&d_C, size); cudaMemcpy(d_A, h_A, size, cudaMemcpyHostToDevice); cudaMemcpy(d_B, h_B, size, cudaMemcpyHostToDevice); dim3 dimBlock(TILE_WIDTH, TILE_WIDTH); dim3 dimGrid((width + TILE_WIDTH - 1) / TILE_WIDTH, (width + TILE_WIDTH - 1) / TILE_WIDTH); auto start = std::chrono::high_resolution_clock::now(); matrixMulKernel<<<dimGrid, dimBlock>>>(d_A, d_B, d_C, width); cudaDeviceSynchronize(); auto end = std::chrono::high_resolution_clock::now(); cudaMemcpy(h_C, d_C, size, cudaMemcpyDeviceToHost); cudaFree(d_A); cudaFree(d_B); cudaFree(d_C); std::chrono::duration<double> duration = end - start; std::cout << "Matrix multiplication took " << duration.count() << " seconds." << std::endl; }
-int main() { int width = 100000; int size = width * width; float *h_A = (float*)malloc(size * sizeof(float)); float *h_B = (float*)malloc(size * sizeof(float)); float *h_C = (float*)malloc(size * sizeof(float)); for (int i = 0; i < size; ++i) { h_A[i] = static_cast<float>(rand()) / RAND_MAX; h_B[i] = static_cast<float>(rand()) / RAND_MAX; } matrixMul(h_A, h_B, h_C, width); free(h_A); free(h_B); free(h_C); return 0; }
+```cpp
+
+void matrixMulTile(int *a, int *b, int *c, int width) {
+  int size = width * width * sizeof(int);
+  int *dev_a, *dev_b, *dev_c;
+
+    // Allocate device memory
+    cudaMalloc((void**)&dev_a, size);
+    cudaMalloc((void**)&dev_b, size);
+    cudaMalloc((void**)&dev_c, size);
+
+    // Copy matrices to device memory
+    cudaMemcpy(dev_a, a, size, cudaMemcpyHostToDevice);
+    cudaMemcpy(dev_b, b, size, cudaMemcpyHostToDevice);
+
+  dim3 dimBlock(TILE_WIDTH, TILE_WIDTH);
+  dim3 dimGrid((width + TILE_WIDTH -1)/ TILE_WIDTH, (width+TILE_WIDTH-1)/ TILE_WIDTH);
+  matrixMulTileKernel<<<dimGrid, dimBlock>>>(dev_a, dev_b, dev_c, width);
+  cudaDeviceSynchronize();
+
+  cudaMemcpy(c, dev_c, size, cudaMemcpyDeviceToHost);
+
+  cudaFree(dev_a);
+  cudaFree(dev_b);
+  cudaFree(dev_c);
+
+
+}
+
+#define TILE_WIDTH 16
+__global__ void matrixMulTileKernel(int *da, int *db, int*dout, int width) {
+  __shared__ int tile_A[TILE_WIDTH ][TILE_WIDTH];
+  __shared__ int tile_B[TILE_WIDTH][TILE_WIDTH];
+
+  int row = blockIdx.y * TILE_WIDTH + threadIdx.y;
+  int col = blockIdx.x * TILE_WIDTH + threadIdx.x;
+
+  int value = 0;
+  for(int i=0; i < (width+TILE_WIDTH-1)/TILE_WIDTH; i++ ) {
+    if(row < width && (i * TILE_WIDTH + threadIdx.x) < width) {
+
+      tile_A[threadIdx.y][threadIdx.x] = da[row*width + (i*TILE_WIDTH + threadIdx.x)];
+    } else {
+      tile_A[threadIdx.y][threadIdx.x] = 0;
+    }
+
+    if(col < width && (i * TILE_WIDTH + threadIdx.y) < width) {
+      tile_B[threadIdx.y][threadIdx.x] = db[(i*TILE_WIDTH + threadIdx.y) * width + col];
+
+    } else {
+      tile_B[threadIdx.y][threadIdx.x] = 0;
+    }
+    __syncthreads();
+
+    for(int j=0; j < TILE_WIDTH; j++) {
+      value += tile_A[threadIdx.y][j] * tile_B[j][threadIdx.x];
+    }
+    __syncthreads();
+
+
+  }
+
+  dout[row*width + col] = value;
+
+}
 ```
 
 This code means that we have one thread for each output element in output matrix.
