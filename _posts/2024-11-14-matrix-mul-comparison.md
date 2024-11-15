@@ -1,4 +1,4 @@
-![tmm-59dd890f48435e692c47919d0df4a5e6](https://github.com/user-attachments/assets/77792d79-db23-4b2a-b4fa-29d10b83b8db)---
+---
 layout: post
 title: Speed up matrix multiplication 2  
 date: 2024-11-12 07:59:00-0400
