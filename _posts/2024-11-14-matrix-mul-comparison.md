@@ -419,6 +419,42 @@ int main() {
 
 ```
 
+
+indexing for da and db in cuda kernal explanations
+
+The indexing of matrix elements in the `matrixMulTileKernel` function is designed to optimize memory access patterns and improve performance by leveraging shared memory. Let's break down the indexing for `da` and `db`:
+
+Simply speaking, `i` has different meaning for `da` and `db`, for `da` i loop for all columns in the same row.
+for `db` i loops all rows in the same column.
+
+### Indexing for `da` (Matrix A)
+```cpp
+tile_A[threadIdx.y][threadIdx.x] = da[row * width + (i * TILE_WIDTH + threadIdx.x)];
+```
+- **Row Calculation**: `row = blockIdx.y * TILE_WIDTH + threadIdx.y`
+  - `blockIdx.y * TILE_WIDTH` gives the starting row index for the block.
+  - `threadIdx.y` gives the row index within the block.
+- **Column Calculation**: `(i * TILE_WIDTH + threadIdx.x)`
+  - `i * TILE_WIDTH` shifts the column index by the tile width for each iteration.
+  - `threadIdx.x` gives the column index within the block.
+
+### Indexing for `db` (Matrix B)
+```cpp
+tile_B[threadIdx.y][threadIdx.x] = db[(i * TILE_WIDTH + threadIdx.y) * width + col];
+```
+- **Row Calculation**: `(i * TILE_WIDTH + threadIdx.y)`
+  - `i * TILE_WIDTH` shifts the row index by the tile width for each iteration.
+  - `threadIdx.y` gives the row index within the block.
+- **Column Calculation**: `col = blockIdx.x * TILE_WIDTH + threadIdx.x`
+  - `blockIdx.x * TILE_WIDTH` gives the starting column index for the block.
+  - `threadIdx.x` gives the column index within the block.
+
+### Why This Indexing?
+- **Memory Coalescing**: Using `threadIdx.x` for columns and `threadIdx.y` for rows ensures that threads within a warp access contiguous memory locations. This pattern optimizes memory coalescing, which combines multiple memory accesses into a single transaction, significantly improving performance.
+- **Efficient Tiling**: By dividing the matrices into smaller tiles that fit into shared memory, the kernel reduces the number of global memory accesses. Each tile is loaded multiple times, but the overall number of accesses to global memory is minimized, leading to better performance.
+
+
+
 Test matrix size is (2000, 2000)
 cuda naive reduce run time by 54x compared to cpu.
 cuda tiling reduce run time by 17x compared to cuda naive.
