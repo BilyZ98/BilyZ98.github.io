@@ -131,6 +131,9 @@ For a simplified example, let's say `TILE_WIDTH` is 2 and our matrices are 4x4. 
    - Load the next 2x2 tile of `A` and `B`.
    - Add the products to the previously computed partial results.
 
+![tmm-59dd890f48435e692c47919d0df4a5e6](https://github.com/user-attachments/assets/a49597da-01cf-4ef3-ae0d-9d797b487b56)
+
+
 This process repeats until the entire matrices have been processed. So, each block loads and processes multiple tiles to compute the final output elements.
 
 ## The whole matrix is loaded multiple times by all blocks of threads
