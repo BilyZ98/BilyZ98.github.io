@@ -189,4 +189,622 @@ AssertionError:
 
            <span class="p">}</span>
  
+</code></pre></div></div> <p>Output:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+REFERENCE - NAIVE ATTENTION statistics
+cpu time:  293.585ms
+mem usage:  4718592 bytes
+-----RUNNING STUDENT IMPLEMENTATION-----
+
+first row value:
+ tensor([0.0771, 0.0779, 0.0787, 0.0795, 0.0803, 0.0811, 0.0819, 0.0827, 0.0835,
+        0.0843, 0.0851, 0.0859, 0.0867, 0.0875, 0.0883, 0.0891, 0.0899, 0.0907,
+        0.0915, 0.0923, 0.0931, 0.0939, 0.0947, 0.0955, 0.0963, 0.0971, 0.0979,
+        0.0987, 0.0995, 0.1003, 0.1011, 0.1019])
+STAGE:2024-11-18 13:10:17 1148267:1148267 ActivityProfilerController.cpp:312] Completed Stage: Warm Up
+student first row:
+ tensor([0.0771, 0.0779, 0.0787, 0.0795, 0.0803, 0.0811, 0.0819, 0.0827, 0.0835,
+        0.0843, 0.0851, 0.0859, 0.0867, 0.0875, 0.0883, 0.0891, 0.0899, 0.0907,
+        0.0915, 0.0923, 0.0931, 0.0939, 0.0947, 0.0955, 0.0963, 0.0971, 0.0979,
+        0.0987, 0.0995, 0.1003, 0.1011, 0.1019])
+STAGE:2024-11-18 13:10:17 1148267:1148267 ActivityProfilerController.cpp:318] Completed Stage: Collection
+STAGE:2024-11-18 13:10:17 1148267:1148267 ActivityProfilerController.cpp:322] Completed Stage: Post Processing
+manual attention == pytorch attention True
+Manual Execution Time:  0.2747969627380371
+
+-----------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------
+                         Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg       CPU Mem  Self CPU Mem    # of Calls
+-----------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------
+                  aten::empty         0.01%      16.000us         0.01%      16.000us       2.000us       5.00 Mb       5.00 Mb             8
+    STUDENT - NAIVE ATTENTION        99.49%     273.438ms        99.68%     273.946ms     273.946ms       4.50 Mb      -1.00 Mb             1
+                  aten::zeros         0.01%      14.000us         0.05%     133.000us      66.500us       4.50 Mb           0 b             2
+                  aten::clone         0.01%      20.000us         0.13%     346.000us     173.000us       1.00 Mb           0 b             2
+          aten::empty_strided         0.00%      12.000us         0.00%      12.000us       2.400us     512.51 Kb     512.51 Kb             5
+              model_inference         0.20%     549.000us       100.00%     274.838ms     274.838ms     512.00 Kb      -4.00 Mb             1
+                aten::flatten         0.01%      19.000us         0.08%     209.000us      41.800us     512.00 Kb           0 b             5
+             aten::empty_like         0.00%       3.000us         0.00%       5.000us       5.000us     512.00 Kb           0 b             1
+                     aten::to         0.00%       6.000us         0.01%      31.000us       5.167us         520 b           0 b             6
+               aten::_to_copy         0.01%      14.000us         0.01%      25.000us       6.250us         520 b           0 b             4
+-----------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------
+Self CPU time total: 274.838ms
+
+STUDENT - NAIVE ATTENTION statistics
+cpu time:  273.946ms
+mem usage:  4718592 bytes
+</code></pre></div></div> <h2 id="part2-blocked-matrix-multiplication">Part2: blocked matrix multiplication</h2> <p>Initial version</p> <p>Unlike that of code written in cuda, I have to manually iterate all rows and cols of input matrix.</p> <p>Don’t know if this is correct way to do that.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define TILE_SIZE 16
+</span><span class="n">torch</span><span class="o">::</span><span class="n">Tensor</span> <span class="nf">myUnfusedAttentionBlocked</span><span class="p">(</span><span class="n">torch</span><span class="o">::</span><span class="n">Tensor</span> <span class="n">QTensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">::</span><span class="n">Tensor</span> <span class="n">KTensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">::</span><span class="n">Tensor</span> <span class="n">VTensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">::</span><span class="n">Tensor</span> <span class="n">QK_tTensor</span><span class="p">,</span>
+                <span class="kt">int</span> <span class="n">B</span><span class="p">,</span> <span class="kt">int</span> <span class="n">H</span><span class="p">,</span> <span class="kt">int</span> <span class="n">N</span><span class="p">,</span> <span class="kt">int</span> <span class="n">d</span><span class="p">){</span>
+  
+  <span class="c1">// Q, K, V are passed in with Shape: (B, H, N, d)</span>
+  <span class="c1">//QK^t Intermediate Tensor has Shape (N, N)</span>
+
+  <span class="c1">//Make O Tensor with Shape (B, H, N, d) </span>
+  <span class="n">at</span><span class="o">::</span><span class="n">Tensor</span> <span class="n">OTensor</span> <span class="o">=</span> <span class="n">at</span><span class="o">::</span><span class="n">zeros</span><span class="p">({</span><span class="n">B</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">d</span><span class="p">},</span> <span class="n">at</span><span class="o">::</span><span class="n">kFloat</span><span class="p">);</span>
+
+  <span class="c1">//Format O, Q, K, and V tensors into 4D vectors</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">O</span> <span class="o">=</span> <span class="n">formatTensor</span><span class="p">(</span><span class="n">OTensor</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">Q</span> <span class="o">=</span> <span class="n">formatTensor</span><span class="p">(</span><span class="n">QTensor</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">K</span> <span class="o">=</span> <span class="n">formatTensor</span><span class="p">(</span><span class="n">KTensor</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">V</span> <span class="o">=</span> <span class="n">formatTensor</span><span class="p">(</span><span class="n">VTensor</span><span class="p">);</span>
+
+  <span class="c1">//Format QK_t Tensor into a 2D vector.</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">QK_t</span> <span class="o">=</span> <span class="n">formatTensor</span><span class="p">(</span><span class="n">QK_tTensor</span><span class="p">);</span>
+
+  <span class="c1">// -------- YOUR CODE HERE  -------- //</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">b</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">b</span> <span class="o">&lt;</span> <span class="n">B</span><span class="p">;</span> <span class="n">b</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">h</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">h</span> <span class="o">&lt;</span> <span class="n">H</span><span class="p">;</span> <span class="n">h</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">q_row_tile_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">q_row_tile_idx</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="n">TILE_SIZE</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">TILE_SIZE</span><span class="p">;</span> <span class="n">q_row_tile_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// K is not transposed so we traverse k by row.</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">k_row_tile_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">k_row_tile_idx</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="n">TILE_SIZE</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">TILE_SIZE</span><span class="p">;</span> <span class="n">k_row_tile_idx</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+          <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">d_col_tile_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">d_col_tile_idx</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">d</span><span class="o">+</span><span class="n">TILE_SIZE</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">TILE_SIZE</span><span class="p">;</span> <span class="n">d_col_tile_idx</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">tile_row_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">tile_row_idx</span> <span class="o">&lt;</span> <span class="n">TILE_SIZE</span><span class="p">;</span> <span class="n">tile_row_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+              <span class="c1">// int out_row_idx = q_row_tile_idx * TILE_SIZE + tile_row_idx;</span>
+              <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">tile_col_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">tile_col_idx</span> <span class="o">&lt;</span> <span class="n">TILE_SIZE</span><span class="p">;</span> <span class="n">tile_col_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// int out_col_idx = k_row_tile_idx * TILE_SIZE + tile_col_idx;</span>
+                <span class="kt">int</span> <span class="n">q_col_idx</span> <span class="o">=</span> <span class="n">d_col_tile_idx</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">+</span> <span class="n">tile_col_idx</span><span class="p">;</span>
+                <span class="kt">int</span> <span class="n">q_row_idx</span> <span class="o">=</span><span class="n">q_row_tile_idx</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">+</span> <span class="n">tile_row_idx</span><span class="p">;</span> 
+                <span class="kt">int</span> <span class="n">k_row_idx</span> <span class="o">=</span> <span class="n">k_row_tile_idx</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">+</span> <span class="n">tile_row_idx</span><span class="p">;</span>
+                <span class="kt">int</span> <span class="n">k_col_idx</span> <span class="o">=</span> <span class="n">d_col_tile_idx</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">+</span> <span class="n">tile_col_idx</span><span class="p">;</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">q_row_idx</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="o">&amp;&amp;</span> <span class="n">q_col_idx</span> <span class="o">&lt;</span> <span class="n">d</span> <span class="o">&amp;&amp;</span> <span class="n">k_row_idx</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="o">&amp;&amp;</span> <span class="n">k_col_idx</span> <span class="o">&lt;</span> <span class="n">d</span><span class="p">)</span> <span class="p">{</span>
+                  <span class="kt">float</span> <span class="n">q_tile_val</span> <span class="o">=</span> <span class="n">fourDimRead</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">q_row_idx</span><span class="p">,</span> <span class="n">q_col_idx</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>
+                  <span class="kt">float</span> <span class="n">k_tile_val</span> <span class="o">=</span> <span class="n">fourDimRead</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">k_row_idx</span><span class="p">,</span> <span class="n">k_col_idx</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>
+                  <span class="kt">float</span> <span class="n">orig_val</span> <span class="o">=</span> <span class="n">twoDimRead</span><span class="p">(</span><span class="n">QK_t</span><span class="p">,</span> <span class="n">q_row_tile_idx</span><span class="p">,</span> <span class="n">k_row_idx</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
+                  <span class="kt">float</span> <span class="n">val</span> <span class="o">=</span> <span class="n">q_tile_val</span> <span class="o">*</span> <span class="n">k_tile_val</span> <span class="o">+</span> <span class="n">orig_val</span><span class="p">;</span>
+                  <span class="n">twoDimWrite</span><span class="p">(</span><span class="n">QK_t</span><span class="p">,</span> <span class="n">q_row_tile_idx</span><span class="p">,</span> <span class="n">k_row_tile_idx</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">val</span> <span class="p">);</span>
+                <span class="p">}</span>
+              <span class="p">}</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+
+        <span class="p">}</span>
+      <span class="p">}</span>
+
+      <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">row_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">row_idx</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">row_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">tmp_row_res</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+        <span class="kt">double</span> <span class="n">row_sum</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">cold_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">cold_idx</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="p">;</span><span class="n">cold_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+           <span class="kt">float</span> <span class="n">val</span> <span class="o">=</span> <span class="n">twoDimRead</span><span class="p">(</span><span class="n">QK_t</span><span class="p">,</span> <span class="n">row_idx</span><span class="p">,</span> <span class="n">cold_idx</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
+          <span class="kt">double</span> <span class="n">exp_val</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">exp</span><span class="p">(</span><span class="n">val</span><span class="p">);</span>
+          <span class="n">row_sum</span> <span class="o">+=</span> <span class="n">exp_val</span><span class="p">;</span>
+          <span class="n">tmp_row_res</span><span class="p">[</span><span class="n">cold_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">exp_val</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">cold_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">cold_idx</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="p">;</span> <span class="n">cold_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+          <span class="kt">float</span> <span class="n">prob</span> <span class="o">=</span> <span class="n">tmp_row_res</span><span class="p">[</span><span class="n">cold_idx</span><span class="p">]</span> <span class="o">/</span> <span class="n">row_sum</span><span class="p">;</span>
+          <span class="n">twoDimWrite</span><span class="p">(</span><span class="n">QK_t</span><span class="p">,</span> <span class="n">row_idx</span><span class="p">,</span> <span class="n">cold_idx</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">prob</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+
+      <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">qkt_row_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">qkt_row_idx</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">qkt_row_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">output_d_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">output_d_idx</span> <span class="o">&lt;</span> <span class="n">d</span><span class="p">;</span> <span class="n">output_d_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+          <span class="kt">float</span> <span class="n">val</span> <span class="o">=</span><span class="mf">0.0</span><span class="p">;</span>
+          <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">m_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">m_idx</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="p">;</span> <span class="n">m_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">float</span> <span class="n">qkt_val</span> <span class="o">=</span>  <span class="n">twoDimRead</span><span class="p">(</span><span class="n">QK_t</span><span class="p">,</span> <span class="n">qkt_row_idx</span><span class="p">,</span> <span class="n">m_idx</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
+            <span class="kt">int</span> <span class="n">v_row</span> <span class="o">=</span> <span class="n">m_idx</span><span class="p">;</span>
+            <span class="kt">int</span> <span class="n">v_col</span> <span class="o">=</span> <span class="n">output_d_idx</span><span class="p">;</span>
+            <span class="kt">float</span> <span class="n">v_val</span> <span class="o">=</span> <span class="n">fourDimRead</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">v_row</span><span class="p">,</span> <span class="n">v_col</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>
+            <span class="n">val</span> <span class="o">+=</span> <span class="n">qkt_val</span> <span class="o">*</span> <span class="n">v_val</span><span class="p">;</span>
+          <span class="p">}</span>
+          <span class="n">fourDimWrite</span><span class="p">(</span><span class="n">O</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">qkt_row_idx</span><span class="p">,</span> <span class="n">output_d_idx</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">d</span> <span class="p">,</span><span class="n">val</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+
+    <span class="p">}</span>
+
+  <span class="p">}</span>
+
+
+  <span class="c1">// DO NOT EDIT THIS RETURN STATEMENT //</span>
+  <span class="c1">// It formats your C++ Vector O back into a Tensor of Shape (B, H, N, d) and returns it //</span>
+  <span class="k">return</span> <span class="n">torch</span><span class="o">::</span><span class="n">from_blob</span><span class="p">(</span><span class="n">O</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="p">{</span><span class="n">B</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">d</span><span class="p">},</span> <span class="n">torch</span><span class="o">::</span><span class="n">TensorOptions</span><span class="p">().</span><span class="n">dtype</span><span class="p">(</span><span class="n">torch</span><span class="o">::</span><span class="n">kFloat32</span><span class="p">)).</span><span class="n">clone</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div> <p>It’s not correct</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">-----</span><span class="n">RUNNING</span> <span class="n">STUDENT</span> <span class="n">IMPLEMENTATION</span><span class="o">-----</span>
+
+<span class="n">first</span> <span class="n">row</span> <span class="n">value</span><span class="o">:</span>
+ <span class="n">tensor</span><span class="p">([</span><span class="mf">0.0771</span><span class="p">,</span> <span class="mf">0.0779</span><span class="p">,</span> <span class="mf">0.0787</span><span class="p">,</span> <span class="mf">0.0795</span><span class="p">,</span> <span class="mf">0.0803</span><span class="p">,</span> <span class="mf">0.0811</span><span class="p">,</span> <span class="mf">0.0819</span><span class="p">,</span> <span class="mf">0.0827</span><span class="p">,</span> <span class="mf">0.0835</span><span class="p">,</span>
+        <span class="mf">0.0843</span><span class="p">,</span> <span class="mf">0.0851</span><span class="p">,</span> <span class="mf">0.0859</span><span class="p">,</span> <span class="mf">0.0867</span><span class="p">,</span> <span class="mf">0.0875</span><span class="p">,</span> <span class="mf">0.0883</span><span class="p">,</span> <span class="mf">0.0891</span><span class="p">,</span> <span class="mf">0.0899</span><span class="p">,</span> <span class="mf">0.0907</span><span class="p">,</span>
+        <span class="mf">0.0915</span><span class="p">,</span> <span class="mf">0.0923</span><span class="p">,</span> <span class="mf">0.0931</span><span class="p">,</span> <span class="mf">0.0939</span><span class="p">,</span> <span class="mf">0.0947</span><span class="p">,</span> <span class="mf">0.0955</span><span class="p">,</span> <span class="mf">0.0963</span><span class="p">,</span> <span class="mf">0.0971</span><span class="p">,</span> <span class="mf">0.0979</span><span class="p">,</span>
+        <span class="mf">0.0987</span><span class="p">,</span> <span class="mf">0.0995</span><span class="p">,</span> <span class="mf">0.1003</span><span class="p">,</span> <span class="mf">0.1011</span><span class="p">,</span> <span class="mf">0.1019</span><span class="p">])</span>
+<span class="n">STAGE</span><span class="o">:</span><span class="mi">2024</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">18</span> <span class="mi">11</span><span class="o">:</span><span class="mi">29</span><span class="o">:</span><span class="mi">24</span> <span class="mi">607233</span><span class="o">:</span><span class="mi">607233</span> <span class="n">ActivityProfilerController</span><span class="p">.</span><span class="n">cpp</span><span class="o">:</span><span class="mi">312</span><span class="p">]</span> <span class="n">Completed</span> <span class="n">Stage</span><span class="o">:</span> <span class="n">Warm</span> <span class="n">Up</span>
+<span class="n">student</span> <span class="n">first</span> <span class="n">row</span><span class="o">:</span>
+ <span class="n">tensor</span><span class="p">([</span><span class="mf">0.0767</span><span class="p">,</span> <span class="mf">0.0775</span><span class="p">,</span> <span class="mf">0.0783</span><span class="p">,</span> <span class="mf">0.0791</span><span class="p">,</span> <span class="mf">0.0799</span><span class="p">,</span> <span class="mf">0.0807</span><span class="p">,</span> <span class="mf">0.0815</span><span class="p">,</span> <span class="mf">0.0823</span><span class="p">,</span> <span class="mf">0.0831</span><span class="p">,</span>
+        <span class="mf">0.0839</span><span class="p">,</span> <span class="mf">0.0847</span><span class="p">,</span> <span class="mf">0.0855</span><span class="p">,</span> <span class="mf">0.0863</span><span class="p">,</span> <span class="mf">0.0871</span><span class="p">,</span> <span class="mf">0.0879</span><span class="p">,</span> <span class="mf">0.0887</span><span class="p">,</span> <span class="mf">0.0895</span><span class="p">,</span> <span class="mf">0.0903</span><span class="p">,</span>
+        <span class="mf">0.0911</span><span class="p">,</span> <span class="mf">0.0919</span><span class="p">,</span> <span class="mf">0.0927</span><span class="p">,</span> <span class="mf">0.0935</span><span class="p">,</span> <span class="mf">0.0943</span><span class="p">,</span> <span class="mf">0.0951</span><span class="p">,</span> <span class="mf">0.0959</span><span class="p">,</span> <span class="mf">0.0967</span><span class="p">,</span> <span class="mf">0.0975</span><span class="p">,</span>
+        <span class="mf">0.0983</span><span class="p">,</span> <span class="mf">0.0991</span><span class="p">,</span> <span class="mf">0.0999</span><span class="p">,</span> <span class="mf">0.1007</span><span class="p">,</span> <span class="mf">0.1015</span><span class="p">])</span>
+<span class="n">STAGE</span><span class="o">:</span><span class="mi">2024</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">18</span> <span class="mi">11</span><span class="o">:</span><span class="mi">29</span><span class="o">:</span><span class="mi">24</span> <span class="mi">607233</span><span class="o">:</span><span class="mi">607233</span> <span class="n">ActivityProfilerController</span><span class="p">.</span><span class="n">cpp</span><span class="o">:</span><span class="mi">318</span><span class="p">]</span> <span class="n">Completed</span> <span class="n">Stage</span><span class="o">:</span> <span class="n">Collection</span>
+<span class="n">STAGE</span><span class="o">:</span><span class="mi">2024</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">18</span> <span class="mi">11</span><span class="o">:</span><span class="mi">29</span><span class="o">:</span><span class="mi">24</span> <span class="mi">607233</span><span class="o">:</span><span class="mi">607233</span> <span class="n">ActivityProfilerController</span><span class="p">.</span><span class="n">cpp</span><span class="o">:</span><span class="mi">322</span><span class="p">]</span> <span class="n">Completed</span> <span class="n">Stage</span><span class="o">:</span> <span class="n">Post</span> <span class="n">Processing</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span><span class="o">:</span>
+  <span class="n">File</span> <span class="s">"/home/zt/stf-cs149-pp/cs149gpt/gpt149.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">329</span><span class="p">,</span> <span class="n">in</span> <span class="o">&lt;</span><span class="k">module</span><span class="o">&gt;</span>
+    <span class="n">main</span><span class="p">()</span>
+  <span class="n">File</span> <span class="s">"/home/zt/stf-cs149-pp/cs149gpt/gpt149.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">313</span><span class="p">,</span> <span class="n">in</span> <span class="n">main</span>
+    <span class="n">part2Test</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+  <span class="n">File</span> <span class="s">"/home/zt/stf-cs149-pp/cs149gpt/gpt149.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">233</span><span class="p">,</span> <span class="n">in</span> <span class="n">part2Test</span>
+    <span class="n">testTemplate</span><span class="p">(</span><span class="n">attentionModuleReference</span><span class="p">.</span><span class="n">myUnfusedAttentionBlocked</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="s">"STUDENT - BLOCKED MATMUL + UNFUSED SOFTMAX"</span><span class="p">)</span>
+  <span class="n">File</span> <span class="s">"/home/zt/stf-cs149-pp/cs149gpt/gpt149.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">182</span><span class="p">,</span> <span class="n">in</span> <span class="n">testTemplate</span>
+    <span class="n">assert</span> <span class="n">torch</span><span class="p">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">QKV</span><span class="p">,</span><span class="n">QKS1</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">),</span> <span class="n">correctness_error_message</span>
+<span class="n">AssertionError</span><span class="o">:</span>
+<span class="o">-------------------------------------------</span>
+ <span class="n">YOUR</span> <span class="n">ATTENTION</span> <span class="n">PRODUCED</span> <span class="n">INCORRECT</span> <span class="n">RESULTS</span>
+</code></pre></div></div> <p>Fixed the two indexing issue in original issue.</p> <p>This is the correct implementation given by gpt. However, it’s too slow</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      for (int q_row_tile_idx = 0; q_row_tile_idx &lt; (N + TILE_SIZE - 1) / TILE_SIZE; q_row_tile_idx++) {
+    for (int k_row_tile_idx = 0; k_row_tile_idx &lt; (N + TILE_SIZE - 1) / TILE_SIZE; k_row_tile_idx++) {
+        for (int d_col_tile_idx = 0; d_col_tile_idx &lt; (d + TILE_SIZE - 1) / TILE_SIZE; d_col_tile_idx++) {
+            for (int tile_row_idx = 0; tile_row_idx &lt; TILE_SIZE; tile_row_idx++) {
+                for (int tile_col_idx = 0; tile_col_idx &lt; TILE_SIZE; tile_col_idx++) {
+                    int q_row_idx = q_row_tile_idx * TILE_SIZE + tile_row_idx;
+                    int k_row_idx = k_row_tile_idx * TILE_SIZE + tile_col_idx; // Fix indexing
+                    for (int d_idx = d_col_tile_idx * TILE_SIZE; d_idx &lt; (d_col_tile_idx + 1) * TILE_SIZE; d_idx++) {
+                        if (q_row_idx &lt; N &amp;&amp; k_row_idx &lt; N &amp;&amp; d_idx &lt; d) {
+                            float q_tile_val = fourDimRead(Q, b, h, q_row_idx, d_idx, H, N, d);
+                            float k_tile_val = fourDimRead(K, b, h, k_row_idx, d_idx, H, N, d);
+                            float orig_val = twoDimRead(QK_t, q_row_idx, k_row_idx, N);
+                            float val = q_tile_val * k_tile_val + orig_val;
+                            twoDimWrite(QK_t, q_row_idx, k_row_idx, N, val);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+</code></pre></div></div> <p>Explanation from gpt</p> <p>You’re right to question the necessity of traversing the dimension ( d ) fully. Let’s clarify why it’s important in some cases and whether it applies here.</p> <h3 id="understanding-the-role-of-dimension--d-">Understanding the Role of Dimension ( d )</h3> <p>In block matrix multiplication:</p> <ol> <li> <strong>Matrix Multiplication Basics</strong>: <ul> <li>To compute an element ((i, j)) of the resulting matrix ( QK_t ), you need to calculate the dot product of the (i)-th row of (Q) and the (j)-th row of (K).</li> <li>This involves summing the product of corresponding elements from both rows over the shared dimension ( d ):<br> [ QK_t[i, j] = \sum_{k=0}^{d-1} Q[i, k] \times K[j, k] ]</li> </ul> </li> <li> <strong>Tiling</strong>: <ul> <li>In tiled matrix multiplication, the computation of a block of ( QK_t ) (e.g., a ( \text{TILE_SIZE} \times \text{TILE_SIZE} ) block) is split into smaller sub-blocks to improve memory locality.</li> <li>Each sub-block computation iterates over the shared dimension ( d ) in chunks.</li> </ul> </li> </ol> <h3 id="why-traverse--d-">Why Traverse ( d )?</h3> <p>If you don’t traverse ( d ), the computation will only consider partial contributions to the dot product. This would leave the values in ( QK_t ) incomplete.</p> <p>For example, if ( d = 6 ), and your block size is ( \text{TILE_SIZE} = 3 ):</p> <ul> <li>You compute the dot product for ( d \in [0, 2] ), but ignore ( d \in [3, 5] ), leading to incorrect results.</li> </ul> <h3 id="why-the-code-needs-it">Why the Code Needs It</h3> <p>Your original code suggests you’re updating ( QK_t ) incrementally:</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">val</span> <span class="o">=</span> <span class="n">q_tile_val</span> <span class="o">*</span> <span class="n">k_tile_val</span> <span class="o">+</span> <span class="n">orig_val</span><span class="p">;</span>
+</code></pre></div></div> <p>Here, <code class="language-plaintext highlighter-rouge">orig_val</code> accumulates partial results. Without iterating fully over ( d ), the result will be incomplete because only a subset of the dot product contributions is added.</p> <h3 id="when--d--traversal-isnt-necessary">When ( d ) Traversal Isn’t Necessary</h3> <p>In rare cases, you might not need to traverse ( d ) if:</p> <ol> <li> <strong>Each block fully covers ( d )</strong>: <ul> <li>This is possible only when ( \text{TILE_SIZE} ) equals ( d ).</li> <li>In this case, the tiling logic aligns perfectly with the shared dimension, and a single traversal suffices.</li> </ul> </li> <li> <strong>Precomputed Values</strong>: <ul> <li>If ( Q ) or ( K ) has been preprocessed (e.g., multiplied previously), the shared dimension ( d ) might not need iteration.</li> </ul> </li> </ol> <h3 id="conclusion">Conclusion</h3> <p>For the general case (and your code):</p> <ul> <li>Traversing ( d ) fully ensures the correctness of the dot product computation across the shared dimension.</li> <li>If you’re sure ( d ) traversal isn’t necessary, it usually means ( Q ) and ( K ) are already structured to encapsulate the full dot product for each tile.</li> </ul> <p>If you’re still unsure about why it’s needed in your case, we can examine your problem more closely to confirm!</p> <p>I can view the outside for loop from two kind of perspective.</p> <p>One is from input matrix.</p> <p>One is from output matrix. This one makes more sense after reading code generated by gpt</p> <p>Two outer for loop traverse row and column tiles of output matrix. The third for loop traverse the row in input matrix and the column in second input matrix The fourth and fifth for loop traverse the row and column elements in current tile. The sixth for loop does dot product for a single row in input tile and single column in output tile and accumulate the sum. And then write back the sum to output matrix.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for (int row_tile_idx = 0; row_tile_idx &lt; (N + TILE_SIZE - 1) / TILE_SIZE; row_tile_idx++) {
+    for (int col_tile_idx = 0; col_tile_idx &lt; (N + TILE_SIZE - 1) / TILE_SIZE; col_tile_idx++) {
+        // Initialize the current block of the output matrix
+        for (int i = 0; i &lt; TILE_SIZE; i++) {
+            for (int j = 0; j &lt; TILE_SIZE; j++) {
+                int row_idx = row_tile_idx * TILE_SIZE + i;
+                int col_idx = col_tile_idx * TILE_SIZE + j;
+                if (row_idx &lt; N &amp;&amp; col_idx &lt; N) {
+                    twoDimWrite(C, row_idx, col_idx, N, 0.0); // Initialize to zero
+                }
+            }
+        }
+
+        for (int k_tile_idx = 0; k_tile_idx &lt; (d + TILE_SIZE - 1) / TILE_SIZE; k_tile_idx++) {
+            for (int i = 0; i &lt; TILE_SIZE; i++) {
+                for (int j = 0; j &lt; TILE_SIZE; j++) {
+                    int row_idx = row_tile_idx * TILE_SIZE + i;
+                    int col_idx = col_tile_idx * TILE_SIZE + j;
+                    if (row_idx &gt;= N || col_idx &gt;= N) continue;
+
+                    float sum = twoDimRead(C, row_idx, col_idx, N);
+
+                    for (int k = 0; k &lt; TILE_SIZE; k++) {
+                        int k_idx = k_tile_idx * TILE_SIZE + k;
+                        if (k_idx &gt;= d) break;
+
+                        float a_val = twoDimRead(A, row_idx, k_idx, d);
+                        float b_val = twoDimRead(B, col_idx, k_idx, d); // Column index now indexes rows in B
+                        sum += a_val * b_val;
+                    }
+
+                    twoDimWrite(C, row_idx, col_idx, N, sum);
+                }
+            }
+        }
+    }
+}
+
+</code></pre></div></div> <p>The code above use global buffer.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      for(int row_tile_idx=0; row_tile_idx &lt; (N+TILE_SIZE-1)/TILE_SIZE; row_tile_idx++) {
+        for(int col_tile_idx=0; col_tile_idx &lt; (N+TILE_SIZE-1)/TILE_SIZE; col_tile_idx++) {
+          for(int k_tile_idx=0; k_tile_idx &lt; (d+TILE_SIZE-1)/TILE_SIZE; k_tile_idx++  ) {
+            for(int tile_row_idx=0; tile_row_idx &lt; TILE_SIZE; tile_row_idx++) {
+              for(int tile_col_idx=0; tile_col_idx &lt; TILE_SIZE; tile_col_idx++) {
+                int row_idx = row_tile_idx * TILE_SIZE + tile_row_idx;
+                int col_idx = col_tile_idx * TILE_SIZE + tile_col_idx;
+                if(row_idx &gt;= N || col_idx &gt;= N) {
+                  continue;
+                }
+                float sum = twoDimRead(QK_t, row_idx, col_idx, N);
+
+                for(int k=0; k &lt; TILE_SIZE; k++) {
+                  int k_idx = k_tile_idx * TILE_SIZE + k;
+                  if(k_idx &gt;= d) break;
+                  float q_val =  fourDimRead(Q,b, h, row_idx, k_idx, H, N, d);
+                  float k_val = fourDimRead(K, b, h, col_idx, k_idx, H, N, d);
+                  sum += q_val * k_val;
+                }
+                twoDimWrite(QK_t, row_idx, col_idx, N, sum);
+              }
+
+            }
+          }
+        }
+      }
+</code></pre></div></div> <p>Output:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+REFERENCE - BLOCKED MATMUL + UNFUSED SOFTMAX statistics
+cpu time:  238.938ms
+mem usage:  4718592 bytes
+-----RUNNING STUDENT IMPLEMENTATION-----
+
+first row value:
+ tensor([0.0771, 0.0779, 0.0787, 0.0795, 0.0803, 0.0811, 0.0819, 0.0827, 0.0835,
+        0.0843, 0.0851, 0.0859, 0.0867, 0.0875, 0.0883, 0.0891, 0.0899, 0.0907,
+        0.0915, 0.0923, 0.0931, 0.0939, 0.0947, 0.0955, 0.0963, 0.0971, 0.0979,
+        0.0987, 0.0995, 0.1003, 0.1011, 0.1019])
+STAGE:2024-11-18 13:39:56 1318038:1318038 ActivityProfilerController.cpp:312] Completed Stage: Warm Up
+student first row:
+ tensor([0.0771, 0.0779, 0.0787, 0.0795, 0.0803, 0.0811, 0.0819, 0.0827, 0.0835,
+        0.0843, 0.0851, 0.0859, 0.0867, 0.0875, 0.0883, 0.0891, 0.0899, 0.0907,
+        0.0915, 0.0923, 0.0931, 0.0939, 0.0947, 0.0955, 0.0963, 0.0971, 0.0979,
+        0.0987, 0.0995, 0.1003, 0.1011, 0.1019])
+STAGE:2024-11-18 13:39:56 1318038:1318038 ActivityProfilerController.cpp:318] Completed Stage: Collection
+STAGE:2024-11-18 13:39:56 1318038:1318038 ActivityProfilerController.cpp:322] Completed Stage: Post Processing
+manual attention == pytorch attention True
+Manual Execution Time:  0.29826903343200684
+
+----------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------
+                                          Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg       CPU Mem  Self CPU Mem    # of Calls
+----------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------
+                                   aten::empty         0.01%      21.000us         0.01%      21.000us       2.625us       5.00 Mb       5.00 Mb             8
+    STUDENT - BLOCKED MATMUL + UNFUSED SOFTMAX        99.35%     296.386ms        99.70%     297.443ms     297.443ms       4.50 Mb      -1.00 Mb             1
+                                   aten::zeros         0.01%      15.000us         0.24%     706.000us     353.000us       4.50 Mb           0 b             2
+                                   aten::clone         0.01%      19.000us         0.11%     328.000us     164.000us       1.00 Mb           0 b             2
+                           aten::empty_strided         0.00%      11.000us         0.00%      11.000us       2.200us     512.51 Kb     512.51 Kb             5
+                               model_inference         0.18%     550.000us       100.00%     298.329ms     298.329ms     512.00 Kb      -4.00 Mb             1
+                                 aten::flatten         0.01%      15.000us         0.07%     200.000us      40.000us     512.00 Kb           0 b             5
+                              aten::empty_like         0.00%       3.000us         0.00%       5.000us       5.000us     512.00 Kb           0 b             1
+                                      aten::to         0.00%       6.000us         0.01%      31.000us       5.167us         520 b           0 b             6
+                                aten::_to_copy         0.00%      14.000us         0.01%      25.000us       6.250us         520 b           0 b             4
+----------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------
+Self CPU time total: 298.329ms
+
+STUDENT - BLOCKED MATMUL + UNFUSED SOFTMAX statistics
+cpu time:  297.443ms
+mem usage:  4718592 bytes
+</code></pre></div></div> <p>This code use local buffer that is allocated. A little bit faster but not a lot.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#pragma omp parallel for collapse(2) // Parallelize the two outermost loops
+for (int row_tile_idx = 0; row_tile_idx &lt; (N + TILE_SIZE - 1) / TILE_SIZE; row_tile_idx++) {
+    for (int col_tile_idx = 0; col_tile_idx &lt; (N + TILE_SIZE - 1) / TILE_SIZE; col_tile_idx++) {
+        for (int k_tile_idx = 0; k_tile_idx &lt; (d + TILE_SIZE - 1) / TILE_SIZE; k_tile_idx++) {
+
+            // Buffers for tile data
+            float Q_tile[TILE_SIZE][TILE_SIZE];
+            float K_tile[TILE_SIZE][TILE_SIZE];
+
+            // Preload Q and K tiles into local buffers
+            for (int tile_row_idx = 0; tile_row_idx &lt; TILE_SIZE; tile_row_idx++) {
+                int row_idx = row_tile_idx * TILE_SIZE + tile_row_idx;
+                if (row_idx &gt;= N) continue; // Skip out-of-bound rows
+
+                for (int k = 0; k &lt; TILE_SIZE; k++) {
+                    int k_idx = k_tile_idx * TILE_SIZE + k;
+                    if (k_idx &lt; d) {
+                        Q_tile[tile_row_idx][k] = fourDimRead(Q, b, h, row_idx, k_idx, H, N, d);
+                    } else {
+                        Q_tile[tile_row_idx][k] = 0.0f; // Fill with zero if out-of-bounds
+                    }
+                }
+            }
+
+            for (int tile_col_idx = 0; tile_col_idx &lt; TILE_SIZE; tile_col_idx++) {
+                int col_idx = col_tile_idx * TILE_SIZE + tile_col_idx;
+                if (col_idx &gt;= N) continue; // Skip out-of-bound columns
+
+                for (int k = 0; k &lt; TILE_SIZE; k++) {
+                    int k_idx = k_tile_idx * TILE_SIZE + k;
+                    if (k_idx &lt; d) {
+                        K_tile[tile_col_idx][k] = fourDimRead(K, b, h, col_idx, k_idx, H, N, d);
+                    } else {
+                        K_tile[tile_col_idx][k] = 0.0f; // Fill with zero if out-of-bounds
+                    }
+                }
+            }
+
+            // Compute the dot product for the current tile
+            for (int tile_row_idx = 0; tile_row_idx &lt; TILE_SIZE; tile_row_idx++) {
+                int row_idx = row_tile_idx * TILE_SIZE + tile_row_idx;
+                if (row_idx &gt;= N) continue; // Skip out-of-bound rows
+
+                for (int tile_col_idx = 0; tile_col_idx &lt; TILE_SIZE; tile_col_idx++) {
+                    int col_idx = col_tile_idx * TILE_SIZE + tile_col_idx;
+                    if (col_idx &gt;= N) continue; // Skip out-of-bound columns
+
+                    float sum = twoDimRead(QK_t, row_idx, col_idx, N);
+
+                    // Unrolled loop for vectorized dot product
+                    for (int k = 0; k &lt; TILE_SIZE; k++) {
+                        sum += Q_tile[tile_row_idx][k] * K_tile[tile_col_idx][k];
+                    }
+
+                    twoDimWrite(QK_t, row_idx, col_idx, N, sum);
+                }
+            }
+        }
+    }
+}
+
+</code></pre></div></div> <p>OUtput:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>REFERENCE - BLOCKED MATMUL + UNFUSED SOFTMAX statistics
+cpu time:  226.667ms
+mem usage:  4718592 bytes
+-----RUNNING STUDENT IMPLEMENTATION-----
+
+first row value:
+ tensor([0.0771, 0.0779, 0.0787, 0.0795, 0.0803, 0.0811, 0.0819, 0.0827, 0.0835,
+        0.0843, 0.0851, 0.0859, 0.0867, 0.0875, 0.0883, 0.0891, 0.0899, 0.0907,
+        0.0915, 0.0923, 0.0931, 0.0939, 0.0947, 0.0955, 0.0963, 0.0971, 0.0979,
+        0.0987, 0.0995, 0.1003, 0.1011, 0.1019])
+STAGE:2024-11-18 13:44:02 1342423:1342423 ActivityProfilerController.cpp:312] Completed Stage: Warm Up
+student first row:
+ tensor([0.0771, 0.0779, 0.0787, 0.0795, 0.0803, 0.0811, 0.0819, 0.0827, 0.0835,
+        0.0843, 0.0851, 0.0859, 0.0867, 0.0875, 0.0883, 0.0891, 0.0899, 0.0907,
+        0.0915, 0.0923, 0.0931, 0.0939, 0.0947, 0.0955, 0.0963, 0.0971, 0.0979,
+        0.0987, 0.0995, 0.1003, 0.1011, 0.1019])
+STAGE:2024-11-18 13:44:02 1342423:1342423 ActivityProfilerController.cpp:318] Completed Stage: Collection
+STAGE:2024-11-18 13:44:02 1342423:1342423 ActivityProfilerController.cpp:322] Completed Stage: Post Processing
+manual attention == pytorch attention True
+Manual Execution Time:  0.2852001190185547
+
+----------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------
+                                          Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg       CPU Mem  Self CPU Mem    # of Calls
+----------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------
+                                   aten::empty         0.00%      13.000us         0.00%      13.000us       1.625us       5.00 Mb       5.00 Mb             8
+    STUDENT - BLOCKED MATMUL + UNFUSED SOFTMAX        99.52%     283.895ms        99.68%     284.350ms     284.350ms       4.50 Mb      -1.00 Mb             1
+                                   aten::zeros         0.01%      17.000us         0.05%     131.000us      65.500us       4.50 Mb           0 b             2
+                                   aten::clone         0.01%      23.000us         0.11%     300.000us     150.000us       1.00 Mb           0 b             2
+                           aten::empty_strided         0.00%      12.000us         0.00%      12.000us       2.400us     512.26 Kb     512.26 Kb             5
+                               model_inference         0.20%     565.000us       100.00%     285.254ms     285.254ms     512.00 Kb      -4.00 Mb             1
+                                 aten::flatten         0.01%      16.000us         0.06%     159.000us      31.800us     512.00 Kb           0 b             5
+                              aten::empty_like         0.00%       3.000us         0.00%       5.000us       5.000us     512.00 Kb           0 b             1
+                                      aten::to         0.00%      10.000us         0.01%      31.000us       5.167us         520 b         256 b             6
+                                aten::_to_copy         0.01%      16.000us         0.01%      26.000us       6.500us         520 b         256 b             4
+----------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------
+Self CPU time total: 285.254ms
+
+STUDENT - BLOCKED MATMUL + UNFUSED SOFTMAX statistics
+cpu time:  284.35ms
+mem usage:  4718592 bytes
+</code></pre></div></div> <p>Code that do block matrix multiplication for both (Q * K_t) and (softmax(QK_t ) * V):</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define TILE_SIZE 16
+</span><span class="n">torch</span><span class="o">::</span><span class="n">Tensor</span> <span class="nf">myUnfusedAttentionBlocked</span><span class="p">(</span><span class="n">torch</span><span class="o">::</span><span class="n">Tensor</span> <span class="n">QTensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">::</span><span class="n">Tensor</span> <span class="n">KTensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">::</span><span class="n">Tensor</span> <span class="n">VTensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">::</span><span class="n">Tensor</span> <span class="n">QK_tTensor</span><span class="p">,</span>
+                <span class="kt">int</span> <span class="n">B</span><span class="p">,</span> <span class="kt">int</span> <span class="n">H</span><span class="p">,</span> <span class="kt">int</span> <span class="n">N</span><span class="p">,</span> <span class="kt">int</span> <span class="n">d</span><span class="p">){</span>
+  
+  <span class="c1">// Q, K, V are passed in with Shape: (B, H, N, d)</span>
+  <span class="c1">//QK^t Intermediate Tensor has Shape (N, N)</span>
+
+  <span class="c1">//Make O Tensor with Shape (B, H, N, d) </span>
+  <span class="n">at</span><span class="o">::</span><span class="n">Tensor</span> <span class="n">OTensor</span> <span class="o">=</span> <span class="n">at</span><span class="o">::</span><span class="n">zeros</span><span class="p">({</span><span class="n">B</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">d</span><span class="p">},</span> <span class="n">at</span><span class="o">::</span><span class="n">kFloat</span><span class="p">);</span>
+
+  <span class="c1">//Format O, Q, K, and V tensors into 4D vectors</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">O</span> <span class="o">=</span> <span class="n">formatTensor</span><span class="p">(</span><span class="n">OTensor</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">Q</span> <span class="o">=</span> <span class="n">formatTensor</span><span class="p">(</span><span class="n">QTensor</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">K</span> <span class="o">=</span> <span class="n">formatTensor</span><span class="p">(</span><span class="n">KTensor</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">V</span> <span class="o">=</span> <span class="n">formatTensor</span><span class="p">(</span><span class="n">VTensor</span><span class="p">);</span>
+
+  <span class="c1">//Format QK_t Tensor into a 2D vector.</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">QK_t</span> <span class="o">=</span> <span class="n">formatTensor</span><span class="p">(</span><span class="n">QK_tTensor</span><span class="p">);</span>
+
+  <span class="c1">// -------- YOUR CODE HERE  -------- //</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">b</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">b</span> <span class="o">&lt;</span> <span class="n">B</span><span class="p">;</span> <span class="n">b</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">h</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">h</span> <span class="o">&lt;</span> <span class="n">H</span><span class="p">;</span> <span class="n">h</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+
+      <span class="c1">//</span>
+      <span class="c1">// correct</span>
+      <span class="c1">// for(int row_tile_idx=0; row_tile_idx &lt; (N+TILE_SIZE-1)/TILE_SIZE; row_tile_idx++) {</span>
+      <span class="c1">//   for(int col_tile_idx=0; col_tile_idx &lt; (N+TILE_SIZE-1)/TILE_SIZE; col_tile_idx++) {</span>
+      <span class="c1">//     for(int k_tile_idx=0; k_tile_idx &lt; (d+TILE_SIZE-1)/TILE_SIZE; k_tile_idx++  ) {</span>
+      <span class="c1">//       for(int tile_row_idx=0; tile_row_idx &lt; TILE_SIZE; tile_row_idx++) {</span>
+      <span class="c1">//         for(int tile_col_idx=0; tile_col_idx &lt; TILE_SIZE; tile_col_idx++) {</span>
+      <span class="c1">//           int row_idx = row_tile_idx * TILE_SIZE + tile_row_idx;</span>
+      <span class="c1">//           int col_idx = col_tile_idx * TILE_SIZE + tile_col_idx;</span>
+      <span class="c1">//           if(row_idx &gt;= N || col_idx &gt;= N) {</span>
+      <span class="c1">//             continue;</span>
+      <span class="c1">//           }</span>
+      <span class="c1">//           float sum = twoDimRead(QK_t, row_idx, col_idx, N);</span>
+
+      <span class="c1">//           for(int k=0; k &lt; TILE_SIZE; k++) {</span>
+      <span class="c1">//             int k_idx = k_tile_idx * TILE_SIZE + k;</span>
+      <span class="c1">//             if(k_idx &gt;= d) break;</span>
+      <span class="c1">//             float q_val =  fourDimRead(Q,b, h, row_idx, k_idx, H, N, d);</span>
+      <span class="c1">//             float k_val = fourDimRead(K, b, h, col_idx, k_idx, H, N, d);</span>
+      <span class="c1">//             sum += q_val * k_val;</span>
+      <span class="c1">//           }</span>
+      <span class="c1">//           twoDimWrite(QK_t, row_idx, col_idx, N, sum);</span>
+      <span class="c1">//         }</span>
+
+      <span class="c1">//       }</span>
+      <span class="c1">//     }</span>
+      <span class="c1">//   }</span>
+      <span class="c1">// }</span>
+
+      <span class="c1">// correct with local buffer</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">row_tile_idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">row_tile_idx</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="n">TILE_SIZE</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">TILE_SIZE</span><span class="p">;</span> <span class="n">row_tile_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">col_tile_idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">col_tile_idx</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="n">TILE_SIZE</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">TILE_SIZE</span><span class="p">;</span> <span class="n">col_tile_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k_tile_idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k_tile_idx</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">d</span> <span class="o">+</span> <span class="n">TILE_SIZE</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">TILE_SIZE</span><span class="p">;</span> <span class="n">k_tile_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+
+            <span class="c1">// Buffers for tile data</span>
+            <span class="kt">float</span> <span class="n">Q_tile</span><span class="p">[</span><span class="n">TILE_SIZE</span><span class="p">][</span><span class="n">TILE_SIZE</span><span class="p">];</span>
+            <span class="kt">float</span> <span class="n">K_tile</span><span class="p">[</span><span class="n">TILE_SIZE</span><span class="p">][</span><span class="n">TILE_SIZE</span><span class="p">];</span>
+
+            <span class="c1">// Preload Q and K tiles into local buffers</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">tile_row_idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">tile_row_idx</span> <span class="o">&lt;</span> <span class="n">TILE_SIZE</span><span class="p">;</span> <span class="n">tile_row_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kt">int</span> <span class="n">row_idx</span> <span class="o">=</span> <span class="n">row_tile_idx</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">+</span> <span class="n">tile_row_idx</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">row_idx</span> <span class="o">&gt;=</span> <span class="n">N</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span> <span class="c1">// Skip out-of-bound rows</span>
+
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">TILE_SIZE</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="kt">int</span> <span class="n">k_idx</span> <span class="o">=</span> <span class="n">k_tile_idx</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">+</span> <span class="n">k</span><span class="p">;</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">k_idx</span> <span class="o">&lt;</span> <span class="n">d</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="n">Q_tile</span><span class="p">[</span><span class="n">tile_row_idx</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">fourDimRead</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">row_idx</span><span class="p">,</span> <span class="n">k_idx</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>
+                    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                        <span class="n">Q_tile</span><span class="p">[</span><span class="n">tile_row_idx</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="n">f</span><span class="p">;</span> <span class="c1">// Fill with zero if out-of-bounds</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">tile_col_idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">tile_col_idx</span> <span class="o">&lt;</span> <span class="n">TILE_SIZE</span><span class="p">;</span> <span class="n">tile_col_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kt">int</span> <span class="n">col_idx</span> <span class="o">=</span> <span class="n">col_tile_idx</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">+</span> <span class="n">tile_col_idx</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">col_idx</span> <span class="o">&gt;=</span> <span class="n">N</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span> <span class="c1">// Skip out-of-bound columns</span>
+
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">TILE_SIZE</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="kt">int</span> <span class="n">k_idx</span> <span class="o">=</span> <span class="n">k_tile_idx</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">+</span> <span class="n">k</span><span class="p">;</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">k_idx</span> <span class="o">&lt;</span> <span class="n">d</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="n">K_tile</span><span class="p">[</span><span class="n">tile_col_idx</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">fourDimRead</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">col_idx</span><span class="p">,</span> <span class="n">k_idx</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>
+                    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                        <span class="n">K_tile</span><span class="p">[</span><span class="n">tile_col_idx</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="n">f</span><span class="p">;</span> <span class="c1">// Fill with zero if out-of-bounds</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="c1">// Compute the dot product for the current tile</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">tile_row_idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">tile_row_idx</span> <span class="o">&lt;</span> <span class="n">TILE_SIZE</span><span class="p">;</span> <span class="n">tile_row_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kt">int</span> <span class="n">row_idx</span> <span class="o">=</span> <span class="n">row_tile_idx</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">+</span> <span class="n">tile_row_idx</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">row_idx</span> <span class="o">&gt;=</span> <span class="n">N</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span> <span class="c1">// Skip out-of-bound rows</span>
+
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">tile_col_idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">tile_col_idx</span> <span class="o">&lt;</span> <span class="n">TILE_SIZE</span><span class="p">;</span> <span class="n">tile_col_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="kt">int</span> <span class="n">col_idx</span> <span class="o">=</span> <span class="n">col_tile_idx</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">+</span> <span class="n">tile_col_idx</span><span class="p">;</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">col_idx</span> <span class="o">&gt;=</span> <span class="n">N</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span> <span class="c1">// Skip out-of-bound columns</span>
+
+                    <span class="kt">float</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">twoDimRead</span><span class="p">(</span><span class="n">QK_t</span><span class="p">,</span> <span class="n">row_idx</span><span class="p">,</span> <span class="n">col_idx</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
+
+                    <span class="c1">// Unrolled loop for vectorized dot product</span>
+                    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">TILE_SIZE</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="n">sum</span> <span class="o">+=</span> <span class="n">Q_tile</span><span class="p">[</span><span class="n">tile_row_idx</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">K_tile</span><span class="p">[</span><span class="n">tile_col_idx</span><span class="p">][</span><span class="n">k</span><span class="p">];</span>
+                    <span class="p">}</span>
+
+                    <span class="n">twoDimWrite</span><span class="p">(</span><span class="n">QK_t</span><span class="p">,</span> <span class="n">row_idx</span><span class="p">,</span> <span class="n">col_idx</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">sum</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+
+      <span class="c1">// also correct</span>
+<span class="c1">//       for (int q_row_tile_idx = 0; q_row_tile_idx &lt; (N + TILE_SIZE - 1) / TILE_SIZE; q_row_tile_idx++) {</span>
+<span class="c1">//     for (int k_row_tile_idx = 0; k_row_tile_idx &lt; (N + TILE_SIZE - 1) / TILE_SIZE; k_row_tile_idx++) {</span>
+<span class="c1">//         for (int d_col_tile_idx = 0; d_col_tile_idx &lt; (d + TILE_SIZE - 1) / TILE_SIZE; d_col_tile_idx++) {</span>
+<span class="c1">//             for (int tile_row_idx = 0; tile_row_idx &lt; TILE_SIZE; tile_row_idx++) {</span>
+<span class="c1">//                 for (int tile_col_idx = 0; tile_col_idx &lt; TILE_SIZE; tile_col_idx++) {</span>
+<span class="c1">//                     int q_row_idx = q_row_tile_idx * TILE_SIZE + tile_row_idx;</span>
+<span class="c1">//                     int k_row_idx = k_row_tile_idx * TILE_SIZE + tile_col_idx; // Fix indexing</span>
+<span class="c1">//                     for (int d_idx = d_col_tile_idx * TILE_SIZE; d_idx &lt; (d_col_tile_idx + 1) * TILE_SIZE; d_idx++) {</span>
+<span class="c1">//                         if (q_row_idx &lt; N &amp;&amp; k_row_idx &lt; N &amp;&amp; d_idx &lt; d) {</span>
+<span class="c1">//                             float q_tile_val = fourDimRead(Q, b, h, q_row_idx, d_idx, H, N, d);</span>
+<span class="c1">//                             float k_tile_val = fourDimRead(K, b, h, k_row_idx, d_idx, H, N, d);</span>
+<span class="c1">//                             float orig_val = twoDimRead(QK_t, q_row_idx, k_row_idx, N);</span>
+<span class="c1">//                             float val = q_tile_val * k_tile_val + orig_val;</span>
+<span class="c1">//                             twoDimWrite(QK_t, q_row_idx, k_row_idx, N, val);</span>
+<span class="c1">//                         }</span>
+<span class="c1">//                     }</span>
+<span class="c1">//                 }</span>
+<span class="c1">//             }</span>
+<span class="c1">//         }</span>
+<span class="c1">//     }</span>
+<span class="c1">// }</span>
+
+
+
+
+      <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">row_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">row_idx</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">row_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">tmp_row_res</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+        <span class="kt">double</span> <span class="n">row_sum</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">cold_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">cold_idx</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="p">;</span><span class="n">cold_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+           <span class="kt">float</span> <span class="n">val</span> <span class="o">=</span> <span class="n">twoDimRead</span><span class="p">(</span><span class="n">QK_t</span><span class="p">,</span> <span class="n">row_idx</span><span class="p">,</span> <span class="n">cold_idx</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
+          <span class="kt">double</span> <span class="n">exp_val</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">exp</span><span class="p">(</span><span class="n">val</span><span class="p">);</span>
+          <span class="n">row_sum</span> <span class="o">+=</span> <span class="n">exp_val</span><span class="p">;</span>
+          <span class="n">tmp_row_res</span><span class="p">[</span><span class="n">cold_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">exp_val</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">cold_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">cold_idx</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="p">;</span> <span class="n">cold_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+          <span class="kt">float</span> <span class="n">prob</span> <span class="o">=</span> <span class="n">tmp_row_res</span><span class="p">[</span><span class="n">cold_idx</span><span class="p">]</span> <span class="o">/</span> <span class="n">row_sum</span><span class="p">;</span>
+          <span class="n">twoDimWrite</span><span class="p">(</span><span class="n">QK_t</span><span class="p">,</span> <span class="n">row_idx</span><span class="p">,</span> <span class="n">cold_idx</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">prob</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+
+
+      
+      <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">qkt_row_tile_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">qkt_row_tile_idx</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="n">TILE_SIZE</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">TILE_SIZE</span><span class="p">;</span> <span class="n">qkt_row_tile_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">output_d_tile_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">output_d_tile_idx</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">d</span><span class="o">+</span><span class="n">TILE_SIZE</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">TILE_SIZE</span><span class="p">;</span> <span class="n">output_d_tile_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+
+          <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">k_tile_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">k_tile_idx</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="n">TILE_SIZE</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">TILE_SIZE</span><span class="p">;</span> <span class="n">k_tile_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">tile_row_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">tile_row_idx</span> <span class="o">&lt;</span> <span class="n">TILE_SIZE</span><span class="p">;</span> <span class="n">tile_row_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kt">int</span> <span class="n">out_row_idx</span> <span class="o">=</span> <span class="n">qkt_row_tile_idx</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">+</span> <span class="n">tile_row_idx</span><span class="p">;</span>
+              <span class="k">if</span><span class="p">(</span><span class="n">out_row_idx</span> <span class="o">&gt;=</span> <span class="n">N</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+              <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">tile_col_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">tile_col_idx</span> <span class="o">&lt;</span> <span class="n">TILE_SIZE</span><span class="p">;</span> <span class="n">tile_col_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kt">int</span> <span class="n">out_col_idx</span> <span class="o">=</span> <span class="n">output_d_tile_idx</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">+</span> <span class="n">tile_col_idx</span><span class="p">;</span>
+                <span class="k">if</span><span class="p">(</span> <span class="n">out_col_idx</span> <span class="o">&gt;=</span> <span class="n">d</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+
+                <span class="kt">float</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">fourDimRead</span><span class="p">(</span><span class="n">O</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">out_row_idx</span><span class="p">,</span> <span class="n">out_col_idx</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">d</span> <span class="p">);</span>
+                <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">TILE_SIZE</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                  <span class="kt">int</span> <span class="n">k_idx</span> <span class="o">=</span> <span class="n">k_tile_idx</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">+</span> <span class="n">k</span><span class="p">;</span>
+                  <span class="kt">float</span> <span class="n">qkt_val</span> <span class="o">=</span> <span class="n">twoDimRead</span><span class="p">(</span><span class="n">QK_t</span><span class="p">,</span> <span class="n">out_row_idx</span><span class="p">,</span> <span class="n">k_idx</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
+                  <span class="kt">float</span> <span class="n">v_val</span> <span class="o">=</span> <span class="n">fourDimRead</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">k_idx</span><span class="p">,</span> <span class="n">out_col_idx</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>
+                  <span class="n">sum</span> <span class="o">+=</span> <span class="n">qkt_val</span> <span class="o">*</span> <span class="n">v_val</span><span class="p">;</span> 
+                <span class="p">}</span>
+                <span class="n">fourDimWrite</span><span class="p">(</span><span class="n">O</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">out_row_idx</span><span class="p">,</span> <span class="n">out_col_idx</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">sum</span><span class="p">);</span>
+              <span class="p">}</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+
+
+    <span class="p">}</span>
+
+  <span class="p">}</span>
+
+
+  <span class="c1">// DO NOT EDIT THIS RETURN STATEMENT //</span>
+  <span class="c1">// It formats your C++ Vector O back into a Tensor of Shape (B, H, N, d) and returns it //</span>
+  <span class="k">return</span> <span class="n">torch</span><span class="o">::</span><span class="n">from_blob</span><span class="p">(</span><span class="n">O</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="p">{</span><span class="n">B</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">d</span><span class="p">},</span> <span class="n">torch</span><span class="o">::</span><span class="n">TensorOptions</span><span class="p">().</span><span class="n">dtype</span><span class="p">(</span><span class="n">torch</span><span class="o">::</span><span class="n">kFloat32</span><span class="p">)).</span><span class="n">clone</span><span class="p">();</span>
+<span class="p">}</span>
+
+</code></pre></div></div> <p>Output:</p> <p>Achieve the same cpu time as ref solution.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Self CPU time total: 215.420ms
+
+REFERENCE - BLOCKED MATMUL + UNFUSED SOFTMAX statistics
+cpu time:  214.494ms
+mem usage:  4718592 bytes
+-----RUNNING STUDENT IMPLEMENTATION-----
+
+first row value:
+ tensor([0.0771, 0.0779, 0.0787, 0.0795, 0.0803, 0.0811, 0.0819, 0.0827, 0.0835,
+        0.0843, 0.0851, 0.0859, 0.0867, 0.0875, 0.0883, 0.0891, 0.0899, 0.0907,
+        0.0915, 0.0923, 0.0931, 0.0939, 0.0947, 0.0955, 0.0963, 0.0971, 0.0979,
+        0.0987, 0.0995, 0.1003, 0.1011, 0.1019])
+STAGE:2024-11-18 20:06:22 3461555:3461555 ActivityProfilerController.cpp:312] Completed Stage: Warm Up
+student first row:
+ tensor([0.0771, 0.0779, 0.0787, 0.0795, 0.0803, 0.0811, 0.0819, 0.0827, 0.0835,
+        0.0843, 0.0851, 0.0859, 0.0867, 0.0875, 0.0883, 0.0891, 0.0899, 0.0907,
+        0.0915, 0.0923, 0.0931, 0.0939, 0.0947, 0.0955, 0.0963, 0.0971, 0.0979,
+        0.0987, 0.0995, 0.1003, 0.1011, 0.1019])
+STAGE:2024-11-18 20:06:23 3461555:3461555 ActivityProfilerController.cpp:318] Completed Stage: Collection
+STAGE:2024-11-18 20:06:23 3461555:3461555 ActivityProfilerController.cpp:322] Completed Stage: Post Processing
+manual attention == pytorch attention True
+Manual Execution Time:  0.2183218002319336
+
+----------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------
+                                          Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg       CPU Mem  Self CPU Mem    # of Calls
+----------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------
+                                   aten::empty         0.01%      12.000us         0.01%      12.000us       1.500us       5.00 Mb       5.00 Mb             8
+    STUDENT - BLOCKED MATMUL + UNFUSED SOFTMAX        99.38%     217.015ms        99.61%     217.504ms     217.504ms       4.50 Mb      -1.00 Mb             1
+                                   aten::zeros         0.01%      17.000us         0.07%     142.000us      71.000us       4.50 Mb           0 b             2
+                                   aten::clone         0.01%      19.000us         0.14%     313.000us     156.500us       1.00 Mb           0 b             2
+                           aten::empty_strided         0.00%       9.000us         0.00%       9.000us       1.800us     512.25 Kb     512.25 Kb             5
+                               model_inference         0.24%     532.000us       100.00%     218.359ms     218.359ms     512.00 Kb      -4.00 Mb             1
+                                 aten::flatten         0.01%      25.000us         0.09%     189.000us      37.800us     512.00 Kb           0 b             5
+                              aten::empty_like         0.00%       4.000us         0.00%       5.000us       5.000us     512.00 Kb           0 b             1
+                                      aten::to         0.00%       9.000us         0.01%      30.000us       5.000us         520 b           4 b             6
+                                aten::_to_copy         0.01%      14.000us         0.01%      25.000us       6.250us         520 b         260 b             4
+----------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------
+Self CPU time total: 218.359ms
+
+STUDENT - BLOCKED MATMUL + UNFUSED SOFTMAX statistics
+cpu time:  217.504ms
+mem usage:  4718592 bytes
 </code></pre></div></div> </div> </article> <br> <hr> <br> <ul class="list-disc pl-8"></ul> <h2 class="text-3xl font-semibold mb-4 mt-12">Enjoy Reading This Article?</h2> <p class="mb-2">Here are some more articles you might like to read next:</p> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2020/learning-based-memory-allocation-for-c-server-workloads-summary/">Learning-based memory allocation for C++ server workloads summary</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2020/my-question/">my question:</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2021/binary-search-algorithm-variant/">Binary search algorithm variant</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2024/docker-rocksdb-build/">Docker Rocksdb build</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2024/difference-between-dockerfile-and-docker-compose/">Difference between Dockerfile and Docker Compose</a> </li> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2024 Zhutao Zhuang. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>. Last updated: November 18, 2024. </div> </footer> <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <script src="/assets/js/bootstrap.bundle.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js" type="text/javascript"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script> <script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script> <script defer src="/assets/js/common.js?b7816bd189846d29eded8745f9c4cf77"></script> <script defer src="/assets/js/copy_code.js?12775fdf7f95e901d7119054556e495f" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script type="text/javascript">window.MathJax={tex:{tags:"ams"}};</script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.min.js" integrity="sha256-rjmgmaB99riUNcdlrDtcAiwtLIojSxNyUFdl+Qh+rB4=" crossorigin="anonymous"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script> <script async src="https://www.googletagmanager.com/gtag/js?id="></script> <script>function gtag(){window.dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","");</script> <script type="text/javascript">function progressBarSetup(){"max"in document.createElement("progress")?(initializeProgressElement(),$(document).on("scroll",function(){progressBar.attr({value:getCurrentScrollPosition()})}),$(window).on("resize",initializeProgressElement)):(resizeProgressBar(),$(document).on("scroll",resizeProgressBar),$(window).on("resize",resizeProgressBar))}function getCurrentScrollPosition(){return $(window).scrollTop()}function initializeProgressElement(){let e=$("#navbar").outerHeight(!0);$("body").css({"padding-top":e}),$("progress-container").css({"padding-top":e}),progressBar.css({top:e}),progressBar.attr({max:getDistanceToScroll(),value:getCurrentScrollPosition()})}function getDistanceToScroll(){return $(document).height()-$(window).height()}function resizeProgressBar(){progressBar.css({width:getWidthPercentage()+"%"})}function getWidthPercentage(){return getCurrentScrollPosition()/getDistanceToScroll()*100}const progressBar=$("#progress");window.onload=function(){setTimeout(progressBarSetup,50)};</script> <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script> <script>addBackToTop();</script> <script type="module" src="/assets/js/search/ninja-keys.min.js?601a2d3465e2a52bec38b600518d5f70"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script>let theme=determineComputedTheme();const ninjaKeys=document.querySelector("ninja-keys");"dark"===theme?ninjaKeys.classList.add("dark"):ninjaKeys.classList.remove("dark");const openSearchModal=()=>{const e=$("#navbarNav");e.hasClass("show")&&e.collapse("hide"),ninjaKeys.open()};</script> <script>const ninja=document.querySelector("ninja-keys");ninja.data=[{id:"nav-about",title:"about",section:"Navigation",handler:()=>{window.location.href="/"}},{id:"nav-blog",title:"blog",description:"",section:"Navigation",handler:()=>{window.location.href="/blog/"}},{id:"nav-publications",title:"publications",description:"publications by categories in reversed chronological order. generated by jekyll-scholar.",section:"Navigation",handler:()=>{window.location.href="/publications/"}},{id:"post-stf-cs149-flash-attention",title:"Stf CS149 flash attention",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/cs149gpt/"}},{id:"post-speed-up-matrix-multiplication-2",title:"Speed up matrix multiplication 2",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/matrix-mul-comparison/"}},{id:"post-elf-loading",title:"Elf Loading",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/elf-loading/"}},{id:"post-stf-cs149-parallel-programming-assign3",title:"Stf CS149 Parallel Programming - Assign3",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/cs149-assign3/"}},{id:"post-stf-cs149-parallel-programming-lecture11-cache-coherence",title:"Stf CS149 Parallel Programming - Lecture11 - Cache coherence",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/cs149-lecture11-cache-coherence/"}},{id:"post-stf-cs149-parallel-programming-lecture-7-cuda-programming-model",title:"Stf CS149 Parallel Programming - Lecture 7 - Cuda programming model",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/cs149-lecture7-cuda/"}},{id:"post-stf-cs149-parallel-programming-assign2",title:"Stf CS149 Parallel Programming - Assign2",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/cs149-assign2/"}},{id:"post-stf-cs149-parallel-programming-lecture-5-amp-6-performance-optimization",title:"Stf CS149 Parallel Programming - Lecture 5&amp;6 - Performance optimization",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/stf-cs149-lecture-takeaway/"}},{id:"post-stf-cs149-parallel-programming-assign1",title:"Stf CS149 Parallel Programming - Assign1",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/stf-cs149-assign1/"}},{id:"post-ssh-display-image-on-local-server",title:"ssh display image on local server",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/ssh-display-img/"}},{id:"post-c-compiler-single-letter-local-variable",title:"C compiler - single letter local variable",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/chibicc-single-letter-ident/"}},{id:"post-c-compiler-parse-example-walkthrough",title:"C compiler - parse example walkthrough",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/statement-and-comparison/"}},{id:"post-linux-get-cpu-time-and-wall-clock-time",title:"Linux get cpu time and wall clock time",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/get-function-cpu-time/"}},{id:"post-simple-c-compiler-unary",title:"Simple c compiler unary",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/chibicc-unary/"}},{id:"post-simple-c-compiler-gen-expr",title:"Simple c compiler gen expr",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/chibicc-gen-expr/"}},{id:"post-python-pyplot-trick",title:"Python pyplot trick",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/python-plot-trick/"}},{id:"post-simple-lru-cache-cpp-implementation",title:"Simple lru cache cpp implementation",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/lru-cache/"}},{id:"post-python-capture-function-print-output",title:"Python capture function print output",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/capture-output-python/"}},{id:"post-simple-c-compiler",title:"Simple c compiler",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/chibicc-compiler/"}},{id:"post-calloc-and-malloc",title:"calloc and malloc",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/calloc/"}},{id:"post-lightgbm-dataset",title:"LightGBM dataset",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/lightgbm-dataset/"}},{id:"post-difference-between-deep-copy-and-shallow-copy-in-python",title:"Difference between deep copy and shallow copy in python",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/python-deep-copy/"}},{id:"post-python-package-path",title:"Python Package Path",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/python-package-path/"}},{id:"post-micrograd",title:"micrograd",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/micrograd/"}},{id:"post-cpp-thread-local",title:"cpp thread local",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/cpp-thread-local/"}},{id:"post-cpp-async",title:"cpp async",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/cpp-async/"}},{id:"post-python-dataframe-drop-row",title:"python dataframe drop row",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/df-drop-row/"}},{id:"post-git-merge-file-from-another-branch",title:"Git merge file from another branch",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/git-merge-file-from-another-branch/"}},{id:"post-efficiency-tips",title:"Efficiency tips",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/efficiency-tips/"}},{id:"post-speed-up-matrix-multiplication",title:"Speed up matrix multiplication",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/matrix-multiplication/"}},{id:"post-how-to-write-research-paper",title:"How to write research paper",description:"How to write research paper",section:"Posts",handler:()=>{window.location.href="/blog/2024/how-to-write-research-paper/"}},{id:"post-fast-nano-gpt-training",title:"Fast nano-gpt training",description:"llm",section:"Posts",handler:()=>{window.location.href="/blog/2024/gpt-fast/"}},{id:"post-system-for-machine-learning-papers",title:"System for machine learning papers",description:"sysml papers",section:"Posts",handler:()=>{window.location.href="/blog/2024/sysml-papers/"}},{id:"post-nano-gpt-and-transformer",title:"nano-gpt and Transformer",description:"llm",section:"Posts",handler:()=>{window.location.href="/blog/2024/transformer/"}},{id:"post-pytorch-tensor-to",title:"pytorch tensor.to",description:"pytorch",section:"Posts",handler:()=>{window.location.href="/blog/2024/pytorch/"}},{id:"post-install-neovim-with-old-glibc",title:"Install neovim with old glibc",description:"vim",section:"Posts",handler:()=>{window.location.href="/blog/2024/install-neovim/"}},{id:"post-llm-c",title:"llm.c",description:"llm minikune",section:"Posts",handler:()=>{window.location.href="/blog/2024/llm-c/"}},{id:"post-basic-digital-electronic",title:"Basic digital electronic",description:"transistor",section:"Posts",handler:()=>{window.location.href="/blog/2024/digital-electronic/"}},{id:"post-k8s-advance",title:"K8s Advance",description:"k8s minikune",section:"Posts",handler:()=>{window.location.href="/blog/2024/k8s-advance/"}},{id:"post-difference-between-dockerfile-and-docker-compose",title:"Difference between Dockerfile and Docker Compose",description:"",section:"Posts",handler:()=>{window.open("https://bilyz.medium.com/difference-between-dockerfile-and-docker-compose-d6ebdc687785?source=rss-da1663a42461------2","_blank")}},{id:"post-docker-rocksdb-build",title:"Docker Rocksdb build",description:"",section:"Posts",handler:()=>{window.open("https://bilyz.medium.com/docker-rocksdb-build-18a0bf0e0bb0?source=rss-da1663a42461------2","_blank")}},{id:"post-k3s-beginner",title:"K3s beginner",description:"k3s",section:"Posts",handler:()=>{window.location.href="/blog/2024/k3s/"}},{id:"post-docker-rocksdb",title:"Docker RocksDB",description:"cloud",section:"Posts",handler:()=>{window.location.href="/blog/2024/docker-rocksdb/"}},{id:"post-docker-beginner",title:"Docker beginner",description:"cloud",section:"Posts",handler:()=>{window.location.href="/blog/2024/docker-file-compose-diff/"}},{id:"post-git",title:"Git",description:"git",section:"Posts",handler:()=>{window.location.href="/blog/2024/git/"}},{id:"post-lightgbm-usage-and-implementation",title:"LightGBM usage and implementation",description:"Artificial Intelligence",section:"Posts",handler:()=>{window.location.href="/blog/2024/lightgbm-usage/"}},{id:"post-backpropogation-c-implementation",title:"Backpropogation C++ Implementation",description:"Artificial Intelligence",section:"Posts",handler:()=>{window.location.href="/blog/2024/back-propagation/"}},{id:"post-conda-usage",title:"Conda usage",description:"Artificial Intelligence",section:"Posts",handler:()=>{window.location.href="/blog/2024/conda/"}},{id:"post-install-k8s-cluster-with-3-ubuntu-nodes",title:"Install K8s cluster with 3 ubuntu nodes",description:"cloud",section:"Posts",handler:()=>{window.location.href="/blog/2024/cloud/"}},{id:"post-convert-svg-figures-to-pdf-latex-before-submitting-to-arxiv",title:"Convert SVG figures to pdf_latex before submitting to arxiv",description:"Convert SVG figures to pdf_latex before submitting to arxiv",section:"Posts",handler:()=>{window.location.href="/blog/2024/arxiv-cleaner/"}},{id:"post-binary-search-algorithm-variant",title:"Binary search algorithm variant",description:"",section:"Posts",handler:()=>{window.open("https://bilyz.medium.com/binary-search-algorithm-variant-9b5310473471?source=rss-da1663a42461------2","_blank")}},{id:"post-my-question",title:"my question:",description:"",section:"Posts",handler:()=>{window.open("https://bilyz.medium.com/my-question-a69930f167f0?source=rss-da1663a42461------2","_blank")}},{id:"post-learning-based-memory-allocation-for-c-server-workloads-summary",title:"Learning-based memory allocation for C++ server workloads summary",description:"",section:"Posts",handler:()=>{window.open("https://bilyz.medium.com/learning-based-memory-allocation-for-c-server-workloads-summary-479e9cd6d6f6?source=rss-da1663a42461------2","_blank")}},{id:"post-a-post-with-formatting-and-links",title:"a post with formatting and links",description:"march &amp; april, looking forward to summer",section:"Posts",handler:()=>{window.location.href="/blog/2015/formatting-and-links/"}},{id:"projects-project-1",title:"project 1",description:"with background image",section:"Projects",handler:()=>{window.location.href="/projects/1_project/"}},{id:"projects-project-2",title:"project 2",description:"a project with a background image and giscus comments",section:"Projects",handler:()=>{window.location.href="/projects/2_project/"}},{id:"projects-project-3-with-very-long-name",title:"project 3 with very long name",description:"a project that redirects to another website",section:"Projects",handler:()=>{window.location.href="/projects/3_project/"}},{id:"projects-project-4",title:"project 4",description:"another without an image",section:"Projects",handler:()=>{window.location.href="/projects/4_project/"}},{id:"projects-project-5",title:"project 5",description:"a project with a background image",section:"Projects",handler:()=>{window.location.href="/projects/5_project/"}},{id:"projects-project-6",title:"project 6",description:"a project with no image",section:"Projects",handler:()=>{window.location.href="/projects/6_project/"}},{id:"socials-email",title:"Send email",section:"Socials",handler:()=>{window.open("mailto:%7A%68%75%61%6E%67%7A%68%75%74%61%6F@%67%6D%61%69%6C.%63%6F%6D","_blank")}},{id:"socials-github",title:"GitHub",section:"Socials",handler:()=>{window.open("https://github.com/BilyZ98","_blank")}},{id:"socials-rss",title:"RSS Feed",section:"Socials",handler:()=>{window.open("/feed.xml","_blank")}},{id:"light-theme",title:"Change theme to light",description:"Change the theme of the site to Light",section:"Theme",handler:()=>{setThemeSetting("light")}},{id:"dark-theme",title:"Change theme to dark",description:"Change the theme of the site to Dark",section:"Theme",handler:()=>{setThemeSetting("dark")}},{id:"system-theme",title:"Use system default theme",description:"Change the theme of the site to System Default",section:"Theme",handler:()=>{setThemeSetting("system")}}];</script> <script src="/assets/js/shortcut-key.js"></script> </body> </html>
