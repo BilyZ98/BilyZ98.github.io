@@ -1,4 +1,212 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://bilyz98.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://bilyz98.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-12-01T14:23:53+00:00</updated><id>https://bilyz98.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">tiktok interview question - palindrome substring partition</title><link href="https://bilyz98.github.io/blog/2024/palindrome-substring-partition/" rel="alternate" type="text/html" title="tiktok interview question - palindrome substring partition"/><published>2024-11-25T11:59:00+00:00</published><updated>2024-11-25T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/palindrome-substring-partition</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/palindrome-substring-partition/"><![CDATA[<p>Had an interview with the tiktok infra team that works on opeartor fustion.</p> <p>Failed this first round interview.</p> <p>I only gave very naive solution. Not really sad.</p> <p>I am well prepared for kinds of outcomes.</p> <p>Problem:</p> <p>given two strings a and b with same length n, you can partition two strings at the same place for two strings into a1, a2 and b1 b2, ie. length of a1 is equal to length of b1 and length of a2 is equal to the length of b2. please give a algorithm to test if there is a partition that can form a concat string such at a1 + b2 or b1 + a2 is palindrome string</p> <p>corresponding leetcode problem:</p> <p>https://leetcode.com/problems/split-two-strings-to-make-palindrome/solutions/888885/c-java-greedy-o-n-o-1/</p> <p>Certainly! Here’s a step-by-step algorithm to test if there is a partition that can form a palindrome by concatenating ( a1 + b2 ) or ( b1 + a2 ):</p> <h3 id="algorithm">Algorithm</h3> <ol> <li><strong>Input</strong>: Two strings <code class="language-plaintext highlighter-rouge">a</code> and <code class="language-plaintext highlighter-rouge">b</code> of length <code class="language-plaintext highlighter-rouge">n</code>.</li> <li><strong>Output</strong>: A boolean value indicating if there exists a partition point where ( a1 + b2 ) or ( b1 + a2 ) is a palindrome.</li> </ol> <h3 id="steps">Steps:</h3> <ol> <li><strong>Initialization</strong>: <ul> <li>Loop through each possible partition point <code class="language-plaintext highlighter-rouge">i</code> from <code class="language-plaintext highlighter-rouge">0</code> to <code class="language-plaintext highlighter-rouge">n</code>.</li> </ul> </li> <li><strong>Check Partitions</strong>: <ul> <li>For each partition point <code class="language-plaintext highlighter-rouge">i</code>, split the strings into <code class="language-plaintext highlighter-rouge">a1</code>, <code class="language-plaintext highlighter-rouge">a2</code>, <code class="language-plaintext highlighter-rouge">b1</code>, and <code class="language-plaintext highlighter-rouge">b2</code>. <ul> <li>( a1 = a[0:i] )</li> <li>( a2 = a[i:n] )</li> <li>( b1 = b[0:i] )</li> <li>( b2 = b[i:n] )</li> </ul> </li> </ul> </li> <li><strong>Check Palindromes</strong>: <ul> <li>Concatenate <code class="language-plaintext highlighter-rouge">a1 + b2</code> and check if it’s a palindrome.</li> <li>Concatenate <code class="language-plaintext highlighter-rouge">b1 + a2</code> and check if it’s a palindrome.</li> <li>If either concatenation is a palindrome, return <code class="language-plaintext highlighter-rouge">True</code>.</li> </ul> </li> <li><strong>Return False</strong>: <ul> <li>If no valid palindrome is found after all partitions, return <code class="language-plaintext highlighter-rouge">False</code>.</li> </ul> </li> </ol> <h3 id="pseudocode">Pseudocode</h3> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">is_palindrome</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://bilyz98.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://bilyz98.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-12-04T05:44:23+00:00</updated><id>https://bilyz98.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">Autodiff implementation</title><link href="https://bilyz98.github.io/blog/2024/uw-sysml-assign/" rel="alternate" type="text/html" title="Autodiff implementation"/><published>2024-11-29T11:59:00+00:00</published><updated>2024-11-29T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/uw-sysml-assign</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/uw-sysml-assign/"><![CDATA[<p><a href="https://github.com/dlsys-course/assignment1-2018">Source assignment</a></p> <p>Wrong code I wrote:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+    for node in reverse_topo_order:
+        cur_node_grad = node_to_output_grads_list[node]
+        sum_grad = np.sum(cur_node_grad, axis=0)
+        node_grad = node.op.gradient(node, sum_grad)
+        for input in node.inputs:
+            input_grads = node.op.gradient(input, sum_grad)
+            if input not in node_to_output_grads_list:
+                node_to_output_grads_list[input] = []
+            node_to_output_grads_list[input].append(input_grads)
+
+
+</code></pre></div></div> <p><strong>Understanding the Code and Identifying the Issue</strong></p> <p>The provided code implements a backpropagation algorithm to compute gradients of an output node with respect to a list of input nodes in a computational graph. The core idea is to traverse the graph in reverse topological order, calculating gradients at each node and propagating them backward.</p> <p>However, the current implementation has a potential issue:</p> <ol> <li><strong>Incorrect Gradient Calculation:</strong> <ul> <li>The line <code class="language-plaintext highlighter-rouge">node_to_output_grad[node] = sum_grad</code> directly assigns the sum of gradients to the node’s gradient. This is incorrect, as it doesn’t account for the specific gradient contribution of each input to the node’s output.</li> <li>The subsequent gradient calculation for input nodes using <code class="language-plaintext highlighter-rouge">node.op.gradient</code> might also be affected by this incorrect sum.</li> </ul> </li> </ol> <p><strong>Corrected Code</strong></p> <p>Here’s a corrected implementation that addresses the issue:</p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">gradients</span><span class="p">(</span><span class="n">output_node</span><span class="p">,</span> <span class="n">node_list</span><span class="p">):</span>
+    <span class="sh">"""</span><span class="s">
+    Take gradient of output node with respect to each node in node_list.
+
+    Parameters
+    ----------
+    output_node: output node that we are taking derivative of.
+    node_list: list of nodes that we are taking derivative wrt.
+
+    Returns
+    -------
+    A list of gradient values, one for each node in node_list respectively.
+    </span><span class="sh">"""</span>
+
+    <span class="n">node_to_output_grads_list</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">node_to_output_grad</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Initialize gradient of output node as oneslike_op(output_node)
+</span>    <span class="n">node_to_output_grads_list</span><span class="p">[</span><span class="n">output_node</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nf">oneslike_op</span><span class="p">(</span><span class="n">output_node</span><span class="p">)]</span>
+
+    <span class="n">reverse_topo_order</span> <span class="o">=</span> <span class="nf">reversed</span><span class="p">(</span><span class="nf">find_topo_sort</span><span class="p">([</span><span class="n">output_node</span><span class="p">]))</span>
+
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">reverse_topo_order</span><span class="p">:</span>
+        <span class="n">cur_node_grads</span> <span class="o">=</span> <span class="n">node_to_output_grads_list</span><span class="p">[</span><span class="n">node</span><span class="p">]</span>
+        <span class="n">sum_grad</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">cur_node_grads</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Sum gradients across different output nodes
+</span>
+        <span class="c1"># Calculate gradient for the current node
+</span>        <span class="n">node_grad</span> <span class="o">=</span> <span class="n">node</span><span class="p">.</span><span class="n">op</span><span class="p">.</span><span class="nf">gradient</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">sum_grad</span><span class="p">)</span>
+        <span class="n">node_to_output_grad</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">node_grad</span>
+
+        <span class="c1"># Propagate gradients to input nodes
+</span>        <span class="k">for</span> <span class="n">input_node</span><span class="p">,</span> <span class="n">input_grad</span> <span class="ow">in</span> <span class="nf">zip</span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">inputs</span><span class="p">,</span> <span class="n">node_grad</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">input_node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">node_to_output_grads_list</span><span class="p">:</span>
+                <span class="n">node_to_output_grads_list</span><span class="p">[</span><span class="n">input_node</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">node_to_output_grads_list</span><span class="p">[</span><span class="n">input_node</span><span class="p">].</span><span class="nf">append</span><span class="p">(</span><span class="n">input_grad</span><span class="p">)</span>
+
+    <span class="c1"># Collect results for gradients requested
+</span>    <span class="n">grad_node_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">node_to_output_grad</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">node_list</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">grad_node_list</span>
+</code></pre></div></div> <p><strong>Explanation of the Correction</strong></p> <ol> <li><strong>Correct Gradient Calculation:</strong> <ul> <li>The <code class="language-plaintext highlighter-rouge">sum_grad</code> is now calculated by summing the gradients across different output nodes, ensuring that the total gradient for the current node is correctly computed.</li> <li>The <code class="language-plaintext highlighter-rouge">node.op.gradient</code> method is used to calculate the gradient of the node with respect to its inputs, considering the current sum of gradients.</li> </ul> </li> <li><strong>Gradient Propagation:</strong> <ul> <li>The gradients are propagated to input nodes using <code class="language-plaintext highlighter-rouge">zip</code> to iterate over input nodes and their corresponding gradients, ensuring correct association.</li> </ul> </li> </ol> <p>By addressing the incorrect gradient calculation, this revised code provides a more accurate and robust implementation of the backpropagation algorithm.</p> <h2 id="nontype-not-iterable-error">nontype not iterable error</h2> <p>Code:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def gradients(output_node, node_list):
+    """Take gradient of output node with respect to each node in node_list.
+
+    Parameters
+    ----------
+    output_node: output node that we are taking derivative of.
+    node_list: list of nodes that we are taking derivative wrt.
+
+    Returns
+    -------
+    A list of gradient values, one for each node in node_list respectively.
+
+    """
+
+    # a map from node to a list of gradient contributions from each output node
+    node_to_output_grads_list = {}
+    # Special note on initializing gradient of output_node as oneslike_op(output_node):
+    # We are really taking a derivative of the scalar reduce_sum(output_node)
+    # instead of the vector output_node. But this is the common case for loss function.
+    node_to_output_grads_list[output_node] = [oneslike_op(output_node)]
+    # a map from node to the gradient of that node
+    node_to_output_grad = {}
+    # Traverse graph in reverse topological order given the output_node that we are taking gradient wrt.
+    reverse_topo_order = reversed(find_topo_sort([output_node]))
+
+    """TODO: Your code here"""
+    for node in reverse_topo_order:
+        cur_node_grad = node_to_output_grads_list[node]
+        sum_grad = np.sum(cur_node_grad, axis=0)
+        # gradient for each input node with gradient from current node
+        node_grad = node.op.gradient(node, sum_grad)
+        node_to_output_grad[node] = node_grad
+
+        if node.inputs is not None:
+            print('type node.inputs', type(node.inputs), 'node name', node.name,  'type node_grad', type(node_grad))
+            for input_node, input_grad in zip(node.inputs, node_grad):
+                if input_node not in node_to_output_grads_list:
+                    node_to_output_grads_list[input_node] = []
+                # This is wrong
+                node_to_output_grads_list[input_node] = input_grad
+
+        # node_grad = node.op.gradient(node, sum_grad)
+        # for input in node.inputs:
+        #     input_grads = node.op.gradient(input, sum_grad)
+        #     if input not in node_to_output_grads_list:
+        #         node_to_output_grads_list[input] = []
+        #     node_to_output_grads_list[input].append(input_grads)
+
+        # for i in range(len(node.inputs)):
+        #     input_node = node.inputs[i]
+        #     if input_node not in node_to_output_grads_list:
+        #         node_to_output_grads_list[input_node] = []
+        #     input_node_grad = node_grad[i]
+        #     node_to_output_grads_list[input_node].append(input_node_grad)
+
+    # Collect results for gradients requested.
+    grad_node_list = [node_to_output_grad[node] for node in node_list]
+    return grad_node_list
+
+
+</code></pre></div></div> <p>Error:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>======================================================================                                               ERROR: autodiff_test.test_add_mul_mix_1                                                                              ----------------------------------------------------------------------                                               Traceback (most recent call last):                                                                                     File "/home/zt/miniconda3/lib/python3.12/site-packages/nose/case.py", line 189, in runTest                             self.test(*self.arg)                                                                                               File "/mnt/nvme1n1/zt/assignment1-2018/autodiff_test.py", line 86, in test_add_mul_mix_1                               grad_x1, grad_x2, grad_x3 = ad.gradients(y, [x1, x2, x3])                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                                          File "/mnt/nvme1n1/zt/assignment1-2018/autodiff.py", line 353, in gradients                                            for input_node, input_grad in zip(node.inputs, node_grad):                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^                                                        TypeError: 'NoneType' object is not iterable                                                                         -------------------- &gt;&gt; begin captured stdout &lt;&lt; ---------------------
+type node.inputs &lt;class 'list'&gt; node name (x1+((x2*x3)*x1)) type node_grad &lt;class 'list'&gt;
+type node.inputs &lt;class 'list'&gt; node name ((x2*x3)*x1) type node_grad &lt;class 'list'&gt;
+type node.inputs &lt;class 'list'&gt; node name (x2*x3) type node_grad &lt;class 'list'&gt;
+type node.inputs &lt;class 'list'&gt; node name x3 type node_grad &lt;class 'NoneType'&gt;
+                                                                                                                     --------------------- &gt;&gt; end captured stdout &lt;&lt; ----------------------
+-------------------- &gt;&gt; begin captured logging &lt;&lt; --------------------
+--------------------- &gt;&gt; end captured logging &lt;&lt; ---------------------
+
+</code></pre></div></div> <p>I think it’s because I don’t add placeholder op to input x value.</p> <p>Get another error</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ERROR: autodiff_test.test_add_by_const                                                                               ----------------------------------------------------------------------                                               Traceback (most recent call last):                                                                                     File "/home/zt/miniconda3/lib/python3.12/site-packages/nose/case.py", line 189, in runTest                             self.test(*self.arg)                                                                                               File "/mnt/nvme1n1/zt/assignment1-2018/autodiff_test.py", line 26, in test_add_by_const                                y_val, grad_x2_val= executor.run(feed_dict = {x2 : x2_val})                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                                        File "/mnt/nvme1n1/zt/assignment1-2018/autodiff.py", line 306, in run                                                  topo_order = find_topo_sort(self.eval_node_list)                                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                                                   File "/mnt/nvme1n1/zt/assignment1-2018/autodiff.py", line 392, in find_topo_sort                                       topo_sort_dfs(node, visited, topo_order)                                                                           File "/mnt/nvme1n1/zt/assignment1-2018/autodiff.py", line 400, in topo_sort_dfs                                        for n in node.inputs:                                                                                                         ^^^^^^^^^^^                                                                                             AttributeError: 'NoneType' object has no attribute 'inputs'                                                          -------------------- &gt;&gt; begin captured stdout &lt;&lt; ---------------------                                               type node.inputs &lt;class 'list'&gt; node name (x2+5) type node_grad &lt;class 'list'&gt;                                                                                                                                                            --------------------- &gt;&gt; end captured stdout &lt;&lt; ----------------------                                               -------------------- &gt;&gt; begin captured logging &lt;&lt; --------------------                                               --------------------- &gt;&gt; end captured logging &lt;&lt; ---------------------
+</code></pre></div></div> <p>Correct code:</p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">gradients</span><span class="p">(</span><span class="n">output_node</span><span class="p">,</span> <span class="n">node_list</span><span class="p">):</span>
+    <span class="sh">"""</span><span class="s">Take gradient of output node with respect to each node in node_list.
+
+    Parameters
+    ----------
+    output_node: output node that we are taking derivative of.
+    node_list: list of nodes that we are taking derivative wrt.
+
+    Returns
+    -------
+    A list of gradient values, one for each node in node_list respectively.
+
+    </span><span class="sh">"""</span>
+
+    <span class="c1"># a map from node to a list of gradient contributions from each output node
+</span>    <span class="n">node_to_output_grads_list</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># Special note on initializing gradient of output_node as oneslike_op(output_node):
+</span>    <span class="c1"># We are really taking a derivative of the scalar reduce_sum(output_node)
+</span>    <span class="c1"># instead of the vector output_node. But this is the common case for loss function.
+</span>    <span class="n">node_to_output_grads_list</span><span class="p">[</span><span class="n">output_node</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nf">oneslike_op</span><span class="p">(</span><span class="n">output_node</span><span class="p">)]</span>
+    <span class="c1"># a map from node to the gradient of that node
+</span>    <span class="n">node_to_output_grad</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># Traverse graph in reverse topological order given the output_node that we are taking gradient wrt.
+</span>    <span class="n">reverse_topo_order</span> <span class="o">=</span> <span class="nf">reversed</span><span class="p">(</span><span class="nf">find_topo_sort</span><span class="p">([</span><span class="n">output_node</span><span class="p">]))</span>
+
+    <span class="sh">"""</span><span class="s">TODO: Your code here</span><span class="sh">"""</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">reverse_topo_order</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">node_to_output_grads_list</span><span class="p">:</span>
+            <span class="n">node_to_output_grad</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="nf">sum_node_list</span><span class="p">(</span><span class="n">node_to_output_grads_list</span><span class="p">[</span><span class="n">node</span><span class="p">])</span>
+            <span class="n">grads</span> <span class="o">=</span> <span class="n">node</span><span class="p">.</span><span class="n">op</span><span class="p">.</span><span class="nf">gradient</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">node_to_output_grad</span><span class="p">[</span><span class="n">node</span><span class="p">])</span>
+        <span class="c1"># cur_node_grad = node_to_output_grads_list[node]
+</span>        <span class="c1"># sum_grad = np.sum(cur_node_grad, axis=0)
+</span>        <span class="c1"># gradient for each input node with gradient from current node
+</span>        <span class="c1"># node_grad = node.op.gradient(node, sum_grad)
+</span>        <span class="c1"># node_to_output_grad[node] = node_grad
+</span>
+        <span class="c1"># if node_grad is not None:
+</span>        <span class="c1">#     print('type node.inputs', type(node.inputs), 'node name', node.name,  'type node_grad', type(node_grad))
+</span>        <span class="c1">#     for input_node, input_grad in zip(node.inputs, node_grad):
+</span>        <span class="c1">#         if input_node not in node_to_output_grads_list:
+</span>        <span class="c1">#             node_to_output_grads_list[input_node] = []
+</span>        <span class="c1">#         node_to_output_grads_list[input_node] = input_grad
+</span>            <span class="k">for</span> <span class="nb">id</span> <span class="p">,</span> <span class="n">in_nodes</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">inputs</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">in_nodes</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">node_to_output_grads_list</span><span class="p">:</span>
+                    <span class="n">node_to_output_grads_list</span><span class="p">[</span><span class="n">in_nodes</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">node_to_output_grads_list</span><span class="p">[</span><span class="n">in_nodes</span><span class="p">].</span><span class="nf">append</span><span class="p">(</span><span class="n">grads</span><span class="p">[</span><span class="nb">id</span><span class="p">])</span>
+
+        <span class="c1"># node_grad = node.op.gradient(node, sum_grad)
+</span>        <span class="c1"># for input in node.inputs:
+</span>        <span class="c1">#     input_grads = node.op.gradient(input, sum_grad)
+</span>        <span class="c1">#     if input not in node_to_output_grads_list:
+</span>        <span class="c1">#         node_to_output_grads_list[input] = []
+</span>        <span class="c1">#     node_to_output_grads_list[input].append(input_grads)
+</span>
+        <span class="c1"># for i in range(len(node.inputs)):
+</span>        <span class="c1">#     input_node = node.inputs[i]
+</span>        <span class="c1">#     if input_node not in node_to_output_grads_list:
+</span>        <span class="c1">#         node_to_output_grads_list[input_node] = []
+</span>        <span class="c1">#     input_node_grad = node_grad[i]
+</span>        <span class="c1">#     node_to_output_grads_list[input_node].append(input_node_grad)
+</span>
+    <span class="c1"># Collect results for gradients requested.
+</span>    <span class="n">grad_node_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">node_to_output_grad</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">node_list</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">grad_node_list</span>
+
+
+</code></pre></div></div> <p>I don’t know why this is the correct code.</p> <p>What is the difference between my previous code and this code ?</p> <p>This is very different from pytorch like auto gradient calculation.</p> <p><a href="https://dlsys.cs.washington.edu/pdf/lecture4.pdf">Autodiff algorithm lecture</a></p> <p><strong>Yes, PyTorch leverages automatic differentiation (autodiff) to calculate gradients automatically.</strong> This powerful feature significantly simplifies the process of training neural networks.</p> <p><strong>How it Works:</strong></p> <ol> <li><strong>Computational Graph:</strong> When you perform operations on PyTorch tensors, a computational graph is created. This graph represents the sequence of operations involved in calculating the output.</li> <li><strong>Forward Pass:</strong> During the forward pass, the input data is fed into the graph, and calculations are performed to obtain the output.</li> <li><strong>Backward Pass:</strong> In the backward pass, the gradients of the output with respect to the input parameters are computed using the chain rule. PyTorch automatically traverses the computational graph in reverse order, calculating gradients for each node.</li> <li><strong>Gradient Update:</strong> The calculated gradients are then used to update the model’s parameters using an optimization algorithm like stochastic gradient descent (SGD).</li> </ol> <p><strong>Key Benefits of PyTorch’s Autodiff:</strong></p> <ul> <li><strong>Simplified Training:</strong> Autodiff eliminates the need for manual gradient calculation, making the training process more efficient.</li> <li><strong>Complex Models:</strong> It enables the training of complex deep learning models with numerous layers and parameters.</li> <li><strong>Flexibility:</strong> PyTorch’s dynamic computational graph allows for more flexibility in defining and training neural networks.</li> </ul> <p>By understanding how PyTorch’s autodiff works, you can effectively leverage this powerful tool to build and train sophisticated deep learning models.</p> <p><a href="https://github.com/yzh119/UW-dlsys-assignment1/blob/master/autodiff.py">reference repo</a></p> <p>This test code gives good example about how to use autodiff to do forward and gradient calculation.</p> <p>First we define variable in the graph.</p> <p>We do some calculations with the node in the graph. And then we first call <code class="language-plaintext highlighter-rouge">gradient()</code> to get gradient we are interested to get. And then we call <code class="language-plaintext highlighter-rouge">Excutor()</code> to create a instance of Executor to do forward pass to get the value want.</p> <p>In the constructor arg we give all the variables in graph we are interested to get value of when <code class="language-plaintext highlighter-rouge">run()</code> is called.</p> <p>To actually run and get values we need to call <code class="language-plaintext highlighter-rouge">executor.run()</code> by giving values for all inputs.</p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_matmul_two_vars</span><span class="p">():</span>
+    <span class="n">x2</span> <span class="o">=</span> <span class="n">ad</span><span class="p">.</span><span class="nc">Variable</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="sh">"</span><span class="s">x2</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">x3</span> <span class="o">=</span> <span class="n">ad</span><span class="p">.</span><span class="nc">Variable</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="sh">"</span><span class="s">x3</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">ad</span><span class="p">.</span><span class="nf">matmul_op</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">)</span>
+
+    <span class="n">grad_x2</span><span class="p">,</span> <span class="n">grad_x3</span> <span class="o">=</span> <span class="n">ad</span><span class="p">.</span><span class="nf">gradients</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="p">[</span><span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">])</span>
+    
+    <span class="n">executor</span> <span class="o">=</span> <span class="n">ad</span><span class="p">.</span><span class="nc">Executor</span><span class="p">([</span><span class="n">y</span><span class="p">,</span> <span class="n">grad_x2</span><span class="p">,</span> <span class="n">grad_x3</span><span class="p">])</span>
+    <span class="n">x2_val</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span> <span class="c1"># 3x2
+</span>    <span class="n">x3_val</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">([[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]])</span> <span class="c1"># 2x3
+</span>
+    <span class="n">y_val</span><span class="p">,</span> <span class="n">grad_x2_val</span><span class="p">,</span> <span class="n">grad_x3_val</span> <span class="o">=</span> <span class="n">executor</span><span class="p">.</span><span class="nf">run</span><span class="p">(</span><span class="n">feed_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">x2</span><span class="p">:</span> <span class="n">x2_val</span><span class="p">,</span> <span class="n">x3</span><span class="p">:</span> <span class="n">x3_val</span><span class="p">})</span>
+
+    <span class="n">expected_yval</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">matmul</span><span class="p">(</span><span class="n">x2_val</span><span class="p">,</span> <span class="n">x3_val</span><span class="p">)</span>
+    <span class="n">expected_grad_x2_val</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">matmul</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">ones_like</span><span class="p">(</span><span class="n">expected_yval</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="nf">transpose</span><span class="p">(</span><span class="n">x3_val</span><span class="p">))</span>
+    <span class="n">expected_grad_x3_val</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">matmul</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">transpose</span><span class="p">(</span><span class="n">x2_val</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="nf">ones_like</span><span class="p">(</span><span class="n">expected_yval</span><span class="p">))</span>
+
+    <span class="k">assert</span> <span class="nf">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">ad</span><span class="p">.</span><span class="n">Node</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="p">.</span><span class="nf">array_equal</span><span class="p">(</span><span class="n">y_val</span><span class="p">,</span> <span class="n">expected_yval</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="p">.</span><span class="nf">array_equal</span><span class="p">(</span><span class="n">grad_x2_val</span><span class="p">,</span> <span class="n">expected_grad_x2_val</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="p">.</span><span class="nf">array_equal</span><span class="p">(</span><span class="n">grad_x3_val</span><span class="p">,</span> <span class="n">expected_grad_x3_val</span><span class="p">)</span>
+</code></pre></div></div>]]></content><author><name></name></author><category term="ml"/><category term="framework"/><category term="ml"/><category term="framework"/><summary type="html"><![CDATA[Source assignment]]></summary></entry><entry><title type="html">palindrome substring partition</title><link href="https://bilyz98.github.io/blog/2024/palindrome-substring-partition/" rel="alternate" type="text/html" title="palindrome substring partition"/><published>2024-11-25T11:59:00+00:00</published><updated>2024-11-25T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/palindrome-substring-partition</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/palindrome-substring-partition/"><![CDATA[<p>Had an interview with the team that works on opeartor fustion.</p> <p>Failed this first round interview.</p> <p>I only gave very naive solution. Not really sad.</p> <p>I am well prepared for kinds of outcomes.</p> <p>Problem:</p> <p>given two strings a and b with same length n, you can partition two strings at the same place for two strings into a1, a2 and b1 b2, ie. length of a1 is equal to length of b1 and length of a2 is equal to the length of b2. please give a algorithm to test if there is a partition that can form a concat string such at a1 + b2 or b1 + a2 is palindrome string</p> <p>corresponding leetcode problem:</p> <p>https://leetcode.com/problems/split-two-strings-to-make-palindrome/solutions/888885/c-java-greedy-o-n-o-1/</p> <p>Certainly! Here’s a step-by-step algorithm to test if there is a partition that can form a palindrome by concatenating ( a1 + b2 ) or ( b1 + a2 ):</p> <h3 id="algorithm">Algorithm</h3> <ol> <li><strong>Input</strong>: Two strings <code class="language-plaintext highlighter-rouge">a</code> and <code class="language-plaintext highlighter-rouge">b</code> of length <code class="language-plaintext highlighter-rouge">n</code>.</li> <li><strong>Output</strong>: A boolean value indicating if there exists a partition point where ( a1 + b2 ) or ( b1 + a2 ) is a palindrome.</li> </ol> <h3 id="steps">Steps:</h3> <ol> <li><strong>Initialization</strong>: <ul> <li>Loop through each possible partition point <code class="language-plaintext highlighter-rouge">i</code> from <code class="language-plaintext highlighter-rouge">0</code> to <code class="language-plaintext highlighter-rouge">n</code>.</li> </ul> </li> <li><strong>Check Partitions</strong>: <ul> <li>For each partition point <code class="language-plaintext highlighter-rouge">i</code>, split the strings into <code class="language-plaintext highlighter-rouge">a1</code>, <code class="language-plaintext highlighter-rouge">a2</code>, <code class="language-plaintext highlighter-rouge">b1</code>, and <code class="language-plaintext highlighter-rouge">b2</code>. <ul> <li>( a1 = a[0:i] )</li> <li>( a2 = a[i:n] )</li> <li>( b1 = b[0:i] )</li> <li>( b2 = b[i:n] )</li> </ul> </li> </ul> </li> <li><strong>Check Palindromes</strong>: <ul> <li>Concatenate <code class="language-plaintext highlighter-rouge">a1 + b2</code> and check if it’s a palindrome.</li> <li>Concatenate <code class="language-plaintext highlighter-rouge">b1 + a2</code> and check if it’s a palindrome.</li> <li>If either concatenation is a palindrome, return <code class="language-plaintext highlighter-rouge">True</code>.</li> </ul> </li> <li><strong>Return False</strong>: <ul> <li>If no valid palindrome is found after all partitions, return <code class="language-plaintext highlighter-rouge">False</code>.</li> </ul> </li> </ol> <h3 id="pseudocode">Pseudocode</h3> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">is_palindrome</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">s</span> <span class="o">==</span> <span class="n">s</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
 <span class="k">def</span> <span class="nf">can_form_palindrome</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
@@ -86,7 +294,7 @@ public:
         return true;
     }
 };
-</code></pre></div></div> <p>Explanation: <a href="https://leetcode.com/problems/split-two-strings-to-make-palindrome/solutions/891646/java-greedy-explanation-to-o-n-solution/">https://leetcode.com/problems/split-two-strings-to-make-palindrome/solutions/891646/java-greedy-explanation-to-o-n-solution/</a></p>]]></content><author><name></name></author><category term="coding"/><category term="exam"/><category term="leetcode"/><category term="dynamic"/><category term="programming"/><summary type="html"><![CDATA[Had an interview with the tiktok infra team that works on opeartor fustion.]]></summary></entry><entry><title type="html">Speed up matrix multiplication 2</title><link href="https://bilyz98.github.io/blog/2024/matrix-mul-comparison/" rel="alternate" type="text/html" title="Speed up matrix multiplication 2"/><published>2024-11-12T11:59:00+00:00</published><updated>2024-11-12T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/matrix-mul-comparison</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/matrix-mul-comparison/"><![CDATA[<h3 id="benefits-of-tiling">Benefits of Tiling</h3> <p>Reduced Global Memory Accesses:</p> <p>By loading tiles into shared memory, we reduce the number of global memory accesses, which are slower compared to shared memory accesses.</p> <p>Improved Cache Efficiency:</p> <p>Tiling improves cache efficiency by ensuring that data is reused within the shared memory, reducing the need to fetch data from global memory multiple times.</p> <p>Better Utilization of GPU Resources:</p> <p>Tiling allows for better utilization of the GPU’s computational resources by dividing the work into smaller, manageable chunks that fit into the GPU’s shared memory.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+</code></pre></div></div> <p>Explanation: <a href="https://leetcode.com/problems/split-two-strings-to-make-palindrome/solutions/891646/java-greedy-explanation-to-o-n-solution/">https://leetcode.com/problems/split-two-strings-to-make-palindrome/solutions/891646/java-greedy-explanation-to-o-n-solution/</a></p>]]></content><author><name></name></author><category term="coding"/><category term="exam"/><category term="leetcode"/><category term="dynamic"/><category term="programming"/><summary type="html"><![CDATA[Had an interview with the team that works on opeartor fustion.]]></summary></entry><entry><title type="html">Speed up matrix multiplication 2</title><link href="https://bilyz98.github.io/blog/2024/matrix-mul-comparison/" rel="alternate" type="text/html" title="Speed up matrix multiplication 2"/><published>2024-11-12T11:59:00+00:00</published><updated>2024-11-12T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/matrix-mul-comparison</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/matrix-mul-comparison/"><![CDATA[<h3 id="benefits-of-tiling">Benefits of Tiling</h3> <p>Reduced Global Memory Accesses:</p> <p>By loading tiles into shared memory, we reduce the number of global memory accesses, which are slower compared to shared memory accesses.</p> <p>Improved Cache Efficiency:</p> <p>Tiling improves cache efficiency by ensuring that data is reused within the shared memory, reducing the need to fetch data from global memory multiple times.</p> <p>Better Utilization of GPU Resources:</p> <p>Tiling allows for better utilization of the GPU’s computational resources by dividing the work into smaller, manageable chunks that fit into the GPU’s shared memory.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 <span class="kt">void</span> <span class="nf">matrixMulTile</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">b</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">c</span><span class="p">,</span> <span class="kt">int</span> <span class="n">width</span><span class="p">)</span> <span class="p">{</span>
   <span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="n">width</span> <span class="o">*</span> <span class="n">width</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
   <span class="kt">int</span> <span class="o">*</span><span class="n">dev_a</span><span class="p">,</span> <span class="o">*</span><span class="n">dev_b</span><span class="p">,</span> <span class="o">*</span><span class="n">dev_c</span><span class="p">;</span>
@@ -3689,437 +3897,4 @@ Results for: math_operations_in_tight_for_loop_reduction_tree_async
 [Parallel + Thread Pool + Sleep]        59.153    65.233      0.91  (OK)
 ================================================================================
 </code></pre></div></div> <p>So we can get rid of checking each tasks every time to see if it can be scheduled and put to ready queue.</p> <p>My code does not has comparable result compared to ref for super_light_async and super_super_light_async .</p> <p>I think this is because there is still opt space to reduce wake up frequency..</p> <p>I decide to move on with assign3 of cs149 and just leave the current code as it is.</p> <p>Just don’t want to spend time on this and want to spend time on learning some cuda writing.</p> <h3 id="side-knowkedge-buffering-in-python-command">Side knowkedge: buffering in python command</h3> <p><strong>Prompt ** why I don’t see any output from this command but when I remove | tee ./test.out there is output <br/><br/> python3 ../tests/run_test_harness.py -n 8 -a 2&gt;&amp;1 | tee ./test.out **Response</strong> The issue you’re encountering is likely due to buffering. When you use <code class="language-plaintext highlighter-rouge">tee</code> to redirect output to a file, the output may be buffered, causing it not to appear immediately on the screen.</p> <h3 id="explanation">Explanation:</h3> <ul> <li><strong>Without <code class="language-plaintext highlighter-rouge">tee</code></strong>: The output is directly sent to the terminal, and you see it immediately.</li> <li><strong>With <code class="language-plaintext highlighter-rouge">tee</code></strong>: The output is first written to a buffer, which is then written to the file and the terminal. This buffering can delay the appearance of the output.</li> </ul> <h3 id="solution">Solution:</h3> <p>You can use the <code class="language-plaintext highlighter-rouge">-u</code> option with <code class="language-plaintext highlighter-rouge">python3</code> to force the standard streams to be unbuffered. This will ensure that the output appears immediately.</p> <p>Revised command:</p> <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 <span class="nt">-u</span> ../tests/run_test_harness.py <span class="nt">-n</span> 8 <span class="nt">-a</span> 2&gt;&amp;1 | <span class="nb">tee</span> ./test.out
-</code></pre></div></div> <p>This should resolve the issue and allow you to see the output in real-time while still writing it to <code class="language-plaintext highlighter-rouge">test.out</code>.</p>]]></content><author><name></name></author><category term="parallel"/><category term="programming"/><category term="parallel"/><category term="programming"/><summary type="html"><![CDATA[Thread pool for task scheduling]]></summary></entry><entry><title type="html">Stf CS149 Parallel Programming - Lecture 7 - Cuda programming model</title><link href="https://bilyz98.github.io/blog/2024/cs149-lecture7-cuda/" rel="alternate" type="text/html" title="Stf CS149 Parallel Programming - Lecture 7 - Cuda programming model"/><published>2024-10-26T11:59:00+00:00</published><updated>2024-10-26T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/cs149-lecture7-cuda</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/cs149-lecture7-cuda/"><![CDATA[<p><a href="https://gfxcourses.stanford.edu/cs149/fall23/lecture/gpucuda/">Lecture 7 slides</a></p> <p><a href="https://www.youtube.com/watch?v=qQTDF0CBoxE&amp;list=PLoROMvodv4rMp7MTFr4hQsDEcX7Bx6Odp&amp;index=7&amp;pp=iAQB">Video lecture</a></p> <h2 id="cuda-programming-model--abstraction-">CUDA programming model ( abstraction )</h2> <p>Three execution unit and memory address</p> <ol> <li>thread</li> <li>thread block</li> <li>cuda kernel</li> </ol> <p>A thread block contains bunch of threads.</p> <p>A cuda kernal contains all the thread blocks.</p> <p>Memory address space</p> <ol> <li>Each thread has its own memory address space</li> <li>Each thread block has its own shared memory address space for all threads in the thread block</li> <li>All threads across all thread blocks share a process memory address space</li> </ol> <p><img src="https://github.com/user-attachments/assets/851fe0f2-52ec-4b7b-8a23-d3870982c520" alt="image"/></p> <p>Why this 3 level hierachy adress space ? For efficient memory access when threads in thread block are scheduled in the same core.</p> <h2 id="nvidia-gpu-implementation">Nvidia gpu (implementation)</h2> <p>A warp in nvidia gpu is a gropu of 32 threads in thread block. <img src="https://github.com/user-attachments/assets/e2f4aa55-103c-404b-828b-28d693b9c72b" alt="image"/></p> <p>Different CUDA thread has it own PC(Program counter) even though they are in the same warp.</p> <p>However, since all threads in the same warp is likely to execute the same code and same instructions it effectively looks like that there are only 4 unique PCs even though in reality there are 4 * 32 = 128 PCs.</p> <p>Difference between warp and thread block.</p> <p>A thread block is an programming model abstraction.</p> <p>A warp in hardware implementation.</p> <p>Both represent the concept of group of threads .</p> <p>sub-core has 4 warp in the diagram below.</p> <p>Each SM(streaming multi-processor) has 4 sub-core.</p> <p>V100 has 80 SMs in total.</p> <p>For V100, each SM(streaming multi-processor) has 4 sub-cores. <img src="https://github.com/user-attachments/assets/dbca936d-0da6-42fa-82d9-ceaf3d91596d" alt="image"/></p> <p>Instruction execution.</p> <p>Since we have more execution context than ALUs, each instructions is finished half of the work in one cycle and another half of the work in the next cycle.</p> <p><img src="https://github.com/user-attachments/assets/0531761c-6aef-437d-814a-095990d67950" alt="image"/></p>]]></content><author><name></name></author><category term="parallel"/><category term="programming"/><category term="parallel"/><category term="programming"/><summary type="html"><![CDATA[Lecture 7 slides]]></summary></entry><entry><title type="html">Stf CS149 Parallel Programming - Assign1</title><link href="https://bilyz98.github.io/blog/2024/stf-cs149-assign1/" rel="alternate" type="text/html" title="Stf CS149 Parallel Programming - Assign1"/><published>2024-10-22T11:59:00+00:00</published><updated>2024-10-22T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/stf-cs149-assign1</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/stf-cs149-assign1/"><![CDATA[<p><a href="https://github.com/stanford-cs149/asst1">Source link</a></p> <h1 id="program1-generate-image-with-multiple-threads">Program1: generate image with multiple threads.</h1> <p>Hardware: hyperthreads?</p> <p>Code: partition the image generation task.</p> <p>Plot speedup line with number of threads as x axis.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog1_mandelbrot_threads git:(master) ✗ ./mandelbrot --threads 2
-[mandelbrot serial]:            [525.650] ms
-Wrote image file mandelbrot-serial.ppm
-[mandelbrot thread]:            [280.569] ms
-Wrote image file mandelbrot-thread.ppm
-                                (1.87x speedup from 2 threads)
-(base) ➜  prog1_mandelbrot_threads git:(master) ✗ ./mandelbrot --threads 3
-Wrote image file mandelbrot-serial.ppm
-[mandelbrot thread]:            [341.063] ms
-Wrote image file mandelbrot-thread.ppm                                                                                                                                                       (1.56x speedup from 3 threads)
-(base) ➜  prog1_mandelbrot_threads git:(master) ✗ ./mandelbrot --threads 4
-[mandelbrot serial]:            [531.202] ms
-Wrote image file mandelbrot-serial.ppm
-[mandelbrot thread]:            [237.027] ms
-Wrote image file mandelbrot-thread.ppm                                                                                                                                                       (2.24x speedup from 4 threads)
-(base) ➜  prog1_mandelbrot_threads git:(master) ✗ ./mandelbrot --threads 5
-[mandelbrot serial]:            [532.980] ms
-Wrote image file mandelbrot-serial.ppm
-[mandelbrot thread]:            [213.517] ms
-Wrote image file mandelbrot-thread.ppm                                                                                                                                                       (2.50x speedup from 5 threads)
-(base) ➜  prog1_mandelbrot_threads git:(master) ✗ ./mandelbrot --threads 6
-[mandelbrot serial]:            [531.480] ms
-Wrote image file mandelbrot-serial.ppm
-[mandelbrot thread]:            [182.457] ms
-Wrote image file mandelbrot-thread.ppm                                                                                                                                                       (2.91x speedup from 6 threads)
-(base) ➜  prog1_mandelbrot_threads git:(master) ✗ ./mandelbrot --threads 7
-[mandelbrot serial]:            [530.595] ms
-Wrote image file mandelbrot-serial.ppm
-[mandelbrot thread]:            [173.007] ms
-Wrote image file mandelbrot-thread.ppm
-Mismatch : [1197][142], Expected : 1, Actual : 0
-Error : Output from threads does not match serial output
-(base) ➜  prog1_mandelbrot_threads git:(master) ✗ ./mandelbrot --threads 8
-[mandelbrot serial]:            [534.651] ms
-Wrote image file mandelbrot-serial.ppm
-[mandelbrot thread]:            [150.080] ms
-Wrote image file mandelbrot-thread.ppm                                                                                                                                                       (3.56x speedup from 8 threads)
-</code></pre></div></div> <p>Time for each thread</p> <p>Not all threads run with same finish time.</p> <p>Why is that?</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog1_mandelbrot_threads git:(master) ✗ ./mandelbrot --threads 2
-[mandelbrot serial]:            [529.644] ms
-Wrote image file mandelbrot-serial.ppm
-exe time: 275.106996 ms
-exe time: 294.014979 ms
-exe time: 278.083589 ms
-exe time: 280.188169 ms
-exe time: 268.240355 ms
-exe time: 288.978558 ms
-exe time: 274.672702 ms
-exe time: 285.212621 ms
-exe time: 275.313959 ms
-exe time: 291.359153 ms
-[mandelbrot thread]:            [280.327] ms
-Wrote image file mandelbrot-thread.ppm                                                                                                                                                       
-(1.89x speedup from 2 threads)
-
-
-(base) ➜  prog1_mandelbrot_threads git:(master) ✗ ./mandelbrot --threads 3
-[mandelbrot serial]:            [532.551] ms
-Wrote image file mandelbrot-serial.ppm
-exe time: 120.048959 ms
-exe time: 127.574176 ms
-exe time: 346.292444 ms
-exe time: 122.336693 ms
-exe time: 122.885458 ms
-exe time: 342.198521 ms
-exe time: 123.949669 ms
-exe time: 123.917334 ms
-exe time: 343.334582 ms
-exe time: 121.276554 ms
-exe time: 121.796411 ms
-exe time: 339.319866 ms
-exe time: 122.690346 ms
-exe time: 123.405423 ms
-exe time: 341.921013 ms
-[mandelbrot thread]:            [339.491] ms
-Wrote image file mandelbrot-thread.ppm
-                                (1.57x speedup from 3 threads)
-
-
-(base) ➜  prog1_mandelbrot_threads git:(master) ✗ ./mandelbrot --threads 4
-[mandelbrot serial]:            [532.573] ms
-Wrote image file mandelbrot-serial.ppm
-exe time: 66.314548 ms
-exe time: 69.146506 ms
-exe time: 236.007646 ms
-exe time: 236.860119 ms
-exe time: 67.293212 ms
-exe time: 68.643764 ms
-exe time: 235.531762 ms
-exe time: 235.957604 ms
-exe time: 67.872606 ms
-exe time: 68.252590 ms
-exe time: 231.048137 ms
-exe time: 236.915503 ms
-exe time: 68.757534 ms
-exe time: 70.160590 ms
-exe time: 219.524853 ms
-exe time: 238.315675 ms
-exe time: 66.293016 ms
-exe time: 66.733379 ms
-exe time: 233.316239 ms
-exe time: 234.051295 ms
-[mandelbrot thread]:            [234.236] ms
-Wrote image file mandelbrot-thread.ppm
-                                (2.27x speedup from 4 threads)
-
-
-(base) ➜  prog1_mandelbrot_threads git:(master) ✗ ./mandelbrot --threads 8
-[mandelbrot serial]:            [533.956] ms
-Wrote image file mandelbrot-serial.ppm
-exe time: 21.111727 ms
-exe time: 21.316495 ms
-exe time: 59.669584 ms
-exe time: 59.972882 ms
-exe time: 101.592321 ms
-exe time: 104.972839 ms
-exe time: 144.783191 ms
-exe time: 145.647489 ms
-[mandelbrot thread]:            [133.506] ms
-Wrote image file mandelbrot-thread.ppm
-                                (4.00x speedup from 8 threads)
-</code></pre></div></div> <h2 id="more-efficient-implementation">More efficient implementation</h2> <p>cacheline aware ?</p> <p>In this code image is divided by <code class="language-plaintext highlighter-rouge">numThreads</code> blocks and each thread with <code class="language-plaintext highlighter-rouge">threadId</code> accesses idx:threadId of each block.</p> <p>This means that it’s highly likely that at the same moment each thread access the same memory block that is in cache.</p> <p>This is just my understanding.</p> <p>The reason for some threads taking much longer time to finish the job is that some adjacent rows need much more time to compute. If we use round-robin assignment strategy then we can distribute the computation job evenly and each thread can get equal amount of computation job.</p> <p>GPT give me following answer when I asked it why to use round-robin assignment:</p> <p>Thread 2 has one more row to process than the other threads, which can lead to a slight imbalance. However, the imbalance becomes more pronounced if the work done per row is not uniform. For example, if the computation for the Mandelbrot set is more complex for certain rows, the threads processing those rows will take longer to complete, leading to idle time for other threads.</p> <p>This imbalance can be avoided by using a better load balancing strategy, such as the round-robin assignment used in the original code, which distributes the rows more evenly across the threads. 😊</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">workerThreadStart</span><span class="p">(</span><span class="n">WorkerArgs</span> <span class="o">*</span> <span class="k">const</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
-
-  <span class="c1">// TODO FOR CS149 STUDENTS: Implement the body of the worker</span>
-  <span class="c1">// thread here. Each thread should make a call to mandelbrotSerial()</span>
-  <span class="c1">// to compute a part of the output image.  For example, in a</span>
-  <span class="c1">// program that uses two threads, thread 0 could compute the top</span>
-  <span class="c1">// half of the image and thread 1 could compute the bottom half.</span>
-  <span class="c1">//</span>
-  <span class="kt">double</span> <span class="n">startTime</span> <span class="o">=</span> <span class="n">CycleTimer</span><span class="o">::</span><span class="n">currentSeconds</span><span class="p">();</span>
-  <span class="kt">float</span> <span class="n">x0</span> <span class="o">=</span> <span class="n">args</span><span class="o">-&gt;</span><span class="n">x0</span><span class="p">;</span>
-  <span class="kt">float</span> <span class="n">y0</span> <span class="o">=</span> <span class="n">args</span><span class="o">-&gt;</span><span class="n">y0</span><span class="p">;</span>
-  <span class="kt">float</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">args</span><span class="o">-&gt;</span><span class="n">x1</span><span class="p">;</span>
-  <span class="kt">float</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">args</span><span class="o">-&gt;</span><span class="n">y1</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="n">width</span> <span class="o">=</span> <span class="n">args</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="n">height</span> <span class="o">=</span> <span class="n">args</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">;</span>
-
-  <span class="c1">// printf("cur start row: %d, cur total row:%d\n", cur_start_row, cur_total_rows);</span>
-  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">height</span><span class="o">/</span><span class="n">args</span><span class="o">-&gt;</span><span class="n">numThreads</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">start_row</span> <span class="o">=</span> <span class="n">args</span><span class="o">-&gt;</span><span class="n">threadId</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">args</span><span class="o">-&gt;</span><span class="n">numThreads</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">num_rows</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="n">mandelbrotSerial</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span>
-                     <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span>
-                     <span class="n">start_row</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">,</span>
-                     <span class="n">args</span><span class="o">-&gt;</span><span class="n">maxIterations</span><span class="p">,</span> <span class="n">args</span><span class="o">-&gt;</span><span class="n">output</span><span class="p">);</span>
-
-
-  <span class="p">}</span>
-  <span class="kt">double</span> <span class="n">endTime</span> <span class="o">=</span> <span class="n">CycleTimer</span><span class="o">::</span><span class="n">currentSeconds</span><span class="p">();</span>
-  <span class="kt">double</span> <span class="n">exe_time</span> <span class="o">=</span> <span class="n">endTime</span> <span class="o">-</span> <span class="n">startTime</span><span class="p">;</span>
-  <span class="n">printf</span><span class="p">(</span><span class="s">"exe time: %f ms</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">exe_time</span><span class="o">*</span><span class="mi">1000</span><span class="p">);</span>
-
-
-  <span class="c1">// printf("Hello world from thread %d\n", args-&gt;threadId);</span>
-<span class="p">}</span>
-</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog1_mandelbrot_threads git:(master) ✗ ./mandelbrot --threads 4
-[mandelbrot serial]:            [533.651] ms
-Wrote image file mandelbrot-serial.ppm
-exe time: 142.692391 ms
-exe time: 157.330707 ms
-exe time: 157.454997 ms
-exe time: 157.499295 ms
-exe time: 141.290620 ms
-exe time: 150.249667 ms
-exe time: 150.373559 ms
-exe time: 150.334526 ms
-exe time: 138.450164 ms
-exe time: 151.096858 ms
-exe time: 151.156478 ms
-exe time: 151.210513 ms
-exe time: 138.270788 ms
-exe time: 150.668491 ms
-exe time: 150.774766 ms
-exe time: 150.800020 ms
-exe time: 138.079636 ms
-exe time: 150.737014 ms
-exe time: 150.741972 ms
-exe time: 150.848471 ms
-[mandelbrot thread]:            [150.471] ms
-Wrote image file mandelbrot-thread.ppm
-                                (3.55x speedup from 4 threads)
-</code></pre></div></div> <h3 id="comparison-between-inefficient-assignment-and-round-robin-assignment">Comparison between inefficient assignment and round-robin assignment</h3> <p>Naive sequential assignment:</p> <p>Thread running time for another image genration</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog1_mandelbrot_threads git:(master) ✗ ./mandelbrot --view 2 --threads 4
-[mandelbrot serial]:            [311.051] ms
-Wrote image file mandelbrot-serial.ppm
-exe time: 84.468454 ms
-exe time: 86.912777 ms
-exe time: 87.307919 ms
-exe time: 133.808278 ms
-[mandelbrot thread]:            [119.725] ms
-Wrote image file mandelbrot-thread.ppm                                                                                                                                                       
-(2.60x speedup from 4 threads)
-</code></pre></div></div> <p>Round-robin assignment:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog1_mandelbrot_threads git:(master) ✗ ./mandelbrot --view 2 --threads 4
-[mandelbrot serial]:            [310.842] ms
-Wrote image file mandelbrot-serial.ppm
-exe time: 83.830711 ms
-exe time: 93.051653 ms
-exe time: 93.096461 ms
-exe time: 93.373701 ms
-[mandelbrot thread]:            [93.562] ms
-Wrote image file mandelbrot-thread.ppm                                                                                                                                                       (3.32x speedup from 4 threads)
-</code></pre></div></div> <h1 id="prog2">Prog2</h1> <p><a href="https://ark.intel.com/content/www/us/en/ark/products/192450/intel-xeon-gold-6230n-processor-27-5m-cache-2-30-ghz.html">cpu xeon 6230n</a> Instruction set extensions: Intel® SSE4.2, Intel® AVX, Intel® AVX2, Intel® AVX-512</p> <p><a href="https://ark.intel.com/content/www/us/en/ark/products/97129/intel-core-i7-7700k-processor-8m-cache-up-to-4-50-ghz.html">cpu i7-7700k</a> Instruction set extensions: Intel® SSE4.1, Intel® SSE4.2, Intel® AVX2</p> <p>Both support hyper-threading technology which means each hardware core has two processing threads per physical core.</p> <h2 id="prog2-vectorizing--code-using-simd-intrinsics">Prog2: Vectorizing code using SIMD intrinsics</h2> <p><a href="https://github.com/stanford-cs149/asst1?tab=readme-ov-file#program-2-vectorizing-code-using-simd-intrinsics-20-points">Assignment link</a></p> <p>Solution idea:</p> <p>Just translate the <code class="language-plaintext highlighter-rouge">clampedExpSerial</code> the code to use SIMD. Refer to this <code class="language-plaintext highlighter-rouge">absVector</code> and <code class="language-plaintext highlighter-rouge">absSerial</code> to see how translation works.</p> <p>To deal with situation that total number of loop iterations is not a multiple of SIMD vector width we can set <code class="language-plaintext highlighter-rouge">maskAll</code> at the beginning of the function so that only valid values of input vector is used for SIMD computation.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">VECTOR_WIDTH</span> <span class="o">&gt;</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">maskAll</span> <span class="o">=</span> <span class="n">_cs149_init_ones</span><span class="p">(</span><span class="n">remain_count</span><span class="p">);</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="n">maskAll</span> <span class="o">=</span> <span class="n">_cs149_init_ones</span><span class="p">();</span>
-    <span class="p">}</span>
-
-</code></pre></div></div> <p>code:</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">clampedExpVector</span><span class="p">(</span><span class="kt">float</span><span class="o">*</span> <span class="n">values</span><span class="p">,</span> <span class="kt">int</span><span class="o">*</span> <span class="n">exponents</span><span class="p">,</span> <span class="kt">float</span><span class="o">*</span> <span class="n">output</span><span class="p">,</span> <span class="kt">int</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
-
-  <span class="c1">//</span>
-  <span class="c1">// CS149 STUDENTS TODO: Implement your vectorized version of</span>
-  <span class="c1">// clampedExpSerial() here.</span>
-  <span class="c1">//</span>
-  <span class="c1">// Your solution should work for any value of</span>
-  <span class="c1">// N and VECTOR_WIDTH, not just when VECTOR_WIDTH divides N</span>
-  <span class="c1">//</span>
-  
-  <span class="n">__cs149_vec_float</span> <span class="n">x</span><span class="p">;</span>
-  <span class="n">__cs149_vec_int</span>   <span class="n">y_exponents</span><span class="p">;</span>
-  <span class="n">__cs149_vec_float</span> <span class="n">result</span><span class="p">;</span>
-  <span class="n">__cs149_vec_int</span> <span class="n">zeros_int</span> <span class="o">=</span> <span class="n">_cs149_vset_int</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-  <span class="n">__cs149_vec_int</span> <span class="n">ones_int</span> <span class="o">=</span> <span class="n">_cs149_vset_int</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-  <span class="n">__cs149_vec_float</span> <span class="n">ones_float</span> <span class="o">=</span> <span class="n">_cs149_vset_float</span><span class="p">(</span><span class="mf">1.0</span><span class="n">f</span><span class="p">);</span>
-  <span class="n">__cs149_mask</span> <span class="n">maskAll</span><span class="p">,</span> <span class="n">maskExponentIsZero</span><span class="p">,</span> <span class="n">maskExponentNotZero</span><span class="p">;</span>  
-  <span class="kt">int</span> <span class="n">remain_count</span> <span class="o">=</span> <span class="n">N</span> <span class="o">%</span> <span class="n">VECTOR_WIDTH</span><span class="p">;</span>
-  <span class="c1">// int first_valid_count = remain_count &gt; 0 ? VECTOR_WIDTH - remain_count : VECTOR_WIDTH;</span>
-  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">+=</span> <span class="n">VECTOR_WIDTH</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">VECTOR_WIDTH</span> <span class="o">&gt;</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">maskAll</span> <span class="o">=</span> <span class="n">_cs149_init_ones</span><span class="p">(</span><span class="n">remain_count</span><span class="p">);</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="n">maskAll</span> <span class="o">=</span> <span class="n">_cs149_init_ones</span><span class="p">();</span>
-    <span class="p">}</span>
-    <span class="c1">// CS149Logger.addLog("initones", maskAll, VECTOR_WIDTH);</span>
-
-    <span class="n">maskExponentIsZero</span> <span class="o">=</span> <span class="n">_cs149_init_ones</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-
-    <span class="n">_cs149_vload_float</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">values</span><span class="o">+</span><span class="n">i</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
-    <span class="n">_cs149_vload_int</span><span class="p">(</span><span class="n">y_exponents</span><span class="p">,</span> <span class="n">exponents</span><span class="o">+</span><span class="n">i</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
-
-    <span class="c1">// if y== 0</span>
-    <span class="n">_cs149_veq_int</span><span class="p">(</span><span class="n">maskExponentIsZero</span><span class="p">,</span> <span class="n">y_exponents</span><span class="p">,</span> <span class="n">zeros_int</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
-    <span class="n">maskExponentNotZero</span> <span class="o">=</span> <span class="n">_cs149_mask_not</span><span class="p">(</span><span class="n">maskExponentIsZero</span><span class="p">);</span>
-
-    <span class="c1">// x == 1  if y_exponents == 0</span>
-    <span class="c1">//</span>
-    <span class="n">_cs149_vmove_float</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">ones_float</span><span class="p">,</span> <span class="n">maskExponentIsZero</span><span class="p">);</span>      
-
-    <span class="c1">// else </span>
-    <span class="c1">// result = x;</span>
-    <span class="n">_cs149_vmove_float</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">maskExponentNotZero</span><span class="p">);</span>
-    <span class="c1">// count = y -1;</span>
-    <span class="n">_cs149_vsub_int</span><span class="p">(</span><span class="n">y_exponents</span><span class="p">,</span> <span class="n">y_exponents</span><span class="p">,</span> <span class="n">ones_int</span><span class="p">,</span> <span class="n">maskExponentNotZero</span><span class="p">);</span>
-    <span class="n">__cs149_mask</span> <span class="n">maskExpNotZeroCnt</span><span class="p">;</span>
-    <span class="n">_cs149_vgt_int</span><span class="p">(</span><span class="n">maskExpNotZeroCnt</span><span class="p">,</span> <span class="n">y_exponents</span><span class="p">,</span>  <span class="n">zeros_int</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
-    <span class="c1">// while (count &gt; 0)</span>
-    <span class="c1">// result *= x ;</span>
-    <span class="c1">// count--;</span>
-    <span class="k">while</span><span class="p">(</span><span class="n">_cs149_cntbits</span><span class="p">(</span><span class="n">maskExpNotZeroCnt</span><span class="p">))</span> <span class="p">{</span>
-      <span class="n">_cs149_vmult_float</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">maskExpNotZeroCnt</span><span class="p">);</span>
-
-      <span class="n">_cs149_vsub_int</span><span class="p">(</span><span class="n">y_exponents</span><span class="p">,</span> <span class="n">y_exponents</span><span class="p">,</span> <span class="n">ones_int</span><span class="p">,</span> <span class="n">maskExponentNotZero</span><span class="p">);</span>
-      <span class="n">_cs149_vgt_int</span><span class="p">(</span><span class="n">maskExpNotZeroCnt</span><span class="p">,</span> <span class="n">y_exponents</span><span class="p">,</span>  <span class="n">zeros_int</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
-    <span class="p">}</span>
-
-
-    <span class="c1">// if( result &gt; 9.999999f) {</span>
-    <span class="c1">// result = 9.999999f;</span>
-    <span class="c1">// }</span>
-    <span class="n">__cs149_mask</span> <span class="n">mask_gt_9</span><span class="p">;</span>
-    <span class="n">__cs149_vec_float</span> <span class="n">nine_float</span> <span class="o">=</span> <span class="n">_cs149_vset_float</span><span class="p">(</span><span class="mf">9.999999</span><span class="n">f</span><span class="p">);</span>
-    <span class="n">_cs149_vgt_float</span><span class="p">(</span><span class="n">mask_gt_9</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span>  <span class="n">nine_float</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
-    <span class="n">_cs149_vmove_float</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">nine_float</span><span class="p">,</span> <span class="n">mask_gt_9</span><span class="p">);</span>
-
-    <span class="c1">// output[i] = result;</span>
-    <span class="n">_cs149_vstore_float</span><span class="p">(</span><span class="n">output</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">maskAll</span><span class="p">);</span>
-
-    
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div></div> <p>Run ./myexp -s 10000 and sweep the vector width from 2, 4, 8, to 16. Record the resulting vector utilization. You can do this by changing the #define VECTOR_WIDTH value in CS149intrin.h. Does the vector utilization increase, decrease or stay the same as VECTOR_WIDTH changes? Why?</p> <p>Answer: The vector utilization decrease as <code class="language-plaintext highlighter-rouge">VECTOR_WIDTH</code> increases. The reason I think it’s that not all values in vector is used for computation as <code class="language-plaintext highlighter-rouge">VECTOR_WIDTH</code> increases.</p> <p>So it’s not a very good idea to have very large <code class="language-plaintext highlighter-rouge">VECTOR_WIDTH</code>?</p> <p>vector width 2:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog2_vecintrin git:(master) ✗ ./myexp -s 10000
-CLAMPED EXPONENT (required)
-Results matched with answer!
-****************** Printing Vector Unit Statistics *******************
-Vector Width:              2
-Total Vector Instructions: 167727
-Vector Utilization:        88.7%
-Utilized Vector Lanes:     297685
-Total Vector Lanes:        335454
-************************ Result Verification *************************
-Passed!!!
-</code></pre></div></div> <p>vector width 4:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog2_vecintrin git:(master) ✗ ./myexp -s 10000
-CLAMPED EXPONENT (required)
-Results matched with answer!
-****************** Printing Vector Unit Statistics *******************
-Vector Width:              4
-Total Vector Instructions: 97075
-Vector Utilization:        86.2%
-Utilized Vector Lanes:     334817
-Total Vector Lanes:        388300
-************************ Result Verification *************************
-Passed!!!
-</code></pre></div></div> <p>vector width 8:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog2_vecintrin git:(master) ✗ ./myexp -s 10000
-CLAMPED EXPONENT (required)
-Results matched with answer!
-****************** Printing Vector Unit Statistics *******************
-Vector Width:              8
-Total Vector Instructions: 52877
-Vector Utilization:        85.0%
-Utilized Vector Lanes:     359535
-Total Vector Lanes:        423016
-************************ Result Verification *************************
-Passed!!!
-</code></pre></div></div> <p>vector width 16:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog2_vecintrin git:(master) ✗ ./myexp -s 10000
-CLAMPED EXPONENT (required)
-Results matched with answer!
-****************** Printing Vector Unit Statistics *******************
-Vector Width:              16
-Total Vector Instructions: 27592
-Vector Utilization:        84.4%
-Utilized Vector Lanes:     372781
-Total Vector Lanes:        441472
-************************ Result Verification *************************
-Passed!!!
-</code></pre></div></div> <h1 id="prog3">Prog3</h1> <h2 id="speedup-with-ispc">Speedup with ISPC</h2> <p>launching 80 tasks brings 62x speedup.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="k">export</span> <span class="kt">void</span> <span class="nf">mandelbrot_ispc_withtasks</span><span class="p">(</span><span class="n">uniform</span> <span class="kt">float</span> <span class="n">x0</span><span class="p">,</span> <span class="n">uniform</span> <span class="kt">float</span> <span class="n">y0</span><span class="p">,</span>
-                                      <span class="n">uniform</span> <span class="kt">float</span> <span class="n">x1</span><span class="p">,</span> <span class="n">uniform</span> <span class="kt">float</span> <span class="n">y1</span><span class="p">,</span>
-                                      <span class="n">uniform</span> <span class="kt">int</span> <span class="n">width</span><span class="p">,</span> <span class="n">uniform</span> <span class="kt">int</span> <span class="n">height</span><span class="p">,</span>
-                                      <span class="n">uniform</span> <span class="kt">int</span> <span class="n">maxIterations</span><span class="p">,</span>
-                                      <span class="n">uniform</span> <span class="kt">int</span> <span class="n">output</span><span class="p">[])</span>
-<span class="p">{</span>
-
-    <span class="n">uniform</span> <span class="kt">int</span> <span class="n">rowsPerTask</span> <span class="o">=</span> <span class="n">height</span> <span class="o">/</span> <span class="mi">80</span><span class="p">;</span>
-
-    <span class="c1">// create 2 tasks</span>
-    <span class="n">launch</span><span class="p">[</span><span class="mi">80</span><span class="p">]</span> <span class="n">mandelbrot_ispc_task</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span>
-                                     <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span>
-                                     <span class="n">rowsPerTask</span><span class="p">,</span>
-                                     <span class="n">maxIterations</span><span class="p">,</span>
-                                     <span class="n">output</span><span class="p">);</span> 
-<span class="p">}</span>
-</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog3_mandelbrot_ispc git:(master) ✗ ./mandelbrot_ispc  --tasks
-[mandelbrot serial]:            [268.624] ms
-Wrote image file mandelbrot-serial.ppm
-[mandelbrot ispc]:              [55.141] ms
-Wrote image file mandelbrot-ispc.ppm
-[mandelbrot multicore ispc]:    [4.328] ms
-Wrote image file mandelbrot-task-ispc.ppm
-                                (4.87x speedup from ISPC)
-                                (62.07x speedup from task ISPC)
-</code></pre></div></div> <p>Speedup for different image generation task with same task parallelism settings is different</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog3_mandelbrot_ispc git:(master) ✗ ./mandelbrot_ispc  --tasks  --view 0
-[mandelbrot serial]:            [267.687] ms
-Wrote image file mandelbrot-serial.ppm
-[mandelbrot ispc]:              [54.364] ms
-Wrote image file mandelbrot-ispc.ppm
-[mandelbrot multicore ispc]:    [4.698] ms
-Wrote image file mandelbrot-task-ispc.ppm                                                                                                                                                    (4.92x speedup from ISPC)                                                                                                                                    
-(56.97x speedup from task ISPC)
-
-(base) ➜  prog3_mandelbrot_ispc git:(master) ✗ ./mandelbrot_ispc  --tasks  --view 1
-[mandelbrot serial]:            [266.777] ms
-Wrote image file mandelbrot-serial.ppm
-[mandelbrot ispc]:              [53.877] ms
-Wrote image file mandelbrot-ispc.ppm
-[mandelbrot multicore ispc]:    [5.287] ms
-Wrote image file mandelbrot-task-ispc.ppm
-                                (4.95x speedup from ISPC)
-                                (50.46x speedup from task ISPC)
-
-(base) ➜  prog3_mandelbrot_ispc git:(master) ✗ ./mandelbrot_ispc  --tasks  --view 2
-[mandelbrot serial]:            [159.744] ms
-Wrote image file mandelbrot-serial.ppm
-[mandelbrot ispc]:              [37.937] ms
-Wrote image file mandelbrot-ispc.ppm
-[mandelbrot multicore ispc]:    [5.020] ms
-Wrote image file mandelbrot-task-ispc.ppm                                                                                                                                                    (4.21x speedup from ISPC)                                                                                                                                    (31.82x speedup from task ISPC)
-</code></pre></div></div> <h2 id="difference-between-launch-and-foreach-in-ispc">Difference between launch and foreach in ISPC</h2> <p>TLDR; both <code class="language-plaintext highlighter-rouge">launch</code> and <code class="language-plaintext highlighter-rouge">foreach</code> can do task parallelism. But <code class="language-plaintext highlighter-rouge">foreach</code> can use SIMD and <code class="language-plaintext highlighter-rouge">launch</code> can not do that itself.</p> <p>The difference between <code class="language-plaintext highlighter-rouge">launch</code> and <code class="language-plaintext highlighter-rouge">foreach</code> in ISPC lies in the type of parallelism they express and how they are used:</p> <ul> <li><strong><code class="language-plaintext highlighter-rouge">launch</code></strong>: This keyword is used to create a task that runs independently. When you use <code class="language-plaintext highlighter-rouge">launch</code>, you’re telling ISPC to execute a function asynchronously, potentially on a different core. This is useful for task parallelism, where you have separate tasks that can run concurrently. For example: <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">launch</span> <span class="nf">myFunction</span><span class="p">();</span>
-</code></pre></div> </div> <p>This will execute <code class="language-plaintext highlighter-rouge">myFunction</code> as a separate task.</p> </li> <li><strong><code class="language-plaintext highlighter-rouge">foreach</code></strong>: This construct is used for data parallelism, where the same operation is applied to multiple data elements in parallel. The <code class="language-plaintext highlighter-rouge">foreach</code> loop allows ISPC to execute iterations in parallel, utilizing SIMD vector units. For example: <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">foreach</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">...</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// loop body</span>
-<span class="p">}</span>
-</code></pre></div> </div> <p>This will execute the loop body in parallel for each value of <code class="language-plaintext highlighter-rouge">i</code> from <code class="language-plaintext highlighter-rouge">0</code> to <code class="language-plaintext highlighter-rouge">N-1</code>.</p> </li> </ul> <p>In summary, <code class="language-plaintext highlighter-rouge">launch</code> is used for task parallelism to run independent tasks concurrently, while <code class="language-plaintext highlighter-rouge">foreach</code> is used for data parallelism to apply the same operation to multiple data elements in parallel. Both constructs help you write parallel code, but they are suited for different types of parallelism. 😊</p> <p>The <code class="language-plaintext highlighter-rouge">launch</code> construct in ISPC is primarily designed for task parallelism, which means it can run tasks in parallel on multiple cores. However, <code class="language-plaintext highlighter-rouge">launch</code> itself does not directly utilize SIMD parallelism.</p> <p>Here’s a more detailed breakdown:</p> <ul> <li> <p><strong><code class="language-plaintext highlighter-rouge">launch</code></strong>: When you use <code class="language-plaintext highlighter-rouge">launch</code>, ISPC creates a new task that can run concurrently with other tasks. These tasks can be scheduled on different CPU cores, allowing for parallel execution. The focus of <code class="language-plaintext highlighter-rouge">launch</code> is on task-level parallelism, not on vectorization or SIMD parallelism.</p> </li> <li> <p><strong><code class="language-plaintext highlighter-rouge">foreach</code></strong>: On the other hand, <code class="language-plaintext highlighter-rouge">foreach</code> is designed for data parallelism and can utilize both SIMD and multi-core parallelism. It vectorizes the loop to use SIMD instructions and also distributes the iterations across multiple cores.</p> </li> </ul> <p>While <code class="language-plaintext highlighter-rouge">launch</code> does not directly use SIMD, the tasks that are launched can themselves contain <code class="language-plaintext highlighter-rouge">foreach</code> loops or other code that uses SIMD parallelism. So, you can combine <code class="language-plaintext highlighter-rouge">launch</code> and <code class="language-plaintext highlighter-rouge">foreach</code> to achieve a mix of task parallelism and data parallelism. For example:</p> <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">taskFunction</span><span class="p">(</span><span class="kt">float</span><span class="o">*</span> <span class="n">data</span><span class="p">,</span> <span class="kt">int</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">foreach</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">...</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="n">launch</span> <span class="nf">taskFunction</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
-</code></pre></div></div> <p>In this example, <code class="language-plaintext highlighter-rouge">taskFunction</code> uses <code class="language-plaintext highlighter-rouge">foreach</code> to process data in parallel using SIMD, and <code class="language-plaintext highlighter-rouge">launch</code> runs <code class="language-plaintext highlighter-rouge">taskFunction</code> as a separate task on a different core.</p> <p>Would you like to explore more about how to effectively combine <code class="language-plaintext highlighter-rouge">launch</code> and <code class="language-plaintext highlighter-rouge">foreach</code> in ISPC, or have any other questions? 😊</p> <h1 id="prog4">Prog4</h1> <h2 id="change-values-array-to-change-speed-up-of-sqrt">Change values array to change speed up of sqrt</h2> <p>The best case is that all simd vectors handles the same value. And we would get max speed up if each SIMD vector takes long time to finish which reduce the percentage of sync and communication/ scheduling overhead brought by ispc.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog4_sqrt git:(master) ✗ ./sqrt;
-[sqrt serial]:          [2062.501] ms
-[sqrt ispc]:            [332.707] ms
-[sqrt task ispc]:       [14.827] ms                                                                                                                                                          (6.20x speedup from ISPC)                                                                                                                                    (139.11x speedup from task ISPC)
-</code></pre></div></div> <p>The worst case is that one value in vector takes extremely long time to finish and all other values in vector take shortest time to finish.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog4_sqrt git:(master) ✗ ./sqrt;
-[sqrt serial]:          [286.506] ms
-[sqrt ispc]:            [330.483] ms
-[sqrt task ispc]:       [14.916] ms
-                                (0.87x speedup from ISPC)
-                                (19.21x speedup from task ISPC)
-</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    for (unsigned int i=0; i&lt;N; i++)
-    {
-        // TODO: CS149 students.  Attempt to change the values in the
-        // array here to meet the instructions in the handout: we want
-        // to you generate best and worse-case speedups
-        
-      // best case
-    values[i] = 2.998f;
-
-    // worst case
-    // if(i%8 == 0) {
-    //   values[i] = 2.998f;
-    // } else {
-    //   values[i] = 1.f;
-    // }
-    //
-    //random:
-        // starter code populates array with random input values
-        // values[i] = .001f + 2.998f * static_cast&lt;float&gt;(rand()) / RAND_MAX;
-    }
-
-
-</code></pre></div></div> <p>Reference:</p> <p><a href="https://github.com/PKUFlyingPig/asst1/blob/master/prog4_sqrt/main.cpp">https://github.com/PKUFlyingPig/asst1/blob/master/prog4_sqrt/main.cpp</a></p> <h1 id="prog5">Prog5</h1> <p>Extra Credit: (1 point) Note that the total memory bandwidth consumed computation in main.cpp is TOTAL_BYTES = 4 * N * sizeof(float);. Even though saxpy loads one element from X, one element from Y, and writes one element to result the multiplier by 4 is correct. Why is this the case? (Hint, think about how CPU caches work.)</p> <p>Answer: It’s because saxpy fetch 4 vector variables through the memory.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">saxpySerial</span><span class="p">(</span><span class="kt">int</span> <span class="n">N</span><span class="p">,</span>
-                       <span class="kt">float</span> <span class="n">scale</span><span class="p">,</span>
-                       <span class="kt">float</span> <span class="n">X</span><span class="p">[],</span>
-                       <span class="kt">float</span> <span class="n">Y</span><span class="p">[],</span>
-                       <span class="kt">float</span> <span class="n">result</span><span class="p">[])</span>
-<span class="p">{</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">scale</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-</code></pre></div></div> <p>Output:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  prog5_saxpy git:(master) ✗ ./saxpy
-[saxpy serial]:         [20.605] ms     [14.464] GB/s   [1.941] GFLOPS
-[saxpy ispc]:           [17.866] ms     [16.681] GB/s   [2.239] GFLOPS
-[saxpy task ispc]:      [3.122] ms      [95.446] GB/s   [12.810] GFLOPS                                                                                                                                                           
-(5.72x speedup from use of tasks)
-</code></pre></div></div> <p>Extra Credit: (points handled on a case-by-case basis) Improve the performance of saxpy. We’re looking for a significant speedup here, not just a few percentage points. If successful, describe how you did it and what a best-possible implementation on these systems might achieve. Also, if successful, come tell the staff, we’ll be interested. ;-)</p> <p>Answer: I don’t know how to do that.</p>]]></content><author><name></name></author><category term="parallel"/><category term="programming"/><category term="parallel"/><category term="programming"/><summary type="html"><![CDATA[Source link]]></summary></entry></feed>
+</code></pre></div></div> <p>This should resolve the issue and allow you to see the output in real-time while still writing it to <code class="language-plaintext highlighter-rouge">test.out</code>.</p>]]></content><author><name></name></author><category term="parallel"/><category term="programming"/><category term="parallel"/><category term="programming"/><summary type="html"><![CDATA[Thread pool for task scheduling]]></summary></entry><entry><title type="html">Stf CS149 Parallel Programming - Lecture 7 - Cuda programming model</title><link href="https://bilyz98.github.io/blog/2024/cs149-lecture7-cuda/" rel="alternate" type="text/html" title="Stf CS149 Parallel Programming - Lecture 7 - Cuda programming model"/><published>2024-10-26T11:59:00+00:00</published><updated>2024-10-26T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/cs149-lecture7-cuda</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/cs149-lecture7-cuda/"><![CDATA[<p><a href="https://gfxcourses.stanford.edu/cs149/fall23/lecture/gpucuda/">Lecture 7 slides</a></p> <p><a href="https://www.youtube.com/watch?v=qQTDF0CBoxE&amp;list=PLoROMvodv4rMp7MTFr4hQsDEcX7Bx6Odp&amp;index=7&amp;pp=iAQB">Video lecture</a></p> <h2 id="cuda-programming-model--abstraction-">CUDA programming model ( abstraction )</h2> <p>Three execution unit and memory address</p> <ol> <li>thread</li> <li>thread block</li> <li>cuda kernel</li> </ol> <p>A thread block contains bunch of threads.</p> <p>A cuda kernal contains all the thread blocks.</p> <p>Memory address space</p> <ol> <li>Each thread has its own memory address space</li> <li>Each thread block has its own shared memory address space for all threads in the thread block</li> <li>All threads across all thread blocks share a process memory address space</li> </ol> <p><img src="https://github.com/user-attachments/assets/851fe0f2-52ec-4b7b-8a23-d3870982c520" alt="image"/></p> <p>Why this 3 level hierachy adress space ? For efficient memory access when threads in thread block are scheduled in the same core.</p> <h2 id="nvidia-gpu-implementation">Nvidia gpu (implementation)</h2> <p>A warp in nvidia gpu is a gropu of 32 threads in thread block. <img src="https://github.com/user-attachments/assets/e2f4aa55-103c-404b-828b-28d693b9c72b" alt="image"/></p> <p>Different CUDA thread has it own PC(Program counter) even though they are in the same warp.</p> <p>However, since all threads in the same warp is likely to execute the same code and same instructions it effectively looks like that there are only 4 unique PCs even though in reality there are 4 * 32 = 128 PCs.</p> <p>Difference between warp and thread block.</p> <p>A thread block is an programming model abstraction.</p> <p>A warp in hardware implementation.</p> <p>Both represent the concept of group of threads .</p> <p>sub-core has 4 warp in the diagram below.</p> <p>Each SM(streaming multi-processor) has 4 sub-core.</p> <p>V100 has 80 SMs in total.</p> <p>For V100, each SM(streaming multi-processor) has 4 sub-cores. <img src="https://github.com/user-attachments/assets/dbca936d-0da6-42fa-82d9-ceaf3d91596d" alt="image"/></p> <p>Instruction execution.</p> <p>Since we have more execution context than ALUs, each instructions is finished half of the work in one cycle and another half of the work in the next cycle.</p> <p><img src="https://github.com/user-attachments/assets/0531761c-6aef-437d-814a-095990d67950" alt="image"/></p>]]></content><author><name></name></author><category term="parallel"/><category term="programming"/><category term="parallel"/><category term="programming"/><summary type="html"><![CDATA[Lecture 7 slides]]></summary></entry></feed>
