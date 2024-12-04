@@ -1,6 +1,6 @@
 ---
 layout: post
-title: tiktok interview question - palindrome substring partition 
+title: palindrome substring partition 
 date: 2024-11-25 07:59:00-0400
 description:  
 tags:  leetcode dynamic programming    
@@ -8,7 +8,7 @@ categories: coding exam
 featured: false
 ---
 
-Had an interview with the tiktok infra team that works on opeartor fustion.
+Had an interview with the team that works on opeartor fustion.
 
 Failed this first round interview.
 
