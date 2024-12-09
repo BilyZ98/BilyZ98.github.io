@@ -1,4 +1,273 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://bilyz98.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://bilyz98.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-12-04T05:44:23+00:00</updated><id>https://bilyz98.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">Autodiff implementation</title><link href="https://bilyz98.github.io/blog/2024/uw-sysml-assign/" rel="alternate" type="text/html" title="Autodiff implementation"/><published>2024-11-29T11:59:00+00:00</published><updated>2024-11-29T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/uw-sysml-assign</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/uw-sysml-assign/"><![CDATA[<p><a href="https://github.com/dlsys-course/assignment1-2018">Source assignment</a></p> <p>Wrong code I wrote:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://bilyz98.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://bilyz98.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-12-09T07:16:20+00:00</updated><id>https://bilyz98.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">Rdma</title><link href="https://bilyz98.github.io/blog/2024/rdma/" rel="alternate" type="text/html" title="Rdma"/><published>2024-12-06T00:00:00+00:00</published><updated>2024-12-06T00:00:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/rdma</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/rdma/"><![CDATA[<p>[Article talks about difference between one sided and two sided rdma]https://forums.developer.nvidia.com/t/comparasion-of-one-sided-vs-two-sided-operations/207183</p> <h2 id="what-is-single-sided-rdma">What is single-sided RDMA</h2> <p>Single-sided RDMA (Remote Direct Memory Access) refers to a method where one machine can directly access the memory of another machine without involving the remote CPU. This is achieved through RDMA’s one-sided verbs, which allow for operations like read and write to be performed directly on the remote memory.</p> <h3 id="key-features-of-single-sided-rdma">Key Features of Single-Sided RDMA:</h3> <ul> <li><strong>Low Latency</strong>: Provides ultra-low latency network communication.</li> <li><strong>CPU Bypass</strong>: Bypasses the remote CPU, reducing overhead and improving efficiency.</li> <li><strong>Direct Memory Access</strong>: Enables direct access to remote memory, which is particularly useful in distributed systems and databases.</li> </ul> <h3 id="applications">Applications:</h3> <ul> <li><strong>Distributed Databases</strong>: Used in disaggregated database management systems to improve performance and scalability.</li> <li><strong>Key-Value Stores</strong>: Utilized in high-performance key-value stores to achieve low latency and high throughput.</li> </ul> <p>Single-sided RDMA is a powerful tool for building efficient and scalable distributed systems by leveraging direct memory access and minimizing CPU involvement.</p> <h2 id="what-is-two-sided-rdma">What is two-sided RDMA</h2> <p>Yes, there is a concept known as two-sided RDMA operations. While single-sided RDMA operations involve one machine directly accessing the memory of another without involving the remote CPU, two-sided RDMA operations require both the sender and receiver to participate in the communication.</p> <h3 id="key-features-of-two-sided-rdma">Key Features of Two-Sided RDMA:</h3> <ul> <li><strong>Send/Receive Operations</strong>: In two-sided RDMA, the sender posts a send work request, and the receiver posts a receive work request. The data transfer occurs when the send request matches the receive request.</li> <li><strong>CPU Involvement</strong>: Both the sender’s and receiver’s CPUs are involved in the communication process, which can add some overhead compared to single-sided operations.</li> <li><strong>Use Cases</strong>: Two-sided RDMA is often used in scenarios where synchronization between the sender and receiver is necessary, such as in certain types of distributed transactions and message passing.</li> </ul> <h3 id="comparison-with-single-sided-rdma">Comparison with Single-Sided RDMA:</h3> <ul> <li><strong>Performance</strong>: Single-sided RDMA generally offers lower latency and higher throughput because it bypasses the remote CPU. However, two-sided RDMA can be more suitable for applications requiring tight synchronization and coordination between nodes.</li> <li><strong>Complexity</strong>: Two-sided RDMA operations can be more complex to implement due to the need for both sides to coordinate their actions.</li> </ul> <p>You can find more detailed information and comparisons between one-sided and two-sided RDMA operations <a href="https://forums.developer.nvidia.com/t/comparasion-of-one-sided-vs-two-sided-operations/207183">here</a>.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[[Article talks about difference between one sided and two sided rdma]https://forums.developer.nvidia.com/t/comparasion-of-one-sided-vs-two-sided-operations/207183]]></summary></entry><entry><title type="html">Autodiff implementation - kernel and memory management</title><link href="https://bilyz98.github.io/blog/2024/uw-sysml-assign2/" rel="alternate" type="text/html" title="Autodiff implementation - kernel and memory management"/><published>2024-12-04T11:59:00+00:00</published><updated>2024-12-04T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/uw-sysml-assign2</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/uw-sysml-assign2/"><![CDATA[<p>This is fun to implement</p> <p>Never aware that we can do management in python language like this.</p> <p>I always think that memory management in only done in cpp.</p> <p>Interesting, so interesting.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    def memory_plan(self, feed_shapes):
+        """Allocates tvm.nd.array for every node except feed_dict nodes.
+
+        Implementation note:
+        Easy Option: Alloc a tvm.nd.array per node that persists across run()
+
+        Use self.node_to_arr_map to store node-&gt;tvm.nd.array mapping
+        to allow mapping to persist across multiple executor.run().
+
+        Parameters
+        ----------
+        feed_shapes: node-&gt;shapes mapping for feed_dict nodes.
+        """
+        """TODO: Your code here"""
+
+
+</code></pre></div></div> <h2 id="what-is-placeholder-in-tvm-">What is placeholder in tvm ?</h2> <p>In TVM, a <code class="language-plaintext highlighter-rouge">placeholder</code> is used to define an input tensor for a computation. It essentially acts as a symbolic representation of the input data, specifying the shape and optionally the data type. This is useful for defining the structure of the computation graph before actual data is provided.</p> <p>Here’s a simple example:</p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">tvm</span>
+<span class="kn">from</span> <span class="n">tvm</span> <span class="kn">import</span> <span class="n">te</span>
+
+<span class="c1"># Define the shape of the input tensor
+</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">dtype</span> <span class="o">=</span> <span class="sh">"</span><span class="s">float32</span><span class="sh">"</span>
+
+<span class="c1"># Create a placeholder tensor
+</span><span class="n">A</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">placeholder</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">"</span><span class="s">A</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># Print the placeholder tensor
+</span><span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Placeholder tensor A:</span><span class="sh">"</span><span class="p">,</span> <span class="n">A</span><span class="p">)</span>
+</code></pre></div></div> <p>In this example:</p> <ul> <li><code class="language-plaintext highlighter-rouge">te.placeholder</code> creates a tensor <code class="language-plaintext highlighter-rouge">A</code> with the specified shape <code class="language-plaintext highlighter-rouge">(3, 4)</code> and data type <code class="language-plaintext highlighter-rouge">"float32"</code>.</li> <li>This tensor can then be used in further computations, such as defining operations that use <code class="language-plaintext highlighter-rouge">A</code> as input.</li> </ul> <p>The <code class="language-plaintext highlighter-rouge">placeholder</code> is a fundamental concept in TVM’s Tensor Expression (TE) language, allowing you to build complex computation graphs by defining how data flows through various operations¹².</p> <p>¹: <a href="https://tvm.apache.org/docs/reference/api/python/te.html">TVM Documentation</a> ²: <a href="https://tvm.apache.org/docs/tutorial/tensor_expr_get_started.html">TVM Tutorial on Tensor Expressions</a></p> <p>Source: Conversation with Copilot, 12/5/2024 (1) tvm.te — tvm 0.19.dev0 documentation - The Apache Software Foundation. https://tvm.apache.org/docs/reference/api/python/te.html. (2) TVM 自底向上（三）：TE 的概念和编译原理 - 知乎. https://zhuanlan.zhihu.com/p/534313816. (3) Working with Operators Using Tensor Expression — tvm 0.19.dev0 …. https://tvm.apache.org/docs/tutorial/tensor_expr_get_started.html. (4) TVM学习（六）细读前端 - 知乎 - 知乎专栏. https://zhuanlan.zhihu.com/p/346514871. (5) External Tensor Functions — tvm 0.19.dev0 documentation. https://tvm.apache.org/docs/how_to/work_with_schedules/extern_op.html.</p> <h2 id="tvm-create-ndarray-with-specified-shape">tvm create nd.array with specified shape</h2> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">tvm</span>
+<span class="kn">from</span> <span class="n">tvm</span> <span class="kn">import</span> <span class="n">te</span>
+
+<span class="c1"># Specify the shape and data type
+</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">dtype</span> <span class="o">=</span> <span class="sh">"</span><span class="s">float32</span><span class="sh">"</span>
+
+<span class="c1"># Create an empty TVM NDArray with the specified shape
+</span><span class="n">tvm_array</span> <span class="o">=</span> <span class="n">tvm</span><span class="p">.</span><span class="n">nd</span><span class="p">.</span><span class="nf">empty</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+
+<span class="c1"># Print the TVM NDArray
+</span><span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">TVM NDArray with specified shape:</span><span class="sh">"</span><span class="p">,</span> <span class="n">tvm_array</span><span class="p">)</span>
+
+</code></pre></div></div> <h2 id="difference-between-tvm-and-ncnn">Difference between tvm and ncnn</h2> <p>tvm is a open source deep learning compiler for cpus, gpus and specialized hardware.</p> <p>ncnn is a neural network inference framework optimized for mobile and embedded devices.</p> <p>We can assume input shape of mat_mul is 2d in this task.</p> <h2 id="matmul-kernel-for-unknown-input-dimension-shape">matmul kernel for unknown input dimension shape</h2> <p>This code is from gpt.</p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">tvm</span>
+<span class="kn">from</span> <span class="n">tvm</span> <span class="kn">import</span> <span class="n">te</span>
+
+<span class="k">def</span> <span class="nf">make_flexible_matrix_mul</span><span class="p">(</span><span class="n">shapeA</span><span class="p">,</span> <span class="n">transposeA</span><span class="p">,</span> <span class="n">shapeB</span><span class="p">,</span> <span class="n">transposeB</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">tgt_host</span><span class="p">,</span> <span class="n">func_name</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="sh">"</span><span class="s">float32</span><span class="sh">"</span><span class="p">):</span>
+    <span class="c1"># Determine the shapes of the input tensors
+</span>    <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">shapeA</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">n</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">shapeA</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">batch</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">shapeA</span>
+    
+    <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">shapeB</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">shapeB</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">shapeB</span>
+    
+    <span class="k">if</span> <span class="n">transposeA</span><span class="p">:</span>
+        <span class="n">shapeA</span> <span class="o">=</span> <span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">if</span> <span class="n">batch</span> <span class="nf">else </span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">transposeB</span><span class="p">:</span>
+        <span class="n">shapeB</span> <span class="o">=</span> <span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">if</span> <span class="n">batch</span> <span class="nf">else </span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+    
+    <span class="c1"># Create placeholders for the input tensors
+</span>    <span class="n">A</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">placeholder</span><span class="p">(</span><span class="n">shapeA</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">A</span><span class="sh">'</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">placeholder</span><span class="p">(</span><span class="n">shapeB</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">B</span><span class="sh">'</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    
+    <span class="c1"># Define the reduction axis
+</span>    <span class="n">k_axis</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">reduce_axis</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">k</span><span class="sh">'</span><span class="p">)</span>
+    
+    <span class="c1"># Compute the matrix multiplication based on transpose flags and dimensionality
+</span>    <span class="k">if</span> <span class="n">batch</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">transposeA</span> <span class="ow">and</span> <span class="n">transposeB</span><span class="p">:</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">compute</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span>
+                <span class="k">lambda</span> <span class="n">b</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="n">te</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">k_axis</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k_axis</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">k_axis</span><span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">C</span><span class="sh">'</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">transposeA</span><span class="p">:</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">compute</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span>
+                <span class="k">lambda</span> <span class="n">b</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="n">te</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">k_axis</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">k_axis</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">k_axis</span><span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">C</span><span class="sh">'</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">transposeB</span><span class="p">:</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">compute</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span>
+                <span class="k">lambda</span> <span class="n">b</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="n">te</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">k_axis</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k_axis</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">k_axis</span><span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">C</span><span class="sh">'</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">compute</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span>
+                <span class="k">lambda</span> <span class="n">b</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="n">te</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">k_axis</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">k_axis</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">k_axis</span><span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">C</span><span class="sh">'</span>
+            <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">transposeA</span> <span class="ow">and</span> <span class="n">transposeB</span><span class="p">:</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">compute</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span>
+                <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="n">te</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">k_axis</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">k_axis</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">k_axis</span><span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">C</span><span class="sh">'</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">transposeA</span><span class="p">:</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">compute</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span>
+                <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="n">te</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">k_axis</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="n">k_axis</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">k_axis</span><span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">C</span><span class="sh">'</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">transposeB</span><span class="p">:</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">compute</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span>
+                <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="n">te</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k_axis</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">k_axis</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">k_axis</span><span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">C</span><span class="sh">'</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">compute</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span>
+                <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="n">te</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k_axis</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="n">k_axis</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">k_axis</span><span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">C</span><span class="sh">'</span>
+            <span class="p">)</span>
+    
+    <span class="c1"># Create a schedule for the computation
+</span>    <span class="n">s</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">create_schedule</span><span class="p">(</span><span class="n">C</span><span class="p">.</span><span class="n">op</span><span class="p">)</span>
+    
+    <span class="c1"># Apply optimizations: split, reorder, vectorize, parallel
+</span>    <span class="k">if</span> <span class="n">batch</span><span class="p">:</span>
+        <span class="n">b</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">C</span><span class="p">].</span><span class="n">op</span><span class="p">.</span><span class="n">axis</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">C</span><span class="p">].</span><span class="n">op</span><span class="p">.</span><span class="n">reduce_axis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">bo</span><span class="p">,</span> <span class="n">bi</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">C</span><span class="p">].</span><span class="nf">split</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+        <span class="n">io</span><span class="p">,</span> <span class="n">ii</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">C</span><span class="p">].</span><span class="nf">split</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+        <span class="n">jo</span><span class="p">,</span> <span class="n">ji</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">C</span><span class="p">].</span><span class="nf">split</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+        <span class="n">ko</span><span class="p">,</span> <span class="n">ki</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">C</span><span class="p">].</span><span class="nf">split</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+        <span class="n">s</span><span class="p">[</span><span class="n">C</span><span class="p">].</span><span class="nf">reorder</span><span class="p">(</span><span class="n">bo</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">jo</span><span class="p">,</span> <span class="n">ko</span><span class="p">,</span> <span class="n">bi</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="n">ji</span><span class="p">,</span> <span class="n">ki</span><span class="p">)</span>
+        <span class="n">s</span><span class="p">[</span><span class="n">C</span><span class="p">].</span><span class="nf">vectorize</span><span class="p">(</span><span class="n">ki</span><span class="p">)</span>
+        <span class="n">s</span><span class="p">[</span><span class="n">C</span><span class="p">].</span><span class="nf">parallel</span><span class="p">(</span><span class="n">bo</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">C</span><span class="p">].</span><span class="n">op</span><span class="p">.</span><span class="n">axis</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">C</span><span class="p">].</span><span class="n">op</span><span class="p">.</span><span class="n">reduce_axis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">io</span><span class="p">,</span> <span class="n">ii</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">C</span><span class="p">].</span><span class="nf">split</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+        <span class="n">jo</span><span class="p">,</span> <span class="n">ji</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">C</span><span class="p">].</span><span class="nf">split</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+        <span class="n">ko</span><span class="p">,</span> <span class="n">ki</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">C</span><span class="p">].</span><span class="nf">split</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+        <span class="n">s</span><span class="p">[</span><span class="n">C</span><span class="p">].</span><span class="nf">reorder</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="n">jo</span><span class="p">,</span> <span class="n">ko</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="n">ji</span><span class="p">,</span> <span class="n">ki</span><span class="p">)</span>
+        <span class="n">s</span><span class="p">[</span><span class="n">C</span><span class="p">].</span><span class="nf">vectorize</span><span class="p">(</span><span class="n">ki</span><span class="p">)</span>
+        <span class="n">s</span><span class="p">[</span><span class="n">C</span><span class="p">].</span><span class="nf">parallel</span><span class="p">(</span><span class="n">io</span><span class="p">)</span>
+    
+    <span class="c1"># Lower the schedule to generate the IR code
+</span>    <span class="nf">print</span><span class="p">(</span><span class="n">tvm</span><span class="p">.</span><span class="nf">lower</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">[</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">],</span> <span class="n">simple_mode</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+    
+    <span class="c1"># Build the function
+</span>    <span class="n">func</span> <span class="o">=</span> <span class="n">tvm</span><span class="p">.</span><span class="nf">build</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">[</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">],</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">tgt_host</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">func_name</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">func</span>
+
+<span class="c1"># Example usage
+</span><span class="n">tgt</span> <span class="o">=</span> <span class="sh">"</span><span class="s">llvm</span><span class="sh">"</span>
+<span class="n">tgt_host</span> <span class="o">=</span> <span class="sh">"</span><span class="s">llvm</span><span class="sh">"</span>
+<span class="n">func_name</span> <span class="o">=</span> <span class="sh">"</span><span class="s">flexible_matrix_mul</span><span class="sh">"</span>
+<span class="n">shapeA</span> <span class="o">=</span> <span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>  <span class="c1"># Batch size of 32
+</span><span class="n">shapeB</span> <span class="o">=</span> <span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>  <span class="c1"># Batch size of 32
+</span><span class="n">transposeA</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="n">transposeB</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="nf">make_flexible_matrix_mul</span><span class="p">(</span><span class="n">shapeA</span><span class="p">,</span> <span class="n">transposeA</span><span class="p">,</span> <span class="n">shapeB</span><span class="p">,</span> <span class="n">transposeB</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">tgt_host</span><span class="p">,</span> <span class="n">func_name</span><span class="p">)</span>
+
+</code></pre></div></div> <h2 id="conv2d-tvm-kernel">conv2d tvm kernel</h2> <p>Code is generated by gpt</p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">tvm</span>
+<span class="kn">from</span> <span class="n">tvm</span> <span class="kn">import</span> <span class="n">te</span><span class="p">,</span> <span class="n">topi</span>
+
+<span class="k">def</span> <span class="nf">make_conv2d</span><span class="p">(</span><span class="n">shapeX</span><span class="p">,</span> <span class="n">shapeF</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">tgt_host</span><span class="p">,</span> <span class="n">func_name</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="sh">"</span><span class="s">float32</span><span class="sh">"</span><span class="p">):</span>
+    <span class="nf">assert</span><span class="p">(</span><span class="n">shapeX</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">shapeF</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">shapeX</span>
+    <span class="n">M</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">S</span> <span class="o">=</span> <span class="n">shapeF</span>
+
+    <span class="c1"># Create placeholders for the input tensor and filter
+</span>    <span class="n">X</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">placeholder</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">X</span><span class="sh">'</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">placeholder</span><span class="p">((</span><span class="n">M</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">S</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">F</span><span class="sh">'</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="c1"># Define the reduction axes
+</span>    <span class="n">rc</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">reduce_axis</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">C</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">rc</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">rr</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">reduce_axis</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">R</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">rr</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">rs</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">reduce_axis</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">S</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">rs</span><span class="sh">'</span><span class="p">)</span>
+
+    <span class="c1"># Compute the convolution
+</span>    <span class="n">Y</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">compute</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">H</span> <span class="o">-</span> <span class="n">R</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">W</span> <span class="o">-</span> <span class="n">S</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="n">te</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">n</span><span class="p">,</span> <span class="n">rc</span><span class="p">,</span> <span class="n">h</span> <span class="o">+</span> <span class="n">rr</span><span class="p">,</span> <span class="n">w</span> <span class="o">+</span> <span class="n">rs</span><span class="p">]</span> <span class="o">*</span> <span class="n">F</span><span class="p">[</span><span class="n">m</span><span class="p">,</span> <span class="n">rc</span><span class="p">,</span> <span class="n">rr</span><span class="p">,</span> <span class="n">rs</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="n">rc</span><span class="p">,</span> <span class="n">rr</span><span class="p">,</span> <span class="n">rs</span><span class="p">]),</span>
+        <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">Y</span><span class="sh">'</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Create a schedule for the computation
+</span>    <span class="n">s</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">create_schedule</span><span class="p">(</span><span class="n">Y</span><span class="p">.</span><span class="n">op</span><span class="p">)</span>
+
+    <span class="c1"># Apply optimizations: split, reorder, vectorize, parallel
+</span>    <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">Y</span><span class="p">].</span><span class="n">op</span><span class="p">.</span><span class="n">axis</span>
+    <span class="n">rc</span><span class="p">,</span> <span class="n">rr</span><span class="p">,</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">Y</span><span class="p">].</span><span class="n">op</span><span class="p">.</span><span class="n">reduce_axis</span>
+    <span class="n">ho</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">Y</span><span class="p">].</span><span class="nf">split</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+    <span class="n">wo</span><span class="p">,</span> <span class="n">wi</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">Y</span><span class="p">].</span><span class="nf">split</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+    <span class="n">s</span><span class="p">[</span><span class="n">Y</span><span class="p">].</span><span class="nf">reorder</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">ho</span><span class="p">,</span> <span class="n">wo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">wi</span><span class="p">,</span> <span class="n">rc</span><span class="p">,</span> <span class="n">rr</span><span class="p">,</span> <span class="n">rs</span><span class="p">)</span>
+    <span class="n">s</span><span class="p">[</span><span class="n">Y</span><span class="p">].</span><span class="nf">vectorize</span><span class="p">(</span><span class="n">wi</span><span class="p">)</span>
+    <span class="n">s</span><span class="p">[</span><span class="n">Y</span><span class="p">].</span><span class="nf">parallel</span><span class="p">(</span><span class="n">ho</span><span class="p">)</span>
+
+    <span class="c1"># Lower the schedule to generate the IR code
+</span>    <span class="nf">print</span><span class="p">(</span><span class="n">tvm</span><span class="p">.</span><span class="nf">lower</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">[</span><span class="n">X</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">Y</span><span class="p">],</span> <span class="n">simple_mode</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+
+    <span class="c1"># Build the function
+</span>    <span class="n">func</span> <span class="o">=</span> <span class="n">tvm</span><span class="p">.</span><span class="nf">build</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">[</span><span class="n">X</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">Y</span><span class="p">],</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">tgt_host</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">func_name</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">func</span>
+
+<span class="c1"># Example usage
+</span><span class="n">tgt</span> <span class="o">=</span> <span class="sh">"</span><span class="s">llvm</span><span class="sh">"</span>
+<span class="n">tgt_host</span> <span class="o">=</span> <span class="sh">"</span><span class="s">llvm</span><span class="sh">"</span>
+<span class="n">func_name</span> <span class="o">=</span> <span class="sh">"</span><span class="s">conv2d</span><span class="sh">"</span>
+<span class="n">shapeX</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>  <span class="c1"># Example input shape (N, C, H, W)
+</span><span class="n">shapeF</span> <span class="o">=</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>   <span class="c1"># Example filter shape (M, C, R, S)
+</span><span class="nf">make_conv2d</span><span class="p">(</span><span class="n">shapeX</span><span class="p">,</span> <span class="n">shapeF</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">tgt_host</span><span class="p">,</span> <span class="n">func_name</span><span class="p">)</span>
+
+
+</code></pre></div></div> <h2 id="install-tvm-by-building-from-source">Install tvm by building from source</h2> <p>Can not install tvm through pip. Have to download source code and build it myself. I don’t know why.</p> <p>Folow steps in this <a href="https://github.com/apache/tvm/issues/13507">issue</a> to compile locally.</p> <p>Need to disable gtest inroder to pass cmake</p> <p><a href="https://tvm.apache.org/docs/install/from_source.html#install-from-source">Offical install document</a></p> <p>Finally finish installing tvm after building locally.</p> <p>Run this command to verify</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>uwsyml<span class="o">)</span> ➜  tvm git:<span class="o">(</span>main<span class="o">)</span> python <span class="nt">-c</span> <span class="s2">"import tvm; print(tvm.__file__)"</span>
+/mnt/nvme1n1/zt/tvm/python/tvm/__init__.py
+</code></pre></div></div> <p>nosetests does not use python in conda. It uses that in /usr/bin which is not what I want.</p> <p>It reports error that it can not find numpy which I have already installed in conda environment</p> <h2 id="update-code-to-use-latest-function-in-tvm-instead-of-old-function-in-tvm">Update code to use latest function in tvm instead of old function in tvm</h2> <p>New code:</p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+<span class="k">def</span> <span class="nf">test_matrix_elementwise_mul</span><span class="p">():</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">shape</span><span class="p">).</span><span class="nf">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">shape</span><span class="p">).</span><span class="nf">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">).</span><span class="nf">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">arr_x</span> <span class="o">=</span> <span class="n">tvm</span><span class="p">.</span><span class="n">nd</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ctx</span><span class="p">)</span>
+    <span class="n">arr_y</span> <span class="o">=</span> <span class="n">tvm</span><span class="p">.</span><span class="n">nd</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">ctx</span><span class="p">)</span>
+    <span class="n">arr_z</span> <span class="o">=</span> <span class="n">tvm</span><span class="p">.</span><span class="n">nd</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">ctx</span><span class="p">)</span>
+    <span class="n">elemwise_mul</span> <span class="o">=</span> <span class="n">tvm_op</span><span class="p">.</span><span class="nf">make_elemwise_mul</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">tgt_host</span><span class="p">,</span> <span class="sh">"</span><span class="s">elem_add</span><span class="sh">"</span><span class="p">)</span>
+    <span class="nf">elemwise_mul</span><span class="p">(</span><span class="n">arr_x</span><span class="p">,</span> <span class="n">arr_y</span><span class="p">,</span> <span class="n">arr_z</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">arr_z</span><span class="p">.</span><span class="nf">asnumpy</span><span class="p">()</span>
+    <span class="n">np</span><span class="p">.</span><span class="n">testing</span><span class="p">.</span><span class="nf">assert_allclose</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">)</span>
+
+
+    
+<span class="k">def</span> <span class="nf">make_elemwise_mul</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">tgt_host</span><span class="p">,</span> <span class="n">func_name</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="sh">"</span><span class="s">float32</span><span class="sh">"</span><span class="p">):</span>
+    <span class="sh">"""</span><span class="s">TODO: Your code here</span><span class="sh">"""</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">placeholder</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">A</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">placeholder</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">B</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">compute</span><span class="p">(</span><span class="n">A</span><span class="p">.</span><span class="n">shape</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">i</span><span class="p">:</span> <span class="nc">A</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="nc">B</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="p">))</span>
+
+    <span class="n">s</span> <span class="o">=</span> <span class="n">te</span><span class="p">.</span><span class="nf">create_schedule</span><span class="p">(</span><span class="n">C</span><span class="p">.</span><span class="n">op</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">tvm</span><span class="p">.</span><span class="nf">build</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">[</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">],</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">target_host</span><span class="o">=</span><span class="n">tgt_host</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">func_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">f</span>
+
+
+</code></pre></div></div> <p>Old code:</p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">def</span> <span class="nf">test_matrix_elementwise_mul_by_const</span><span class="p">():</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">shape</span><span class="p">).</span><span class="nf">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">const_val</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">).</span><span class="nf">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">arr_x</span> <span class="o">=</span> <span class="n">tvm</span><span class="p">.</span><span class="n">nd</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ctx</span><span class="o">=</span><span class="n">ctx</span><span class="p">)</span>
+    <span class="n">arr_y</span> <span class="o">=</span> <span class="n">tvm</span><span class="p">.</span><span class="n">nd</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">ctx</span><span class="o">=</span><span class="n">ctx</span><span class="p">)</span>
+    <span class="n">elemwise_mul_by_const</span> <span class="o">=</span> <span class="n">tvm_op</span><span class="p">.</span><span class="nf">make_elemwise_mul_by_const</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">const_val</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">tgt_host</span><span class="p">,</span> <span class="sh">"</span><span class="s">elem_mul_by_const</span><span class="sh">"</span><span class="p">)</span>
+    <span class="nf">elemwise_mul_by_const</span><span class="p">(</span><span class="n">arr_x</span><span class="p">,</span> <span class="n">arr_y</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">arr_y</span><span class="p">.</span><span class="nf">asnumpy</span><span class="p">()</span>
+    <span class="n">np</span><span class="p">.</span><span class="n">testing</span><span class="p">.</span><span class="nf">assert_allclose</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">const_val</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">make_elemwise_mul_by_const</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">const_k</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">tgt_host</span><span class="p">,</span> <span class="n">func_name</span><span class="p">,</span>
+                            <span class="n">dtype</span><span class="o">=</span><span class="sh">"</span><span class="s">float32</span><span class="sh">"</span><span class="p">):</span>
+    <span class="sh">"""</span><span class="s">TODO: Your code here</span><span class="sh">"""</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">tvm</span><span class="p">.</span><span class="nf">placeholder</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">A</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">tvm</span><span class="p">.</span><span class="nf">compute</span><span class="p">(</span><span class="n">A</span><span class="p">.</span><span class="n">shape</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">i</span><span class="p">:</span> <span class="nc">A</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">const_k</span><span class="p">)</span>
+
+    <span class="n">s</span> <span class="o">=</span> <span class="n">tvm</span><span class="p">.</span><span class="nf">create_schedule</span><span class="p">(</span><span class="n">C</span><span class="p">.</span><span class="n">op</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">tvm</span><span class="p">.</span><span class="nf">build</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">[</span><span class="n">A</span><span class="p">,</span> <span class="n">C</span><span class="p">],</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">target_host</span><span class="o">=</span><span class="n">tgt_host</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">func_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">f</span>
+</code></pre></div></div>]]></content><author><name></name></author><category term="ml"/><category term="framework"/><category term="ml"/><category term="framework"/><summary type="html"><![CDATA[This is fun to implement]]></summary></entry><entry><title type="html">Autodiff implementation</title><link href="https://bilyz98.github.io/blog/2024/uw-sysml-assign/" rel="alternate" type="text/html" title="Autodiff implementation"/><published>2024-11-29T11:59:00+00:00</published><updated>2024-11-29T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/uw-sysml-assign</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/uw-sysml-assign/"><![CDATA[<p><a href="https://github.com/dlsys-course/assignment1-2018">Source assignment</a></p> <p>Wrong code I wrote:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
     for node in reverse_topo_order:
         cur_node_grad = node_to_output_grads_list[node]
         sum_grad = np.sum(cur_node_grad, axis=0)
@@ -2640,1261 +2909,4 @@ Total:    23.4624 ms
 File IO:  69.5518 ms
 
 Overall:  0.4857 sec (note units are seconds)
-</code></pre></div></div>]]></content><author><name></name></author><category term="parallel"/><category term="programming"/><category term="parallel"/><category term="programming"/><summary type="html"><![CDATA[Part1 Code: saxpy serial cpu output from assign1 prog5: (base) ➜ prog5_saxpy git:(master) ✗ ./saxpy [saxpy serial]: [20.605] ms [14.464] GB/s [1.941] GFLOPS [saxpy ispc]: [17.866] ms [16.681] GB/s [2.239] GFLOPS [saxpy task ispc]: [3.122] ms [95.446] GB/s [12.810] GFLOPS (5.72x speedup from use of tasks)]]></summary></entry><entry><title type="html">Stf CS149 Parallel Programming - Lecture11 - Cache coherence</title><link href="https://bilyz98.github.io/blog/2024/cs149-lecture11-cache-coherence/" rel="alternate" type="text/html" title="Stf CS149 Parallel Programming - Lecture11 - Cache coherence"/><published>2024-11-01T11:59:00+00:00</published><updated>2024-11-01T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/cs149-lecture11-cache-coherence</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/cs149-lecture11-cache-coherence/"><![CDATA[<h2 id="lecture-11-cache-coherence">Lecture 11: Cache coherence</h2> <p>Cache takes large amount of area in the chip</p> <p>Cache bring performance boosting.</p> <p>Two locality of data access pattern so that cache can help with performance.</p> <ol> <li>Spatial locality</li> <li>Temporal locality</li> </ol> <p>Cache and cacheline in cpu. Usually a single cacheline contains multiple cache bytes(64bytes which can store 8 int for example ).</p> <p>What is the problem with a shared cache processor design?</p> <p>The scalability is the problem.</p> <p>The cache bus has bandwidth limit..</p> <p>A shared cache avoid the cache coherence problem but each write to a memory address will be broadcasted to other cores which waste bandwidth of bus.</p> <p>Shared cache contention example:</p> <p>Imagine you have a multi-core processor where two cores, Core 0 and Core 1, share the same Last Level Cache (LLC). If both cores are running different applications that frequently access and modify data stored in the shared cache, they will compete for the cache’s resources. This competition can lead to contention.</p> <p>For instance, consider two applications, App A and App B, running on Core 0 and Core 1, respectively. Both applications need to access large datasets that do not fit entirely in the cache. As App A accesses its data, it loads cache lines into the LLC, potentially evicting cache lines that App B needs. When App B tries to access its data, it may find that the required cache lines have been evicted by App A, causing cache misses and forcing App B to fetch the data from the slower main memory¹.</p> <p>This back-and-forth eviction and reloading of cache lines between the two applications degrade their performance compared to a scenario where each application has its own private cache¹.</p> <p>(2) 250P: Computer Systems Architecture Lecture 10: Caches - University of Utah. https://users.cs.utah.edu/~aburtsev/250P/2019fall/lectures/lecture10-caches/lecture10-caches.pdf.</p> <h3 id="constructive-and-destructive-interference">constructive and destructive interference</h3> <p>In the context of CPU caches, <strong>constructive interference</strong> and <strong>destructive interference</strong> refer to the effects of multiple processors accessing shared cache lines.</p> <h3 id="constructive-interference">Constructive Interference</h3> <p>Constructive interference occurs when multiple processors access the same data in a shared cache, leading to improved performance. For example, if one processor loads data into the shared cache that another processor also needs, the second processor can access this data quickly without having to fetch it from the slower main memory. This reduces cache misses and improves overall efficiency².</p> <h3 id="destructive-interference">Destructive Interference</h3> <p>Destructive interference, on the other hand, happens when multiple processors access different data that map to the same cache line, causing conflicts. This can lead to frequent cache line invalidations and reloads, increasing the number of cache misses and degrading performance. For instance, if two processors continuously overwrite each other’s data in the same cache line, they will experience higher latency due to the constant need to fetch data from the main memory².</p> <p>These concepts are crucial in designing efficient cache systems for multi-core processors, as they highlight the trade-offs between shared and private caches and the importance of cache coherence protocols.</p>]]></content><author><name></name></author><category term="parallel"/><category term="programming"/><category term="parallel"/><category term="programming"/><summary type="html"><![CDATA[Lecture 11: Cache coherence]]></summary></entry><entry><title type="html">Stf CS149 Parallel Programming - Lecture 5&amp;amp;6 - Performance optimization</title><link href="https://bilyz98.github.io/blog/2024/stf-cs149-lecture-takeaway/" rel="alternate" type="text/html" title="Stf CS149 Parallel Programming - Lecture 5&amp;amp;6 - Performance optimization"/><published>2024-10-26T11:59:00+00:00</published><updated>2024-10-26T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/stf-cs149-lecture-takeaway</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/stf-cs149-lecture-takeaway/"><![CDATA[<h2 id="lecture-5">Lecture 5</h2> <p><a href="https://youtu.be/mmO2Ri_dJkk?si=CCG3Tf9dDYZiExq6">Video</a> Deciding granularity is important for dynamic scheduling in parallel programming.</p> <p>Small granularity leads to better workload distribution but comes with higher synchronization overhead.</p> <h2 id="lecture-6">Lecture 6</h2> <p>Performance optimization: locality, communication and contention.</p> <p>Reduce costs of communication between:</p> <ol> <li>processors.</li> <li>between processors and memory.</li> </ol> <p>Shared memory communication. Numa: non-uniform memory access</p> <p>Message passing blocking send and non-blocking send</p> <p>Reduce communication is important to achieve max utilization of cpu. Just to keep cpu busy</p> <p>Roofline model: <img src="https://github.com/user-attachments/assets/da01cc6b-a009-4b49-a306-c72940b89eaf" alt="image"/></p> <p>To achieve maximum computation throughput GFLOPS/s of cpu or gpus one has to have algorithm that has high operation intensity -&gt; high flops/bytes.</p> <p>Need to has many computation per byte access unit.</p>]]></content><author><name></name></author><category term="parallel"/><category term="programming"/><category term="parallel"/><category term="programming"/><summary type="html"><![CDATA[Lecture 5 Video Deciding granularity is important for dynamic scheduling in parallel programming.]]></summary></entry><entry><title type="html">Stf CS149 Parallel Programming - Assign2</title><link href="https://bilyz98.github.io/blog/2024/cs149-assign2/" rel="alternate" type="text/html" title="Stf CS149 Parallel Programming - Assign2"/><published>2024-10-26T11:59:00+00:00</published><updated>2024-10-26T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/cs149-assign2</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/cs149-assign2/"><![CDATA[<h1 id="thread-pool-for-task-scheduling">Thread pool for task scheduling</h1> <h2 id="step1--parallel-thread-spawn">Step1 : parallel thread spawn</h2> <p>First implementaion that spawns new thread for each task:</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">TaskSystemParallelSpawn</span><span class="o">::</span><span class="n">run</span><span class="p">(</span><span class="n">IRunnable</span><span class="o">*</span> <span class="n">runnable</span><span class="p">,</span> <span class="kt">int</span> <span class="n">num_total_tasks</span><span class="p">)</span> <span class="p">{</span>
-
-
-    <span class="c1">//</span>
-    <span class="c1">// TODO: CS149 students will modify the implementation of this</span>
-    <span class="c1">// method in Part A.  The implementation provided below runs all</span>
-    <span class="c1">// tasks sequentially on the calling thread.</span>
-    <span class="c1">//</span>
-
-    <span class="c1">// for (int i = 0; i &lt; num_total_tasks; i++) {</span>
-    <span class="c1">//     runnable-&gt;runTask(i, num_total_tasks);</span>
-    <span class="c1">// }</span>
-
-  <span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">workers</span><span class="p">[</span><span class="n">num_threads_</span><span class="p">];</span>
-  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">num_total_tasks</span><span class="p">;</span> <span class="n">i</span><span class="o">+=</span> <span class="n">num_threads_</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">cur_end</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="n">num_threads_</span> <span class="o">&lt;</span> <span class="n">num_total_tasks</span><span class="p">)</span> <span class="o">?</span> <span class="n">i</span><span class="o">+</span><span class="n">num_threads_</span> <span class="o">:</span> <span class="n">num_total_tasks</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">cur_begin</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">t_idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="n">cur_begin</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">cur_end</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">,</span> <span class="n">t_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-       <span class="n">workers</span><span class="p">[</span><span class="n">t_idx</span><span class="p">]</span><span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="p">(</span><span class="n">runTask</span><span class="p">,</span> <span class="n">runnable</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">num_total_tasks</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="n">t_idx</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
-    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="n">cur_begin</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">cur_end</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">,</span> <span class="n">t_idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">workers</span><span class="p">[</span><span class="n">t_idx</span><span class="p">].</span><span class="n">join</span><span class="p">();</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div></div> <p>Result: Not good. Very slow. I think this is because of frequent thread spawn overhead.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  part_a git:(master) ✗ python3 ../tests/run_test_harness.py -n 8 -t  super_light super_super_light
-runtasks_ref
-Linux x86_64
-================================================================================
-Running task system grading harness... (2 total tests)
-  - Detected CPU with 40 execution contexts
-  - Task system configured to use at most 8 threads
-================================================================================
-================================================================================
-Executing test: super_super_light...
-Reference binary: ./runtasks_ref_linux
-Results for: super_super_light
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                12.239    12.216      1.00  (OK)
-[Parallel + Always Spawn]               444.19    53.469      8.31  (NOT OK)
-[Parallel + Thread Pool + Spin]         12.121    25.723      0.47  (OK)
-[Parallel + Thread Pool + Sleep]        12.106    24.976      0.48  (OK)
-================================================================================
-</code></pre></div></div> <p>Solution 2 : Created <code class="language-plaintext highlighter-rouge">num_threads</code> at the beginning of <code class="language-plaintext highlighter-rouge">run</code> call and reuse all of them. Use atomic counter to asggub unique id to each runnalbe call.</p> <p>Code :</p> <p>Notice that that we have to set <code class="language-plaintext highlighter-rouge">my_counter_=0</code> at the beginning of each run call.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">TaskSystemParallelSpawn</span><span class="o">::</span><span class="n">run</span><span class="p">(</span><span class="n">IRunnable</span><span class="o">*</span> <span class="n">runnable</span><span class="p">,</span> <span class="kt">int</span> <span class="n">num_total_tasks</span><span class="p">)</span> <span class="p">{</span> 
-  <span class="n">my_counter_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="o">&gt;</span> <span class="n">workers</span><span class="p">;</span>
-  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">num_threads_</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">workers</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">([</span><span class="k">this</span><span class="p">,</span> <span class="n">runnable</span><span class="p">,</span> <span class="n">num_total_tasks</span><span class="p">]</span> <span class="p">{</span>
-      <span class="k">this</span><span class="o">-&gt;</span><span class="n">threadTask</span><span class="p">(</span><span class="n">runnable</span><span class="p">,</span> <span class="n">num_total_tasks</span><span class="p">);</span>
-    <span class="p">});</span>
-
-  <span class="p">}</span>
-  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_threads_</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">workers</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">join</span><span class="p">();</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>===================================================================================
-(base) ➜  part_a git:(master) ✗ python3 ../tests/run_test_harness.py -n 8 -t  super_light super_super_light
-runtasks_ref
-Linux x86_64
-================================================================================
-Running task system grading harness... (2 total tests)
-  - Detected CPU with 40 execution contexts
-  - Task system configured to use at most 8 threads
-================================================================================
-================================================================================
-Executing test: super_super_light...
-Reference binary: ./runtasks_ref_linux
-Results for: super_super_light
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                8.562     12.451      0.69  (OK)
-[Parallel + Always Spawn]               56.804    54.287      1.05  (OK)
-[Parallel + Thread Pool + Spin]         8.532     25.417      0.34  (OK)
-[Parallel + Thread Pool + Sleep]        8.456     24.996      0.34  (OK)
-================================================================================
-Executing test: super_light...
-Reference binary: ./runtasks_ref_linux
-Results for: super_light
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                81.044    95.194      0.85  (OK)
-[Parallel + Always Spawn]               55.138    83.604      0.66  (OK)
-[Parallel + Thread Pool + Spin]         80.753    27.388      2.95  (NOT OK)
-[Parallel + Thread Pool + Sleep]        80.646    33.46       2.41  (NOT OK)
-================================================================================
-Overall performance results
-[Serial]                                : All passed Perf
-[Parallel + Always Spawn]               : All passed Perf
-[Parallel + Thread Pool + Spin]         : Perf did not pass all tests
-[Parallel + Thread Pool + Sleep]        : Perf did not pass all tests
-</code></pre></div></div> <h2 id="step2--threadpool--spinning-waiting">Step2 : threadpool + spinning waiting</h2> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void TaskSystemParallelThreadPoolSpinning::threadTask() {
-      // bool done = done_.load();
-  while(!done_.load()) {
-    // printf("id: %d\n", id);
-    mutex_.lock();
-    threadArg arg;
-    if(!task_queue_.empty()) {
-      arg = task_queue_.front();
-      task_queue_.pop_front();
-    }
-    mutex_.unlock();
-    if(arg.runnable) {
-      arg.runnable-&gt;runTask( arg.task_id, arg.num_total_tasks);
-      finished_tasks_.fetch_add(1);
-    }
-  }
-
-}
-TaskSystemParallelThreadPoolSpinning::TaskSystemParallelThreadPoolSpinning(int num_threads): ITaskSystem(num_threads) {
-    //
-    // TODO: CS149 student implementations may decide to perform setup
-    // operations (such as thread pool construction) here.
-    // Implementations are free to add new class member variables
-    // (requiring changes to tasksys.h).
-    //
-  done_ = false;
-  num_threads_ = num_threads;
-  for(int i=0; i &lt; num_threads_; i++) {
-    workers_.emplace_back([this ]{
-      this-&gt;threadTask();
-    });
-  }
-
-}
-
-TaskSystemParallelThreadPoolSpinning::~TaskSystemParallelThreadPoolSpinning() {
-  done_.store(true);
-  for(int i=0; i&lt; num_threads_; i++) {
-    workers_[i].join();
-  }
-}
-
-void TaskSystemParallelThreadPoolSpinning::run(IRunnable* runnable, int num_total_tasks) {
-
-
-    //
-    // TODO: CS149 students will modify the implementation of this
-    // method in Part A.  The implementation provided below runs all
-    // tasks sequentially on the calling thread.
-    //
-
-  finished_tasks_ = 0;
-  {
-  const std::lock_guard&lt;std::mutex&gt; lock(mutex_);
-  for(int i=0; i &lt; num_total_tasks; i++) {
-      threadArg arg(i, num_total_tasks, runnable);
-    task_queue_.emplace_back(arg);
-  }
-  }
-  
-  while(finished_tasks_.load() != num_total_tasks) {
-
-  }
-
-}
-</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(base) ➜  part_a git:(master) ✗ python3 ../tests/run_test_harness.py -n 8
-runtasks_ref
-Linux x86_64
-================================================================================                              Running task system grading harness... (11 total tests)
-- Detected CPU with 40 execution contexts
-  - Task system configured to use at most 8 threads
-================================================================================
-================================================================================                                                                             Executing test: super_super_light...
-Reference binary: ./runtasks_ref_linux
-Results for: super_super_light
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                8.574     12.343      0.69  (OK)
-[Parallel + Always Spawn]               56.938    54.949      1.04  (OK)
-[Parallel + Thread Pool + Spin]         21.404    25.716      0.83  (OK)
-[Parallel + Thread Pool + Sleep]        8.704     17.781      0.49  (OK)
-================================================================================
-Executing test: super_light...
-Reference binary: ./runtasks_ref_linux
-Results for: super_light
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                80.252    94.107      0.85  (OK)
-[Parallel + Always Spawn]               73.338    83.35       0.88  (OK)
-[Parallel + Thread Pool + Spin]         27.698    36.119      0.77  (OK)
-[Parallel + Thread Pool + Sleep]        80.795    34.28       2.36  (NOT OK)
-================================================================================
-Executing test: ping_pong_equal...
-Reference binary: ./runtasks_ref_linux
-Results for: ping_pong_equal
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                1297.763  1553.482    0.84  (OK)
-[Parallel + Always Spawn]               574.729   649.785     0.88  (OK)
-[Parallel + Thread Pool + Spin]         187.65    232.88      0.81  (OK)
-[Parallel + Thread Pool + Sleep]        1294.887  226.363     5.72  (NOT OK)
-================================================================================
-Executing test: ping_pong_unequal...
-Reference binary: ./runtasks_ref_linux
-Results for: ping_pong_unequal
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                2405.604  2401.768    1.00  (OK)
-[Parallel + Always Spawn]               969.55    1021.323    0.95  (OK)
-[Parallel + Thread Pool + Spin]         336.518   332.326     1.01  (OK)
-[Parallel + Thread Pool + Sleep]        2396.002  338.008     7.09  (NOT OK)
-================================================================================
-Executing test: recursive_fibonacci...
-Reference binary: ./runtasks_ref_linux
-Results for: recursive_fibonacci
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                1578.621  1938.967    0.81  (OK)
-[Parallel + Always Spawn]               482.274   548.912     0.88  (OK)
-[Parallel + Thread Pool + Spin]         222.252   266.043     0.84  (OK)
-[Parallel + Thread Pool + Sleep]        1583.164  266.454     5.94  (NOT OK)
-================================================================================
-Executing test: math_operations_in_tight_for_loop...
-Reference binary: ./runtasks_ref_linux
-Results for: math_operations_in_tight_for_loop
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                808.052   833.969     0.97  (OK)
-[Parallel + Always Spawn]               651.691   705.552     0.92  (OK)
-[Parallel + Thread Pool + Spin]         139.645   154.966     0.90  (OK)
-[Parallel + Thread Pool + Sleep]        802.654   157.355     5.10  (NOT OK)
-================================================================================
-================================================================================
-Executing test: math_operations_in_tight_for_loop_fewer_tasks...
-Reference binary: ./runtasks_ref_linux
-Results for: math_operations_in_tight_for_loop_fewer_tasks
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                806.914   839.226     0.96  (OK)
-[Parallel + Always Spawn]               809.429   810.212     1.00  (OK)
-[Parallel + Thread Pool + Spin]         215.631   238.903     0.90  (OK)
-[Parallel + Thread Pool + Sleep]        805.115   244.607     3.29  (NOT OK)
-================================================================================
-Executing test: math_operations_in_tight_for_loop_fan_in...
-Reference binary: ./runtasks_ref_linux
-Results for: math_operations_in_tight_for_loop_fan_in
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                416.313   428.492     0.97  (OK)
-[Parallel + Always Spawn]               133.057   160.116     0.83  (OK)
-[Parallel + Thread Pool + Spin]         71.286    74.03       0.96  (OK)
-[Parallel + Thread Pool + Sleep]        412.149   81.239      5.07  (NOT OK)
-================================================================================
-Executing test: math_operations_in_tight_for_loop_reduction_tree...
-Reference binary: ./runtasks_ref_linux
-Results for: math_operations_in_tight_for_loop_reduction_tree
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                415.842   428.485     0.97  (OK)
-[Parallel + Always Spawn]               142.34    191.563     0.74  (OK)
-[Parallel + Thread Pool + Spin]         70.203    65.066      1.08  (OK)
-[Parallel + Thread Pool + Sleep]        411.849   67.231      6.13  (NOT OK)
-================================================================================
-Executing test: spin_between_run_calls...
-Reference binary: ./runtasks_ref_linux
-Results for: spin_between_run_calls
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                540.34    687.538     0.79  (OK)
-[Parallel + Always Spawn]               290.111   364.247     0.80  (OK)
-[Parallel + Thread Pool + Spin]         295.734   373.543     0.79  (OK)
-[Parallel + Thread Pool + Sleep]        538.037   364.643     1.48  (NOT OK)
-================================================================================
-Executing test: mandelbrot_chunked...
-Reference binary: ./runtasks_ref_linux
-Results for: mandelbrot_chunked
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                526.695   537.581     0.98  (OK)
-[Parallel + Always Spawn]               79.414    78.909      1.01  (OK)
-[Parallel + Thread Pool + Spin]         83.16     77.74       1.07  (OK)
-[Parallel + Thread Pool + Sleep]        530.464   85.143      6.23  (NOT OK)
-================================================================================
-Overall performance results
-[Serial]                                : All passed Perf
-[Parallel + Always Spawn]               : All passed Perf
-[Parallel + Thread Pool + Spin]         : All passed Perf
-[Parallel + Thread Pool + Sleep]        : Perf did not pass all tests
-</code></pre></div></div> <h2 id="step3-threadpool--put-threads-to-sleep-when-there-is-nothing-to-do">Step3: Threadpool + put threads to sleep when there is nothing to do</h2> <p>Implementation :</p> <p>Notice that we have to test if each thread is joinable and call <code class="language-plaintext highlighter-rouge">join()</code> at the destructor of the class.</p> <p>Because each thread might have already exited when <code class="language-plaintext highlighter-rouge">done_</code> is set to <code class="language-plaintext highlighter-rouge">true</code></p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="o">::</span><span class="n">threadTask</span><span class="p">(</span> <span class="p">)</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">num_task</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">done_</span><span class="p">.</span><span class="n">load</span><span class="p">())</span> <span class="p">{</span>
-    <span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lock</span><span class="p">(</span><span class="n">mutex_</span><span class="p">);</span>
-    <span class="n">threadArg</span> <span class="n">arg</span> <span class="p">;</span> 
-    <span class="kt">bool</span> <span class="n">get_task</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">task_queue_</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
-      <span class="n">arg</span> <span class="o">=</span> <span class="n">task_queue_</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
-      <span class="n">task_queue_</span><span class="p">.</span><span class="n">pop_front</span><span class="p">();</span>
-      <span class="n">get_task</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-      <span class="c1">// printf("get task\n");</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="n">cv_</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">lock</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="n">lock</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">get_task</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">arg</span><span class="p">.</span><span class="n">runnable</span><span class="o">-&gt;</span><span class="n">runTask</span><span class="p">(</span><span class="n">arg</span><span class="p">.</span><span class="n">task_id</span><span class="p">,</span> <span class="n">arg</span><span class="p">.</span><span class="n">num_total_tasks</span><span class="p">);</span>
-      <span class="n">num_task</span> <span class="o">=</span> <span class="n">arg</span><span class="p">.</span><span class="n">num_total_tasks</span><span class="p">;</span>
-      <span class="n">finished_tasks_</span><span class="p">.</span><span class="n">fetch_add</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-      <span class="k">if</span><span class="p">(</span><span class="n">finished_tasks_</span><span class="p">.</span><span class="n">load</span><span class="p">()</span> <span class="o">==</span> <span class="n">num_task</span><span class="p">)</span>  <span class="p">{</span>
-        <span class="c1">// printf("send notify\n");</span>
-        <span class="n">cv_</span><span class="p">.</span><span class="n">notify_all</span><span class="p">();</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
- 
-  <span class="p">}</span>
-<span class="p">}</span>
-<span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="o">::</span><span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="p">(</span><span class="kt">int</span> <span class="n">num_threads</span><span class="p">)</span><span class="o">:</span> <span class="n">ITaskSystem</span><span class="p">(</span><span class="n">num_threads</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">//</span>
-    <span class="c1">// TODO: CS149 student implementations may decide to perform setup</span>
-    <span class="c1">// operations (such as thread pool construction) here.</span>
-    <span class="c1">// Implementations are free to add new class member variables</span>
-    <span class="c1">// (requiring changes to tasksys.h).</span>
-    <span class="c1">//</span>
-  <span class="n">num_threads_</span> <span class="o">=</span> <span class="n">num_threads</span><span class="p">;</span>
-  <span class="n">done_</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">num_threads_</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
-    <span class="n">workers_</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">([</span><span class="k">this</span><span class="p">]{</span>
-      <span class="k">this</span><span class="o">-&gt;</span><span class="n">threadTask</span><span class="p">();</span>
-    <span class="p">});</span>
-  <span class="p">}</span>
-
-<span class="p">}</span>
-
-<span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="o">::~</span><span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c1">//</span>
-    <span class="c1">// TODO: CS149 student implementations may decide to perform cleanup</span>
-    <span class="c1">// operations (such as thread pool shutdown construction) here.</span>
-    <span class="c1">// Implementations are free to add new class member variables</span>
-    <span class="c1">// (requiring changes to tasksys.h).</span>
-    <span class="c1">//</span>
-  <span class="n">done_</span><span class="p">.</span><span class="n">store</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
-  <span class="n">cv_</span><span class="p">.</span><span class="n">notify_all</span><span class="p">();</span>
-  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_threads_</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">workers_</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">joinable</span><span class="p">())</span> <span class="p">{</span>
-      <span class="n">workers_</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">join</span><span class="p">();</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="o">::</span><span class="n">run</span><span class="p">(</span><span class="n">IRunnable</span><span class="o">*</span> <span class="n">runnable</span><span class="p">,</span> <span class="kt">int</span> <span class="n">num_total_tasks</span><span class="p">)</span> <span class="p">{</span>
-
-
-    <span class="c1">//</span>
-    <span class="c1">// TODO: CS149 students will modify the implementation of this</span>
-    <span class="c1">// method in Parts A and B.  The implementation provided below runs all</span>
-    <span class="c1">// tasks sequentially on the calling thread.</span>
-    <span class="c1">//</span>
-
-  <span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lock</span><span class="p">(</span><span class="n">mutex_</span><span class="p">);</span>
-  <span class="n">finished_tasks_</span><span class="p">.</span><span class="n">store</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">;</span>
-  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_total_tasks</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">threadArg</span> <span class="n">arg</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">num_total_tasks</span><span class="p">,</span> <span class="n">runnable</span><span class="p">);</span>
-    <span class="n">task_queue_</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">arg</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="c1">// printf("before notify all\n");</span>
-  <span class="n">lock</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span>
-  <span class="n">cv_</span><span class="p">.</span><span class="n">notify_all</span><span class="p">();</span>
-  <span class="n">lock</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span>
-
-  
-  <span class="k">while</span><span class="p">(</span><span class="n">finished_tasks_</span><span class="p">.</span><span class="n">load</span><span class="p">()</span> <span class="o">!=</span> <span class="n">num_total_tasks</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">cv_</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">lock</span><span class="p">);</span>
-  <span class="p">}</span>
-
-  <span class="c1">// printf("finished_tasks_:%d\n", finished_tasks_.load());</span>
-
-<span class="p">}</span>
-</code></pre></div></div> <h2 id="part-b-threadpoll--async-call-w">Part B: threadpoll + async call w</h2> <p>This line of code is important.</p> <p>We have two conditions to check for <code class="language-plaintext highlighter-rouge">cv_.wait()</code>. <code class="language-plaintext highlighter-rouge">cv_.wait()</code> will check the condition each time it wakes up and it would stop waiting when the condition is true.</p> <p>This can help save time for further unncessary condition checking in the while loop.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      cv_.wait(lock, [this]{return !ready_queue_.empty() || done_ ;});
-</code></pre></div></div> <p>Another change I make compared to previous version of code is that I use <code class="language-plaintext highlighter-rouge">bool</code> intead of <code class="language-plaintext highlighter-rouge">std::atomic&lt;bool&gt;</code> to store <code class="language-plaintext highlighter-rouge">done_</code> variable which indicates whether the class is destructed.</p> <p><code class="language-plaintext highlighter-rouge">done_</code> variable is set to true without lock protection in destructor if its type is <code class="language-plaintext highlighter-rouge">std::atomic&lt;bool&gt;</code> which means that thread might miss the <code class="language-plaintext highlighter-rouge">notify_all()</code> call from destructor and those worker threads would never be woke up and exit .</p> <p>After change <code class="language-plaintext highlighter-rouge">done_</code> to type <code class="language-plaintext highlighter-rouge">bool</code>, we are guaranteed that all threads would receive the <code class="language-plaintext highlighter-rouge">notify_all()</code> call because the destructor holds the lock first and then set <code class="language-plaintext highlighter-rouge">done_</code> to <code class="language-plaintext highlighter-rouge">true</code> and then notify_all();</p> <p>The guarantees the order of instructions.</p> <p>Issue: Test can not pass with 4 threads.</p> <p>Investigation is ongoing.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="o">::~</span><span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c1">//</span>
-    <span class="c1">// TODO: CS149 student implementations may decide to perform cleanup</span>
-    <span class="c1">// operations (such as thread pool shutdown construction) here.</span>
-    <span class="c1">// Implementations are free to add new class member variables</span>
-    <span class="c1">// (requiring changes to tasksys.h).</span>
-    <span class="c1">//</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lock</span><span class="p">(</span><span class="n">mutex_</span><span class="p">);</span>
-  <span class="n">done_</span><span class="o">=</span><span class="nb">true</span><span class="p">;</span>
-  <span class="n">lock</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span>
-  <span class="n">cv_</span><span class="p">.</span><span class="n">notify_all</span><span class="p">();</span>
-  <span class="n">printf</span><span class="p">(</span><span class="s">"destructor</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
-  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">workers_</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// cv_.notify_all();</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">workers_</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">joinable</span><span class="p">())</span> <span class="p">{</span>
-      <span class="n">workers_</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">join</span><span class="p">();</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="n">printf</span><span class="p">(</span><span class="s">"exit</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div></div> <p>Worker code:</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="n">TaskID</span> <span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="o">::</span><span class="n">runAsyncWithDeps</span><span class="p">(</span><span class="n">IRunnable</span><span class="o">*</span> <span class="n">runnable</span><span class="p">,</span> <span class="kt">int</span> <span class="n">num_total_tasks</span><span class="p">,</span>
-                                                    <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">TaskID</span><span class="o">&gt;&amp;</span> <span class="n">deps</span><span class="p">)</span> <span class="p">{</span>
-
-    <span class="c1">//</span>
-    <span class="c1">// TODO: CS149 students will implement this method in Part B.</span>
-    <span class="c1">//</span>
-
-  <span class="n">TaskID</span> <span class="n">new_task</span> <span class="o">=</span> <span class="n">task_dep_</span><span class="p">.</span><span class="n">GetNewTaskID</span><span class="p">();</span>
-  <span class="n">mutex_</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span>
-   <span class="n">taskid_remain_work_count_map_</span><span class="p">[</span><span class="n">new_task</span><span class="p">]</span> <span class="o">=</span> <span class="n">num_total_tasks</span><span class="p">;</span>
-   <span class="k">for</span><span class="p">(</span><span class="n">TaskID</span> <span class="n">parent_task_id</span><span class="o">:</span> <span class="n">deps</span><span class="p">)</span> <span class="p">{</span>
-     <span class="n">dependent_children_</span><span class="p">[</span><span class="n">parent_task_id</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">new_task</span><span class="p">);</span>
-   <span class="p">}</span>
-   <span class="n">TaskArg</span> <span class="nf">task_arg</span><span class="p">(</span><span class="n">new_task</span><span class="p">,</span> <span class="n">runnable</span><span class="p">,</span> <span class="n">num_total_tasks</span><span class="p">,</span>  <span class="n">deps</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
-  <span class="n">printf</span><span class="p">(</span><span class="s">"task: %d dep count: %ld</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">new_task</span><span class="p">,</span> <span class="n">deps</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
-   <span class="n">task_id_remaining_dependent_parents_count_</span><span class="p">[</span><span class="n">new_task</span><span class="p">]</span> <span class="o">=</span> <span class="n">task_arg</span><span class="p">;</span>
-  <span class="n">CheckAndNotify</span><span class="p">(</span><span class="n">new_task</span><span class="p">);</span>
-  <span class="n">mutex_</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span>
-
-
-  <span class="k">return</span> <span class="n">new_task</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="o">::</span><span class="n">threadTask</span><span class="p">(</span> <span class="p">)</span> <span class="p">{</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lock</span><span class="p">(</span><span class="n">mutex_</span><span class="p">);</span>
-  <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">done_</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">threadArg</span> <span class="n">arg</span> <span class="p">;</span> 
-    <span class="kt">bool</span> <span class="n">get_task</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">ready_queue_</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
-      <span class="n">arg</span> <span class="o">=</span> <span class="n">ready_queue_</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
-      <span class="n">ready_queue_</span><span class="p">.</span><span class="n">pop_front</span><span class="p">();</span>
-      <span class="n">get_task</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-      <span class="n">printf</span><span class="p">(</span><span class="s">"get task</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="n">printf</span><span class="p">(</span><span class="s">"wait task</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
-      <span class="n">cv_</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">lock</span><span class="p">);</span>
-      <span class="c1">// cv_.wait(lock, [this]{return !ready_queue_.empty() || done_ ;});</span>
-      <span class="k">continue</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">lock</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">get_task</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kt">int</span> <span class="n">task_thread_id</span> <span class="o">=</span> <span class="n">arg</span><span class="p">.</span><span class="n">task_thread_id</span><span class="p">;</span>
-      <span class="kt">int</span> <span class="n">task_id</span> <span class="o">=</span> <span class="n">arg</span><span class="p">.</span><span class="n">task_id</span><span class="p">;</span>
-      <span class="n">arg</span><span class="p">.</span><span class="n">runnable</span><span class="o">-&gt;</span><span class="n">runTask</span><span class="p">(</span><span class="n">task_thread_id</span><span class="p">,</span> <span class="n">arg</span><span class="p">.</span><span class="n">num_total_tasks</span><span class="p">);</span>
-      <span class="kt">bool</span> <span class="n">cur_task_finished</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-      <span class="p">{</span>
-        <span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">inner_lock</span><span class="p">(</span><span class="n">mutex_</span><span class="p">);</span>
-        <span class="kt">int</span> <span class="n">task_remain_work_count</span> <span class="o">=</span> <span class="o">--</span><span class="n">taskid_remain_work_count_map_</span><span class="p">[</span><span class="n">task_id</span><span class="p">];</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">task_remain_work_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-          <span class="n">printf</span><span class="p">(</span><span class="s">"task:%d finished</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">task_id</span><span class="p">);</span>
-          <span class="n">cur_task_finished</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-          <span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="n">children_task_ids</span> <span class="o">=</span> <span class="n">dependent_children_</span><span class="p">[</span><span class="n">task_id</span><span class="p">];</span>
-          <span class="k">for</span><span class="p">(</span><span class="n">TaskID</span> <span class="n">child_task_id</span><span class="o">:</span> <span class="n">children_task_ids</span> <span class="p">)</span> <span class="p">{</span>
-            <span class="n">task_id_remaining_dependent_parents_count_</span><span class="p">[</span><span class="n">child_task_id</span><span class="p">].</span><span class="n">remain_dep_parent_task_count</span><span class="o">--</span><span class="p">;</span>
-            <span class="n">CheckAndMoveTaskToReadyQueue</span><span class="p">(</span><span class="n">child_task_id</span><span class="p">);</span>
-          <span class="p">}</span>
-
-        <span class="p">}</span>
-      <span class="p">}</span>
-      <span class="k">if</span><span class="p">(</span><span class="n">cur_task_finished</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">finished_tasks_</span><span class="p">.</span><span class="n">fetch_add</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-        <span class="c1">// extra notify all here for sync()</span>
-        <span class="n">cv_</span><span class="p">.</span><span class="n">notify_all</span><span class="p">();</span>
-
-      <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="n">lock</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div></div> <p>Add another condition to notify_all() threads.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      if(cur_task_finished || moved_to_ready_queue) {
-        finished_tasks_.fetch_add(1);
-        // extra notify all here for sync()
-        cv_.notify_all();
-
-      }
-
-</code></pre></div></div> <p>Task 1 is not moved to ready_queue</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>destructor
-exit
-wait task
-wait task
-task:0 moved to ready_queue
-get task
-get task
-get task
-wait task
-task:0 finished
-wait task
-</code></pre></div></div> <p>Another issue: the deps parent task might have been finished when the new child task is pushed. Need to deal with this situation.</p> <p>So we should not use this structure for task schedule</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   std::unordered_map&lt;TaskID, std::unordered_set&lt;TaskID&gt;&gt; dependent_children_;
-</code></pre></div></div> <p>This class structure is not right.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class TaskSystemParallelThreadPoolSleeping: public ITaskSystem {
-    public:
-        TaskSystemParallelThreadPoolSleeping(int num_threads);
-        ~TaskSystemParallelThreadPoolSleeping();
-        const char* name();
-        void run(IRunnable* runnable, int num_total_tasks);
-        TaskID runAsyncWithDeps(IRunnable* runnable, int num_total_tasks,
-                                const std::vector&lt;TaskID&gt;&amp; deps);
-        void sync();
-
-private:
-  void threadTask( );
-  bool CheckAndMoveTaskToReadyQueue(TaskID child_task_id);
-  void CheckAndNotify(TaskID child_task_id);
-  std::vector&lt;std::thread&gt; workers_;
-  int num_threads_;
-  bool done_;
-  std::mutex mutex_;
-  std::condition_variable cv_;
-  std::atomic&lt;TaskID&gt; task_id_;
-  std::unordered_map&lt;TaskID, std::unordered_set&lt;TaskID&gt;&gt; dependent_children_;
-  std::unordered_map&lt;TaskID, TaskArg&gt; task_id_remaining_dependent_parents_count_;
-  std::deque&lt;threadArg&gt; ready_queue_;
-  std::unordered_map&lt;TaskID, int&gt; taskid_remain_work_count_map_;
-  std::atomic&lt;int&gt; finished_tasks_;
- 
-
-};
-</code></pre></div></div> <h3 id="correct-implementaion">Correct implementaion</h3> <p>Code :</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="o">::</span><span class="n">threadTask</span><span class="p">(</span> <span class="p">)</span> <span class="p">{</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lock</span><span class="p">(</span><span class="n">mutex_</span><span class="p">);</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">TaskID</span><span class="o">&gt;</span> <span class="n">tasks</span><span class="p">;</span>
-  <span class="kt">bool</span> <span class="n">get_new_tasks_to_run</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-  <span class="c1">// get_new_tasks_to_run = task_dep_.CheckAndGetRunnableTasks(tasks);</span>
-  <span class="c1">// for(TaskID task_id : tasks){</span>
-  <span class="c1">//   ScheduleTaskToReadyQueue(task_id);</span>
-  <span class="c1">// }</span>
-  <span class="c1">// tasks.clear();</span>
-
-  <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">done_</span> <span class="o">||</span> <span class="o">!</span><span class="n">ready_queue_</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">||</span> <span class="n">task_dep_</span><span class="p">.</span><span class="n">HasTaskToSchedule</span><span class="p">())</span> <span class="p">{</span>
-    <span class="n">get_new_tasks_to_run</span> <span class="o">=</span> <span class="n">task_dep_</span><span class="p">.</span><span class="n">CheckAndGetRunnableTasks</span><span class="p">(</span><span class="n">tasks</span><span class="p">);</span>
-    <span class="k">for</span><span class="p">(</span><span class="n">TaskID</span> <span class="n">task_id</span><span class="o">:</span> <span class="n">tasks</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">ScheduleTaskToReadyQueue</span><span class="p">(</span><span class="n">task_id</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="n">tasks</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
-    <span class="n">threadArg</span> <span class="n">arg</span> <span class="p">;</span> 
-    <span class="kt">bool</span> <span class="n">get_task</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">ready_queue_</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
-      <span class="n">arg</span> <span class="o">=</span> <span class="n">ready_queue_</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
-      <span class="n">ready_queue_</span><span class="p">.</span><span class="n">pop_front</span><span class="p">();</span>
-      <span class="n">get_task</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-      <span class="c1">// printf("get task\n");</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="c1">// printf("wait task\n");</span>
-      <span class="n">cv_</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">lock</span><span class="p">);</span>
-      <span class="c1">// cv_.wait(lock, [this]{return !ready_queue_.empty() || done_ ;});</span>
-    <span class="p">}</span>
-    <span class="n">lock</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">get_task</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kt">int</span> <span class="n">task_thread_id</span> <span class="o">=</span> <span class="n">arg</span><span class="p">.</span><span class="n">task_thread_id</span><span class="p">;</span>
-      <span class="kt">int</span> <span class="n">task_id</span> <span class="o">=</span> <span class="n">arg</span><span class="p">.</span><span class="n">task_id</span><span class="p">;</span>
-      <span class="n">arg</span><span class="p">.</span><span class="n">runnable</span><span class="o">-&gt;</span><span class="n">runTask</span><span class="p">(</span><span class="n">task_thread_id</span><span class="p">,</span> <span class="n">arg</span><span class="p">.</span><span class="n">num_total_tasks</span><span class="p">);</span>
-      <span class="p">{</span>
-        <span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">inner_lock</span><span class="p">(</span><span class="n">mutex_</span><span class="p">);</span>
-        <span class="c1">// printf("taskid: %d, thread_id: %d finished\n", task_id, task_thread_id);</span>
-        <span class="n">FinishOneSubTask</span><span class="p">(</span><span class="n">task_id</span><span class="p">);</span>
-      <span class="p">}</span>
-      <span class="c1">// Move notify_all out of mutex scope so that </span>
-      <span class="c1">// other threads can wake up and do some work</span>
-      <span class="c1">// if(cur_task_finished || has_moved_to_ready_queue) {</span>
-      <span class="c1">//   cv_.notify_all();</span>
-      <span class="c1">// }</span>
-    <span class="n">cv_</span><span class="p">.</span><span class="n">notify_all</span><span class="p">();</span>
-    <span class="p">}</span>
-    <span class="n">lock</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1">// Prerequisite: mutex_ is held</span>
-<span class="kt">void</span>  <span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="o">::</span><span class="n">ScheduleTaskToReadyQueue</span><span class="p">(</span><span class="n">TaskID</span> <span class="n">task_id</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">TaskArg</span> <span class="n">task_arg</span><span class="p">;</span>
-  <span class="n">task_dep_</span><span class="p">.</span><span class="n">GetTaskArg</span><span class="p">(</span><span class="n">task_id</span><span class="p">,</span> <span class="n">task_arg</span><span class="p">);</span>
-  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">task_arg</span><span class="p">.</span><span class="n">num_total_tasks</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">threadArg</span> <span class="n">ta</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">task_arg</span><span class="p">.</span><span class="n">num_total_tasks</span><span class="p">,</span> <span class="n">task_arg</span><span class="p">.</span><span class="n">runnable</span><span class="p">,</span> <span class="n">task_id</span><span class="p">);</span>
-    <span class="n">taskid_remain_work_count_map_</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">task_arg</span><span class="p">.</span><span class="n">num_total_tasks</span><span class="p">;</span>
-    <span class="n">ready_queue_</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">ta</span><span class="p">);</span>
-  <span class="p">}</span>
-
-<span class="p">}</span>
-<span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="o">::</span><span class="n">name</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="s">"Parallel + Thread Pool + Sleep"</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="o">::</span><span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="p">(</span><span class="kt">int</span> <span class="n">num_threads</span><span class="p">)</span><span class="o">:</span> <span class="n">ITaskSystem</span><span class="p">(</span><span class="n">num_threads</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">//</span>
-    <span class="c1">// TODO: CS149 student implementations may decide to perform setup</span>
-    <span class="c1">// operations (such as thread pool construction) here.</span>
-    <span class="c1">// Implementations are free to add new class member variables</span>
-    <span class="c1">// (requiring changes to tasksys.h).</span>
-    <span class="c1">//</span>
-  <span class="n">done_</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-  <span class="c1">// task_id_ = 0;</span>
-  <span class="n">num_threads_</span> <span class="o">=</span> <span class="n">num_threads</span><span class="p">;</span>
-  <span class="c1">// finished_tasks_ = 0;</span>
-  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_threads_</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">workers_</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">([</span><span class="k">this</span><span class="p">]{</span>
-      <span class="k">this</span><span class="o">-&gt;</span><span class="n">threadTask</span><span class="p">();</span>
-    <span class="p">});</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="o">::~</span><span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c1">//</span>
-    <span class="c1">// TODO: CS149 student implementations may decide to perform cleanup</span>
-    <span class="c1">// operations (such as thread pool shutdown construction) here.</span>
-    <span class="c1">// Implementations are free to add new class member variables</span>
-    <span class="c1">// (requiring changes to tasksys.h).</span>
-    <span class="c1">//</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lock</span><span class="p">(</span><span class="n">mutex_</span><span class="p">);</span>
-  <span class="n">done_</span><span class="o">=</span><span class="nb">true</span><span class="p">;</span>
-  <span class="n">lock</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span>
-  <span class="n">cv_</span><span class="p">.</span><span class="n">notify_all</span><span class="p">();</span>
-  <span class="c1">// printf("destructor\n");</span>
-  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">workers_</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// cv_.notify_all();</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">workers_</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">joinable</span><span class="p">())</span> <span class="p">{</span>
-      <span class="n">workers_</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">join</span><span class="p">();</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="c1">// printf("exit\n");</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="o">::</span><span class="n">run</span><span class="p">(</span><span class="n">IRunnable</span><span class="o">*</span> <span class="n">runnable</span><span class="p">,</span> <span class="kt">int</span> <span class="n">num_total_tasks</span><span class="p">)</span> <span class="p">{</span>
-
-
-    <span class="c1">//</span>
-    <span class="c1">// TODO: CS149 students will modify the implementation of this</span>
-    <span class="c1">// method in Parts A and B.  The implementation provided below runs all</span>
-    <span class="c1">// tasks sequentially on the calling thread.</span>
-    <span class="c1">//</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_total_tasks</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">runnable</span><span class="o">-&gt;</span><span class="n">runTask</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">num_total_tasks</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1">// Two places to shcedule tasks and put tasks to ready_queue_ directly </span>
-<span class="c1">// or move tasks in task_queue_ to ready_queue_ at the start of runAsyncWithDeps call</span>
-<span class="c1">// or at threadTask where each TaskID is done</span>
-<span class="n">TaskID</span> <span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="o">::</span><span class="n">runAsyncWithDeps</span><span class="p">(</span><span class="n">IRunnable</span><span class="o">*</span> <span class="n">runnable</span><span class="p">,</span> <span class="kt">int</span> <span class="n">num_total_tasks</span><span class="p">,</span>
-                                                    <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">TaskID</span><span class="o">&gt;&amp;</span> <span class="n">deps</span><span class="p">)</span> <span class="p">{</span>
-
-    <span class="c1">//</span>
-    <span class="c1">// TODO: CS149 students will implement this method in Part B.</span>
-    <span class="c1">//</span>
-
-  <span class="n">mutex_</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span>
-  <span class="n">TaskID</span> <span class="n">new_task</span> <span class="o">=</span> <span class="n">task_dep_</span><span class="p">.</span><span class="n">GetNewTaskID</span><span class="p">();</span>
-  <span class="n">task_dep_</span><span class="p">.</span><span class="n">AddTaskDep</span><span class="p">(</span><span class="n">new_task</span><span class="p">,</span> <span class="n">deps</span><span class="p">,</span> <span class="n">runnable</span><span class="p">,</span> <span class="n">num_total_tasks</span><span class="p">);</span>
-  <span class="c1">// printf("task: %d dep count: %ld\n", new_task, deps.size());</span>
-  <span class="n">mutex_</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span>
-  <span class="n">cv_</span><span class="p">.</span><span class="n">notify_all</span><span class="p">();</span>
-
-
-  <span class="k">return</span> <span class="n">new_task</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="o">::</span><span class="n">sync</span><span class="p">()</span> <span class="p">{</span>
-
-    <span class="c1">//</span>
-    <span class="c1">// TODO: CS149 students will modify the implementation of this method in Part B.</span>
-    <span class="c1">//</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lock</span><span class="p">(</span><span class="n">mutex_</span><span class="p">);</span>
-  <span class="c1">// In case all threads atre put to sleep</span>
-
-
-  <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">ready_queue_</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">||</span> <span class="n">task_dep_</span><span class="p">.</span><span class="n">GetFinishedTaskCount</span><span class="p">()</span> <span class="o">!=</span> <span class="n">task_dep_</span><span class="p">.</span><span class="n">GetTotalTaskCount</span><span class="p">()</span>  <span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// printf("finished task count:%d, task_id:%d\n", finished_tasks_.load(), task_id_.load());</span>
-    <span class="n">cv_</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">lock</span><span class="p">);</span>
-    <span class="c1">// printf("finished task count:%d, task_id:%d\n", finished_tasks_.load(), task_id_.load());</span>
-  <span class="p">}</span>
-    <span class="k">return</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="n">TaskDep</span><span class="o">::</span><span class="n">TaskDep</span><span class="p">()</span> <span class="p">{</span>
-  <span class="n">task_id_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="n">finished_tasks_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="n">TaskID</span> <span class="n">TaskDep</span><span class="o">::</span><span class="n">GetNewTaskID</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="n">task_id_</span><span class="p">.</span><span class="n">fetch_add</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-
-<span class="p">}</span>
-
-<span class="kt">int</span> <span class="n">TaskDep</span><span class="o">::</span><span class="n">GetFinishedTaskCount</span><span class="p">()</span> <span class="k">const</span>  <span class="p">{</span>
-  <span class="k">return</span> <span class="n">finished_tasks_</span><span class="p">.</span><span class="n">load</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="n">TaskDep</span><span class="o">::</span><span class="n">FinishTask</span><span class="p">(</span><span class="n">TaskID</span> <span class="n">task_id</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">finished_task_ids_</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">task_id</span><span class="p">);</span>
-  <span class="n">finished_tasks_</span><span class="p">.</span><span class="n">fetch_add</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="kt">void</span> <span class="n">TaskSystemParallelThreadPoolSleeping</span><span class="o">::</span><span class="n">FinishOneSubTask</span><span class="p">(</span><span class="n">TaskID</span> <span class="n">task_id</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span><span class="p">(</span><span class="o">--</span><span class="n">taskid_remain_work_count_map_</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">==</span><span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// printf("task:%d finished\n", task_id);</span>
-    <span class="n">task_dep_</span><span class="p">.</span><span class="n">FinishTask</span><span class="p">(</span><span class="n">task_id</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kt">bool</span> <span class="n">TaskDep</span><span class="o">::</span><span class="n">CheckAndGetRunnableTasks</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">TaskID</span><span class="o">&gt;&amp;</span> <span class="n">tasks</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">TaskID</span><span class="o">&gt;</span> <span class="n">to_erase</span><span class="p">;</span>
-  <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="n">iter</span><span class="o">:</span> <span class="n">dependent_parents_</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">TaskID</span> <span class="n">child_task_id</span> <span class="o">=</span> <span class="n">iter</span><span class="p">.</span><span class="n">first</span><span class="p">;</span>
-    <span class="c1">// printf("child task id:%d\n", child_task_id  );</span>
-    <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="n">parent_it</span><span class="o">=</span><span class="n">iter</span><span class="p">.</span><span class="n">second</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">parent_it</span><span class="o">!=</span><span class="n">iter</span><span class="p">.</span><span class="n">second</span><span class="p">.</span><span class="n">end</span><span class="p">();){</span>
-      <span class="c1">// printf("   parent: %d, finished:%d\n", *parent_it, CheckTaskFinished(*parent_it));</span>
-      <span class="k">if</span><span class="p">(</span> <span class="n">CheckTaskFinished</span><span class="p">(</span><span class="o">*</span><span class="n">parent_it</span><span class="p">)){</span>
-        <span class="n">parent_it</span> <span class="o">=</span> <span class="n">iter</span><span class="p">.</span><span class="n">second</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">parent_it</span><span class="p">);</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="n">parent_it</span><span class="o">++</span><span class="p">;</span>  
-      <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="kt">bool</span> <span class="n">not_scheduled</span> <span class="o">=</span> <span class="n">scheduled_task_ids_</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">child_task_id</span><span class="p">)</span> <span class="o">==</span> <span class="n">scheduled_task_ids_</span><span class="p">.</span><span class="n">end</span><span class="p">()</span> <span class="p">;</span>
-    <span class="kt">bool</span> <span class="n">parents_empty</span> <span class="o">=</span><span class="n">dependent_parents_</span><span class="p">[</span><span class="n">child_task_id</span><span class="p">].</span><span class="n">empty</span><span class="p">();</span> 
-    <span class="k">if</span><span class="p">(</span><span class="n">not_scheduled</span> <span class="o">&amp;&amp;</span> <span class="n">parents_empty</span><span class="p">){</span>
-      <span class="n">scheduled_task_ids_</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">child_task_id</span><span class="p">);</span>
-      <span class="c1">// printf("new task schedule:%d\n", child_task_id);</span>
-      <span class="n">tasks</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">child_task_id</span><span class="p">);</span>
-      <span class="n">to_erase</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">child_task_id</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="k">for</span><span class="p">(</span><span class="n">TaskID</span> <span class="n">erase_id</span><span class="o">:</span> <span class="n">to_erase</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">dependent_parents_</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">erase_id</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="o">!</span><span class="n">tasks</span><span class="p">.</span><span class="n">empty</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="kt">bool</span> <span class="n">TaskDep</span><span class="o">::</span><span class="n">CheckTaskFinished</span><span class="p">(</span><span class="n">TaskID</span> <span class="n">task_id</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="n">finished_task_ids_</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">task_id</span><span class="p">)</span> <span class="o">!=</span> <span class="n">finished_task_ids_</span><span class="p">.</span><span class="n">end</span><span class="p">();</span>
-
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="n">TaskDep</span><span class="o">::</span><span class="n">GetTaskArg</span><span class="p">(</span><span class="n">TaskID</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">TaskArg</span><span class="o">&amp;</span> <span class="n">task_arg</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="n">ta</span> <span class="o">=</span> <span class="n">task_args_</span><span class="p">[</span><span class="n">task_id</span><span class="p">];</span>
-  <span class="n">task_arg</span><span class="p">.</span><span class="n">task_id</span> <span class="o">=</span> <span class="n">ta</span><span class="p">.</span><span class="n">task_id</span><span class="p">;</span>
-  <span class="n">task_arg</span><span class="p">.</span><span class="n">num_total_tasks</span> <span class="o">=</span> <span class="n">ta</span><span class="p">.</span><span class="n">num_total_tasks</span><span class="p">;</span>
-  <span class="n">task_arg</span><span class="p">.</span><span class="n">runnable</span> <span class="o">=</span> <span class="n">ta</span><span class="p">.</span><span class="n">runnable</span><span class="p">;</span>
-  <span class="n">task_arg</span><span class="p">.</span><span class="n">remain_dep_parent_task_count</span> <span class="o">=</span> <span class="n">ta</span><span class="p">.</span><span class="n">remain_dep_parent_task_count</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="n">TaskDep</span><span class="o">::</span><span class="n">AddTaskDep</span><span class="p">(</span><span class="n">TaskID</span> <span class="n">child</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">TaskID</span><span class="o">&gt;</span> <span class="n">deps</span><span class="p">,</span> <span class="n">IRunnable</span><span class="o">*</span> <span class="n">runnable</span><span class="p">,</span> <span class="kt">int</span> <span class="n">num_total_tasks</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">TaskArg</span> <span class="n">ta</span><span class="p">;</span>
-  <span class="n">ta</span><span class="p">.</span><span class="n">task_id</span> <span class="o">=</span> <span class="n">child</span><span class="p">;</span>
-  <span class="n">ta</span><span class="p">.</span><span class="n">remain_dep_parent_task_count</span> <span class="o">=</span> <span class="n">deps</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
-  <span class="n">ta</span><span class="p">.</span><span class="n">runnable</span> <span class="o">=</span> <span class="n">runnable</span><span class="p">;</span>
-  <span class="n">ta</span><span class="p">.</span><span class="n">num_total_tasks</span> <span class="o">=</span> <span class="n">num_total_tasks</span><span class="p">;</span>
-  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">deps</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
-  <span class="k">for</span><span class="p">(</span><span class="n">TaskID</span> <span class="n">task_id</span><span class="o">:</span> <span class="n">deps</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">dependent_parents_</span><span class="p">[</span><span class="n">child</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">task_id</span><span class="p">);</span>
-  <span class="p">}</span>
-
-  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="n">dependent_parents_</span><span class="p">[</span><span class="n">child</span><span class="p">]</span> <span class="o">=</span> <span class="p">{};</span>
-  <span class="p">}</span>
-  <span class="n">task_args_</span><span class="p">[</span><span class="n">child</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="p">;</span>
-
-<span class="p">}</span>
-</code></pre></div></div> <p>Notice the difference between code below</p> <p>The first piece of code would not work because it creates a copy of the elements of dependent_parents_</p> <p>so <code class="language-plaintext highlighter-rouge">dependent_parents_[child_task_id].empty()</code> would always return false</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  for(auto iter: dependent_parents_) {
-
-    if(scheduled_task_ids_.find(child_task_id) == scheduled_task_ids_.end() &amp;&amp;dependent_parents_[child_task_id].empty()){
-      scheduled_task_ids_.insert(child_task_id);
-      printf("new task schedule:%d\n", child_task_id);
-      tasks.emplace_back(child_task_id);
-      to_erase.emplace_back(child_task_id);
-      // dependent_parents_.erase(child_task_id);
-    }
-</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  for(auto &amp;iter: dependent_parents_) {
-
-    if(scheduled_task_ids_.find(child_task_id) == scheduled_task_ids_.end() &amp;&amp;dependent_parents_[child_task_id].empty()){
-      scheduled_task_ids_.insert(child_task_id);
-      printf("new task schedule:%d\n", child_task_id);
-      tasks.emplace_back(child_task_id);
-      to_erase.emplace_back(child_task_id);
-      // dependent_parents_.erase(child_task_id);
-    }
-</code></pre></div></div> <p>Result:</p> <p>Not good. I think it’s because I wake up threads frequently.</p> <p>Try to reduce wake up time.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Executing test: super_super_light_async...
-Reference binary: ./runtasks_ref_linux
-Results for: super_super_light_async
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                8.706     12.433      0.70  (OK)
-[Parallel + Always Spawn]               8.406     56.047      0.15  (OK)
-[Parallel + Thread Pool + Spin]         8.27      25.412      0.33  (OK)
-[Parallel + Thread Pool + Sleep]        224.619   24.681      9.10  (NOT OK)
-
-================================================================================
-
-Executing test: super_light_async...
-Reference binary: ./runtasks_ref_linux
-Results for: super_light_async
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                82.485    95.578      0.86  (OK)
-[Parallel + Always Spawn]               81.039    81.133      1.00  (OK)
-[Parallel + Thread Pool + Spin]         81.268    34.526      2.35  (NOT OK)
-[Parallel + Thread Pool + Sleep]        408.665   31.755      12.87  (NOT OK)
-
-================================================================================
-Executing test: ping_pong_equal_async...
-Reference binary: ./runtasks_ref_linux
-Results for: ping_pong_equal_async
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                1313.035  1542.283    0.85  (OK)
-[Parallel + Always Spawn]               1309.708  701.653     1.87  (NOT OK)
-[Parallel + Thread Pool + Spin]         1313.704  227.62      5.77  (NOT OK)
-[Parallel + Thread Pool + Sleep]        778.308   224.776     3.46  (NOT OK)
-================================================================================
-
-Executing test: ping_pong_unequal_async...
-Reference binary: ./runtasks_ref_linux
-Results for: ping_pong_unequal_async
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                2446.194  2402.307    1.02  (OK)
-[Parallel + Always Spawn]               2456.503  976.121     2.52  (NOT OK)
-[Parallel + Thread Pool + Spin]         2454.091  332.344     7.38  (NOT OK)
-[Parallel + Thread Pool + Sleep]        506.64    330.938     1.53  (NOT OK)
-================================================================================
-
-Executing test: recursive_fibonacci_async...
-Reference binary: ./runtasks_ref_linux
-Results for: recursive_fibonacci_async
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                1310.101  1946.319    0.67  (OK)
-[Parallel + Always Spawn]               1303.736  505.253     2.58  (NOT OK)
-[Parallel + Thread Pool + Spin]         1306.294  261.702     4.99  (NOT OK)
-[Parallel + Thread Pool + Sleep]        186.681   264.498     0.71  (OK)
-================================================================================
-
-Executing test: math_operations_in_tight_for_loop_async...
-Reference binary: ./runtasks_ref_linux
-Results for: math_operations_in_tight_for_loop_async
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                821.415   854.457     0.96  (OK)
-[Parallel + Always Spawn]               822.081   697.755     1.18  (OK)
-[Parallel + Thread Pool + Spin]         817.92    149.114     5.49  (NOT OK)
-[Parallel + Thread Pool + Sleep]        7622.159  148.934     51.18  (NOT OK)
-================================================================================
-Executing test: math_operations_in_tight_for_loop_reduction_tree_async...
-Reference binary: ./runtasks_ref_linux
-Results for: math_operations_in_tight_for_loop_reduction_tree_async
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                419.026   439.384     0.95  (OK)
-[Parallel + Always Spawn]               418.167   141.737     2.95  (NOT OK)
-[Parallel + Thread Pool + Spin]         418.431   72.123      5.80  (NOT OK)
-[Parallel + Thread Pool + Sleep]        70.724    71.191      0.99  (OK)
-================================================================================
-</code></pre></div></div> <h3 id="reduce-run-time">Reduce run time</h3> <p>Another change I want to make is that I can only schedule tasks at the begining of run call or when a task is finished. This means that there will be less check to get runnable task.</p> <p>Because there are only places where task is scheduled and they are</p> <ol> <li>The task is first inserted to system</li> <li>Another task is finished.</li> </ol> <p>Two possible state of parent task.</p> <ol> <li> <p>The parent task is finished. For this, we can erase the task dependency for child task when the child task is submitted.</p> </li> <li> <p>The parent task is not finished. For this, when parent task is finished, it will talk with task manager and tell it to erase parent task from taske dependency structure.</p> </li> </ol> <p>For both situation, check if child task can be scheduled.</p> <p>Code:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>TaskDep::TaskDep() {
-  task_id_ = 0;
-  finished_tasks_ = 0;
-}
-TaskID TaskDep::GetNewTaskID() {
-  return task_id_.fetch_add(1);
-
-}
-
-int TaskDep::GetFinishedTaskCount() const  {
-  return finished_tasks_.load();
-}
-
-void TaskDep::FinishTask(TaskID task_id, std::vector&lt;TaskID&gt;&amp; children_tasks) {
-  finished_task_ids_.insert(task_id);
-  finished_tasks_.fetch_add(1);
-  // remove this parent from all of its children.
-  for(TaskID child_task_id: dependent_children_[task_id] ) {
-    dependent_parents_[child_task_id].erase(task_id);
-    // If child has no parent dependency , we change schedule it
-    if(dependent_parents_[child_task_id].empty()) {
-      children_tasks.emplace_back(child_task_id);
-    }
-    // if(dependent_children_[child_task_id].find(task_id) != dependent_children_[child_task_id].end()) {
-    //   dependent_children_[child_task_id].erase(task_id);
-    // }
-    // if(dependent_parents_[child_task_id].empty()) {
-    //   children_tasks.emplace_back(child_task_id);
-    // }
-
-  }
-}
-bool TaskSystemParallelThreadPoolSleeping::FinishOneSubTask(TaskID task_id, std::vector&lt;TaskID&gt;&amp; children_tasks) {
-  if(--taskid_remain_work_count_map_[task_id] ==0 ) {
-    // printf("task:%d finished\n", task_id);
-    task_dep_.FinishTask(task_id, children_tasks);
-    return true;
-    }
-  return false; 
-}
-
-bool TaskDep::CheckAndGetRunnableTasks(std::vector&lt;TaskID&gt;&amp; tasks) {
-  std::vector&lt;TaskID&gt; to_erase;
-  for(auto &amp;iter: dependent_parents_) {
-    TaskID child_task_id = iter.first;
-    // printf("child task id:%d\n", child_task_id  );
-    for(auto parent_it=iter.second.begin(); parent_it!=iter.second.end();){
-      // printf("   parent: %d, finished:%d\n", *parent_it, CheckTaskFinished(*parent_it));
-      if( CheckTaskFinished(*parent_it)){
-        parent_it = iter.second.erase(parent_it);
-      } else {
-        parent_it++;  
-      }
-    }
-    bool not_scheduled = scheduled_task_ids_.find(child_task_id) == scheduled_task_ids_.end() ;
-    bool parents_empty =dependent_parents_[child_task_id].empty(); 
-    if(not_scheduled &amp;&amp; parents_empty){
-      scheduled_task_ids_.insert(child_task_id);
-      // printf("new task schedule:%d\n", child_task_id);
-      tasks.emplace_back(child_task_id);
-      to_erase.emplace_back(child_task_id);
-    }
-  }
-  for(TaskID erase_id: to_erase) {
-    dependent_parents_.erase(erase_id);
-  }
-  return !tasks.empty();
-}
-
-bool TaskDep::CheckTaskFinished(TaskID task_id) {
-  return finished_task_ids_.find(task_id) != finished_task_ids_.end();
-
-}
-
-void TaskDep::GetTaskArg(TaskID task_id, TaskArg&amp; task_arg) {
-  const auto&amp; ta = task_args_[task_id];
-  task_arg.task_id = ta.task_id;
-  task_arg.num_total_tasks = ta.num_total_tasks;
-  task_arg.runnable = ta.runnable;
-  task_arg.remain_dep_parent_task_count = ta.remain_dep_parent_task_count;
-}
-
-void TaskDep::AddTaskDep(TaskID child, std::vector&lt;TaskID&gt; deps, IRunnable* runnable, int num_total_tasks) {
-  TaskArg ta;
-  ta.task_id = child;
-  ta.remain_dep_parent_task_count = deps.size();
-  ta.runnable = runnable;
-  ta.num_total_tasks = num_total_tasks;
-  if(!deps.empty()) {
-  for(TaskID task_id: deps) {
-    dependent_parents_[child].insert(task_id);
-    dependent_children_[task_id].insert(child);
-  }
-
-  } else {
-    dependent_parents_[child] = {};
-  }
-  task_args_[child] = ta;
-
-}
-void TaskSystemParallelThreadPoolSleeping::threadTask( ) {
-  std::unique_lock&lt;std::mutex&gt; lock(mutex_);
-  std::vector&lt;TaskID&gt; tasks;
-  bool get_new_tasks_to_run = false;
-    while(!done_ || !ready_queue_.empty() ) {
-    threadArg arg ; 
-    bool get_task = false;
-    if(!ready_queue_.empty()) {
-      arg = ready_queue_.front();
-      ready_queue_.pop_front();
-      get_task = true;
-      // printf("get task\n");
-    } else {
-      // printf("wait task\n");
-      cv_.wait(lock);
-      // cv_.wait(lock, [this]{return !ready_queue_.empty() || done_ ;});
-    }
-    lock.unlock();
-    if(get_task) {
-      int task_thread_id = arg.task_thread_id;
-      int task_id = arg.task_id;
-      bool cur_task_finished = false;
-      std::vector&lt;TaskID&gt; children_task_to_schedule;
-      arg.runnable-&gt;runTask(task_thread_id, arg.num_total_tasks);
-      {
-        std::unique_lock&lt;std::mutex&gt; inner_lock(mutex_);
-        // printf("taskid: %d, thread_id: %d finished\n", task_id, task_thread_id);
-        cur_task_finished = FinishOneSubTask(task_id, children_task_to_schedule);
-        if(!children_task_to_schedule.empty()) {
-          for(TaskID child_task_id: children_task_to_schedule){
-            ScheduleTaskToReadyQueue(child_task_id);
-            // Is sthis ok ?
-            // cv_.notify_all();
-          }
-        }
-      }
-      // Move notify_all out of mutex scope so that 
-      // other threads can wake up and do some work
-      // if(!ready_queue_.empty()  ) {
-      // }
-      if(!children_task_to_schedule.empty() || wait_sync_.load()) {
-        cv_.notify_all();
-      }
-    }
-    lock.lock();
-  }
-}
-
-// bool TaskSystemParallelThreadPoolSleeping::CheckTaskAndMoveToReadyQueue() {
-//   std::vector&lt;TaskID&gt; tasks;
-//     bool get_new_tasks_to_run = task_dep_.CheckAndGetRunnableTasks(tasks);
-//     for(TaskID task_id: tasks) {
-//       ScheduleTaskToReadyQueue(task_id);
-//     }
-//     // tasks.clear();
-//   return get_new_tasks_to_run;
-
-// }
-// Prerequisite: mutex_ is held
-void  TaskSystemParallelThreadPoolSleeping::ScheduleTaskToReadyQueue(TaskID task_id) {
-  TaskArg task_arg;
-  task_dep_.GetTaskArg(task_id, task_arg);
-  bool not_scheduled = scheduled_task_ids_.find(task_id) == scheduled_task_ids_.end() ;
-  if(not_scheduled  ){
-    scheduled_task_ids_.insert(task_id);
-    // printf("new task schedule:%d\n", child_task_id);
-    // to_erase.emplace_back(child_task_id);
-  }
-  for(int i=0; i &lt; task_arg.num_total_tasks; i++) {
-    threadArg ta(i, task_arg.num_total_tasks, task_arg.runnable, task_id);
-    taskid_remain_work_count_map_[task_id] = task_arg.num_total_tasks;
-    ready_queue_.emplace_back(ta);
-  }
-
-}
-const char* TaskSystemParallelThreadPoolSleeping::name() {
-    return "Parallel + Thread Pool + Sleep";
-}
-
-TaskSystemParallelThreadPoolSleeping::TaskSystemParallelThreadPoolSleeping(int num_threads): ITaskSystem(num_threads) {
-    //
-    // TODO: CS149 student implementations may decide to perform setup
-    // operations (such as thread pool construction) here.
-    // Implementations are free to add new class member variables
-    // (requiring changes to tasksys.h).
-    //
-  done_ = false;
-  // task_id_ = 0;
-  num_threads_ = num_threads;
-  // finished_tasks_ = 0;
-  for(int i=0; i &lt; num_threads_; i++) {
-    workers_.emplace_back([this]{
-      this-&gt;threadTask();
-    });
-  }
-}
-
-TaskSystemParallelThreadPoolSleeping::~TaskSystemParallelThreadPoolSleeping() {
-    //
-    // TODO: CS149 student implementations may decide to perform cleanup
-    // operations (such as thread pool shutdown construction) here.
-    // Implementations are free to add new class member variables
-    // (requiring changes to tasksys.h).
-    //
-  std::unique_lock&lt;std::mutex&gt; lock(mutex_);
-  done_=true;
-  lock.unlock();
-  cv_.notify_all();
-  // printf("destructor\n");
-  for(int i=0; i &lt; workers_.size(); i++) {
-    // cv_.notify_all();
-    if(workers_[i].joinable()) {
-      workers_[i].join();
-    }
-  }
-  // printf("exit\n");
-}
-
-void TaskSystemParallelThreadPoolSleeping::run(IRunnable* runnable, int num_total_tasks) {
-
-
-    //
-    // TODO: CS149 students will modify the implementation of this
-    // method in Parts A and B.  The implementation provided below runs all
-    // tasks sequentially on the calling thread.
-    //
-
-    for (int i = 0; i &lt; num_total_tasks; i++) {
-        runnable-&gt;runTask(i, num_total_tasks);
-    }
-}
-
-// Two places to shcedule tasks and put tasks to ready_queue_ directly 
-// or move tasks in task_queue_ to ready_queue_ at the start of runAsyncWithDeps call
-// or at threadTask where each TaskID is done
-TaskID TaskSystemParallelThreadPoolSleeping::runAsyncWithDeps(IRunnable* runnable, int num_total_tasks,
-                                                    const std::vector&lt;TaskID&gt;&amp; deps) {
-
-    //
-    // TODO: CS149 students will implement this method in Part B.
-    //
-
-  mutex_.lock();
-  TaskID new_task = task_dep_.GetNewTaskID();
-  printf("task: %d dep count: %ld, dep id:%d\n", new_task, deps.size(), deps.empty() ? 0 : deps[0]);
-  // CheckTaskAndMoveToReadyQueue();
-  std::vector&lt;TaskID&gt; new_deps;
-  for(TaskID parent_task_id: deps) {
-    if(!task_dep_.CheckTaskFinished(parent_task_id)) {
-      new_deps.emplace_back(parent_task_id);
-
-    }
-  }
-  task_dep_.AddTaskDep(new_task, new_deps, runnable, num_total_tasks);
-  bool scheduled = false;
-  if(new_deps.empty()) {
-    ScheduleTaskToReadyQueue(new_task);
-    scheduled = true;
-  } 
-  mutex_.unlock();
-  if(scheduled) {
-    cv_.notify_all();
-  }
-
-
-  return new_task;
-}
-
-void TaskSystemParallelThreadPoolSleeping::sync() {
-
-    //
-    // TODO: CS149 students will modify the implementation of this method in Part B.
-    //
-  std::unique_lock&lt;std::mutex&gt; lock(mutex_);
-  // In case all threads atre put to sleep
-
-  wait_sync_.store(true);
-
-  while(!ready_queue_.empty() || task_dep_.GetFinishedTaskCount() != task_dep_.GetTotalTaskCount()  ) {
-    // printf("finished task count:%d, task_id:%d\n", finished_tasks_.load(), task_id_.load());
-    cv_.wait(lock);
-    // printf("finished task count:%d, task_id:%d\n", task_dep_.GetFinishedTaskCount(), task_dep_.GetTotalTaskCount());
-  }
-  wait_sync_.store(false);
-    return;
-}
-</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class TaskDep{
-public:
-  TaskDep();
-  void AddTaskDep(TaskID child, std::vector&lt;TaskID&gt; deps, IRunnable* runnable, int num_total_tasks);
-  // Who is responsible for call this function?
-  // I guess we should just iterate all task_id to see 
-  // if we can schedule them.
-  // void CheckAndRemoveDep(TaskID child_task_id);
-  void FinishTask(TaskID task_id, std::vector&lt;TaskID&gt;&amp; children_tasks);
-  TaskID GetNewTaskID();
-  int GetFinishedTaskCount() const ;
-  int GetTotalTaskCount() const { return task_id_.load();}
-  bool CheckTaskFinished(TaskID task_id);
-  bool CheckAndGetRunnableTasks(std::vector&lt;TaskID&gt;&amp; tasks);
-  bool HasTaskToSchedule() const { return !dependent_parents_.empty();}
-  void GetTaskArg(TaskID task_id, TaskArg&amp; task_arg);
-
-private:
-  std::atomic&lt;TaskID&gt; task_id_;
-  std::unordered_map&lt;TaskID, std::unordered_set&lt;TaskID&gt;&gt; dependent_parents_;
-  std::unordered_map&lt;TaskID, std::unordered_set&lt;TaskID&gt;&gt; dependent_children_;
-  std::unordered_set&lt;TaskID&gt; finished_task_ids_;
-  std::unordered_set&lt;TaskID&gt; scheduled_task_ids_;
-  std::unordered_map&lt;TaskID, TaskArg&gt; task_args_;
-  std::atomic&lt;int&gt; finished_tasks_;
-
- 
-};
-/*
- * TaskSystemParallelThreadPoolSleeping: This class is the student's
- * optimized implementation of a parallel task execution engine that uses
- * a thread pool. See definition of ITaskSystem in
- * itasksys.h for documentation of the ITaskSystem interface.
- */
-class TaskSystemParallelThreadPoolSleeping: public ITaskSystem {
-    public:
-        TaskSystemParallelThreadPoolSleeping(int num_threads);
-        ~TaskSystemParallelThreadPoolSleeping();
-        const char* name();
-        void run(IRunnable* runnable, int num_total_tasks);
-        TaskID runAsyncWithDeps(IRunnable* runnable, int num_total_tasks,
-                                const std::vector&lt;TaskID&gt;&amp; deps);
-        void sync();
-
-private:
-  void threadTask( );
-
-  bool FinishOneSubTask(TaskID task_id, std::vector&lt;TaskID&gt;&amp; children_task) ;
-  void ScheduleTaskToReadyQueue(TaskID task_id);
-  std::vector&lt;std::thread&gt; workers_;
-  int num_threads_;
-  bool done_;
-  std::atomic&lt;bool&gt; wait_sync_;
-  std::mutex mutex_;
-  std::condition_variable cv_;
-  std::deque&lt;threadArg&gt; ready_queue_;
-  std::unordered_map&lt;TaskID, int&gt; taskid_remain_work_count_map_;
-  std::unordered_set&lt;TaskID&gt; scheduled_task_ids_;
-  TaskDep task_dep_;
-
-
-};
-
-
-</code></pre></div></div> <p>Test Output:</p> <p>Run time is reduced a lot compared to previsou frequent wake up call.</p> <p>But it still does not have similar run time in some case compared to reference implemntation.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Executing test: super_super_light_async...
-Reference binary: ./runtasks_ref_linux
-Results for: super_super_light_async
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                8.756     12.191      0.72  (OK)
-[Parallel + Always Spawn]               8.429     55.629      0.15  (OK)
-[Parallel + Thread Pool + Spin]         8.556     26.492      0.32  (OK)
-[Parallel + Thread Pool + Sleep]        30.866    15.692      1.97  (NOT OK)
-================================================================================
-Executing test: super_light_async...
-Reference binary: ./runtasks_ref_linux
-Results for: super_light_async
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                81.03     95.452      0.85  (OK)
-[Parallel + Always Spawn]               79.448    80.543      0.99  (OK)
-[Parallel + Thread Pool + Spin]         80.317    30.917      2.60  (NOT OK)
-[Parallel + Thread Pool + Sleep]        37.437    28.054      1.33  (NOT OK)
-================================================================================
-
-Executing test: ping_pong_equal_async...
-Reference binary: ./runtasks_ref_linux
-Results for: ping_pong_equal_async
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                1294.45   1544.952    0.84  (OK)
-[Parallel + Always Spawn]               1296.49   662.509     1.96  (NOT OK)
-[Parallel + Thread Pool + Spin]         1293.489  226.582     5.71  (NOT OK)
-[Parallel + Thread Pool + Sleep]        193.945   224.466     0.86  (OK)
-================================================================================
-
-Executing test: ping_pong_unequal_async...
-Reference binary: ./runtasks_ref_linux
-Results for: ping_pong_unequal_async
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                2429.01   2399.749    1.01  (OK)
-[Parallel + Always Spawn]               2407.208  1001.25     2.40  (NOT OK)
-[Parallel + Thread Pool + Spin]         2417.762  334.029     7.24  (NOT OK)
-[Parallel + Thread Pool + Sleep]        344.299   328.969     1.05  (OK)
-
-================================================================================
-Executing test: recursive_fibonacci_async...
-Reference binary: ./runtasks_ref_linux
-Results for: recursive_fibonacci_async
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                1581.684  1939.945    0.82  (OK)
-[Parallel + Always Spawn]               1585.249  556.636     2.85  (NOT OK)
-[Parallel + Thread Pool + Spin]         1584.694  258.648     6.13  (NOT OK)
-[Parallel + Thread Pool + Sleep]        220.133   254.85      0.86  (OK)
-
-================================================================================
-Executing test: math_operations_in_tight_for_loop_async...
-Reference binary: ./runtasks_ref_linux
-Results for: math_operations_in_tight_for_loop_async
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                808.41    856.84      0.94  (OK)
-[Parallel + Always Spawn]               811.738   693.496     1.17  (OK)
-[Parallel + Thread Pool + Spin]         808.998   145.345     5.57  (NOT OK)
-[Parallel + Thread Pool + Sleep]        152.518   142.003     1.07  (OK)
-================================================================================
-
-Executing test: math_operations_in_tight_for_loop_fewer_tasks_async...
-Reference binary: ./runtasks_ref_linux
-Results for: math_operations_in_tight_for_loop_fewer_tasks_async
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                812.784   858.997     0.95  (OK)
-[Parallel + Always Spawn]               812.874   811.4       1.00  (OK)
-[Parallel + Thread Pool + Spin]         810.69    126.379     6.41  (NOT OK)
-[Parallel + Thread Pool + Sleep]        122.005   126.256     0.97  (OK)
-================================================================================
-
-Executing test: math_operations_in_tight_for_loop_fan_in_async...
-Reference binary: ./runtasks_ref_linux
-Results for: math_operations_in_tight_for_loop_fan_in_async
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                417.681   435.005     0.96  (OK)
-[Parallel + Always Spawn]               413.541   244.769     1.69  (NOT OK)
-[Parallel + Thread Pool + Spin]         413.021   75.503      5.47  (NOT OK)
-[Parallel + Thread Pool + Sleep]        73.391    65.41       1.12  (OK)
-================================================================================
-
-Executing test: math_operations_in_tight_for_loop_reduction_tree_async...
-Reference binary: ./runtasks_ref_linux
-Results for: math_operations_in_tight_for_loop_reduction_tree_async
-                                        STUDENT   REFERENCE   PERF?
-[Serial]                                413.848   438.395     0.94  (OK)
-[Parallel + Always Spawn]               414.925   195.032     2.13  (NOT OK)
-[Parallel + Thread Pool + Spin]         414.513   72.565      5.71  (NOT OK)
-[Parallel + Thread Pool + Sleep]        59.153    65.233      0.91  (OK)
-================================================================================
-</code></pre></div></div> <p>So we can get rid of checking each tasks every time to see if it can be scheduled and put to ready queue.</p> <p>My code does not has comparable result compared to ref for super_light_async and super_super_light_async .</p> <p>I think this is because there is still opt space to reduce wake up frequency..</p> <p>I decide to move on with assign3 of cs149 and just leave the current code as it is.</p> <p>Just don’t want to spend time on this and want to spend time on learning some cuda writing.</p> <h3 id="side-knowkedge-buffering-in-python-command">Side knowkedge: buffering in python command</h3> <p><strong>Prompt ** why I don’t see any output from this command but when I remove | tee ./test.out there is output <br/><br/> python3 ../tests/run_test_harness.py -n 8 -a 2&gt;&amp;1 | tee ./test.out **Response</strong> The issue you’re encountering is likely due to buffering. When you use <code class="language-plaintext highlighter-rouge">tee</code> to redirect output to a file, the output may be buffered, causing it not to appear immediately on the screen.</p> <h3 id="explanation">Explanation:</h3> <ul> <li><strong>Without <code class="language-plaintext highlighter-rouge">tee</code></strong>: The output is directly sent to the terminal, and you see it immediately.</li> <li><strong>With <code class="language-plaintext highlighter-rouge">tee</code></strong>: The output is first written to a buffer, which is then written to the file and the terminal. This buffering can delay the appearance of the output.</li> </ul> <h3 id="solution">Solution:</h3> <p>You can use the <code class="language-plaintext highlighter-rouge">-u</code> option with <code class="language-plaintext highlighter-rouge">python3</code> to force the standard streams to be unbuffered. This will ensure that the output appears immediately.</p> <p>Revised command:</p> <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 <span class="nt">-u</span> ../tests/run_test_harness.py <span class="nt">-n</span> 8 <span class="nt">-a</span> 2&gt;&amp;1 | <span class="nb">tee</span> ./test.out
-</code></pre></div></div> <p>This should resolve the issue and allow you to see the output in real-time while still writing it to <code class="language-plaintext highlighter-rouge">test.out</code>.</p>]]></content><author><name></name></author><category term="parallel"/><category term="programming"/><category term="parallel"/><category term="programming"/><summary type="html"><![CDATA[Thread pool for task scheduling]]></summary></entry><entry><title type="html">Stf CS149 Parallel Programming - Lecture 7 - Cuda programming model</title><link href="https://bilyz98.github.io/blog/2024/cs149-lecture7-cuda/" rel="alternate" type="text/html" title="Stf CS149 Parallel Programming - Lecture 7 - Cuda programming model"/><published>2024-10-26T11:59:00+00:00</published><updated>2024-10-26T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/cs149-lecture7-cuda</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/cs149-lecture7-cuda/"><![CDATA[<p><a href="https://gfxcourses.stanford.edu/cs149/fall23/lecture/gpucuda/">Lecture 7 slides</a></p> <p><a href="https://www.youtube.com/watch?v=qQTDF0CBoxE&amp;list=PLoROMvodv4rMp7MTFr4hQsDEcX7Bx6Odp&amp;index=7&amp;pp=iAQB">Video lecture</a></p> <h2 id="cuda-programming-model--abstraction-">CUDA programming model ( abstraction )</h2> <p>Three execution unit and memory address</p> <ol> <li>thread</li> <li>thread block</li> <li>cuda kernel</li> </ol> <p>A thread block contains bunch of threads.</p> <p>A cuda kernal contains all the thread blocks.</p> <p>Memory address space</p> <ol> <li>Each thread has its own memory address space</li> <li>Each thread block has its own shared memory address space for all threads in the thread block</li> <li>All threads across all thread blocks share a process memory address space</li> </ol> <p><img src="https://github.com/user-attachments/assets/851fe0f2-52ec-4b7b-8a23-d3870982c520" alt="image"/></p> <p>Why this 3 level hierachy adress space ? For efficient memory access when threads in thread block are scheduled in the same core.</p> <h2 id="nvidia-gpu-implementation">Nvidia gpu (implementation)</h2> <p>A warp in nvidia gpu is a gropu of 32 threads in thread block. <img src="https://github.com/user-attachments/assets/e2f4aa55-103c-404b-828b-28d693b9c72b" alt="image"/></p> <p>Different CUDA thread has it own PC(Program counter) even though they are in the same warp.</p> <p>However, since all threads in the same warp is likely to execute the same code and same instructions it effectively looks like that there are only 4 unique PCs even though in reality there are 4 * 32 = 128 PCs.</p> <p>Difference between warp and thread block.</p> <p>A thread block is an programming model abstraction.</p> <p>A warp in hardware implementation.</p> <p>Both represent the concept of group of threads .</p> <p>sub-core has 4 warp in the diagram below.</p> <p>Each SM(streaming multi-processor) has 4 sub-core.</p> <p>V100 has 80 SMs in total.</p> <p>For V100, each SM(streaming multi-processor) has 4 sub-cores. <img src="https://github.com/user-attachments/assets/dbca936d-0da6-42fa-82d9-ceaf3d91596d" alt="image"/></p> <p>Instruction execution.</p> <p>Since we have more execution context than ALUs, each instructions is finished half of the work in one cycle and another half of the work in the next cycle.</p> <p><img src="https://github.com/user-attachments/assets/0531761c-6aef-437d-814a-095990d67950" alt="image"/></p>]]></content><author><name></name></author><category term="parallel"/><category term="programming"/><category term="parallel"/><category term="programming"/><summary type="html"><![CDATA[Lecture 7 slides]]></summary></entry></feed>
+</code></pre></div></div>]]></content><author><name></name></author><category term="parallel"/><category term="programming"/><category term="parallel"/><category term="programming"/><summary type="html"><![CDATA[Part1 Code: saxpy serial cpu output from assign1 prog5: (base) ➜ prog5_saxpy git:(master) ✗ ./saxpy [saxpy serial]: [20.605] ms [14.464] GB/s [1.941] GFLOPS [saxpy ispc]: [17.866] ms [16.681] GB/s [2.239] GFLOPS [saxpy task ispc]: [3.122] ms [95.446] GB/s [12.810] GFLOPS (5.72x speedup from use of tasks)]]></summary></entry><entry><title type="html">Stf CS149 Parallel Programming - Lecture11 - Cache coherence</title><link href="https://bilyz98.github.io/blog/2024/cs149-lecture11-cache-coherence/" rel="alternate" type="text/html" title="Stf CS149 Parallel Programming - Lecture11 - Cache coherence"/><published>2024-11-01T11:59:00+00:00</published><updated>2024-11-01T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/cs149-lecture11-cache-coherence</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/cs149-lecture11-cache-coherence/"><![CDATA[<h2 id="lecture-11-cache-coherence">Lecture 11: Cache coherence</h2> <p>Cache takes large amount of area in the chip</p> <p>Cache bring performance boosting.</p> <p>Two locality of data access pattern so that cache can help with performance.</p> <ol> <li>Spatial locality</li> <li>Temporal locality</li> </ol> <p>Cache and cacheline in cpu. Usually a single cacheline contains multiple cache bytes(64bytes which can store 8 int for example ).</p> <p>What is the problem with a shared cache processor design?</p> <p>The scalability is the problem.</p> <p>The cache bus has bandwidth limit..</p> <p>A shared cache avoid the cache coherence problem but each write to a memory address will be broadcasted to other cores which waste bandwidth of bus.</p> <p>Shared cache contention example:</p> <p>Imagine you have a multi-core processor where two cores, Core 0 and Core 1, share the same Last Level Cache (LLC). If both cores are running different applications that frequently access and modify data stored in the shared cache, they will compete for the cache’s resources. This competition can lead to contention.</p> <p>For instance, consider two applications, App A and App B, running on Core 0 and Core 1, respectively. Both applications need to access large datasets that do not fit entirely in the cache. As App A accesses its data, it loads cache lines into the LLC, potentially evicting cache lines that App B needs. When App B tries to access its data, it may find that the required cache lines have been evicted by App A, causing cache misses and forcing App B to fetch the data from the slower main memory¹.</p> <p>This back-and-forth eviction and reloading of cache lines between the two applications degrade their performance compared to a scenario where each application has its own private cache¹.</p> <p>(2) 250P: Computer Systems Architecture Lecture 10: Caches - University of Utah. https://users.cs.utah.edu/~aburtsev/250P/2019fall/lectures/lecture10-caches/lecture10-caches.pdf.</p> <h3 id="constructive-and-destructive-interference">constructive and destructive interference</h3> <p>In the context of CPU caches, <strong>constructive interference</strong> and <strong>destructive interference</strong> refer to the effects of multiple processors accessing shared cache lines.</p> <h3 id="constructive-interference">Constructive Interference</h3> <p>Constructive interference occurs when multiple processors access the same data in a shared cache, leading to improved performance. For example, if one processor loads data into the shared cache that another processor also needs, the second processor can access this data quickly without having to fetch it from the slower main memory. This reduces cache misses and improves overall efficiency².</p> <h3 id="destructive-interference">Destructive Interference</h3> <p>Destructive interference, on the other hand, happens when multiple processors access different data that map to the same cache line, causing conflicts. This can lead to frequent cache line invalidations and reloads, increasing the number of cache misses and degrading performance. For instance, if two processors continuously overwrite each other’s data in the same cache line, they will experience higher latency due to the constant need to fetch data from the main memory².</p> <p>These concepts are crucial in designing efficient cache systems for multi-core processors, as they highlight the trade-offs between shared and private caches and the importance of cache coherence protocols.</p>]]></content><author><name></name></author><category term="parallel"/><category term="programming"/><category term="parallel"/><category term="programming"/><summary type="html"><![CDATA[Lecture 11: Cache coherence]]></summary></entry><entry><title type="html">Stf CS149 Parallel Programming - Lecture 5&amp;amp;6 - Performance optimization</title><link href="https://bilyz98.github.io/blog/2024/stf-cs149-lecture-takeaway/" rel="alternate" type="text/html" title="Stf CS149 Parallel Programming - Lecture 5&amp;amp;6 - Performance optimization"/><published>2024-10-26T11:59:00+00:00</published><updated>2024-10-26T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/stf-cs149-lecture-takeaway</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/stf-cs149-lecture-takeaway/"><![CDATA[<h2 id="lecture-5">Lecture 5</h2> <p><a href="https://youtu.be/mmO2Ri_dJkk?si=CCG3Tf9dDYZiExq6">Video</a> Deciding granularity is important for dynamic scheduling in parallel programming.</p> <p>Small granularity leads to better workload distribution but comes with higher synchronization overhead.</p> <h2 id="lecture-6">Lecture 6</h2> <p>Performance optimization: locality, communication and contention.</p> <p>Reduce costs of communication between:</p> <ol> <li>processors.</li> <li>between processors and memory.</li> </ol> <p>Shared memory communication. Numa: non-uniform memory access</p> <p>Message passing blocking send and non-blocking send</p> <p>Reduce communication is important to achieve max utilization of cpu. Just to keep cpu busy</p> <p>Roofline model: <img src="https://github.com/user-attachments/assets/da01cc6b-a009-4b49-a306-c72940b89eaf" alt="image"/></p> <p>To achieve maximum computation throughput GFLOPS/s of cpu or gpus one has to have algorithm that has high operation intensity -&gt; high flops/bytes.</p> <p>Need to has many computation per byte access unit.</p>]]></content><author><name></name></author><category term="parallel"/><category term="programming"/><category term="parallel"/><category term="programming"/><summary type="html"><![CDATA[Lecture 5 Video Deciding granularity is important for dynamic scheduling in parallel programming.]]></summary></entry></feed>
