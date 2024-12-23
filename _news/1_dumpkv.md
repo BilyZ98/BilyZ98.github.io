@@ -6,6 +6,6 @@ related_posts: false
 category: work
 ---
 
-A paper(DumpKV) gets accepted by VLDB'25
+A paper(DumpKV) accepted by VLDB'25
 
 
