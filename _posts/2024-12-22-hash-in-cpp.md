@@ -60,8 +60,13 @@ $$
 
 
 
+## unordered_map in cpp
+This article talks about internal implementation of `unordered_map` in cpp.
 
+It's very intuitive.
 
+[Explanation of internal implementation of unordered_map](https://jbseg.medium.com/c-unordered-map-under-the-hood-9540cec4553a)
 
+[This stackoverflow post talks about why unordered_map in cpp uses open hashing](https://stackoverflow.com/questions/31112852/how-stdunordered-map-is-implemented)
 
 
