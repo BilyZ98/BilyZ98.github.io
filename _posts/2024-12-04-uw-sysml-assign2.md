@@ -378,3 +378,148 @@ def make_elemwise_mul_by_const(shape, const_k, tgt, tgt_host, func_name,
     f = tvm.build(s, [A, C], tgt, target_host=tgt_host, name=func_name)
     return f
 ```
+
+
+### How node value is stored in autodiff ? 
+
+It's stored in dict `node_to_val_map`
+
+The graph is just computation graph. Each node is an operation node.
+
+```python
+def run(self, feed_dict, convert_to_numpy_ret_vals=False):
+        """
+        Parameters
+        ----------
+        feed_dict: a dictionary of node->np.ndarray supplied by user.
+        convert_to_numpy_ret_vals: whether to convert ret vals to np.array.
+
+        Returns
+        -------
+        A list of values for nodes in eval_node_list. tvm.nd.array or np.ndarray.
+        """
+        def are_feed_shapes_equal(sa, sb):
+            if (not isinstance(sa, dict)) or (not isinstance(sb, dict)):
+                return False
+            unmatched_item = set(sa.items()) ^ set(sb.items())
+            return len(unmatched_item) == 0
+
+        node_to_val_map = {}
+        for node, value in feed_dict.items():
+            assert isinstance(value, tvm.ndarray.NDArray),\
+                "feed_dict value type not supported"    
+            node_to_val_map[node] = value
+
+```
+
+
+###  How node computation is done in graph ?
+
+In run function , `compute` is called for each operation node.
+
+Each opeartion node in computation graph has its own compute function.
+
+For example , `AddOp` has its own compute function and this compute function
+calls passed-in compiled_func to do the function call from compiled code.
+
+Note that this `compiled_func` is built before forward of computation graph.
+
+And the return function of `make_elemwise_add` is a tvm build function that 
+takes `[A,B,C]` three tensor as input instead of parameters in `compute` function.
+
+
+`tgt` and `shape` is defined during function compilation in `make_elemwise_add`
+
+```python
+    def run(self, feed_dict, convert_to_numpy_ret_vals=False):
+        """
+        Parameters
+        ----------
+        feed_dict: a dictionary of node->np.ndarray supplied by user.
+        convert_to_numpy_ret_vals: whether to convert ret vals to np.array.
+
+        Returns
+        -------
+        A list of values for nodes in eval_node_list. tvm.nd.array or np.ndarray.
+        """
+        def are_feed_shapes_equal(sa, sb):
+            if (not isinstance(sa, dict)) or (not isinstance(sb, dict)):
+                return False
+            unmatched_item = set(sa.items()) ^ set(sb.items())
+            return len(unmatched_item) == 0
+
+        node_to_val_map = {}
+        for node, value in feed_dict.items():
+            assert isinstance(value, tvm.ndarray.NDArray),\
+                "feed_dict value type not supported"    
+            node_to_val_map[node] = value
+
+        # collect shapes for all placeholders
+        feed_shapes = {}
+        for node in node_to_val_map:
+            feed_shapes[node] = node_to_val_map[node].shape
+
+        # infer shape if feed_shapes changed since last run
+        # e.g. call run() on test data after trainng
+        if (not are_feed_shapes_equal(feed_shapes, self.feed_shapes)):
+            self.infer_shape(feed_shapes)
+            self.feed_shapes = feed_shapes
+            self.memory_plan(feed_shapes)
+            self.compile_funcs(feed_shapes)
+
+        # Traverse graph in topo order and compute values for all nodes.
+        for node in self.topo_order:
+            if node in node_to_val_map:
+                # Skip placeholder nodes. Values already provided by feed_dict.
+                continue
+            input_vals = [node_to_val_map[n] for n in node.inputs]
+            node_val = self.node_to_arr_map[node]
+            # node_val is modified in-place
+            node.op.compute(
+                node, input_vals, node_val, self.node_to_compiled_func[node])
+            node_to_val_map[node] = node_val
+        # Collect node values.
+        if convert_to_numpy_ret_vals:
+            return [node_to_val_map[n].asnumpy() for n in self.eval_node_list]
+        return [node_to_val_map[n] for n in self.eval_node_list]
+
+
+```
+```python
+class AddOp(Op):
+    def __call__(self, node_A, node_B):
+        new_node = Op.__call__(self)
+        new_node.inputs = [node_A, node_B]
+        new_node.name = "(%s+%s)" % (node_A.name, node_B.name)
+        return new_node
+
+    def compute(self, node, input_vals, output_val, compiled_func):
+        assert len(input_vals) == 2
+        assert input_vals[0].shape == input_vals[1].shape
+        compiled_func(input_vals[0], input_vals[1], output_val)  
+
+    def gradient(self, node, output_grad):
+        return [output_grad, output_grad]
+
+    def infer_shape(self, node, input_shapes):
+        """Need to handle input_vals[0].shape != input_vals[1].shape"""
+        return broadcast_rule(input_shapes[0], input_shapes[1])
+
+    def compiled_func(self, node, input_shapes, tgt, tgt_host):
+        return tvm_op.make_elemwise_add(
+            input_shapes[0], tgt, tgt_host, "elem_add")
+
+
+def make_elemwise_add(shape, tgt, tgt_host, func_name, dtype="float32"):
+    A = te.placeholder(shape, dtype=dtype, name="A")
+    B = te.placeholder(shape, dtype=dtype, name="B")
+    C = te.compute(A.shape, lambda *i: A(*i) + B(*i))
+
+    s = te.create_schedule(C.op)
+    f = tvm.build(s, [A, B, C], tgt, target_host=tgt_host, name=func_name)
+    return f
+
+
+```
+
+
