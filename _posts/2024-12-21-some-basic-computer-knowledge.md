@@ -19,37 +19,47 @@ I write down the questions I got here to help strengthen the knowledge.
 ## Difference between b+ tree, b tree and binary tree
 
 - b+ tree and btree can be used to disk storage, binary tree is for memory opeartion.
+
 ### Difference between b+tree and btree
+
 - Structure and storage
+
     btree stores both keys and data pointers in leaf nodes and internal nodes.
 
     b+tree only stores data pointers at leaf nodes. Internal nodes are only used to store keys go guide search
     process
 
 - Search efficiency
+
     Search in btree can be slower because data might be in any level in btree
 
     Search in b+tree might be faster because all data is stored in leaf nodes
 
 - Insertion and deletion
+
     Insertion and deletion in b=tree is more simpler because they only affect leaf nodes.
 
 - Sequential access
+
     Sequential access is not possible in a btree because leaf nodes are not linked.
 
     It's possible in b+tree
 
 - Applications
+
     btree used in databases and search engines
 
     b+tree used in database indexing and multi-level indexing
 
 ### Where is binary tree used in real worlod software
+
 Linux kernel.
 
 1. I/O scheduler
+
     CFQ(completely fair queueing) I/O scheduler to distribute 
     I/O bandwidth among all I/O requests.
+
 2. Filesystem
 
 3. virtual memory area
