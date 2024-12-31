@@ -68,13 +68,17 @@ In this example:
 The `placeholder` is a fundamental concept in TVM's Tensor Expression (TE) language, allowing you to build complex computation graphs by defining how data flows through various operations¹².
 
 ¹: [TVM Documentation](https://tvm.apache.org/docs/reference/api/python/te.html)
+
 ²: [TVM Tutorial on Tensor Expressions](https://tvm.apache.org/docs/tutorial/tensor_expr_get_started.html)
 
-Source: Conversation with Copilot, 12/5/2024
 (1) tvm.te — tvm 0.19.dev0 documentation - The Apache Software Foundation. https://tvm.apache.org/docs/reference/api/python/te.html.
+
 (2) TVM 自底向上（三）：TE 的概念和编译原理 - 知乎. https://zhuanlan.zhihu.com/p/534313816.
+
 (3) Working with Operators Using Tensor Expression — tvm 0.19.dev0 .... https://tvm.apache.org/docs/tutorial/tensor_expr_get_started.html.
+
 (4) TVM学习（六）细读前端 - 知乎 - 知乎专栏. https://zhuanlan.zhihu.com/p/346514871.
+
 (5) External Tensor Functions — tvm 0.19.dev0 documentation. https://tvm.apache.org/docs/how_to/work_with_schedules/extern_op.html.
 
 
