@@ -118,6 +118,7 @@ static void gen_expr(Node* node) {
 
     case ND_VAR:
     gen_addr(node);
+    // the instruction mov (%%rax), %%rax moves the value from the memory location pointed to by rax into the rax register.
     printf("  mov (%%rax), %%rax\n");
     return;;
 
@@ -126,6 +127,8 @@ static void gen_expr(Node* node) {
     push();
     gen_expr(node->rhs);
     pop("%rdi");
+    // (%%rdi): This represents the memory location pointed to by the rdi register
+    // move contents of rax register to the memory location pointed by the rdi register
     printf("  mov %%rax, (%%rdi)\n");
     return;
   }
@@ -138,6 +141,8 @@ Each single letter variable takes 8 bytes memory space.
 static void gen_addr(Node* node) {
   if(node->kind == ND_VAR) {
     int offset = (node->name - 'a' + 1)*8;
+    // load the effective address of -offset from the base pointer (rbp) 
+    // and load it into the rax register
     printf("  lea %d(%%rbp), %%rax\n", -offset);
     return;
   }
