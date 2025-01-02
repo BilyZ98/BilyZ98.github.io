@@ -1,5 +1,142 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://bilyz98.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://bilyz98.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2025-01-02T08:30:18+00:00</updated><id>https://bilyz98.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">chibicc C compiler - parser review and expression evaluator</title><link href="https://bilyz98.github.io/blog/2025/chibicc-parser-review-and-calculator/" rel="alternate" type="text/html" title="chibicc C compiler - parser review and expression evaluator"/><published>2025-01-01T11:59:00+00:00</published><updated>2025-01-01T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2025/chibicc-parser-review-and-calculator</id><content type="html" xml:base="https://bilyz98.github.io/blog/2025/chibicc-parser-review-and-calculator/"><![CDATA[<h2 id="lea-and-mov-explanation">lea and mov explanation</h2> <p><code class="language-plaintext highlighter-rouge">lea -4(%rbp), %rax</code> means that memory address that is 4 bytes below current base pointer <code class="language-plaintext highlighter-rouge">rbp</code> is stored in <code class="language-plaintext highlighter-rouge">rax</code> register.</p> <p>For example,</p> <p>assume <code class="language-plaintext highlighter-rouge">%rbp</code> holds value <code class="language-plaintext highlighter-rouge">0x7fffffffddd0</code> offset is 8,</p> <p>then this code</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lea -8(%rbp), %rax
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://bilyz98.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://bilyz98.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2025-01-02T10:57:10+00:00</updated><id>https://bilyz98.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">chibicc C compiler - parser review and expression evaluator</title><link href="https://bilyz98.github.io/blog/2025/chibicc-parser-review-and-calculator/" rel="alternate" type="text/html" title="chibicc C compiler - parser review and expression evaluator"/><published>2025-01-01T11:59:00+00:00</published><updated>2025-01-01T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2025/chibicc-parser-review-and-calculator</id><content type="html" xml:base="https://bilyz98.github.io/blog/2025/chibicc-parser-review-and-calculator/"><![CDATA[<h2 id="lea-and-mov-explanation">lea and mov explanation</h2> <p><code class="language-plaintext highlighter-rouge">lea -4(%rbp), %rax</code> means that memory address that is 4 bytes below current base pointer <code class="language-plaintext highlighter-rouge">rbp</code> is stored in <code class="language-plaintext highlighter-rouge">rax</code> register.</p> <p>For example,</p> <p>assume <code class="language-plaintext highlighter-rouge">%rbp</code> holds value <code class="language-plaintext highlighter-rouge">0x7fffffffddd0</code> offset is 8,</p> <p>then this code</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lea -8(%rbp), %rax
 </code></pre></div></div> <p>means</p> <ol> <li>the effective address calculation is <code class="language-plaintext highlighter-rouge">0x7fffffffddd0 -8 = 0x7fffffffdd8</code></li> <li>The value <code class="language-plaintext highlighter-rouge">0x7fffffffdd8</code> is stored in <code class="language-plaintext highlighter-rouge">rax</code> register</li> </ol> <p>I get confused about whether <code class="language-plaintext highlighter-rouge">mov src, dest</code> or <code class="language-plaintext highlighter-rouge">mov dest, src</code> is correct.</p> <p>I learn from this <a href="https://stackoverflow.com/questions/5890724/mov-instruction-in-x86-assembly">stack overflow post about mov in x86 and AT&amp;T</a> that both are valid.</p> <p><code class="language-plaintext highlighter-rouge">mov src, dest</code> is correct in AT&amp;T and <code class="language-plaintext highlighter-rouge">mov dest, src</code> is valid in Intel syntax.</p> <p><a href="https://electronicsreference.com/assembly-language/mov/">Intel x86 mov explanation</a></p> <h3 id="gcc-uses-att-assembly-standard">gcc uses AT&amp;T assembly standard</h3> <p>GCC (GNU Compiler Collection) uses the AT&amp;T assembly syntax by default. This is the standard assembly syntax used in Unix-like systems. However, GCC also supports Intel syntax, and you can switch to it using specific compiler flags if needed.</p> <p>If you’re working on a project and need to use Intel syntax, you can enable it with the <code class="language-plaintext highlighter-rouge">-masm=intel</code> flag. For example:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcc <span class="nt">-masm</span><span class="o">=</span>intel <span class="nt">-o</span> myprogram myprogram.c
+</code></pre></div></div> <h2 id="simple-math-expression-evaluator">Simple math expression evaluator</h2> <p>Problem:</p> <p>Implement math expresion evaluator for expression containing <code class="language-plaintext highlighter-rouge">+,-,*,()</code></p> <p>Solution:</p> <p>This problem is very typical and important. It is a problem that uses stack to solve the priority issue between different operator like <code class="language-plaintext highlighter-rouge">+</code> and <code class="language-plaintext highlighter-rouge">*</code>.</p> <p>Since <code class="language-plaintext highlighter-rouge">*</code> has higher priority than <code class="language-plaintext highlighter-rouge">+</code>, so when we meet <code class="language-plaintext highlighter-rouge">+</code> during string scan we can not evalute it immediately because there might be a <code class="language-plaintext highlighter-rouge">*</code> following this <code class="language-plaintext highlighter-rouge">+</code>.</p> <p>For example <code class="language-plaintext highlighter-rouge">3+2*3</code>, we should evaluate <code class="language-plaintext highlighter-rouge">2*3</code> first.</p> <p><a href="https://www.nowcoder.com/practice/c215ba61c8b1443b996351df929dc4d4">ref two stack implementation for expression evaluator</a></p> <ol> <li> <p>for <code class="language-plaintext highlighter-rouge">(</code> , we just push it into ops stack</p> </li> <li> <p>for ‘)’ , we keep evaluating expression until <code class="language-plaintext highlighter-rouge">(</code> is met on <code class="language-plaintext highlighter-rouge">ops</code> stack</p> </li> <li> <p>for numbers, we just push it into nums stack.</p> </li> <li> <p>for <code class="language-plaintext highlighter-rouge">+,-,*</code>, we evaluate the expression in <code class="language-plaintext highlighter-rouge">ops</code> stack if priority of the op of the top of <code class="language-plaintext highlighter-rouge">ops</code> stack is equal or higher than current op in string.</p> </li> </ol> <p>Pay attention that we need to stop if top of the <code class="language-plaintext highlighter-rouge">ops</code> stack is <code class="language-plaintext highlighter-rouge">(</code>, because <code class="language-plaintext highlighter-rouge">()</code> has highest priority.</p> <p>Code:</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+<span class="cp">#include</span> <span class="cpf">&lt;cctype&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stack&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;unordered_map&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">op_pri</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="p">{</span><span class="sc">'+'</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span>
+  <span class="p">{</span><span class="sc">'-'</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span>
+  <span class="p">{</span><span class="sc">'*'</span><span class="p">,</span><span class="mi">2</span><span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">cal_one</span><span class="p">(</span><span class="n">stack</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;&amp;</span> <span class="n">ops</span><span class="p">,</span> <span class="n">stack</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">top</span><span class="p">();</span> 
+  <span class="n">nums</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+  <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+  <span class="n">nums</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+
+  <span class="kt">char</span> <span class="n">c</span>  <span class="o">=</span> <span class="n">ops</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+  <span class="n">ops</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+  <span class="kt">int</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="sc">'+'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">;</span>
+
+  <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="sc">'-'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="sc">'*'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="n">num</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">solve</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">stack</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">ops</span><span class="p">;</span>
+  <span class="n">stack</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">nums</span><span class="p">;</span>
+
+  <span class="n">nums</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">char</span> <span class="n">c</span><span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="sc">'('</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">ops</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="sc">')'</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">ops</span><span class="p">.</span><span class="n">top</span><span class="p">()</span> <span class="o">!=</span> <span class="sc">'('</span><span class="p">)</span> <span class="p">{</span>
+          <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="n">cal_one</span><span class="p">(</span><span class="n">ops</span><span class="p">,</span> <span class="n">nums</span><span class="p">);</span>
+          <span class="n">nums</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">res</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="n">ops</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+          <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="c1">// digit</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">isdigit</span><span class="p">(</span><span class="n">c</span><span class="p">))</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">cur_num</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">j</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">isdigit</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">]))</span> <span class="p">{</span>
+          <span class="n">cur_num</span> <span class="o">=</span> <span class="n">cur_num</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">-</span><span class="sc">'0'</span><span class="p">;</span>
+          <span class="n">j</span><span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="n">nums</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">cur_num</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+
+        <span class="c1">// + - *</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'('</span> <span class="o">||</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'-'</span> <span class="o">||</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="sc">'+'</span><span class="p">))</span> <span class="p">{</span>
+          <span class="n">nums</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="c1">// This ops.top() != '(' is important. (expr) is highest priority</span>
+        <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">ops</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">ops</span><span class="p">.</span><span class="n">top</span><span class="p">()</span> <span class="o">!=</span> <span class="sc">'('</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">if</span><span class="p">(</span><span class="n">op_pri</span><span class="p">[</span><span class="n">ops</span><span class="p">.</span><span class="n">top</span><span class="p">()]</span> <span class="o">&gt;=</span> <span class="n">op_pri</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>  <span class="p">)</span> <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="n">cal_one</span><span class="p">(</span><span class="n">ops</span><span class="p">,</span> <span class="n">nums</span><span class="p">);</span>
+            <span class="n">nums</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">res</span><span class="p">);</span>
+          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">break</span><span class="p">;</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="n">ops</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+      <span class="p">}</span>
+
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">ops</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="n">cal_one</span><span class="p">(</span><span class="n">ops</span><span class="p">,</span> <span class="n">nums</span><span class="p">);</span>
+    <span class="n">nums</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">res</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="n">nums</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+
+
+  <span class="n">string</span> <span class="n">s</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+
+
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">s</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">solve</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+
+<span class="p">}</span>
+</code></pre></div></div> <p>Test case:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>base<span class="o">)</span> ➜  chibicc git:<span class="o">(</span>main<span class="o">)</span> ✗ g++ math_eval.cc
+<span class="o">(</span>base<span class="o">)</span> ➜  chibicc git:<span class="o">(</span>main<span class="o">)</span> ✗ ./a.out <span class="s2">"1"</span>
+1
+1
+<span class="o">(</span>base<span class="o">)</span> ➜  chibicc git:<span class="o">(</span>main<span class="o">)</span> ✗ ./a.out <span class="s2">"2"</span>
+2
+2
+<span class="o">(</span>base<span class="o">)</span> ➜  chibicc git:<span class="o">(</span>main<span class="o">)</span> ✗ ./a.out <span class="s2">"2+1"</span>
+2+1
+3
+<span class="o">(</span>base<span class="o">)</span> ➜  chibicc git:<span class="o">(</span>main<span class="o">)</span> ✗ ./a.out <span class="s2">"2+2*5"</span>
+2+2<span class="k">*</span>5
+12
+<span class="o">(</span>base<span class="o">)</span> ➜  chibicc git:<span class="o">(</span>main<span class="o">)</span> ✗ ./a.out <span class="s2">"2+2*5-8"</span>
+2+2<span class="k">*</span>5-8
+4
+<span class="o">(</span>base<span class="o">)</span> ➜  chibicc git:<span class="o">(</span>main<span class="o">)</span> ✗ ./a.out <span class="s2">"2+2*(5-8)"</span>
+2+2<span class="k">*</span><span class="o">(</span>5-8<span class="o">)</span>
+<span class="nt">-4</span>
+<span class="o">(</span>base<span class="o">)</span> ➜  chibicc git:<span class="o">(</span>main<span class="o">)</span> ✗ ./a.out <span class="s2">"2+2*(5-8)*3"</span>
+2+2<span class="k">*</span><span class="o">(</span>5-8<span class="o">)</span><span class="k">*</span>3
+<span class="nt">-16</span>
+<span class="o">(</span>base<span class="o">)</span> ➜  chibicc git:<span class="o">(</span>main<span class="o">)</span> ✗ ./a.out <span class="s2">"2+2*(5-8*2)"</span>
+2+2<span class="k">*</span><span class="o">(</span>5-8<span class="k">*</span>2<span class="o">)</span>
+<span class="nt">-20</span>
+<span class="o">(</span>base<span class="o">)</span> ➜  chibicc git:<span class="o">(</span>main<span class="o">)</span> ✗ ./a.out <span class="s2">"2+2*(5*8-2)"</span>
+2+2<span class="k">*</span><span class="o">(</span>5<span class="k">*</span>8-2<span class="o">)</span>
+78
 </code></pre></div></div>]]></content><author><name></name></author><category term="compiler"/><category term="c"/><category term="compiler"/><summary type="html"><![CDATA[lea and mov explanation]]></summary></entry><entry><title type="html">Autodiff implementation - kernel and memory management</title><link href="https://bilyz98.github.io/blog/2024/uw-sysml-assign2/" rel="alternate" type="text/html" title="Autodiff implementation - kernel and memory management"/><published>2024-12-24T11:59:00+00:00</published><updated>2024-12-24T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2024/uw-sysml-assign2</id><content type="html" xml:base="https://bilyz98.github.io/blog/2024/uw-sysml-assign2/"><![CDATA[<p>This is fun to implement</p> <p>Never aware that we can do management in python language like this.</p> <p>I always think that memory management in only done in cpp.</p> <p>Interesting, so interesting.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    def memory_plan(self, feed_shapes):
         """Allocates tvm.nd.array for every node except feed_dict nodes.
 
