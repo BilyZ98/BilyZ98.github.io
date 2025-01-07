@@ -14,7 +14,8 @@ featured: false
 ### Find bug in code that leads to seg fault.
 
 [https://github.com/BilyZ98/chibicc/commit/3ca91cc6431246e1b23f4503b6442e77e7457246](https://github.com/BilyZ98/chibicc/commit/3ca91cc6431246e1b23f4503b6442e77e7457246)
-The bug code is at parse.c after I use gdb
+
+The bug code is at parse.c.  I use gdb to find out the bug location.
 ```
 77      ../sysdeps/x86_64/multiarch/strlen-evex.S: No such file or directory.
 (gdb) bt
@@ -60,6 +61,9 @@ This line of code enable functions like `strndup, getline, and clock_gettime`
 which are not part of the standard C library but are available in the POSIX 
 standard. fuck that. Spend really long time on this.
 
+Correct code:
+
+[https://github.com/BilyZ98/chibicc/tree/1651006f9035bb0a1f3afffd1fb328948006cc28](https://github.com/BilyZ98/chibicc/tree/1651006f9035bb0a1f3afffd1fb328948006cc28)
 
 
 
