@@ -79,6 +79,10 @@ static Node* primary(Token **rest, Token* tok) {
 }
 ```
 
+This is like post order traversal in binary tree traversal.
+
+The root node is processed after all its children are processed.
+
 ## order of parser is important   
 The order of operations in the code snippet you provided is crucial for correctly evaluating the expression represented by the abstract syntax tree (AST). Let's go through the code step-by-step:
 
@@ -87,6 +91,21 @@ gen_expr(node->rhs);
 push();
 gen_expr(node->lhs);
 pop("%rdi");
+
+
+
+switch(node->kind) {
+case ND_ADD:
+// adds the value in the %rdi register to the value in the %rax register, and stores the result in %rax.
+printf(" add %%rdi, %%rax\n");
+return;
+
+case ND_SUB:
+printf(" sub %%rdi, %%rax\n");
+return;
+// more case ...
+}
+
 ```
 
 1. **Evaluate the Right Subtree**: `gen_expr(node->rhs);`
@@ -101,9 +120,16 @@ pop("%rdi");
 4. **Pop the Saved Right Subtree Result**: `pop("%rdi");`
    - The value that was previously pushed onto the stack (the result of the right-hand side expression) is popped into the `%rdi` register.
 
-The reason for this specific order is to ensure that the values of the left and right subtrees are correctly placed in the registers for further operations. By convention, the result of the left subtree is left in `%rax`, and the result of the right subtree is placed in `%rdi`. This is a common calling convention for binary operations where the left operand is in `%rax` and the right operand is in `%rdi`.
+5. **Generate code for binary node**: `add` or `sub`
+   -  left children result is stored in `rax` register and right children node result is stored in `rdi` register. Execute instruction like `add` or `sub` and store the result in `rax` register.
 
-This order of operations is necessary because the code generator needs to follow the calling convention and ensure that the values are in the correct registers before performing the operation represented by the current node. The `push` and `pop` operations are used to temporarily save and restore the values to maintain the correct evaluation order and register usage.
+The reason for this specific order is to ensure that the values of the left and right subtrees are correctly placed in the registers for further operations.
+By convention, the result of the left subtree is left in `%rax`, and the result of the right subtree is placed in `%rdi`. 
+This is a common calling convention for binary operations where the left operand is in `%rax` and the right operand is in `%rdi`.
+
+This order of operations is necessary because the code generator needs to follow the calling convention and ensure that the
+values are in the correct registers before performing the operation represented by the current node. 
+The `push` and `pop` operations are used to temporarily save and restore the values to maintain the correct evaluation order and register usage.
 
 
 
