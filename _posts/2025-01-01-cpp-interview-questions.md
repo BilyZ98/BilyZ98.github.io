@@ -1,7 +1,7 @@
 ---
 layout: post
 title: C++ and linux kernel memory allocation
-date: 2025-01-01 07:59:00-0400
+date: 2025-01-02 07:59:00-0400
 description:  
 tags:  c compiler cpp linux  
 categories: compiler
