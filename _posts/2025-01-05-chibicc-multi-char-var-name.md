@@ -59,7 +59,7 @@ lol.
 
 This line of code enable functions like `strndup, getline, and clock_gettime`
 which are not part of the standard C library but are available in the POSIX 
-standard. fuck that. Spend really long time on this.
+standard.  Spend really long time on this.
 
 Correct code:
 
