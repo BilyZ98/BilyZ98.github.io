@@ -82,11 +82,16 @@ vertically, increasing the depth of the tree?
 
 ## What's next ? 
 
-[https://arxiv.org/pdf/2403.06456]
+[https://arxiv.org/pdf/2403.06456](Learned index survey) talks about development of learned index.
+It classifies learned index into multi-dimensional and mutable/immutable categories.
+
+What's not talked about is how learned index is efficiently integrated into existing system.
+
+<!-- How about learned index for embedding data ? In vector database? -->
 
 ## References
 
-[Jeaf dean's talk about ml for sys in NIPS'25]()
+[Jeaf dean's talk about ml for sys in NIPS'25](https://www.youtube.com/watch?v=2A3tiAmaq_c)
 
 [qd-tree](https://zongheng.me/pubs/qdtree-sigmod20.pdf) . Why only for data analytics? 
 
