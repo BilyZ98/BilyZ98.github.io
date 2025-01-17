@@ -1,9 +1,91 @@
+---
+layout: post
+title: nanogpt kv cache first attempt  
+date: 2025-01-16 07:59:00-0400
+description:  
+tags:   ml llm 
+categories: ml llm
+featured: false
+---
 
 
 
+## 1. Run basic nano-gpt
+
+```
+git clone https://github.com/karpathy/nanoGPT.git
+
+```
+
+Install necessary packages
+```
+pip install -r requirements.txt
+```
+
+I have these packages in the requirements.txt
+```
+blobfile==2.0.1
+certifi==2022.12.7
+charset-normalizer==3.0.1
+filelock==3.9.0
+idna==3.4
+lxml==4.9.2
+numpy==1.24.2
+pycryptodomex==3.17
+pytz==2022.7.1
+regex==2022.10.31
+requests==2.28.2
+tokenizers==0.13.2
+torch==2.0.0
+typing_extensions==4.4.0
+urllib3==1.26.14
+torch==2.0.0
+numpy==1.24.2
+transformers==4.28.1
+datasets==2.11.0
+tiktoken==0.3.3
+wandb==0.14.2
+tqdm==4.65.0
+```
+
+
+Follow quick start guidance in nanogpt repo do make sure that we 
+can run training and inference successfully.
+```
+python data/shakespeare_char/prepare.py
+python train.py --compile=False config/train_shakespeare_char.py
+python sample.py --out_dir=out-shakespeare-char
+```
+
+My python version is 3.11 which is too high for model compile so I added
+`--compile=False` in train command.
+
+
+With my A800 gpu, I get a loss 0.0449 after 5000 iteration training.
+```
+iter 4970: loss 0.0461, time 18.12ms, mfu 20.21%
+iter 4980: loss 0.0441, time 18.14ms, mfu 20.24%
+iter 4990: loss 0.0464, time 18.13ms, mfu 20.27%
+step 5000: train loss 0.0383, val loss 4.7262
+iter 5000: loss 0.0449, time 3352.84ms, mfu 18.26%
+```
+
+
+
+## 2. Load GPT-2 models  checkpoints and test performance
+
+
+## 3. Implement KV cache for faster inference
+
+
+## 4. Test KV cache performance
+
+
+## References
 
 [youtube video llm kv cache explanation](https://www.youtube.com/watch?v=80bIUggRJf4&t=247s)
 
+[requirements.txt to run nano-gpt](https://github.com/karpathy/nanoGPT/pull/246/commits/5cc9bab7e2402caf69a00e9c38fc45517e958748)
 [nano-gpt kv cache pr example](https://github.com/karpathy/nanoGPT/pull/76)
 
 [huggingface transformers kv cache source code on github](https://github.com/huggingface/transformers/blob/6bc0fbcfa7acb6ac4937e7456a76c2f7975fefec/src/transformers/modeling_outputs.py#L714)
@@ -13,6 +95,7 @@ https://zhuanlan.zhihu.com/p/646577898
 https://zhuanlan.zhihu.com/p/624740065
 
 [huggingface transformers API documentation](https://huggingface.co/docs/transformers/main_classes/output#transformers.modeling_outputs.CausalLMOutputWithPast)
+
 
 
 
