@@ -74,6 +74,59 @@ iter 5000: loss 0.0449, time 3352.84ms, mfu 18.26%
 
 ## 2. Load GPT-2 models  checkpoints and test performance
 
+https://stackoverflow.com/questions/75110981/sslerror-httpsconnectionpoolhost-huggingface-co-port-443-max-retries-exce
+
+
+proxy error while trying to download gpt2 model from huggingface:
+[https://github.com/huggingface/transformers/issues/17611](https://github.com/huggingface/transformers/issues/17611)
+
+First downgrad requests version to 2.27.1
+```bash
+pip install requests==2.27.1
+```
+And then adding these two lines of code in `train.py` and `sample.py` fix the proxy connection issue for me
+```python
+os.environ['CURL_CA_BUNDLE'] = ''
+os.environ['HF_ENDPOINT']= 'https://hf-mirror.com'
+```
+
+Run `sample.py` to get a test of gpt2 model with params downloaded from huggingface.
+```
+ python sample.py --init_from='gpt2'
+```
+
+I tried to start with "please tell me a joke." The output is not anything like joke
+but still very readable.
+```
+please tell me a joke
+
+[…]
+
+My name is Zarek, but I am extremely sad for you.
+
+You can't even come to my house anymore
+
+I'm sorry, I know
+
+I have a dream
+
+I don't know how long this thing will last
+
+My name Is Zarek
+
+I'm an adult who believes that
+
+The problem with your friend is that he doesnt know
+
+He doesn't know how to act
+```
+
+
+running time for 10 times inference:
+```
+---------------
+Elapsed time: 25.4s
+```
 
 ## 3. Implement KV cache for faster inference
 
