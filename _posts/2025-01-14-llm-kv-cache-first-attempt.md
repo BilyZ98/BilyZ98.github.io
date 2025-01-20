@@ -130,8 +130,149 @@ Elapsed time: 25.4s
 
 ## 3. Implement KV cache for faster inference
 
+Issue:
+```
+shape of past k proj is  torch.Size([1, 12, 946, 64])
+shape of k is  torch.Size([1, 12, 44, 64]) shape of v is  torch.Size([1, 12, 44, 64])
+q len is  45
+shape of past k proj is  torch.Size([1, 12, 990, 64])
+shape of k is  torch.Size([1, 12, 45, 64]) shape of v is  torch.Size([1, 12, 45, 64])
+Traceback (most recent call last):
+  File "/GPUFS/nsccgz_qylin_1/zt/nano-gpt-kv-cache/sample.py", line 93, in <module>
+    y = model.generate(x, max_new_tokens, temperature=temperature, top_k=top_k)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/GPUFS/nsccgz_qylin_1/miniconda3/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/GPUFS/nsccgz_qylin_1/zt/nano-gpt-kv-cache/model.py", line 359, in generate
+    logits, _, past_kv_proj = self(idx_cond, past_kv_proj=past_kv_proj,start_pos=start_pos)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/GPUFS/nsccgz_qylin_1/miniconda3/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/GPUFS/nsccgz_qylin_1/zt/nano-gpt-kv-cache/model.py", line 204, in forward
+    x, layer_kv_proj = block(x, past_kv_proj=past_kv_proj[i])
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/GPUFS/nsccgz_qylin_1/miniconda3/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/GPUFS/nsccgz_qylin_1/zt/nano-gpt-kv-cache/model.py", line 122, in forward
+    attn_res, present_kv_proj = self.attn(self.ln_1(x), past_kv_proj=past_kv_proj)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/GPUFS/nsccgz_qylin_1/miniconda3/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/GPUFS/nsccgz_qylin_1/zt/nano-gpt-kv-cache/model.py", line 78, in forward
+    assert KV < self.block_size, f"KV: {KV} >= block_size: {self.block_size}"
+           ^^^^^^^^^^^^^^^^^^^^
+AssertionError: KV: 1035 >= block_size: 1024
+yhrun: error: gpu73: task 0: Exited with exit code 1
+(nano-gpt-kv-cache) [nsccgz_qylin_1@ln101 nano-gpt-kv-cache]$
+```
 
+
+Fix
+```python
+    def generate(self, idx, max_new_tokens, temperature=1.0, top_k=None):
+        for _ in range(max_new_tokens):
+            # This is the righ condition
+            if idx.size(1)  == T:
+                idx_cond = idx
+                start_pos = 0
+            else:
+                idx_cond = idx[:, [-1]]
+                start_pos = idx.size(1) - 1
+```
+
+The limitation of this code is that it can only handles 
+condition where `max_new_tokens < self.config.block_size`
+
+
+I don't know why yet.
 ## 4. Test KV cache performance
+
+[The commit](https://github.com/karpathy/nanoGPT/pull/76) mentions that it only brings performance 
+boost with cpu but not on A100 gpu. Why is that ? 
+Is this because that linear projections can be quickly done with
+fast gpu matrix multiplication?
+
+
+[This commit](https://github.com/huggingface/transformers/pull/14118/files) 
+[and this discussion](https://github.com/huggingface/transformers/issues/14033#issuecomment-948385227)
+talks about how to handle long text generation. I have not yet 
+understanded it completely how it deals with long text geneartion.
+
+There is a technique called rotary positional embeddings as mentioned in this 
+[commit](https://github.com/karpathy/nanoGPT/pull/76).
+But I don't know how does it works yet. And all I want to do right now is to
+simply test how kv cache helps with inference speed.
+
+
+My naive solution right now is to simply cut 
+past_kv_proj to latest self.config.block_size tokens
+```
+            if past_kv_proj is not None:
+                past_k_proj, past_v_proj = past_kv_proj
+                print('shape of past k proj is ', past_k_proj.shape )
+                print('shape of k is ', k.shape, 'shape of v is ', v.shape)
+                if KV >= self.block_size:
+                    past_k_proj = past_k_proj[:, :, -self.block_size:, :]
+                    past_v_proj = past_v_proj[:, :, -self.block_size:, :]
+                k = torch.cat((past_k_proj, k), dim=2)
+                v = torch.cat((past_v_proj, v), dim=2)
+
+```
+
+
+5000 tokens , gpu
+
+with kv cache, no flash attention
+
+time:
+```
+---------------
+Elapsed time: 34.4s
+```
+
+memory:
+
+
+without kv cache, no flash attention
+time:
+```
+Elapsed time: 372.6 seconds
+```
+
+memory:
+
+
+500 tokens, cpu
+
+with kv cache, 
+```
+The law gives the government access to consumer information only if the government's purpose is to provide health care to the general public. If those
+---------------
+Elapsed time: 218.9s
+
+
+The law gives the government access to consumer information only if the government's purpose is to provide health care to the general public. If those
+---------------
+Elapsed time: 251.4s
+```
+
+
+without kv cache
+```
+The law gives the government access to consumer information only if the government's purpose is to provide health care to the general public. If those
+---------------
+Elapsed time: 1191.4s
+```
+
+5 times inference time saving. Not bad.
+
+<!-- lol. It does not improves any. Why is that? -->
+<!-- There is a bug in my code that does not feed all  -->
+<!-- previously generated tokens into model when `use_kv_cache=False` -->
 
 
 ## References
