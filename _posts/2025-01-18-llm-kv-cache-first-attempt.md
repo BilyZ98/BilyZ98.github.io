@@ -1,7 +1,7 @@
 ---
 layout: post
 title: nanogpt kv cache first attempt  
-date: 2025-01-16 07:59:00-0400
+date: 2025-01-18 07:59:00-0400
 description:  
 tags:   ml llm 
 categories: ml llm
