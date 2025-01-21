@@ -275,6 +275,7 @@ Elapsed time: 1191.4s
 [youtube video llm kv cache explanation](https://www.youtube.com/watch?v=80bIUggRJf4&t=247s)
 
 [requirements.txt to run nano-gpt](https://github.com/karpathy/nanoGPT/pull/246/commits/5cc9bab7e2402caf69a00e9c38fc45517e958748)
+
 [nano-gpt kv cache pr example](https://github.com/karpathy/nanoGPT/pull/76)
 
 [huggingface transformers kv cache source code on github](https://github.com/huggingface/transformers/blob/6bc0fbcfa7acb6ac4937e7456a76c2f7975fefec/src/transformers/modeling_outputs.py#L714)
