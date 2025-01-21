@@ -1,3 +1,14 @@
+---
+layout: post
+title: Set up vim in vscode  
+date: 2025-01-17 07:59:00-0400
+description:  
+tags:   vscode vim 
+categories: development 
+featured: false
+---
+
+
 
 
 

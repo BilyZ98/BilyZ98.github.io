@@ -130,6 +130,10 @@ Elapsed time: 25.4s
 
 ## 3. Implement KV cache for faster inference
 
+[Commit hisotry for kv cache implementation](https://github.com/BilyZ98/nano-gpt-kv-cache/commit/606e4e4e881db6c769e0bdca51bdac96f00a55e1)
+
+Please check code above for implementation details.
+
 Issue:
 ```
 shape of past k proj is  torch.Size([1, 12, 946, 64])
@@ -229,20 +233,11 @@ past_kv_proj to latest self.config.block_size tokens
 with kv cache, no flash attention
 
 time:
-```
----------------
-Elapsed time: 34.4s
-```
-
 memory:
 
 
 without kv cache, no flash attention
 time:
-```
-Elapsed time: 372.6 seconds
-```
-
 memory:
 
 
