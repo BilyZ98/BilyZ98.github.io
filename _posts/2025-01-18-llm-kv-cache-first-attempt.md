@@ -228,17 +228,35 @@ past_kv_proj to latest self.config.block_size tokens
 ```
 
 
-5000 tokens , gpu
+gpu v100
 
 with kv cache, no flash attention
 
+```
+ yhrun -p gpu_v100  python   sample.py --init_from='gpt2'  --use_kv_cache=True --dtype=float32  --num_samples=10 --max_
+new_tokens=1000
+```
 time:
+```
+---------------
+Elapsed time: 102.6s
+```
 memory:
 
 
 without kv cache, no flash attention
+```
+python   sample.py --init_from='gpt2'  --use_kv_cache=False --dtype=float32  --num_samples=10 --max_new_tokens=1000
+```
 time:
+```
+Elapsed time: 151.8s
+```
 memory:
+
+
+Saves 30% time. Not bad.
+
 
 
 500 tokens, cpu
