@@ -265,6 +265,17 @@ Elapsed time: 1191.4s
 
 5 times inference time saving. Not bad.
 
+
+The peak memory usage between with kv cache and without kv cache is nearly the same.
+This is because that sequence length is the same with or without kv cache.
+However, kv cache do bring some advantages. Here's the answer from gpt.
+
+
+> Actually, there is a difference in memory usage when using KV cache for LLM inference. While it's true that the maximum memory usage might be similar, the way memory is utilized and managed can vary significantly.
+> 1. **Memory Allocation**: With KV cache, memory is allocated for storing key-value pairs from previous computations. This can lead to more efficient memory usage as the model doesn't need to recompute values, reducing the overall memory footprint during inference.
+> 2. **Memory Management**: KV cache helps in better memory management by reusing previously computed values. This can lead to more stable memory usage patterns, avoiding spikes in memory consumption that might occur without caching.
+> 3. **Performance Optimization**: By reducing redundant computations, KV cache can lead to faster inference times, which indirectly affects memory usage. Faster computations mean less time spent holding intermediate values in memory, leading to more efficient memory utilization.
+
 <!-- lol. It does not improves any. Why is that? -->
 <!-- There is a bug in my code that does not feed all  -->
 <!-- previously generated tokens into model when `use_kv_cache=False` -->
