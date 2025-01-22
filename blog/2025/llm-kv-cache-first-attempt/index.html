@@ -113,7 +113,13 @@ yhrun: error: gpu73: task 0: Exited with exit code 1
                 k = torch.cat((past_k_proj, k), dim=2)
                 v = torch.cat((past_v_proj, v), dim=2)
 
-</code></pre></div></div> <p>5000 tokens , gpu</p> <p>with kv cache, no flash attention</p> <p>time: memory:</p> <p>without kv cache, no flash attention time: memory:</p> <p>500 tokens, cpu</p> <p>with kv cache,</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The law gives the government access to consumer information only if the government's purpose is to provide health care to the general public. If those
+</code></pre></div></div> <p>gpu v100</p> <p>with kv cache, no flash attention</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> yhrun -p gpu_v100  python   sample.py --init_from='gpt2'  --use_kv_cache=True --dtype=float32  --num_samples=10 --max_
+new_tokens=1000
+</code></pre></div></div> <p>time:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---------------
+Elapsed time: 102.6s
+</code></pre></div></div> <p>memory:</p> <p>without kv cache, no flash attention</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python   sample.py --init_from='gpt2'  --use_kv_cache=False --dtype=float32  --num_samples=10 --max_new_tokens=1000
+</code></pre></div></div> <p>time:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Elapsed time: 151.8s
+</code></pre></div></div> <p>memory:</p> <p>Saves 30% time. Not bad.</p> <p>500 tokens, cpu</p> <p>with kv cache,</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The law gives the government access to consumer information only if the government's purpose is to provide health care to the general public. If those
 ---------------
 Elapsed time: 218.9s
 
