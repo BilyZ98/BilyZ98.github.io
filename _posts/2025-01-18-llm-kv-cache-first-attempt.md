@@ -241,7 +241,7 @@ time:
 ---------------
 Elapsed time: 102.6s
 ```
-memory:
+memory: almost the same for peak memory usage ? 
 
 
 without kv cache, no flash attention
@@ -257,6 +257,58 @@ memory:
 
 Saves 30% time. Not bad.
 
+
+
+Function profile: I run 10 times, each with 1000 generation sequence length.
+
+with kv cache:
+```
+      15990616 function calls (14380614 primitive calls) in 110.086 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+   120000   21.130    0.000   56.527    0.000 /GPUFS/nsccgz_qylin_1/zt/nano-gpt-kv-cache/model.py:58(forward)
+   490000   14.545    0.000   14.545    0.000 {built-in method torch._C._nn.linear}
+1620000/10000   13.119    0.000  103.105    0.010 /GPUFS/nsccgz_qylin_1/miniconda3/lib/python3.11/site-packages/torch/nn/modules/module.py:1494(_call_impl)
+  3420000    9.789    0.000    9.789    0.000 /GPUFS/nsccgz_qylin_1/miniconda3/lib/python3.11/site-packages/torch/nn/modules/module.py:1601(__getattr__)
+   120000    5.108    0.000   97.206    0.001 /GPUFS/nsccgz_qylin_1/zt/nano-gpt-kv-cache/model.py:135(forward)
+   250000    4.809    0.000    4.809    0.000 {built-in method torch.layer_norm}
+   120000    3.840    0.000    3.840    0.000 {method 'masked_fill' of 'torch._C._TensorBase' objects}
+       10    3.737    0.374  109.808   10.981 /GPUFS/nsccgz_qylin_1/zt/nano-gpt-kv-cache/model.py:350(generate)
+   250000    3.694    0.000    3.694    0.000 {built-in method torch.cat}
+   120000    2.772    0.000   20.640    0.000 /GPUFS/nsccgz_qylin_1/zt/nano-gpt-kv-cache/model.py:113(forward)
+   370000    2.268    0.000    3.704    0.000 /GPUFS/nsccgz_qylin_1/miniconda3/lib/python3.11/site-packages/torch/nn/functional.py:1235(dropout)
+
+    10000    2.075    0.000  102.922    0.010 /GPUFS/nsccgz_qylin_1/zt/nano-gpt-kv-cache/model.py:206(forward)
+
+```
+
+without kv cache
+```
+       15380126 function calls (13770124 primitive calls) in 154.658 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+
+    10000   45.431    0.005  148.326    0.015 /GPUFS/nsccgz_qylin_1/zt/nano-gpt-kv-cache/model.py:206(forward)
+
+   120000   22.252    0.000   58.175    0.000 /GPUFS/nsccgz_qylin_1/zt/nano-gpt-kv-cache/model.py:58(forward)
+   490000   17.891    0.000   17.891    0.000 {built-in method torch._C._nn.linear}
+1620000/10000   13.188    0.000  148.485    0.015 /GPUFS/nsccgz_qylin_1/miniconda3/lib/python3.11/site-packages/torch/nn/modules/module.py:1494(_call_impl)
+  3420000    9.488    0.000    9.488    0.000 /GPUFS/nsccgz_qylin_1/miniconda3/lib/python3.11/site-packages/torch/nn/modules/module.py:1601(__getattr__)
+   120000    5.289    0.000   99.160    0.001 /GPUFS/nsccgz_qylin_1/zt/nano-gpt-kv-cache/model.py:135(forward)
+   250000    5.037    0.000    5.037    0.000 {built-in method torch.layer_norm}
+   120000    4.087    0.000    4.087    0.000 {method 'masked_fill' of 'torch._C._TensorBase' objects}
+       10    2.952    0.295  154.334   15.433 /GPUFS/nsccgz_qylin_1/zt/nano-gpt-kv-cache/model.py:350(generate)
+```
+
+The main time difference comes from the function call to self attention block.
+Per call time for without kv cache gpt is 0.015 and it's 0.010 for with kv cache.
+I guess this explains why benefit  of kv cache for short sequence geneartion on A100
+is negligible because it takes very short amount of time to generate key and value embedding 
+with more advanced gpu.
 
 
 500 tokens, cpu
