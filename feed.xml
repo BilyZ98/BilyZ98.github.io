@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://bilyz98.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://bilyz98.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2025-02-03T16:53:25+00:00</updated><id>https://bilyz98.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">Tokenizer</title><link href="https://bilyz98.github.io/blog/2025/tokenizer/" rel="alternate" type="text/html" title="Tokenizer"/><published>2025-01-21T00:00:00+00:00</published><updated>2025-01-21T00:00:00+00:00</updated><id>https://bilyz98.github.io/blog/2025/tokenizer</id><content type="html" xml:base="https://bilyz98.github.io/blog/2025/tokenizer/"><![CDATA[<p>https://sebastianraschka.com/blog/2025/bpe-from-scratch.html</p>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">Lock Free Queue</title><link href="https://bilyz98.github.io/blog/2025/lock-free-queue/" rel="alternate" type="text/html" title="Lock Free Queue"/><published>2025-01-19T00:00:00+00:00</published><updated>2025-01-19T00:00:00+00:00</updated><id>https://bilyz98.github.io/blog/2025/lock-free-queue</id><content type="html" xml:base="https://bilyz98.github.io/blog/2025/lock-free-queue/"><![CDATA[<p><a href="https://mp.weixin.qq.com/s/-9RJgcpamtXZOFflOkkt5w">lock free queue impl on wechat subscription post</a></p> <h2 id="why-lock-free">Why lock free?</h2> <p>To avoid lock contention between different threads.</p> <h2 id="how-to-implement-it-">How to implement it ?</h2> <h3 id="list-implementation">List implementation</h3> <p>Is this part of code necessary for correct lock free queue implementation ?</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="n">next</span><span class="o">!=</span> <span class="nb">nullptr</span><span class="p">)</span> <span class="p">{</span>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://bilyz98.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://bilyz98.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2025-02-04T10:03:16+00:00</updated><id>https://bilyz98.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">Tokenizer</title><link href="https://bilyz98.github.io/blog/2025/tokenizer/" rel="alternate" type="text/html" title="Tokenizer"/><published>2025-01-21T00:00:00+00:00</published><updated>2025-01-21T00:00:00+00:00</updated><id>https://bilyz98.github.io/blog/2025/tokenizer</id><content type="html" xml:base="https://bilyz98.github.io/blog/2025/tokenizer/"><![CDATA[<p>https://sebastianraschka.com/blog/2025/bpe-from-scratch.html</p>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">Lock Free Queue</title><link href="https://bilyz98.github.io/blog/2025/lock-free-queue/" rel="alternate" type="text/html" title="Lock Free Queue"/><published>2025-01-19T00:00:00+00:00</published><updated>2025-01-19T00:00:00+00:00</updated><id>https://bilyz98.github.io/blog/2025/lock-free-queue</id><content type="html" xml:base="https://bilyz98.github.io/blog/2025/lock-free-queue/"><![CDATA[<p><a href="https://mp.weixin.qq.com/s/-9RJgcpamtXZOFflOkkt5w">lock free queue impl on wechat subscription post</a></p> <h2 id="why-lock-free">Why lock free?</h2> <p>To avoid lock contention between different threads.</p> <h2 id="how-to-implement-it-">How to implement it ?</h2> <h3 id="list-implementation">List implementation</h3> <p>Is this part of code necessary for correct lock free queue implementation ?</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="n">next</span><span class="o">!=</span> <span class="nb">nullptr</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">tail</span><span class="p">.</span><span class="n">compare_exchange_weak</span><span class="p">(</span><span class="n">oldTail</span><span class="p">,</span> <span class="n">next</span><span class="p">);</span>
     <span class="k">continue</span><span class="p">;</span>
 <span class="p">}</span>
@@ -316,7 +316,519 @@
     <span class="n">tail_</span><span class="p">.</span><span class="n">compare_exchange_weak</span><span class="p">(</span><span class="n">old_tail</span><span class="p">,</span> <span class="n">next</span><span class="p">);</span>
     <span class="k">continue</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre></div></div> <ul> <li>If <code class="language-plaintext highlighter-rouge">next != nullptr</code>, we <strong>keep updating <code class="language-plaintext highlighter-rouge">tail_</code> and retrying until we attach our node to the latest position</strong>.</li> <li>This ensures that when the function exits, <code class="language-plaintext highlighter-rouge">tail_</code> <strong>always points to the correct last node</strong>.</li> </ul> <hr/> <h2 id="final-takeaway-1"><strong>Final Takeaway</strong></h2> <p>🔹 <strong>Yes, other threads can update <code class="language-plaintext highlighter-rouge">tail_</code>, but the second implementation relies on this happening rather than guaranteeing correctness itself.</strong><br/> 🔹 <strong>If no other thread updates <code class="language-plaintext highlighter-rouge">tail_</code>, <code class="language-plaintext highlighter-rouge">tail_</code> can become stale, leading to inefficiencies and unnecessary retries.</strong><br/> 🔹 The <strong>first implementation actively ensures <code class="language-plaintext highlighter-rouge">tail_</code> is always updated before returning</strong>, making it more robust and efficient.</p> <p>I still don’t get it. I will just give up then. At least I learn what’s the correct implementaion of lock free queue.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">nanogpt kv cache first attempt</title><link href="https://bilyz98.github.io/blog/2025/llm-kv-cache-first-attempt/" rel="alternate" type="text/html" title="nanogpt kv cache first attempt"/><published>2025-01-18T11:59:00+00:00</published><updated>2025-01-18T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2025/llm-kv-cache-first-attempt</id><content type="html" xml:base="https://bilyz98.github.io/blog/2025/llm-kv-cache-first-attempt/"><![CDATA[<h2 id="1-run-basic-nano-gpt">1. Run basic nano-gpt</h2> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/karpathy/nanoGPT.git
+</code></pre></div></div> <ul> <li>If <code class="language-plaintext highlighter-rouge">next != nullptr</code>, we <strong>keep updating <code class="language-plaintext highlighter-rouge">tail_</code> and retrying until we attach our node to the latest position</strong>.</li> <li>This ensures that when the function exits, <code class="language-plaintext highlighter-rouge">tail_</code> <strong>always points to the correct last node</strong>.</li> </ul> <hr/> <h2 id="final-takeaway-1"><strong>Final Takeaway</strong></h2> <p>🔹 <strong>Yes, other threads can update <code class="language-plaintext highlighter-rouge">tail_</code>, but the second implementation relies on this happening rather than guaranteeing correctness itself.</strong><br/> 🔹 <strong>If no other thread updates <code class="language-plaintext highlighter-rouge">tail_</code>, <code class="language-plaintext highlighter-rouge">tail_</code> can become stale, leading to inefficiencies and unnecessary retries.</strong><br/> 🔹 The <strong>first implementation actively ensures <code class="language-plaintext highlighter-rouge">tail_</code> is always updated before returning</strong>, making it more robust and efficient.</p> <p>I still don’t get it. I will just give up then. At least I learn what’s the correct implementaion of lock free queue.</p> <h2 id="full-test-code">Full test code</h2> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;thread&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cassert&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;atomic&gt;</span><span class="cp">
+</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="nc">Node</span><span class="p">{</span>
+  <span class="n">Node</span><span class="p">(</span><span class="kt">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span>
+    <span class="n">next</span> <span class="o">=</span> <span class="n">prev</span> <span class="o">=</span> <span class="nb">nullptr</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">val</span><span class="p">;</span>
+  <span class="n">Node</span><span class="o">*</span> <span class="n">next</span><span class="p">;</span>
+  <span class="n">Node</span><span class="o">*</span> <span class="n">prev</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">Queue</span> <span class="p">{</span>
+<span class="nl">public:</span>
+  <span class="n">Queue</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">head_</span> <span class="o">=</span> <span class="n">tail_</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Node</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="n">size_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">head_</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">tail_</span><span class="p">;</span>
+    <span class="n">tail_</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">head_</span><span class="p">;</span>
+
+
+  <span class="p">}</span>
+
+  <span class="kt">void</span> <span class="nf">enque</span><span class="p">(</span><span class="kt">int</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Node</span><span class="o">*</span> <span class="n">node</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Node</span><span class="p">(</span><span class="n">val</span><span class="p">);</span>
+    <span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">tail_</span><span class="p">;</span>
+    <span class="n">node</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">tail_</span><span class="o">-&gt;</span><span class="n">prev</span><span class="p">;</span>
+    <span class="n">tail_</span><span class="o">-&gt;</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
+    <span class="n">tail_</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
+    <span class="n">size_</span><span class="o">++</span><span class="p">;</span>
+
+
+  <span class="p">}</span>
+
+  <span class="kt">bool</span> <span class="nf">deque</span><span class="p">(</span><span class="kt">int</span><span class="o">&amp;</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">size_</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">Node</span><span class="o">*</span> <span class="n">node</span> <span class="o">=</span> <span class="n">head_</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">;</span>
+    <span class="n">head_</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+    <span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">head_</span><span class="p">;</span>
+    <span class="k">delete</span> <span class="n">node</span><span class="p">;</span>
+    <span class="n">size_</span><span class="o">--</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+
+  <span class="p">}</span>
+
+  <span class="kt">bool</span> <span class="nf">empty</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">size_</span> <span class="o">==</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="p">}</span>
+
+  <span class="kt">int</span> <span class="nf">front</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">head_</span><span class="o">-&gt;</span><span class="n">next</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">;</span>
+
+  <span class="p">}</span>
+
+
+<span class="k">private</span><span class="o">:</span>
+  <span class="n">Node</span><span class="o">*</span> <span class="n">head_</span><span class="p">;</span>
+  <span class="n">Node</span><span class="o">*</span> <span class="n">tail_</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">size_</span><span class="p">;</span>
+
+
+<span class="p">};</span>
+
+
+<span class="k">struct</span> <span class="nc">SimpleNode</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">val</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;</span><span class="n">SimpleNode</span><span class="o">*&gt;</span> <span class="n">next</span><span class="p">;</span>
+  <span class="n">SimpleNode</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">next</span> <span class="o">=</span> <span class="nb">nullptr</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">SimpleNode</span><span class="p">(</span><span class="kt">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span>
+    <span class="n">next</span> <span class="o">=</span> <span class="nb">nullptr</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">};</span>
+
+
+<span class="k">class</span> <span class="nc">MyLockFreeQueue</span> <span class="p">{</span>
+<span class="nl">public:</span>
+  <span class="n">MyLockFreeQueue</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="n">SimpleNode</span><span class="o">*</span> <span class="n">node</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleNode</span><span class="p">();</span>
+    <span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">nullptr</span><span class="p">;</span>
+    <span class="n">head_</span><span class="p">.</span><span class="n">store</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+    <span class="n">tail_</span><span class="p">.</span><span class="n">store</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+
+  <span class="p">}</span>
+<span class="c1">// void enque(int val) {</span>
+<span class="c1">//     // Allocate the new node</span>
+<span class="c1">//     std::unique_ptr&lt;SimpleNode&gt; node = std::make_unique&lt;SimpleNode&gt;(val);</span>
+
+<span class="c1">//     SimpleNode* old_tail = nullptr;</span>
+<span class="c1">//     SimpleNode* next = nullptr;</span>
+
+<span class="c1">//     while (true) {</span>
+<span class="c1">//         old_tail = tail_.load();</span>
+<span class="c1">//         next = old_tail-&gt;next.load();</span>
+
+<span class="c1">//         if (old_tail != tail_.load()) {</span>
+<span class="c1">//             continue; // Retry if tail changed</span>
+<span class="c1">//         }</span>
+
+<span class="c1">//         if (next != nullptr) {</span>
+<span class="c1">//             // Help advance tail if it's stale</span>
+<span class="c1">//             tail_.compare_exchange_weak(old_tail, next);</span>
+<span class="c1">//             continue;</span>
+<span class="c1">//         }</span>
+
+<span class="c1">//         // Try to attach the new node</span>
+<span class="c1">//         if (old_tail-&gt;next.compare_exchange_weak(next, node.get())) {</span>
+<span class="c1">//             // Successfully linked, now update tail_</span>
+<span class="c1">//             tail_.compare_exchange_weak(old_tail, node.release());</span>
+<span class="c1">//             return;</span>
+<span class="c1">//         }</span>
+<span class="c1">//     }</span>
+<span class="c1">// }</span>
+
+  <span class="kt">void</span> <span class="nf">enque</span><span class="p">(</span><span class="kt">int</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">SimpleNode</span><span class="o">&gt;</span> <span class="n">node</span><span class="p">(</span><span class="k">new</span> <span class="n">SimpleNode</span><span class="p">());</span>
+    <span class="n">node</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">=</span> <span class="n">val</span><span class="p">;</span>
+    <span class="n">SimpleNode</span><span class="o">*</span> <span class="n">old_tail</span> <span class="o">=</span> <span class="nb">nullptr</span><span class="p">;</span>
+    <span class="n">SimpleNode</span><span class="o">*</span> <span class="n">next</span>  <span class="o">=</span> <span class="nb">nullptr</span><span class="p">;</span>  
+    <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">old_tail</span> <span class="o">=</span> <span class="n">tail_</span><span class="p">.</span><span class="n">load</span><span class="p">();</span>
+      <span class="n">next</span> <span class="o">=</span> <span class="n">old_tail</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">.</span><span class="n">load</span><span class="p">();</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">old_tail</span> <span class="o">!=</span> <span class="n">tail_</span><span class="p">.</span><span class="n">load</span><span class="p">())</span> <span class="p">{</span>
+        <span class="k">continue</span><span class="p">;</span>
+      
+      <span class="p">}</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">next</span> <span class="o">!=</span> <span class="nb">nullptr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">tail_</span><span class="p">.</span><span class="n">compare_exchange_weak</span><span class="p">(</span><span class="n">old_tail</span><span class="p">,</span> <span class="n">next</span><span class="p">);</span>
+        <span class="k">continue</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="k">if</span><span class="p">(</span><span class="n">old_tail</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">.</span><span class="n">compare_exchange_weak</span><span class="p">(</span><span class="n">next</span><span class="p">,</span> <span class="n">node</span><span class="p">.</span><span class="n">get</span><span class="p">()))</span> <span class="p">{</span>
+
+      <span class="n">tail_</span><span class="p">.</span><span class="n">compare_exchange_weak</span><span class="p">(</span><span class="n">old_tail</span><span class="p">,</span> <span class="n">node</span><span class="p">.</span><span class="n">release</span><span class="p">());</span>
+        <span class="k">return</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span> 
+  <span class="p">}</span>
+
+    <span class="kt">int</span> <span class="nf">size</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">SimpleNode</span><span class="o">*</span> <span class="n">node</span> <span class="o">=</span> <span class="n">head_</span><span class="p">.</span><span class="n">load</span><span class="p">();</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">node</span> <span class="o">!=</span> <span class="nb">nullptr</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">node</span> <span class="o">!=</span> <span class="n">tail_</span><span class="p">.</span><span class="n">load</span><span class="p">())</span> <span class="p">{</span>
+      <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">node</span> <span class="o">==</span> <span class="nb">nullptr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"node is null, count is "</span> <span class="o">&lt;&lt;</span> <span class="n">count</span><span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+
+      <span class="p">}</span>
+      <span class="n">assert</span><span class="p">(</span><span class="n">node</span> <span class="o">!=</span> <span class="nb">nullptr</span><span class="p">);</span>
+      <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">.</span><span class="n">load</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">count</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// bool deque(int&amp; val) {</span>
+  <span class="c1">//   SimpleNode* old_head = nullptr;</span>
+  <span class="c1">//   SimpleNode* old_tail = nullptr;</span>
+  <span class="c1">//   SimpleNode* next = nullptr;</span>
+  <span class="c1">//   do {</span>
+  <span class="c1">//     old_head = head_.load();</span>
+  <span class="c1">//     old_tail = tail_.load();</span>
+  <span class="c1">//     assert(old_head != nullptr);</span>
+  <span class="c1">//     next = old_head-&gt;next.load();</span>
+  <span class="c1">//     if(old_head != head_.load()) {</span>
+  <span class="c1">//       continue;</span>
+  <span class="c1">//     }</span>
+  <span class="c1">//     if(old_head == old_tail &amp;&amp; next == nullptr) {</span>
+  <span class="c1">//       return false;</span>
+  <span class="c1">//     }</span>
+  <span class="c1">//   } while(head_.compare_exchange_weak(old_head, next) == false);</span>
+
+  <span class="c1">//   val = next-&gt;val;</span>
+  <span class="c1">//   delete old_head;</span>
+  <span class="c1">//   return true;</span>
+  <span class="c1">// }</span>
+
+<span class="kt">bool</span> <span class="nf">deque</span><span class="p">(</span><span class="kt">int</span><span class="o">&amp;</span> <span class="n">result</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">SimpleNode</span><span class="o">*</span> <span class="n">oldHead</span><span class="p">;</span>
+    <span class="n">SimpleNode</span><span class="o">*</span> <span class="n">next</span><span class="p">;</span>
+    
+    <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">oldHead</span> <span class="o">=</span> <span class="n">head_</span><span class="p">.</span><span class="n">load</span><span class="p">();</span>
+        <span class="n">SimpleNode</span><span class="o">*</span> <span class="n">oldTail</span> <span class="o">=</span> <span class="n">tail_</span><span class="p">.</span><span class="n">load</span><span class="p">();</span>
+        <span class="n">next</span> <span class="o">=</span> <span class="n">oldHead</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">.</span><span class="n">load</span><span class="p">();</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">oldHead</span> <span class="o">!=</span> <span class="n">head_</span><span class="p">.</span><span class="n">load</span><span class="p">())</span> <span class="p">{</span>
+            <span class="k">continue</span><span class="p">;</span> <span class="c1">// Restart loop if head changed</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">oldHead</span> <span class="o">==</span> <span class="n">oldTail</span><span class="p">)</span> <span class="p">{</span> 
+            <span class="k">if</span> <span class="p">(</span><span class="n">next</span> <span class="o">==</span> <span class="nb">nullptr</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">// Queue is empty</span>
+            <span class="p">}</span>
+            <span class="c1">// Help advance the tail if it's stuck (optional optimization)</span>
+            <span class="n">tail_</span><span class="p">.</span><span class="n">compare_exchange_weak</span><span class="p">(</span><span class="n">oldTail</span><span class="p">,</span> <span class="n">next</span><span class="p">);</span>
+        <span class="k">continue</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">head_</span><span class="p">.</span><span class="n">compare_exchange_weak</span><span class="p">(</span><span class="n">oldHead</span><span class="p">,</span> <span class="n">next</span><span class="p">))</span> <span class="p">{</span>
+          <span class="c1">// Ensure next is valid before accessing it</span>
+          <span class="k">if</span> <span class="p">(</span><span class="n">next</span> <span class="o">!=</span> <span class="nb">nullptr</span><span class="p">)</span> <span class="p">{</span>
+              <span class="n">result</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">next</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">);</span>
+              <span class="k">delete</span> <span class="n">oldHead</span><span class="p">;</span>
+              <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+          <span class="p">}</span>
+
+
+          <span class="p">}</span>
+        
+    <span class="p">}</span> 
+
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">// Failsafe check, should not be reached</span>
+<span class="p">}</span>
+
+    <span class="c1">// bool deque(int&amp; result) {</span>
+    <span class="c1">//     SimpleNode* oldHead;</span>
+    <span class="c1">//     SimpleNode* next;</span>
+    <span class="c1">//     do {</span>
+    <span class="c1">//         oldHead = head_.load();</span>
+    <span class="c1">//         SimpleNode* oldTail = tail_.load();</span>
+    <span class="c1">//         next = oldHead-&gt;next.load();</span>
+    <span class="c1">//         if (oldHead!= head_.load()) {</span>
+    <span class="c1">//             continue;</span>
+    <span class="c1">//         }</span>
+    <span class="c1">//         if (oldHead == oldTail &amp;&amp; next == nullptr) {</span>
+    <span class="c1">//             return false;</span>
+    <span class="c1">//         }</span>
+    <span class="c1">//     } while (!head_.compare_exchange_weak(oldHead, next));</span>
+    <span class="c1">//     result = std::move(next-&gt;val);</span>
+    <span class="c1">//     delete oldHead;</span>
+    <span class="c1">//     return true;</span>
+    <span class="c1">// }</span>
+
+
+  <span class="kt">bool</span> <span class="nf">empty</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">head_</span><span class="p">.</span><span class="n">load</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">.</span><span class="n">load</span><span class="p">()</span> <span class="o">==</span> <span class="nb">nullptr</span><span class="p">;</span>
+  <span class="p">}</span>
+
+
+  <span class="k">private</span><span class="o">:</span>
+  <span class="c1">// size</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">size_</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;</span><span class="n">SimpleNode</span><span class="o">*&gt;</span> <span class="n">head_</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;</span><span class="n">SimpleNode</span><span class="o">*&gt;</span> <span class="n">tail_</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;atomic&gt;</span><span class="cp">
+</span>
+<span class="k">class</span> <span class="nc">MyLockFreeQueue2</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="n">MyLockFreeQueue2</span><span class="p">()</span> <span class="o">:</span> <span class="n">size_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">SimpleNode</span><span class="o">*</span> <span class="n">node</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleNode</span><span class="p">();</span>
+        <span class="n">head_</span> <span class="o">=</span> <span class="n">tail_</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="nf">enque</span><span class="p">(</span><span class="kt">int</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">SimpleNode</span><span class="o">*</span> <span class="n">node</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleNode</span><span class="p">(</span><span class="n">val</span><span class="p">);</span>
+        <span class="n">SimpleNode</span><span class="o">*</span> <span class="n">old_tail</span><span class="p">;</span>
+        <span class="n">SimpleNode</span><span class="o">*</span> <span class="n">next</span><span class="p">;</span>
+
+        <span class="k">do</span> <span class="p">{</span>
+            <span class="n">old_tail</span> <span class="o">=</span> <span class="n">tail_</span><span class="p">.</span><span class="n">load</span><span class="p">();</span>
+            <span class="n">next</span> <span class="o">=</span> <span class="n">old_tail</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">.</span><span class="n">load</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">old_tail</span> <span class="o">!=</span> <span class="n">tail_</span><span class="p">.</span><span class="n">load</span><span class="p">())</span> <span class="p">{</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">next</span> <span class="o">!=</span> <span class="nb">nullptr</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">tail_</span><span class="p">.</span><span class="n">compare_exchange_weak</span><span class="p">(</span><span class="n">old_tail</span><span class="p">,</span> <span class="n">next</span><span class="p">);</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">old_tail</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">.</span><span class="n">compare_exchange_weak</span><span class="p">(</span><span class="n">next</span><span class="p">,</span> <span class="n">node</span><span class="p">));</span>
+
+        <span class="n">tail_</span><span class="p">.</span><span class="n">compare_exchange_weak</span><span class="p">(</span><span class="n">old_tail</span><span class="p">,</span> <span class="n">node</span><span class="p">);</span>
+        <span class="n">size_</span><span class="p">.</span><span class="n">fetch_add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">memory_order_relaxed</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kt">bool</span> <span class="nf">deque</span><span class="p">(</span><span class="kt">int</span><span class="o">&amp;</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">SimpleNode</span><span class="o">*</span> <span class="n">old_head</span><span class="p">;</span>
+        <span class="n">SimpleNode</span><span class="o">*</span> <span class="n">old_tail</span><span class="p">;</span>
+        <span class="n">SimpleNode</span><span class="o">*</span> <span class="n">next</span><span class="p">;</span>
+
+        <span class="k">do</span> <span class="p">{</span>
+            <span class="n">old_head</span> <span class="o">=</span> <span class="n">head_</span><span class="p">.</span><span class="n">load</span><span class="p">();</span>
+            <span class="n">old_tail</span> <span class="o">=</span> <span class="n">tail_</span><span class="p">.</span><span class="n">load</span><span class="p">();</span>
+            <span class="n">next</span> <span class="o">=</span> <span class="n">old_head</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">.</span><span class="n">load</span><span class="p">();</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">old_head</span> <span class="o">!=</span> <span class="n">head_</span><span class="p">.</span><span class="n">load</span><span class="p">())</span> <span class="p">{</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">old_head</span> <span class="o">==</span> <span class="n">old_tail</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">next</span> <span class="o">==</span> <span class="nb">nullptr</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="c1">// tail_.compare_exchange_weak(old_tail, next);</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="n">val</span> <span class="o">=</span> <span class="n">next</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">head_</span><span class="p">.</span><span class="n">compare_exchange_weak</span><span class="p">(</span><span class="n">old_head</span><span class="p">,</span> <span class="n">next</span><span class="p">));</span>
+
+        <span class="n">safe_delete</span><span class="p">(</span><span class="n">old_head</span><span class="p">);</span> <span class="c1">// Use a safe delete method</span>
+        <span class="n">size_</span><span class="p">.</span><span class="n">fetch_sub</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">memory_order_relaxed</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">bool</span> <span class="nf">empty</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">head_</span><span class="p">.</span><span class="n">load</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">.</span><span class="n">load</span><span class="p">()</span> <span class="o">==</span> <span class="nb">nullptr</span><span class="p">;</span>
+    <span class="p">}</span>
+
+  <span class="kt">int</span> <span class="nf">size</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">size_</span><span class="p">.</span><span class="n">load</span><span class="p">();</span>
+  <span class="p">}</span>
+
+
+<span class="k">private</span><span class="o">:</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">size_</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;</span><span class="n">SimpleNode</span><span class="o">*&gt;</span> <span class="n">head_</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;</span><span class="n">SimpleNode</span><span class="o">*&gt;</span> <span class="n">tail_</span><span class="p">;</span>
+
+    <span class="kt">void</span> <span class="nf">safe_delete</span><span class="p">(</span><span class="n">SimpleNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">delete</span> <span class="n">node</span><span class="p">;</span>
+        <span class="c1">// Implement a safe deletion mechanism to prevent use-after-free issues</span>
+        <span class="c1">// This could be done with a garbage collector or hazard pointers.</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">LockFreeQueue</span><span class="p">{</span>
+
+<span class="nl">public:</span>
+  <span class="n">LockFreeQueue</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">head_</span> <span class="o">=</span> <span class="n">tail_</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Node</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="n">head_</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">tail_</span><span class="p">;</span>
+    <span class="n">tail_</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">head_</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span> <span class="nf">enque</span><span class="p">(</span><span class="kt">int</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Node</span><span class="o">*</span> <span class="n">node</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Node</span><span class="p">(</span><span class="n">val</span><span class="p">);</span>
+    <span class="n">Node</span><span class="o">*</span> <span class="n">prev</span> <span class="o">=</span> <span class="n">tail_</span><span class="o">-&gt;</span><span class="n">prev</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">Node</span><span class="o">*</span> <span class="n">next</span> <span class="o">=</span> <span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+      <span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">next</span><span class="p">;</span>
+      <span class="n">node</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">prev</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">__sync_bool_compare_and_swap</span><span class="p">(</span><span class="o">&amp;</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">,</span> <span class="n">next</span><span class="p">,</span> <span class="n">node</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">next</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
+        <span class="k">break</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">bool</span> <span class="nf">deque</span><span class="p">(</span><span class="kt">int</span><span class="o">&amp;</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Node</span><span class="o">*</span> <span class="n">node</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">node</span> <span class="o">=</span> <span class="n">head_</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">node</span> <span class="o">==</span> <span class="n">tail_</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="n">Node</span><span class="o">*</span> <span class="n">next</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">__sync_bool_compare_and_swap</span><span class="p">(</span><span class="o">&amp;</span><span class="n">head_</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">next</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">next</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">head_</span><span class="p">;</span>
+        <span class="k">break</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">;</span>
+    <span class="k">delete</span> <span class="n">node</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kt">bool</span> <span class="nf">empty</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">head_</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">==</span> <span class="n">tail_</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kt">int</span> <span class="nf">front</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">head_</span><span class="o">-&gt;</span><span class="n">next</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="k">private</span><span class="o">:</span>
+  <span class="n">Node</span><span class="o">*</span> <span class="n">head_</span><span class="p">;</span>
+  <span class="n">Node</span><span class="o">*</span> <span class="n">tail_</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kt">void</span> <span class="nf">test_my_lock_free_queue</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// enque 100 times concurrently and dequeue 100 times concurrently</span>
+  <span class="n">MyLockFreeQueue</span> <span class="n">q</span><span class="p">;</span>
+  <span class="k">const</span> <span class="kt">int</span> <span class="n">num_threads</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+  <span class="k">const</span> <span class="kt">int</span> <span class="n">num_ops</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">threads</span><span class="p">[</span><span class="n">num_threads</span><span class="p">];</span>
+  <span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">dequeue_threads</span><span class="p">[</span><span class="n">num_threads</span><span class="p">];</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_threads</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">threads</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="p">([</span><span class="o">&amp;</span><span class="n">q</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">num_ops</span><span class="p">]</span> <span class="p">{</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">num_ops</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">q</span><span class="p">.</span><span class="n">enque</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_ops</span> <span class="o">+</span> <span class="n">j</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_threads</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">threads</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">join</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">" hello "</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+  <span class="c1">// get queue size</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"size "</span> <span class="o">&lt;&lt;</span> <span class="n">q</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+
+
+  <span class="c1">// return;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_threads</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">dequeue_threads</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="p">([</span><span class="o">&amp;</span><span class="n">q</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">num_ops</span><span class="p">]</span> <span class="p">{</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">num_ops</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">val</span><span class="p">;</span>
+        <span class="kt">bool</span> <span class="n">res</span> <span class="o">=</span>  <span class="n">q</span><span class="p">.</span><span class="n">deque</span><span class="p">(</span><span class="n">val</span><span class="p">);</span>
+        <span class="c1">// cout &lt;&lt; "cur val " &lt;&lt; val &lt;&lt; endl;</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">res</span><span class="p">)</span> <span class="p">{</span>
+          <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"cur num "</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">" cur ops "</span> <span class="o">&lt;&lt;</span> <span class="n">j</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+          <span class="n">assert</span><span class="p">(</span><span class="n">res</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_threads</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">dequeue_threads</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">join</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">());</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"All tests pass"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">testnormalqueue</span><span class="p">()</span> <span class="p">{</span>
+<span class="n">Queue</span> <span class="n">q</span><span class="p">;</span>
+  <span class="n">q</span><span class="p">.</span><span class="n">enque</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="n">q</span><span class="p">.</span><span class="n">enque</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+  <span class="n">q</span><span class="p">.</span><span class="n">enque</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">val</span><span class="p">;</span>
+  <span class="n">q</span><span class="p">.</span><span class="n">deque</span><span class="p">(</span><span class="n">val</span><span class="p">);</span>
+  <span class="n">q</span><span class="p">.</span><span class="n">enque</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">()</span> <span class="o">==</span> <span class="mi">2</span><span class="p">);</span>
+  <span class="n">q</span><span class="p">.</span><span class="n">deque</span><span class="p">(</span><span class="n">val</span><span class="p">);</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">()</span> <span class="o">==</span> <span class="mi">3</span><span class="p">);</span>
+  <span class="n">q</span><span class="p">.</span><span class="n">deque</span><span class="p">(</span><span class="n">val</span><span class="p">);</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">()</span> <span class="o">==</span> <span class="mi">4</span><span class="p">);</span>
+  <span class="n">q</span><span class="p">.</span><span class="n">deque</span><span class="p">(</span><span class="n">val</span><span class="p">);</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">());</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"All tests pass"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+
+<span class="p">}</span>
+<span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;atomic&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;thread&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cassert&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;mutex&gt;</span><span class="cp">
+</span>
+<span class="kt">void</span> <span class="nf">test_concurrent_lock_free_queue</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">MyLockFreeQueue</span> <span class="n">q</span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">num_threads</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">num_ops</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">enqueue_threads</span><span class="p">[</span><span class="n">num_threads</span><span class="p">];</span>
+    <span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">dequeue_threads</span><span class="p">[</span><span class="n">num_threads</span><span class="p">];</span>
+
+    <span class="c1">// Enqueue and dequeue concurrently</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_threads</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">enqueue_threads</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="p">([</span><span class="o">&amp;</span><span class="n">q</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">num_ops</span><span class="p">]</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">num_ops</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">q</span><span class="p">.</span><span class="n">enque</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_ops</span> <span class="o">+</span> <span class="n">j</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">});</span>
+
+        <span class="n">dequeue_threads</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="p">([</span><span class="o">&amp;</span><span class="n">q</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">num_ops</span><span class="p">]</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">num_ops</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kt">int</span> <span class="n">val</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">deque</span><span class="p">(</span><span class="n">val</span><span class="p">))</span> <span class="p">{</span> <span class="c1">// Check return value to avoid undefined behavior</span>
+                    <span class="c1">// Process val (optional)</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Join all threads</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_threads</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">enqueue_threads</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">join</span><span class="p">();</span>
+        <span class="n">dequeue_threads</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">join</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Ensure queue is empty</span>
+    <span class="c1">// assert(q.empty());</span>
+
+    <span class="k">static</span> <span class="n">std</span><span class="o">::</span><span class="n">mutex</span> <span class="n">cout_mutex</span><span class="p">;</span>
+    <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lock</span><span class="p">(</span><span class="n">cout_mutex</span><span class="p">);</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">q</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"test concurrent lock free queue All tests pass"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// test_concurrent_lock_free_queue();</span>
+  <span class="n">test_my_lock_free_queue</span><span class="p">();</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div> <h2 id="references">References</h2> <p><a href="https://book-of-gehn.github.io/articles/2020/04/28/Lock-Free-Queue-Part-II.html">https://book-of-gehn.github.io/articles/2020/04/28/Lock-Free-Queue-Part-II.html</a> I don’t fully get the idea in this article.</p> <p><a href="https://mp.weixin.qq.com/s?__biz=Mzg4NDQ0OTI4Ng==&amp;mid=2247490953&amp;idx=1&amp;sn=00dd064b978d2bae85939f5e387d1022&amp;chksm=cfb954e0f8ceddf641401126ad96bb5ca8ec37d206f66792aaae9f48decdc1292eef2c296f16&amp;cur_album_id=3140091333123276802&amp;scene=189#wechat_redirect">https://mp.weixin.qq.com/s?__biz=Mzg4NDQ0OTI4Ng==&amp;mid=2247490953&amp;idx=1&amp;sn=00dd064b978d2bae85939f5e387d1022&amp;chksm=cfb954e0f8ceddf641401126ad96bb5ca8ec37d206f66792aaae9f48decdc1292eef2c296f16&amp;cur_album_id=3140091333123276802&amp;scene=189#wechat_redirect</a> This article talks about licked list implementaion and array implementaion which is useful.</p> <p><a href="https://github.com/cameron314/concurrentqueue">https://github.com/cameron314/concurrentqueue</a></p>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">nanogpt kv cache first attempt</title><link href="https://bilyz98.github.io/blog/2025/llm-kv-cache-first-attempt/" rel="alternate" type="text/html" title="nanogpt kv cache first attempt"/><published>2025-01-18T11:59:00+00:00</published><updated>2025-01-18T11:59:00+00:00</updated><id>https://bilyz98.github.io/blog/2025/llm-kv-cache-first-attempt</id><content type="html" xml:base="https://bilyz98.github.io/blog/2025/llm-kv-cache-first-attempt/"><![CDATA[<h2 id="1-run-basic-nano-gpt">1. Run basic nano-gpt</h2> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/karpathy/nanoGPT.git
 
 </code></pre></div></div> <p>Install necessary packages</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip install -r requirements.txt
 </code></pre></div></div> <p>I have these packages in the requirements.txt</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>blobfile==2.0.1
