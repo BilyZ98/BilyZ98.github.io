@@ -812,3 +812,520 @@ if (next != nullptr) {
 I still don't get it.  I will just give up then.
 At least I learn what's the correct implementaion of lock free queue.
 
+
+
+## Full test code 
+```cpp
+#include <iostream>
+#include <thread>
+#include <cassert>
+#include <atomic>
+
+
+using namespace std;
+
+struct Node{
+  Node(int v) {
+    val = v;
+    next = prev = nullptr;
+  }
+  int val;
+  Node* next;
+  Node* prev;
+};
+
+class Queue {
+public:
+  Queue() {
+    head_ = tail_ = new Node(0);
+    size_ = 0;
+    head_->next = tail_;
+    tail_->prev = head_;
+
+
+  }
+
+  void enque(int val) {
+    Node* node = new Node(val);
+    node->next = tail_;
+    node->prev = tail_->prev;
+    tail_->prev->next = node;
+    tail_->prev = node;
+    size_++;
+
+
+  }
+
+  bool deque(int& val) {
+    if (size_ == 0) {
+      return false;
+    }
+    Node* node = head_->next;
+    val = node->val;
+    head_->next = node->next;
+    node->next->prev = head_;
+    delete node;
+    size_--;
+    return true;
+
+  }
+
+  bool empty() {
+    return size_ == 0;
+
+  }
+
+  int front() {
+    return head_->next->val;
+
+  }
+
+
+private:
+  Node* head_;
+  Node* tail_;
+  int size_;
+
+
+};
+
+
+struct SimpleNode {
+  int val;
+  std::atomic<SimpleNode*> next;
+  SimpleNode() {
+    val = 0;
+    next = nullptr;
+  }
+  SimpleNode(int v) {
+    val = v;
+    next = nullptr;
+  }
+
+};
+
+
+class MyLockFreeQueue {
+public:
+  MyLockFreeQueue()  {
+    SimpleNode* node = new SimpleNode();
+    node->next = nullptr;
+    head_.store(node);
+    tail_.store(node);
+
+  }
+// void enque(int val) {
+//     // Allocate the new node
+//     std::unique_ptr<SimpleNode> node = std::make_unique<SimpleNode>(val);
+
+//     SimpleNode* old_tail = nullptr;
+//     SimpleNode* next = nullptr;
+
+//     while (true) {
+//         old_tail = tail_.load();
+//         next = old_tail->next.load();
+
+//         if (old_tail != tail_.load()) {
+//             continue; // Retry if tail changed
+//         }
+
+//         if (next != nullptr) {
+//             // Help advance tail if it's stale
+//             tail_.compare_exchange_weak(old_tail, next);
+//             continue;
+//         }
+
+//         // Try to attach the new node
+//         if (old_tail->next.compare_exchange_weak(next, node.get())) {
+//             // Successfully linked, now update tail_
+//             tail_.compare_exchange_weak(old_tail, node.release());
+//             return;
+//         }
+//     }
+// }
+
+  void enque(int val) {
+    std::unique_ptr<SimpleNode> node(new SimpleNode());
+    node->val = val;
+    SimpleNode* old_tail = nullptr;
+    SimpleNode* next  = nullptr;  
+    while(true) {
+      old_tail = tail_.load();
+      next = old_tail->next.load();
+      if(old_tail != tail_.load()) {
+        continue;
+      
+      }
+      if(next != nullptr) {
+        tail_.compare_exchange_weak(old_tail, next);
+        continue;
+      }
+
+      if(old_tail->next.compare_exchange_weak(next, node.get())) {
+
+      tail_.compare_exchange_weak(old_tail, node.release());
+        return;
+      }
+    } 
+  }
+
+    int size() const {
+    SimpleNode* node = head_.load();
+    assert(node != nullptr);
+    int count = 0;
+    while(node != tail_.load()) {
+      count++;
+      if(node == nullptr) {
+        cout << "node is null, count is " << count<< endl;
+
+      }
+      assert(node != nullptr);
+      node = node->next.load();
+    }
+    return count;
+  }
+
+  // bool deque(int& val) {
+  //   SimpleNode* old_head = nullptr;
+  //   SimpleNode* old_tail = nullptr;
+  //   SimpleNode* next = nullptr;
+  //   do {
+  //     old_head = head_.load();
+  //     old_tail = tail_.load();
+  //     assert(old_head != nullptr);
+  //     next = old_head->next.load();
+  //     if(old_head != head_.load()) {
+  //       continue;
+  //     }
+  //     if(old_head == old_tail && next == nullptr) {
+  //       return false;
+  //     }
+  //   } while(head_.compare_exchange_weak(old_head, next) == false);
+
+  //   val = next->val;
+  //   delete old_head;
+  //   return true;
+  // }
+
+bool deque(int& result) {
+    SimpleNode* oldHead;
+    SimpleNode* next;
+    
+    while (true) {
+        oldHead = head_.load();
+        SimpleNode* oldTail = tail_.load();
+        next = oldHead->next.load();
+
+        if (oldHead != head_.load()) {
+            continue; // Restart loop if head changed
+        }
+
+        if (oldHead == oldTail) { 
+            if (next == nullptr) {
+                return false; // Queue is empty
+            }
+            // Help advance the tail if it's stuck (optional optimization)
+            tail_.compare_exchange_weak(oldTail, next);
+        continue;
+        }
+        if(head_.compare_exchange_weak(oldHead, next)) {
+          // Ensure next is valid before accessing it
+          if (next != nullptr) {
+              result = std::move(next->val);
+              delete oldHead;
+              return true;
+          }
+
+
+          }
+        
+    } 
+
+    return false; // Failsafe check, should not be reached
+}
+
+    // bool deque(int& result) {
+    //     SimpleNode* oldHead;
+    //     SimpleNode* next;
+    //     do {
+    //         oldHead = head_.load();
+    //         SimpleNode* oldTail = tail_.load();
+    //         next = oldHead->next.load();
+    //         if (oldHead!= head_.load()) {
+    //             continue;
+    //         }
+    //         if (oldHead == oldTail && next == nullptr) {
+    //             return false;
+    //         }
+    //     } while (!head_.compare_exchange_weak(oldHead, next));
+    //     result = std::move(next->val);
+    //     delete oldHead;
+    //     return true;
+    // }
+
+
+  bool empty() {
+    return head_.load()->next.load() == nullptr;
+  }
+
+
+  private:
+  // size
+  std::atomic<int> size_;
+  std::atomic<SimpleNode*> head_;
+  std::atomic<SimpleNode*> tail_;
+};
+
+#include <atomic>
+
+class MyLockFreeQueue2 {
+public:
+    MyLockFreeQueue2() : size_(0) {
+        SimpleNode* node = new SimpleNode();
+        head_ = tail_ = node;
+    }
+
+    void enque(int val) {
+        SimpleNode* node = new SimpleNode(val);
+        SimpleNode* old_tail;
+        SimpleNode* next;
+
+        do {
+            old_tail = tail_.load();
+            next = old_tail->next.load();
+            if (old_tail != tail_.load()) {
+                continue;
+            }
+
+            if (next != nullptr) {
+                tail_.compare_exchange_weak(old_tail, next);
+                continue;
+            }
+        } while (!old_tail->next.compare_exchange_weak(next, node));
+
+        tail_.compare_exchange_weak(old_tail, node);
+        size_.fetch_add(1, std::memory_order_relaxed);
+    }
+
+    bool deque(int& val) {
+        SimpleNode* old_head;
+        SimpleNode* old_tail;
+        SimpleNode* next;
+
+        do {
+            old_head = head_.load();
+            old_tail = tail_.load();
+            next = old_head->next.load();
+
+            if (old_head != head_.load()) {
+                continue;
+            }
+
+            if (old_head == old_tail) {
+                if (next == nullptr) {
+                    return false;
+                }
+                // tail_.compare_exchange_weak(old_tail, next);
+                continue;
+            }
+
+            val = next->val;
+        } while (!head_.compare_exchange_weak(old_head, next));
+
+        safe_delete(old_head); // Use a safe delete method
+        size_.fetch_sub(1, std::memory_order_relaxed);
+        return true;
+    }
+
+    bool empty() {
+        return head_.load()->next.load() == nullptr;
+    }
+
+  int size() {
+    return size_.load();
+  }
+
+
+private:
+    std::atomic<int> size_;
+    std::atomic<SimpleNode*> head_;
+    std::atomic<SimpleNode*> tail_;
+
+    void safe_delete(SimpleNode* node) {
+    delete node;
+        // Implement a safe deletion mechanism to prevent use-after-free issues
+        // This could be done with a garbage collector or hazard pointers.
+    }
+};
+
+class LockFreeQueue{
+
+public:
+  LockFreeQueue() {
+    head_ = tail_ = new Node(0);
+    head_->next = tail_;
+    tail_->prev = head_;
+  }
+
+  void enque(int val) {
+    Node* node = new Node(val);
+    Node* prev = tail_->prev;
+    while (true) {
+      Node* next = prev->next;
+      node->next = next;
+      node->prev = prev;
+      if (__sync_bool_compare_and_swap(&prev->next, next, node)) {
+        next->prev = node;
+        break;
+      }
+    }
+  }
+
+  bool deque(int& val) {
+    Node* node;
+    while (true) {
+      node = head_->next;
+      if (node == tail_) {
+        return false;
+      }
+      Node* next = node->next;
+      if (__sync_bool_compare_and_swap(&head_->next, node, next)) {
+        next->prev = head_;
+        break;
+      }
+    }
+    val = node->val;
+    delete node;
+    return true;
+  }
+
+  bool empty() {
+    return head_->next == tail_;
+  }
+
+  int front() {
+    return head_->next->val;
+  }
+private:
+  Node* head_;
+  Node* tail_;
+};
+
+void test_my_lock_free_queue() {
+  // enque 100 times concurrently and dequeue 100 times concurrently
+  MyLockFreeQueue q;
+  const int num_threads = 10;
+  const int num_ops = 100;
+  std::thread threads[num_threads];
+  std::thread dequeue_threads[num_threads];
+  for (int i = 0; i < num_threads; i++) {
+    threads[i] = std::thread([&q, i, num_ops] {
+      for (int j = 0; j < num_ops; j++) {
+        q.enque(i * num_ops + j);
+      }
+    });
+  }
+  for (int i = 0; i < num_threads; i++) {
+    threads[i].join();
+  }
+  cout << " hello " << endl;
+  // get queue size
+  cout << "size " << q.size() << endl;
+
+
+  // return;
+  for (int i = 0; i < num_threads; i++) {
+    dequeue_threads[i] = std::thread([&q, i, num_ops] {
+      for (int j = 0; j < num_ops; j++) {
+        int val;
+        bool res =  q.deque(val);
+        // cout << "cur val " << val << endl;
+        if(!res) {
+          cout << "cur num " << i << " cur ops " << j << endl;
+          assert(res);
+        }
+      }
+    });
+  }
+  for (int i = 0; i < num_threads; i++) {
+    dequeue_threads[i].join();
+  }
+  assert(q.empty());
+  cout << "All tests pass" << endl;
+
+}
+
+void testnormalqueue() {
+Queue q;
+  q.enque(1);
+  q.enque(2);
+  q.enque(3);
+  int val;
+  q.deque(val);
+  q.enque(4);
+  assert(q.front() == 2);
+  q.deque(val);
+  assert(q.front() == 3);
+  q.deque(val);
+  assert(q.front() == 4);
+  q.deque(val);
+  assert(q.empty());
+  cout << "All tests pass" << endl;
+
+}
+#include <iostream>
+#include <atomic>
+#include <thread>
+#include <vector>
+#include <cassert>
+#include <mutex>
+
+void test_concurrent_lock_free_queue() {
+    MyLockFreeQueue q;
+    const int num_threads = 10;
+    const int num_ops = 100;
+
+    std::thread enqueue_threads[num_threads];
+    std::thread dequeue_threads[num_threads];
+
+    // Enqueue and dequeue concurrently
+    for (int i = 0; i < num_threads; i++) {
+        enqueue_threads[i] = std::thread([&q, i, num_ops] {
+            for (int j = 0; j < num_ops; j++) {
+                q.enque(i * num_ops + j);
+            }
+        });
+
+        dequeue_threads[i] = std::thread([&q, i, num_ops] {
+            for (int j = 0; j < num_ops; j++) {
+                int val;
+                if (q.deque(val)) { // Check return value to avoid undefined behavior
+                    // Process val (optional)
+                }
+            }
+        });
+    }
+
+    // Join all threads
+    for (int i = 0; i < num_threads; i++) {
+        enqueue_threads[i].join();
+        dequeue_threads[i].join();
+    }
+
+    // Ensure queue is empty
+    // assert(q.empty());
+
+    static std::mutex cout_mutex;
+    {
+        std::lock_guard<std::mutex> lock(cout_mutex);
+        std::cout << q.size() << std::endl;
+        std::cout << "test concurrent lock free queue All tests pass" << std::endl;
+    }
+}
+
+int main() {
+  // test_concurrent_lock_free_queue();
+  test_my_lock_free_queue();
+    return 0;
+}
+```
