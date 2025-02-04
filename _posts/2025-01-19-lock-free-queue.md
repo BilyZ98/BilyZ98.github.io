@@ -1329,3 +1329,14 @@ int main() {
     return 0;
 }
 ```
+
+
+## References
+[https://book-of-gehn.github.io/articles/2020/04/28/Lock-Free-Queue-Part-II.html](https://book-of-gehn.github.io/articles/2020/04/28/Lock-Free-Queue-Part-II.html)
+I don't fully get the idea in this article.
+
+[https://mp.weixin.qq.com/s?__biz=Mzg4NDQ0OTI4Ng==&mid=2247490953&idx=1&sn=00dd064b978d2bae85939f5e387d1022&chksm=cfb954e0f8ceddf641401126ad96bb5ca8ec37d206f66792aaae9f48decdc1292eef2c296f16&cur_album_id=3140091333123276802&scene=189#wechat_redirect](https://mp.weixin.qq.com/s?__biz=Mzg4NDQ0OTI4Ng==&mid=2247490953&idx=1&sn=00dd064b978d2bae85939f5e387d1022&chksm=cfb954e0f8ceddf641401126ad96bb5ca8ec37d206f66792aaae9f48decdc1292eef2c296f16&cur_album_id=3140091333123276802&scene=189#wechat_redirect)
+This article talks about licked list implementaion and array implementaion which is useful.
+
+
+[https://github.com/cameron314/concurrentqueue](https://github.com/cameron314/concurrentqueue)
